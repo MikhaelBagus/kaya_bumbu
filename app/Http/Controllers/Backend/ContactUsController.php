@@ -85,15 +85,6 @@ class ContactUsController extends Controller
         return $this->redirectSuccessDelete(route('contact_us.index'), 'Contact Us');
     }
 
-    public function bulkDestroy(Request $request, ContactUsServiceContract $contactUsServiceContract)
-    {
-        #Get services for bulk delete
-        $contactUsServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('contact_us.index'), 'Contact Us');
-    }
-
     public function datatable(Request $request, ContactUsServiceContract $contactUsServiceContract)
     {
 
@@ -103,20 +94,5 @@ class ContactUsController extends Controller
         }
 
         abort('404', 'uups');
-    }
-
-    public function select2(Request $request, ContactUsServiceContract $contactUsServiceContract)
-    {
-        if(Sentinel::getUser()){
-            if ($request->ajax() === true) {
-
-                return $contactUsServiceContract->select2($request);
-            }
-
-            return abort('404', 'uups');
-        }
-        else{
-            abort('404', 'uups');
-        }
     }
 }

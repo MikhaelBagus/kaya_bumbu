@@ -13,8 +13,4 @@ interface MediaServiceContract
     public function datatable($request);
 
     public function destroy(int $id);
-
-    public function destroyBulk(array $id);
-
-    public function select2($request);
 }

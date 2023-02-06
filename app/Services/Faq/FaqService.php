@@ -93,38 +93,4 @@ class FaqService implements FaqServiceContract
 
         return Faq::where('id', $id)->delete();
     }
-
-    public function destroyBulk(array $id)
-    {
-        return Faq::whereIn('id', $id)->delete();
-    }
-
-    public function select2($request)
-    {
-        try {
-            $perPage = 10;
-            $page    = $request->page ?? 1;
-            $term = $request->term;
-
-            Paginator::currentPageResolver(
-                function () use ($page) {
-                    return $page;
-                }
-            );
-
-            $count = Faq::count();
-
-            if($count > $perPage){
-                $perPage = $count;
-            }
-
-            $dataDb = Faq::select('id', 'question as text', 'answer')->where('question', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
-
-            return $dataDb;
-        }
-        catch (\Exception $exception) {
-            // dd($exception->getMessage());
-            return $exception->getCode();
-        }
-    }
 }

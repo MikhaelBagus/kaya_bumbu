@@ -152,38 +152,4 @@ class MediaService implements MediaServiceContract
 
         return Media::where('id', $id)->delete();
     }
-
-    public function destroyBulk(array $id)
-    {
-        return Media::whereIn('id', $id)->delete();
-    }
-
-    public function select2($request)
-    {
-        try {
-            $perPage = 10;
-            $page    = $request->page ?? 1;
-            $term = $request->term;
-
-            Paginator::currentPageResolver(
-                function () use ($page) {
-                    return $page;
-                }
-            );
-
-            $count = Media::count();
-
-            if($count > $perPage){
-                $perPage = $count;
-            }
-
-            $dataDb = Media::select('id', 'url as text', 'type')->where('url', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
-
-            return $dataDb;
-        }
-        catch (\Exception $exception) {
-            // dd($exception->getMessage());
-            return $exception->getCode();
-        }
-    }
 }

@@ -85,15 +85,6 @@ class DisclaimerController extends Controller
         return $this->redirectSuccessDelete(route('disclaimer.index'), 'Disclaimer');
     }
 
-    public function bulkDestroy(Request $request, DisclaimerServiceContract $disclaimerServiceContract)
-    {
-        #Get services for bulk delete
-        $disclaimerServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('disclaimer.index'), 'Disclaimer');
-    }
-
     public function datatable(Request $request, DisclaimerServiceContract $disclaimerServiceContract)
     {
 
@@ -103,20 +94,5 @@ class DisclaimerController extends Controller
         }
 
         abort('404', 'uups');
-    }
-
-    public function select2(Request $request, DisclaimerServiceContract $disclaimerServiceContract)
-    {
-        if(Sentinel::getUser()){
-            if ($request->ajax() === true) {
-
-                return $disclaimerServiceContract->select2($request);
-            }
-
-            return abort('404', 'uups');
-        }
-        else{
-            abort('404', 'uups');
-        }
     }
 }

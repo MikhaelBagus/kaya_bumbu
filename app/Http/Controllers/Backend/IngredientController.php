@@ -71,15 +71,6 @@ class IngredientController extends Controller
         return $this->redirectSuccessDelete(route('ingredient.index'), 'Ingredient');
     }
 
-    public function bulkDestroy(Request $request, IngredientServiceContract $ingredientServiceContract)
-    {
-        #Get services for bulk delete
-        $ingredientServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('ingredient.index'), 'Ingredient');
-    }
-
     public function datatable(Request $request, IngredientServiceContract $ingredientServiceContract)
     {
 

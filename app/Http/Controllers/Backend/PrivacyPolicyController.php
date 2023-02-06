@@ -85,15 +85,6 @@ class PrivacyPolicyController extends Controller
         return $this->redirectSuccessDelete(route('privacy_policy.index'), 'Privacy Policy');
     }
 
-    public function bulkDestroy(Request $request, PrivacyPolicyServiceContract $privacyPolicyServiceContract)
-    {
-        #Get services for bulk delete
-        $privacyPolicyServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('privacy_policy.index'), 'Privacy Policy');
-    }
-
     public function datatable(Request $request, PrivacyPolicyServiceContract $privacyPolicyServiceContract)
     {
         if(Sentinel::getUser()){
@@ -107,16 +98,5 @@ class PrivacyPolicyController extends Controller
         else{
             abort('404', 'uups');
         }
-    }
-
-    public function select2(Request $request, PrivacyPolicyServiceContract $privacyPolicyServiceContract)
-    {
-
-        if ($request->ajax() === true) {
-
-            return $privacyPolicyServiceContract->select2($request);
-        }
-
-        return abort('404', 'uups');
     }
 }

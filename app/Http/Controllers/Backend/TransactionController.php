@@ -42,39 +42,10 @@ class TransactionController extends Controller
         }
     }
 
-    public function edit($id, TransactionServiceContract $transactionServiceContract)
-    {
-        $transaction = $transactionServiceContract->get($id);
-        return view('backend.transaction.update', compact('transaction'));
-    }
-
-    public function update(transactionRequest $request, $id, TransactionServiceContract $transactionServiceContract)
-    {
-        #Save Transaction Data
-        if (is_object($transactionServiceContract->update($id, $request))) {
-
-            #Bump....
-            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
-        } else {
-
-            #Bump....
-            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
-        }
-    }
-
     public function destroy($id, TransactionServiceContract $transactionServiceContract)
     {
         #Get services for bulk delete
         $transactionServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('transaction.index'), 'Transaction');
-    }
-
-    public function bulkDestroy(Request $request, TransactionServiceContract $transactionServiceContract)
-    {
-        #Get services for bulk delete
-        $transactionServiceContract->destroyBulk($request->id);
 
         #Bump....
         return $this->redirectSuccessDelete(route('transaction.index'), 'Transaction');
@@ -89,20 +60,5 @@ class TransactionController extends Controller
         }
 
         abort('404', 'uups');
-    }
-
-    public function select2(Request $request, TransactionServiceContract $transactionServiceContract)
-    {
-        if(Sentinel::getUser()){
-            if ($request->ajax() === true) {
-
-                return $transactionServiceContract->select2($request);
-            }
-
-            return abort('404', 'uups');
-        }
-        else{
-            abort('404', 'uups');
-        }
     }
 }

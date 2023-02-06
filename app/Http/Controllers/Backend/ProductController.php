@@ -71,15 +71,6 @@ class ProductController extends Controller
         return $this->redirectSuccessDelete(route('product.index'), 'Product');
     }
 
-    public function bulkDestroy(Request $request, ProductServiceContract $productServiceContract)
-    {
-        #Get services for bulk delete
-        $productServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('product.index'), 'Product');
-    }
-
     public function datatable(Request $request, ProductServiceContract $productServiceContract)
     {
 

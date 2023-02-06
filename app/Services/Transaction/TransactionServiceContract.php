@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Services\ContactUs;
+namespace App\Services\Transaction;
 
-interface ContactUsServiceContract
+interface TransactionServiceContract
 {
     public function get(int $id);
 
     public function store($request);
-
-    public function update(int $id, $request);
 
     public function datatable($request);
 

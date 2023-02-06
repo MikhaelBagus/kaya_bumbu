@@ -71,15 +71,6 @@ class FaqController extends Controller
         return $this->redirectSuccessDelete(route('faq.index'), 'Faq');
     }
 
-    public function bulkDestroy(Request $request, FaqServiceContract $faqServiceContract)
-    {
-        #Get services for bulk delete
-        $faqServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('faq.index'), 'Faq');
-    }
-
     public function datatable(Request $request, FaqServiceContract $faqServiceContract)
     {
 
@@ -89,20 +80,5 @@ class FaqController extends Controller
         }
 
         abort('404', 'uups');
-    }
-
-    public function select2(Request $request, FaqServiceContract $faqServiceContract)
-    {
-        if(Sentinel::getUser()){
-            if ($request->ajax() === true) {
-
-                return $faqServiceContract->select2($request);
-            }
-
-            return abort('404', 'uups');
-        }
-        else{
-            abort('404', 'uups');
-        }
     }
 }

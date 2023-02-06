@@ -85,15 +85,6 @@ class TermConditionController extends Controller
         return $this->redirectSuccessDelete(route('term_condition.index'), 'Term Condition');
     }
 
-    public function bulkDestroy(Request $request, TermConditionServiceContract $termConditionServiceContract)
-    {
-        #Get services for bulk delete
-        $termConditionServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('term_condition.index'), 'Term Condition');
-    }
-
     public function datatable(Request $request, TermConditionServiceContract $termConditionServiceContract)
     {
         if(Sentinel::getUser()){
@@ -107,16 +98,5 @@ class TermConditionController extends Controller
         else{
             abort('404', 'uups');
         }
-    }
-
-    public function select2(Request $request, TermConditionServiceContract $termConditionServiceContract)
-    {
-
-        if ($request->ajax() === true) {
-
-            return $termConditionServiceContract->select2($request);
-        }
-
-        return abort('404', 'uups');
     }
 }

@@ -154,38 +154,4 @@ class NewsService implements NewsServiceContract
 
         return News::where('id', $id)->delete();
     }
-
-    public function destroyBulk(array $id)
-    {
-        return News::whereIn('id', $id)->delete();
-    }
-
-    public function select2($request)
-    {
-        try {
-            $perPage = 10;
-            $page    = $request->page ?? 1;
-            $term = $request->term;
-
-            Paginator::currentPageResolver(
-                function () use ($page) {
-                    return $page;
-                }
-            );
-
-            $count = News::count();
-
-            if($count > $perPage){
-                $perPage = $count;
-            }
-
-            $dataDb = News::select('id', 'title as text', 'content')->where('publish',1)->where('title', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
-
-            return $dataDb;
-        }
-        catch (\Exception $exception) {
-            // dd($exception->getMessage());
-            return $exception->getCode();
-        }
-    }
 }

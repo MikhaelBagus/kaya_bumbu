@@ -71,15 +71,6 @@ class MediaController extends Controller
         return $this->redirectSuccessDelete(route('media.index'), 'Media');
     }
 
-    public function bulkDestroy(Request $request, MediaServiceContract $mediaServiceContract)
-    {
-        #Get services for bulk delete
-        $mediaServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('media.index'), 'Media');
-    }
-
     public function datatable(Request $request, MediaServiceContract $mediaServiceContract)
     {
         if(Sentinel::getUser()){
@@ -93,16 +84,5 @@ class MediaController extends Controller
         else{
             abort('404', 'uups');
         }
-    }
-
-    public function select2(Request $request, MediaServiceContract $mediaServiceContract)
-    {
-
-        if ($request->ajax() === true) {
-
-            return $mediaServiceContract->select2($request);
-        }
-
-        return abort('404', 'uups');
     }
 }

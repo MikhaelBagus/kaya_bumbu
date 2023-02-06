@@ -85,15 +85,6 @@ class AboutUsController extends Controller
         return $this->redirectSuccessDelete(route('about_us.index'), 'About Us');
     }
 
-    public function bulkDestroy(Request $request, AboutUsServiceContract $aboutUsServiceContract)
-    {
-        #Get services for bulk delete
-        $aboutUsServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('about_us.index'), 'About Us');
-    }
-
     public function datatable(Request $request, AboutUsServiceContract $aboutUsServiceContract)
     {
 
@@ -103,20 +94,5 @@ class AboutUsController extends Controller
         }
 
         abort('404', 'uups');
-    }
-
-    public function select2(Request $request, AboutUsServiceContract $aboutUsServiceContract)
-    {
-        if(Sentinel::getUser()){
-            if ($request->ajax() === true) {
-
-                return $aboutUsServiceContract->select2($request);
-            }
-
-            return abort('404', 'uups');
-        }
-        else{
-            abort('404', 'uups');
-        }
     }
 }

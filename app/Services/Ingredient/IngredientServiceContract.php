@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\ContactUs;
+namespace App\Services\Ingredient;
 
-interface ContactUsServiceContract
+interface IngredientServiceContract
 {
     public function get(int $id);
 
@@ -13,4 +13,6 @@ interface ContactUsServiceContract
     public function datatable($request);
 
     public function destroy(int $id);
+
+    public function select2($request);
 }

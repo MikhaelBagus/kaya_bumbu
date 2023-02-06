@@ -92,38 +92,4 @@ class TermConditionService implements TermConditionServiceContract
 
         return TermCondition::where('id', $id)->delete();
     }
-
-    public function destroyBulk(array $id)
-    {
-        return TermCondition::whereIn('id', $id)->delete();
-    }
-
-    public function select2($request)
-    {
-        try {
-            $perPage = 10;
-            $page    = $request->page ?? 1;
-            $term = $request->term;
-
-            Paginator::currentPageResolver(
-                function () use ($page) {
-                    return $page;
-                }
-            );
-
-            $count = TermCondition::count();
-
-            if($count > $perPage){
-                $perPage = $count;
-            }
-
-            $dataDb = TermCondition::select('id', 'content as text')->where('content', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
-
-            return $dataDb;
-        }
-        catch (\Exception $exception) {
-            // dd($exception->getMessage());
-            return $exception->getCode();
-        }
-    }
 }

@@ -71,15 +71,6 @@ class NewsController extends Controller
         return $this->redirectSuccessDelete(route('news.index'), 'News');
     }
 
-    public function bulkDestroy(Request $request, NewsServiceContract $newsServiceContract)
-    {
-        #Get services for bulk delete
-        $newsServiceContract->destroyBulk($request->id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('news.index'), 'News');
-    }
-
     public function datatable(Request $request, NewsServiceContract $newsServiceContract)
     {
         if(Sentinel::getUser()){
@@ -92,21 +83,6 @@ class NewsController extends Controller
         }
         else{
             abort('404', 'uups');
-        }
-    }
-
-    public function select2(Request $request, NewsServiceContract $newsServiceContract)
-    {
-        if(Sentinel::getUser()){
-            if ($request->ajax() === true) {
-
-                return $newsServiceContract->select2($request);
-            }
-
-            return abort('404', 'uups');
-        }
-        else{
-            return abort('404', 'uups');
         }
     }
 }
