@@ -15,7 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
-class TransactionService implements FaqServiceContract
+class TransactionService implements TransactionServiceContract
 {
     public function get(int $id)
     {
@@ -27,13 +27,32 @@ class TransactionService implements FaqServiceContract
         DB::beginTransaction();
 
         try {
+            $date = date('ymd');
+            $transaction = Transaction::orderBy('id','desc')->first();
+
+            if($transaction == null){
+                $id = 1;
+            }
+            else{
+                $code_last = substr($transaction->code,-4);
+                $code_date = substr($transaction->code, 0 ,6);
+                if($code_date == $date){
+                    $id = (int)$code_last +1;
+
+                }
+                else{
+                    $id = 1;
+                }
+            }
+            $transaction_code_new = $date.sprintf("%04d", $id);
+
             $total_price = 0;
             foreach($request->item as $item){
                 $total_price = $total_price + ($item->qty * $item->price);
             }
 
             $transactionDb = new Transaction();
-            $transactionDb->code          = $code;
+            $transactionDb->code          = $transaction_code_new;
             $transactionDb->date          = $request->date;
             $transactionDb->discount      = $request->discount;
             $transactionDb->grand_price   = $total_price - $request->discount;
@@ -41,13 +60,13 @@ class TransactionService implements FaqServiceContract
             $transactionDb->save();
 
             foreach($request->item as $item){
-                $productDb = Product::where('id',$item->product_id)->first();
+                $productDb = Product::where('id',$item['product_id'])->first();
                 if($productDb){
                     $transactionProductDb = new TransactionProduct();
-                    $transactionProductDb->product_id     = $item->product_id;
+                    $transactionProductDb->product_id     = $item['product_id'];
                     $transactionProductDb->transaction_id = $transactionDb->id;
-                    $transactionProductDb->qty            = $item->qty;
-                    $transactionProductDb->price          = $item->price;
+                    $transactionProductDb->qty            = $item['qty'];
+                    $transactionProductDb->price          = $item['price'];
                     $transactionProductDb->created_by     = Sentinel::getUser()->name;
                     $transactionProductDb->save();
 

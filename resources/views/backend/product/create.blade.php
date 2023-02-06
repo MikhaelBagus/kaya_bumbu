@@ -37,6 +37,48 @@
                             {!! $errors->first('quota_per_day', '<em for="quota_per_day" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <hr class="short alt">
+                        <label for="selectProduct" class="control-label">Select Ingredient
+                            <span style="color: red">*</span></label>
+                        <div class="input-group" style="margin-top: 2%; margin-bottom: 1%">
+                            <label class="input-group-addon" for="item">
+                                <i class="fa fa-shopping-basket"></i>
+                            </label>
+
+                            <select id="ingredient" class="form-control" data-placeholder="Select Ingredient">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        {!! $errors->first('ingredient', '<p class="text-danger">:message</p>') !!}
+
+                        <hr class="short alt">
+
+                        <table class="table table-hover table-condensed" id="ingredient-container">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th width="100">Qty</th>
+                                    <th>Unit</th>
+                                    <th width="50" class="text-center">
+                                        <i class="fa fa-trash"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="info" id="hidden-tr-po">
+                                    <td colspan="6">
+                                        Please select the ingredient
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <hr class="short alt">
+
+                    </div>
                 </div>
 
                 <div class="panel-footer">
@@ -87,6 +129,103 @@
                 ]
             });
         })
+
+        $('#ingredient').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('ingredient.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        //For Place To Check Item Same Or Not
+        let ingredientData = [];
+
+        //Ready For Append Html Form
+        function htmlIngredient(data) {
+            let ingredientHtml = '<tr class="ingredient-row-' + data.id + '">';
+            ingredientHtml += '<td>';
+            ingredientHtml += data.code;
+            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][ingredient_id]" value="' + data.id + '">';
+            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][code]" value="' + data.code + '">';
+            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][name]" value="' + data.text + '">';
+            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][unit]" value="' + data.unit + '">';
+            ingredientHtml += '<td>';
+            ingredientHtml += data.text;
+            ingredientHtml += '</td>';
+            ingredientHtml += '<td><input type="number" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
+            ingredientHtml += '<td>';
+            ingredientHtml += data.unit;
+            ingredientHtml += '</td>';
+            ingredientHtml += '<td class="text-center">';
+            ingredientHtml += '<i class="fa fa-times" onclick="removeIngredientList(' + data.id + ')"></i>';
+            ingredientHtml += '</td>';
+            ingredientHtml += '</tr>';
+
+            $('#ingredient-container tbody').append(ingredientHtml);
+        }
+
+        //To Remove Ingredient Row
+        function removeIngredientList(ingredientId) {
+            $('.ingredient-row-' + ingredientId).remove();
+
+            //Remove item in jquery array data
+            ingredientData.splice(ingredientData.indexOf(ingredientId.toString()), 1);
+        }
+
+        function addCommas(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        //Add The Ingredient Data And Clear Ingredient Search Data
+        $('#ingredient').on("select2:select", function() {
+            //Set Ingredient Data
+            const select2Data = $(this).select2("data");
+
+            if ($.inArray(select2Data[0].id, ingredientData) == -1) {
+                //Add Item Id To Array
+                ingredientData.push(select2Data[0].id);
+
+                //Remove Hidden Tr SO
+                $('#hidden-tr-po').remove();
+
+                //Appent Item Html
+                htmlIngredient(select2Data[0]);
+            }
+
+            //Remove Hidden Tr SO
+            $('#hidden-tr-po').remove();
+
+            $('#ingredient').val(null).trigger("change");
+        });
     </script>
     <script>
         //Disable Enter

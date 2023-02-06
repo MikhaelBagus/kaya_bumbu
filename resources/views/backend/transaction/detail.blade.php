@@ -36,47 +36,47 @@
                             Discount
                         </dt>
                         <dd>
-                            : Rp {{number_format($transaction->discount,0,'.',',')}}
+                            : Rp {{number_format($transaction->discount,0,',','.')}}
                         </dd>
                         <dt class="text-left">
                             Grand Price
                         </dt>
                         <dd>
-                            : Rp {{number_format($transaction->grand_price,0,'.',',')}}
+                            : Rp {{number_format($transaction->grand_price,0,',','.')}}
                         </dd>
                     </dl>
                 </div>
 
                 <div class="clearfix"></div>
-            </div>
 
-            <table class="table table-striped table-bordered table-hover table-condensed" id="transaction-product-table" width="100%">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 0; ?>
-                    @foreach($transaction->transaction_product as $transactionProduct)
-                    <?php $no = $no + 1; ?>
-                    <tr>
-                        <td>{{$no}}</td>
-                        <td>{{$transactionProduct->product->code}}</td>
-                        <td>{{$transactionProduct->product->name}}</td>
-                        <td>Rp {{number_format($transactionProduct->price,0,'.',',')}}</td>
-                        <td>{{number_format($transactionProduct->qty,0,'.',',')}}</td>
-                        <td>Rp {{number_format($transactionProduct->price * $transactionProduct->price,0,'.',','}}</td>
-                    </tr>
-                    @empty
-                    @endforeach
-                </tbody>
-            </table>
+                <table class="table table-striped table-bordered table-hover table-condensed" id="transaction-product-table" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 0; ?>
+                        @foreach($transaction->transaction_product as $transactionProduct)
+                        <?php $no = $no + 1; ?>
+                        <tr>
+                            <td>{{$no}}</td>
+                            <td>{{$transactionProduct->product->code}}</td>
+                            <td>{{$transactionProduct->product->name}}</td>
+                            <td>Rp {{number_format($transactionProduct->price,0,',','.')}}</td>
+                            <td>{{number_format($transactionProduct->qty,0,',','.')}}</td>
+                            <td>Rp {{number_format($transactionProduct->price * $transactionProduct->price,0,',','.'}}</td>
+                        </tr>
+                        @empty
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <div class="panel-footer">
                 <a href="{{route('transaction.index')}}" class="btn btn-flat btn-default btn-sm">

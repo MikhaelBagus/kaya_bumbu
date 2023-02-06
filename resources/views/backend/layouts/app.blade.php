@@ -147,6 +147,10 @@
                     @include('backend.menus.news')
                     @include('backend.menus.privacy_policy')
                     @include('backend.menus.term_condition')
+
+                    @include('backend.menus.ingredient')
+                    @include('backend.menus.product')
+                    @include('backend.menus.transaction')
                 @endif
             </ul>
             <!-- End: Sidebar Menu -->

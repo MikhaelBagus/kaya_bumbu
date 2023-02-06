@@ -12,7 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
-class ProductService implements FaqServiceContract
+class ProductService implements ProductServiceContract
 {
     public function get(int $id)
     {
@@ -24,8 +24,27 @@ class ProductService implements FaqServiceContract
         DB::beginTransaction();
 
         try {
+            $date = date('ymd');
+            $product = Product::orderBy('id','desc')->first();
+
+            if($product == null){
+                $id = 1;
+            }
+            else{
+                $code_last = substr($product->code,-4);
+                $code_date = substr($product->code, 0 ,6);
+                if($code_date == $date){
+                    $id = (int)$code_last +1;
+
+                }
+                else{
+                    $id = 1;
+                }
+            }
+            $product_code_new = $date.sprintf("%04d", $id);
+
             $productDb = new Product();
-            $productDb->code          = $code;
+            $productDb->code          = $product_code_new;
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->quota_per_day = $request->quota_per_day;
@@ -33,12 +52,12 @@ class ProductService implements FaqServiceContract
             $productDb->save();
 
             foreach($request->item as $item){
-                $ingredientDb = Ingredient::where('id',$item->ingredient_id)->first();
+                $ingredientDb = Ingredient::where('id',$item['ingredient_id'])->first();
                 if($ingredientDb){
                     $productIngredientDb = new ProductIngredient();
                     $productIngredientDb->product_id    = $productDb->id;
-                    $productIngredientDb->ingredient_id = $item->ingredient_id;
-                    $productIngredientDb->qty           = $item->qty;
+                    $productIngredientDb->ingredient_id = $item['ingredient_id'];
+                    $productIngredientDb->qty           = $item['qty'];
                     $productIngredientDb->created_by    = Sentinel::getUser()->name;
                     $productIngredientDb->save();
                 }
@@ -71,12 +90,12 @@ class ProductService implements FaqServiceContract
             }
 
             foreach($request->item as $item){
-                $ingredientDb = Ingredient::where('id',$item->ingredient_id)->first();
+                $ingredientDb = Ingredient::where('id',$item['ingredient_id'])->first();
                 if($ingredientDb){
                     $productIngredientDb = new ProductIngredient();
                     $productIngredientDb->product_id    = $productDb->id;
-                    $productIngredientDb->ingredient_id = $item->ingredient_id;
-                    $productIngredientDb->qty           = $item->qty;
+                    $productIngredientDb->ingredient_id = $item['ingredient_id'];
+                    $productIngredientDb->qty           = $item['qty'];
                     $productIngredientDb->created_by    = Sentinel::getUser()->name;
                     $productIngredientDb->updated_by    = Sentinel::getUser()->name;
                     $productIngredientDb->save();

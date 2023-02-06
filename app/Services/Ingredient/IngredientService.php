@@ -10,7 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
-class IngredientService implements FaqServiceContract
+class IngredientService implements IngredientServiceContract
 {
     public function get(int $id)
     {
@@ -22,8 +22,27 @@ class IngredientService implements FaqServiceContract
         DB::beginTransaction();
 
         try {
+            $date = date('ymd');
+            $ingredient = Ingredient::orderBy('id','desc')->first();
+
+            if($ingredient == null){
+                $id = 1;
+            }
+            else{
+                $code_last = substr($ingredient->code,-4);
+                $code_date = substr($ingredient->code, 0 ,6);
+                if($code_date == $date){
+                    $id = (int)$code_last +1;
+
+                }
+                else{
+                    $id = 1;
+                }
+            }
+            $ingredient_code_new = $date.sprintf("%04d", $id);
+
             $ingredientDb = new Ingredient();
-            $ingredientDb->code        = $code;
+            $ingredientDb->code        = $ingredient_code_new;
             $ingredientDb->name        = $request->name;
             $ingredientDb->stock       = $request->stock;
             $ingredientDb->unit        = $request->unit;
@@ -116,7 +135,7 @@ class IngredientService implements FaqServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Ingredient::select('id', 'name as text', 'stock', 'unit')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Ingredient::select('id', 'name as text', 'code', 'stock', 'unit')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }
