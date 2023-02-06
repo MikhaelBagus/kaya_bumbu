@@ -6,27 +6,19 @@
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Faq Create Form
+                    <span class="glyphicon glyphicon-tasks"></span>Transaction Create Form
                 </div>
             </div>
             
-            <form action="{{route('faq.store')}}" method="post">
+            <form action="{{route('transaction.store')}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
                     <div class="col-md-12">
-                        <div class="form-group @if($errors->has('question')) has-error @endif">
-                            <label for="question" class="control-label">Question <span style="color: red">*</span></label>
-                            <input type="text" name="question" id="question" value="{{old('question')}}" class="form-control input-sm" placeholder="Question ...*" required>
-                            {!! $errors->first('question', '<em for="question" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('answer')) has-error @endif">
-                            <label for="answer" class="control-label">Answer <span style="color: red">*</span></label>
-                            <textarea id="answer" name="answer" class="form-control input-sm" placeholder="Answer ...*">{!! old('answer') !!}</textarea>
-                            {!! $errors->first('answer', '<em for="answer" class="text-danger">:message</em>') !!}
+                        <div class="form-group @if($errors->has('date')) has-error @endif">
+                            <label for="date" class="control-label">Date <span style="color: red">*</span></label>
+                            <input type="text" name="date" id="date" value="{{old('date')}}" class="form-control input-sm" placeholder="Date ...*" readonly required>
+                            {!! $errors->first('date', '<em for="date" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
                 </div>

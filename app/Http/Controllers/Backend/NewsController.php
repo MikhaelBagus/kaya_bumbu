@@ -30,7 +30,7 @@ class NewsController extends Controller
 
     public function store(newsRequest $request, NewsServiceContract $newsServiceContract)
     {
-        #Save Product Data
+        #Save News Data
         if (is_object($newsServiceContract->store($request))) {
 
             #Bump....
@@ -50,7 +50,7 @@ class NewsController extends Controller
 
     public function update(newsRequest $request, $id, NewsServiceContract $newsServiceContract)
     {
-        #Save Product Data
+        #Save News Data
         if (is_object($newsServiceContract->update($id, $request))) {
 
             #Bump....

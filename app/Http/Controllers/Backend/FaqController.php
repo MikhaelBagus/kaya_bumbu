@@ -30,7 +30,7 @@ class FaqController extends Controller
 
     public function store(faqRequest $request, FaqServiceContract $faqServiceContract)
     {
-        #Save Product Data
+        #Save Faq Data
         if (is_object($faqServiceContract->store($request))) {
 
             #Bump....
@@ -50,7 +50,7 @@ class FaqController extends Controller
 
     public function update(faqRequest $request, $id, FaqServiceContract $faqServiceContract)
     {
-        #Save Product Data
+        #Save Faq Data
         if (is_object($faqServiceContract->update($id, $request))) {
 
             #Bump....

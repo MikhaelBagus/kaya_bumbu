@@ -30,7 +30,7 @@ class MediaController extends Controller
 
     public function store(mediaRequest $request, MediaServiceContract $mediaServiceContract)
     {
-        #Save Product Data
+        #Save Media Data
         if (is_object($mediaServiceContract->store($request))) {
 
             #Bump....
@@ -50,7 +50,7 @@ class MediaController extends Controller
 
     public function update(mediaRequest $request, $id, MediaServiceContract $mediaServiceContract)
     {
-        #Save Product Data
+        #Save Media Data
         if (is_object($mediaServiceContract->update($id, $request))) {
 
             #Bump....

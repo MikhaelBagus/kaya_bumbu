@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('answer')) has-error @endif">
                             <label for="answer" class="control-label">Answer <span style="color: red">*</span></label>
-                            <textarea id="summernote" name="answer" class="form-control input-sm" placeholder="Answer ...*">{!! old('answer', $faq->answer) !!}</textarea>
+                            <textarea id="answer" name="answer" class="form-control input-sm" placeholder="Answer ...*">{!! old('answer', $faq->answer) !!}</textarea>
                             {!! $errors->first('answer', '<em for="answer" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
@@ -67,29 +67,22 @@
     
     <script type="text/javascript">
         $(document).ready(function () {
-            // $('#summernote').summernote({
-            //     placeholder: 'Content ...*',
-            //     tabsize: 2,
-            //     height: 150,
-            //     fontSizes: ['8', '9', '10', '11', '12', '13','14', '18', '24', '36', '48' , '64', '82', '150'],
-            //     toolbar: [
-            //         ["style", ["style"]],
-            //         ["font", ["bold", "underline", "clear"]],
-            //         ["fontname", ["fontname"]],
-            //         ['fontsize', ['fontsize']],
-            //         ["color", ["color"]],
-            //         ["para", ["ul", "ol", "paragraph"]],
-            //         ["table", ["table"]],
-            //         ["insert", ["link", "hr", "video","picture"]],
-            //         ["view", ["fullscreen", "codeview", "help"]]
-            //     ]
-            // });
-
-            $('#publish').select2({
-                theme: "bootstrap",
-                placeholder: "Select",
-                width: '100%',
-                containerCssClass: ':all:',
+            $('#summernote').summernote({
+                placeholder: 'Content ...*',
+                tabsize: 2,
+                height: 150,
+                fontSizes: ['8', '9', '10', '11', '12', '13','14', '18', '24', '36', '48' , '64', '82', '150'],
+                toolbar: [
+                    ["style", ["style"]],
+                    ["font", ["bold", "underline", "clear"]],
+                    ["fontname", ["fontname"]],
+                    ['fontsize', ['fontsize']],
+                    ["color", ["color"]],
+                    ["para", ["ul", "ol", "paragraph"]],
+                    ["table", ["table"]],
+                    ["insert", ["link", "hr", "video","picture"]],
+                    ["view", ["fullscreen", "codeview", "help"]]
+                ]
             });
         })
     </script>

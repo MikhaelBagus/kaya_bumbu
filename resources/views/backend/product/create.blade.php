@@ -6,27 +6,35 @@
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Faq Create Form
+                    <span class="glyphicon glyphicon-tasks"></span>Product Create Form
                 </div>
             </div>
             
-            <form action="{{route('faq.store')}}" method="post">
+            <form action="{{route('product.store')}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
                     <div class="col-md-12">
-                        <div class="form-group @if($errors->has('question')) has-error @endif">
-                            <label for="question" class="control-label">Question <span style="color: red">*</span></label>
-                            <input type="text" name="question" id="question" value="{{old('question')}}" class="form-control input-sm" placeholder="Question ...*" required>
-                            {!! $errors->first('question', '<em for="question" class="text-danger">:message</em>') !!}
+                        <div class="form-group @if($errors->has('name')) has-error @endif">
+                            <label for="name" class="control-label">Name <span style="color: red">*</span></label>
+                            <input type="text" name="name" id="name" value="{{old('name')}}" class="form-control input-sm" placeholder="Name ...*" required>
+                            {!! $errors->first('name', '<em for="name" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group @if($errors->has('answer')) has-error @endif">
-                            <label for="answer" class="control-label">Answer <span style="color: red">*</span></label>
-                            <textarea id="answer" name="answer" class="form-control input-sm" placeholder="Answer ...*">{!! old('answer') !!}</textarea>
-                            {!! $errors->first('answer', '<em for="answer" class="text-danger">:message</em>') !!}
+                        <div class="form-group @if($errors->has('price')) has-error @endif">
+                            <label for="price" class="control-label">Price <span style="color: red">*</span></label>
+                            <input type="number" name="price" id="price" value="{{old('price')}}" class="form-control input-sm" placeholder="Price ...*" required>
+                            {!! $errors->first('price', '<em for="price" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('quota_per_day')) has-error @endif">
+                            <label for="quota_per_day" class="control-label">Quota Per Day <span style="color: red">*</span></label>
+                            <input type="number" name="quota_per_day" id="quota_per_day" value="{{old('quota_per_day')}}" class="form-control input-sm" placeholder="Quota Per Day ...*" required>
+                            {!! $errors->first('quota_per_day', '<em for="quota_per_day" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
                 </div>

@@ -44,7 +44,7 @@ class ContactUsController extends Controller
 
     public function store(contactUsRequest $request, ContactUsServiceContract $contactUsServiceContract)
     {
-        #Save Product Data
+        #Save Contact Us Data
         if (is_object($contactUsServiceContract->store($request))) {
 
             #Bump....
@@ -64,7 +64,7 @@ class ContactUsController extends Controller
 
     public function update(contactUsRequest $request, $id, ContactUsServiceContract $contactUsServiceContract)
     {
-        #Save Product Data
+        #Save Contact Us Data
         if (is_object($contactUsServiceContract->update($id, $request))) {
 
             #Bump....

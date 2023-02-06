@@ -44,7 +44,7 @@ class AboutUsController extends Controller
 
     public function store(aboutUsRequest $request, AboutUsServiceContract $aboutUsServiceContract)
     {
-        #Save Product Data
+        #Save About Us Data
         if (is_object($aboutUsServiceContract->store($request))) {
 
             #Bump....
@@ -64,7 +64,7 @@ class AboutUsController extends Controller
 
     public function update(aboutUsRequest $request, $id, AboutUsServiceContract $aboutUsServiceContract)
     {
-        #Save Product Data
+        #Save About Us Data
         if (is_object($aboutUsServiceContract->update($id, $request))) {
 
             #Bump....

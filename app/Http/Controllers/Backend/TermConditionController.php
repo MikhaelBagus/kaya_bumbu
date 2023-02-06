@@ -44,7 +44,7 @@ class TermConditionController extends Controller
 
     public function store(termConditionRequest $request, TermConditionServiceContract $termConditionServiceContract)
     {
-        #Save Product Data
+        #Save Term Condition Data
         if (is_object($termConditionServiceContract->store($request))) {
 
             #Bump....
@@ -64,7 +64,7 @@ class TermConditionController extends Controller
 
     public function update(termConditionRequest $request, $id, TermConditionServiceContract $termConditionServiceContract)
     {
-        #Save Product Data
+        #Save Term Condition Data
         if (is_object($termConditionServiceContract->update($id, $request))) {
 
             #Bump....

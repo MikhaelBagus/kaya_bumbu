@@ -44,7 +44,7 @@ class PrivacyPolicyController extends Controller
 
     public function store(privacyPolicyRequest $request, PrivacyPolicyServiceContract $privacyPolicyServiceContract)
     {
-        #Save Product Data
+        #Save Privacy Policy Data
         if (is_object($privacyPolicyServiceContract->store($request))) {
 
             #Bump....
@@ -64,7 +64,7 @@ class PrivacyPolicyController extends Controller
 
     public function update(privacyPolicyRequest $request, $id, PrivacyPolicyServiceContract $privacyPolicyServiceContract)
     {
-        #Save Product Data
+        #Save Privacy Policy Data
         if (is_object($privacyPolicyServiceContract->update($id, $request))) {
 
             #Bump....

@@ -16,6 +16,7 @@ class CreateTransactionTable extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
             $table->string('code');
+            $table->date('date');
             $table->double('discount');
             $table->double('total_price');
             $table->string('created_by')->default('');

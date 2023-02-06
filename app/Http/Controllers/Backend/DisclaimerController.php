@@ -44,7 +44,7 @@ class DisclaimerController extends Controller
 
     public function store(disclaimerRequest $request, DisclaimerServiceContract $disclaimerServiceContract)
     {
-        #Save Product Data
+        #Save Disclaimer Data
         if (is_object($disclaimerServiceContract->store($request))) {
 
             #Bump....
@@ -64,7 +64,7 @@ class DisclaimerController extends Controller
 
     public function update(disclaimerRequest $request, $id, DisclaimerServiceContract $disclaimerServiceContract)
     {
-        #Save Product Data
+        #Save Disclaimer Data
         if (is_object($disclaimerServiceContract->update($id, $request))) {
 
             #Bump....
