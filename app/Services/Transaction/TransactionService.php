@@ -27,11 +27,16 @@ class TransactionService implements FaqServiceContract
         DB::beginTransaction();
 
         try {
+            $total_price = 0;
+            foreach($request->item as $item){
+                $total_price = $total_price + ($item->qty * $item->price);
+            }
+
             $transactionDb = new Transaction();
             $transactionDb->code          = $code;
             $transactionDb->date          = $request->date;
             $transactionDb->discount      = $request->discount;
-            $transactionDb->total_price   = $request->total_price;
+            $transactionDb->total_price   = $total_price - $request->discount;
             $transactionDb->created_by    = Sentinel::getUser()->name;
             $transactionDb->save();
 

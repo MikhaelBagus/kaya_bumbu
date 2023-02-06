@@ -11,23 +11,30 @@ use App\Services\Profile\ProfileService;
 use App\Services\Profile\ProfileServiceContract;
 use App\Services\ForgotPassword\ForgotPasswordService;
 use App\Services\ForgotPassword\ForgotPasswordServiceContract;
+
 use App\Services\AboutUs\AboutUsService;
 use App\Services\AboutUs\AboutUsServiceContract;
 use App\Services\ContactUs\ContactUsService;
 use App\Services\ContactUs\ContactUsServiceContract;
 use App\Services\Disclaimer\DisclaimerService;
 use App\Services\Disclaimer\DisclaimerServiceContract;
-use App\Services\PrivacyPolicy\PrivacyPolicyService;
-use App\Services\PrivacyPolicy\PrivacyPolicyServiceContract;
-use App\Services\TermCondition\TermConditionService;
-use App\Services\TermCondition\TermConditionServiceContract;
-use App\Services\News\NewsService;
-use App\Services\News\NewsServiceContract;
 use App\Services\Faq\FaqService;
 use App\Services\Faq\FaqServiceContract;
 use App\Services\Media\MediaService;
 use App\Services\Media\MediaServiceContract;
+use App\Services\News\NewsService;
+use App\Services\News\NewsServiceContract;
+use App\Services\PrivacyPolicy\PrivacyPolicyService;
+use App\Services\PrivacyPolicy\PrivacyPolicyServiceContract;
+use App\Services\TermCondition\TermConditionService;
+use App\Services\TermCondition\TermConditionServiceContract;
 
+use App\Services\Ingredient\IngredientService;
+use App\Services\Ingredient\IngredientServiceContract;
+use App\Services\Product\ProductService;
+use App\Services\Product\ProductServiceContract;
+use App\Services\Transaction\TransactionService;
+use App\Services\Transaction\TransactionServiceContract;
 
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -78,13 +85,13 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            PrivacyPolicyServiceContract::class,
-            PrivacyPolicyService::class
+            FaqServiceContract::class,
+            FaqService::class
         );
 
         $this->app->bind(
-            DisclaimerServiceContract::class,
-            DisclaimerService::class
+            MediaServiceContract::class,
+            MediaService::class
         );
 
         $this->app->bind(
@@ -93,13 +100,28 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            FaqServiceContract::class,
-            FaqService::class
+            PrivacyPolicyServiceContract::class,
+            PrivacyPolicyService::class
         );
 
         $this->app->bind(
-            MediaServiceContract::class,
-            MediaService::class
+            TermConditionServiceContract::class,
+            TermConditionService::class
+        );
+
+        $this->app->bind(
+            IngredientServiceContract::class,
+            IngredientService::class
+        );
+
+        $this->app->bind(
+            ProductServiceContract::class,
+            ProductService::class
+        );
+
+        $this->app->bind(
+            TransactionServiceContract::class,
+            TransactionService::class
         );
     }
 
