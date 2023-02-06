@@ -139,12 +139,12 @@
 
                 @if(Sentinel::getUser()->type !== 'member')
                     @include('backend.menus.auth')
-                    @include('backend.menus.faq')
-                    @include('backend.menus.news')
-                    @include('backend.menus.media')
                     @include('backend.menus.about_us')
                     @include('backend.menus.contact_us')
                     @include('backend.menus.disclaimer')
+                    @include('backend.menus.faq')
+                    @include('backend.menus.media')
+                    @include('backend.menus.news')
                     @include('backend.menus.privacy_policy')
                     @include('backend.menus.term_condition')
                 @endif
