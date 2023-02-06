@@ -10,7 +10,6 @@ use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\activationEmail;
-use App\Models\KYC;
 
 class RegisterService implements RegisterServiceContract
 {
