@@ -84,7 +84,12 @@
                 },
                 {data: 'code', name: 'code'},
                 {data: 'name', name: 'name'},
-                {data: 'stock', name: 'stock'},
+                {
+                    data: 'stock', name: 'stock',
+                    render: function (data, type, oObj) {
+                        return $.number(data);
+                    }
+                },
                 {data: 'unit', name: 'unit'},
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},

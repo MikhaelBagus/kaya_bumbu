@@ -84,8 +84,18 @@
                 },
                 {data: 'code', name: 'code'},
                 {data: 'date', name: 'date'},
-                {data: 'discount', name: 'discount'},
-                {data: 'grand_price', name: 'grand_price'},
+                {
+                    data: 'discount', name: 'discount',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
+                {
+                    data: 'grand_price', name: 'grand_price',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {

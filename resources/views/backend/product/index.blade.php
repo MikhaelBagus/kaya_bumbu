@@ -84,8 +84,18 @@
                 },
                 {data: 'code', name: 'code'},
                 {data: 'name', name: 'name'},
-                {data: 'price', name: 'price'},
-                {data: 'quota_per_day', name: 'quota_per_day'},
+                {
+                    data: 'price', name: 'price',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
+                {
+                    data: 'quota_per_day', name: 'quota_per_day',
+                    render: function (data, type, oObj) {
+                        return $.number(data);
+                    }
+                },
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {
