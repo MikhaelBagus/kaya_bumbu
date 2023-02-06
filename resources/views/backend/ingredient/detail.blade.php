@@ -36,7 +36,7 @@
                             Stock
                         </dt>
                         <dd>
-                            : {{$ingredient->stock}}
+                            : {{number_format($ingredient->stock,0,'.',',')}}
                         </dd>
                         <dt class="text-left">
                             Unit

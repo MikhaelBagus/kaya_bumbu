@@ -18,7 +18,7 @@ class CreateTransactionTable extends Migration
             $table->string('code');
             $table->date('date');
             $table->double('discount');
-            $table->double('total_price');
+            $table->double('grand_price');
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');

@@ -36,19 +36,45 @@
                             Price
                         </dt>
                         <dd>
-                            : {{$product->price}}
+                            : Rp {{number_format($product->price,0,'.',',')}}
                         </dd>
                         <dt class="text-left">
                             Quota Per Day
                         </dt>
                         <dd>
-                            : {{$product->quota_per_day}}
+                            : {{number_format($product->quota_per_day,0,'.',',')}}
                         </dd>
                     </dl>
                 </div>
 
                 <div class="clearfix"></div>
             </div>
+
+            <table class="table table-striped table-bordered table-hover table-condensed" id="product-ingredient-table" width="100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $no = 0; ?>
+                    @foreach($product->product_ingredient as $productIngredient)
+                    <?php $no = $no + 1; ?>
+                    <tr>
+                        <td>{{$no}}</td>
+                        <td>{{$productIngredient->ingredient->code}}</td>
+                        <td>{{$productIngredient->ingredient->name}}</td>
+                        <td>{{number_format($productIngredient->qty,0,'.',',')}}</td>
+                        <td>{{$productIngredient->ingredient->unit}}</td>
+                    </tr>
+                    @empty
+                    @endforeach
+                </tbody>
+            </table>
 
             <div class="panel-footer">
                 <a href="{{route('product.index')}}" class="btn btn-flat btn-default btn-sm">

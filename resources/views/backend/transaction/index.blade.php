@@ -22,7 +22,7 @@
                     <th>Code</th>
                     <th>Date</th>
                     <th>Discount</th>
-                    <th>Total Price</th>
+                    <th>Grand Price</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -85,7 +85,7 @@
                 {data: 'code', name: 'code'},
                 {data: 'date', name: 'date'},
                 {data: 'discount', name: 'discount'},
-                {data: 'total_price', name: 'total_price'},
+                {data: 'grand_price', name: 'grand_price'},
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {

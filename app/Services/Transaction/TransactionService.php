@@ -36,7 +36,7 @@ class TransactionService implements FaqServiceContract
             $transactionDb->code          = $code;
             $transactionDb->date          = $request->date;
             $transactionDb->discount      = $request->discount;
-            $transactionDb->total_price   = $total_price - $request->discount;
+            $transactionDb->grand_price   = $total_price - $request->discount;
             $transactionDb->created_by    = Sentinel::getUser()->name;
             $transactionDb->save();
 
