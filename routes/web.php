@@ -432,7 +432,7 @@ Route::group([
     'middleware' => [
         'prevent.back.history'
     ],
-    'prefix'     => 'media',
+    'prefix'     => 'media-kayabumbu',
 ], function () {
     Route::get('', 'Backend\MediaController@index')
         ->name('media.index')->middleware('sentinel.permission:media.show');
