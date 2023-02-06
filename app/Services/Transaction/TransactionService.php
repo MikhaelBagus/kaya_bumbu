@@ -71,6 +71,10 @@ class TransactionService implements TransactionServiceContract
                     $transactionProductDb->save();
 
                     foreach($productDb->product_ingredient as $ingredientDb){
+                        $ingredientDb = Ingredient::where('id',$ingredientDb->ingredient_id)->first();
+                        $ingredientDb->stock = $ingredientDb->stock - $ingredientDb->qty;
+                        $ingredientDb->save();
+
                         $transactionIngredientDb = new TransactionIngredient();
                         $transactionIngredientDb->transaction_product_id = $transactionProductDb->id;
                         $transactionIngredientDb->ingredient_id          = $ingredientDb->ingredient_id;
