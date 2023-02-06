@@ -59,7 +59,7 @@
                     </thead>
                     <tbody>
                         <?php $no = 0; ?>
-                        @foreach($product->product_ingredient as $productIngredient)
+                        @forelse($product->product_ingredient as $productIngredient)
                         <?php $no = $no + 1; ?>
                         <tr>
                             <td>{{$no}}</td>
@@ -68,7 +68,8 @@
                             <td>{{number_format($productIngredient->qty,0,',','.')}}</td>
                             <td>{{$productIngredient->ingredient->unit}}</td>
                         </tr>
-                        @endforeach
+                        @empty
+                        @endforelse
                     </tbody>
                 </table>
 

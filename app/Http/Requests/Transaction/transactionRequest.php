@@ -26,13 +26,15 @@ class transactionRequest extends FormRequest
         if(request()->method == 'POST'){
             return [
                 'date'     => 'required',
-                'discount' => 'required|numeric'
+                'discount' => 'required|numeric',
+                'item'     => 'required'
             ];
         }
         else{
             return [
                 'date'     => 'required',
-                'discount' => 'required|numeric'
+                'discount' => 'required|numeric',
+                'item'     => 'required'
             ];
         }
     }

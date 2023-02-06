@@ -62,7 +62,7 @@
                     </thead>
                     <tbody>
                         <?php $no = 0; ?>
-                        @foreach($transaction->transaction_product as $transactionProduct)
+                        @forelse($transaction->transaction_product as $transactionProduct)
                         <?php $no = $no + 1; ?>
                         <tr>
                             <td>{{$no}}</td>
@@ -73,7 +73,7 @@
                             <td>Rp {{number_format($transactionProduct->price * $transactionProduct->price,0,',','.'}}</td>
                         </tr>
                         @empty
-                        @endforeach
+                        @endforelse
                     </tbody>
                 </table>
             </div>

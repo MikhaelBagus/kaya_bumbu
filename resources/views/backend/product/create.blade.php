@@ -51,7 +51,7 @@
                                 <option value=""></option>
                             </select>
                         </div>
-                        {!! $errors->first('ingredient', '<p class="text-danger">:message</p>') !!}
+                        {!! $errors->first('item', '<p class="text-danger">:message</p>') !!}
 
                         <hr class="short alt">
 
