@@ -36,7 +36,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('quota_per_day')) has-error @endif">
                             <label for="quota_per_day" class="control-label">Quota Per Day <span style="color: red">*</span></label>
-                            <input type="number" name="quota_per_day" id="quota_per_day" value="{{old('quota_per_day', $product->quota_per_day)}}" class="form-control input-sm" placeholder="Quota Per Day ...*" required>
+                            <input type="number" name="quota_per_day" id="quota_per_day" value="{{old('quota_per_day', $product->quota_per_day)}}" class="form-control input-sm" placeholder="Quota Per Day ...*" min="0" required>
                             {!! $errors->first('quota_per_day', '<em for="quota_per_day" class="text-danger">:message</em>') !!}
                         </div>
                     </div>

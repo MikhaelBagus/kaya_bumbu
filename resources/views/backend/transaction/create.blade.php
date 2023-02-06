@@ -21,6 +21,14 @@
                             {!! $errors->first('date', '<em for="date" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('discount')) has-error @endif">
+                            <label for="discount" class="control-label">Discount <span style="color: red">*</span></label>
+                            <input type="number" name="discount" id="discount" value="{{old('discount')}}" class="form-control input-sm" placeholder="Discount ...*" min="0" required>
+                            {!! $errors->first('discount', '<em for="discount" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="panel-footer">

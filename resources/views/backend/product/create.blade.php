@@ -25,7 +25,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('price')) has-error @endif">
                             <label for="price" class="control-label">Price <span style="color: red">*</span></label>
-                            <input type="number" name="price" id="price" value="{{old('price')}}" class="form-control input-sm" placeholder="Price ...*" required>
+                            <input type="number" name="price" id="price" value="{{old('price')}}" class="form-control input-sm" placeholder="Price ...*" min="0" required>
                             {!! $errors->first('price', '<em for="price" class="text-danger">:message</em>') !!}
                         </div>
                     </div>

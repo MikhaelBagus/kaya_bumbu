@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('stock')) has-error @endif">
                             <label for="stock" class="control-label">Stock <span style="color: red">*</span></label>
-                            <input type="number" name="stock" id="stock" value="{{old('stock', $ingredient->stock)}}" class="form-control input-sm" placeholder="Stock ...*" required>
+                            <input type="number" name="stock" id="stock" value="{{old('stock', $ingredient->stock)}}" class="form-control input-sm" placeholder="Stock ...*" min="0" required>
                             {!! $errors->first('stock', '<em for="stock" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
