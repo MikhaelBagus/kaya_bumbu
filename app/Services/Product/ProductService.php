@@ -172,7 +172,7 @@ class ProductService implements ProductServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Product::select('id', 'name as text', 'price', 'quota_per_day')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Product::select('id', 'name as text', 'code', 'price', 'quota_per_day')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

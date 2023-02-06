@@ -29,6 +29,49 @@
                             {!! $errors->first('discount', '<em for="discount" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <hr class="short alt">
+                        <label for="selectProduct" class="control-label">Select Product
+                            <span style="color: red">*</span></label>
+                        <div class="input-group" style="margin-top: 2%; margin-bottom: 1%">
+                            <label class="input-group-addon" for="item">
+                                <i class="fa fa-shopping-basket"></i>
+                            </label>
+
+                            <select id="product" class="form-control" data-placeholder="Select Product">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        {!! $errors->first('item', '<p class="text-danger">:message</p>') !!}
+
+                        <hr class="short alt">
+
+                        <table class="table table-hover table-condensed" id="product-container">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th width="100">Qty</th>
+                                    <th>Total Price</th>
+                                    <th width="50" class="text-center">
+                                        <i class="fa fa-trash"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="info" id="hidden-tr-po">
+                                    <td colspan="6">
+                                        Please select the product
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <hr class="short alt">
+
+                    </div>
                 </div>
 
                 <div class="panel-footer">
@@ -79,6 +122,104 @@
                 ]
             });
         })
+
+        $('#product').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('product.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        //For Place To Check Item Same Or Not
+        let productData = [];
+
+        //Ready For Append Html Form
+        function htmlProduct(data) {
+            let productHtml = '<tr class="product-row-' + data.id + '">';
+            productHtml += '<td>';
+            productHtml += data.code;
+            productHtml += '<input type="hidden" name="item[' + data.id + '][product_id]" value="' + data.id + '">';
+            productHtml += '<input type="hidden" name="item[' + data.id + '][code]" value="' + data.code + '">';
+            productHtml += '<input type="hidden" name="item[' + data.id + '][name]" value="' + data.text + '">';
+            productHtml += '<input type="hidden" name="item[' + data.id + '][price]" value="' + data.price + '">';
+            productHtml += '<td>';
+            productHtml += data.text;
+            productHtml += '</td>';
+            productHtml += '<td><input type="number" name="item[' + data.id + '][price]" value="' + data.price + '" min="0" class="form-control input-sm" id="price' + data.id + '"></td>';
+            productHtml += '<td><input type="number" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
+            productHtml += '<td>';
+            productHtml += addCommas(data.price);
+            productHtml += '</td>';
+            productHtml += '<td class="text-center">';
+            productHtml += '<i class="fa fa-times" onclick="removeProductList(' + data.id + ')"></i>';
+            productHtml += '</td>';
+            productHtml += '</tr>';
+
+            $('#product-container tbody').append(productHtml);
+        }
+
+        //To Remove Product Row
+        function removeProductList(productId) {
+            $('.product-row-' + productId).remove();
+
+            //Remove item in jquery array data
+            productData.splice(productData.indexOf(productId.toString()), 1);
+        }
+
+        function addCommas(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        //Add The Product Data And Clear Product Search Data
+        $('#product').on("select2:select", function() {
+            //Set Product Data
+            const select2Data = $(this).select2("data");
+
+            if ($.inArray(select2Data[0].id, productData) == -1) {
+                //Add Item Id To Array
+                productData.push(select2Data[0].id);
+
+                //Remove Hidden Tr SO
+                $('#hidden-tr-po').remove();
+
+                //Appent Item Html
+                htmlProduct(select2Data[0]);
+            }
+
+            //Remove Hidden Tr SO
+            $('#hidden-tr-po').remove();
+
+            $('#product').val(null).trigger("change");
+        });
     </script>
     <script>
         //Disable Enter
