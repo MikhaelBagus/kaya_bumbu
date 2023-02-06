@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use Laravel\Passport\Token;
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Parser as JwtParser;
 
 class LogoutService implements LogoutServiceContract
 {
@@ -29,7 +29,7 @@ class LogoutService implements LogoutServiceContract
                 ], 403);
             }
 
-            $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+            $tokenId = app(JwtParser::class)->parse($bearerToken)->claims()->get('jti');
             $revoked = Token::find($tokenId)->revoked;
             
             if($revoked){
@@ -43,7 +43,7 @@ class LogoutService implements LogoutServiceContract
                 ], 403);
             }
             else{
-                $userId = (new Parser())->parse($bearerToken)->getClaim('sub');
+                $userId = app(JwtParser::class)->parse($bearerToken)->claims()->get('sub');
 
                 $user = User::find($userId);
 

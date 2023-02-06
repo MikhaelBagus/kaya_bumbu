@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use Laravel\Passport\Token;
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Parser as JwtParser;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileService implements ProfileServiceContract
@@ -30,7 +30,7 @@ class ProfileService implements ProfileServiceContract
                 ], 403);
             }
 
-            $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+            $tokenId = app(JwtParser::class)->parse($bearerToken)->claims()->get('jti');
             $revoked = Token::find($tokenId)->revoked;
             
             if($revoked){
@@ -44,7 +44,7 @@ class ProfileService implements ProfileServiceContract
                 ], 403);
             }
             else{
-                $userId = (new Parser())->parse($bearerToken)->getClaim('sub');
+                $userId = app(JwtParser::class)->parse($bearerToken)->claims()->get('sub');
 
                 $user = User::find($userId);
                 $status = 200;
@@ -95,7 +95,7 @@ class ProfileService implements ProfileServiceContract
                 ], 403);
             }
 
-            $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+            $tokenId = app(JwtParser::class)->parse($bearerToken)->claims()->get('jti');
             $revoked = Token::find($tokenId)->revoked;
             
             if($revoked){
@@ -109,7 +109,7 @@ class ProfileService implements ProfileServiceContract
                 ], 403);
             }
             else{
-                $userId = (new Parser())->parse($bearerToken)->getClaim('sub');
+                $userId = app(JwtParser::class)->parse($bearerToken)->claims()->get('sub');
 
                 $user = User::find($userId);
                 $user->name       = $request->name;
