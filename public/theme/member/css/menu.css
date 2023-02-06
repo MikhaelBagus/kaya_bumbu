@@ -1,0 +1,30 @@
+/* Style untuk menu sidebar yang lebih dari 3*/
+@media screen and (max-width: 768px) {
+
+    /*fixed header*/
+    body {
+        margin-top: 50px;
+        padding-top: 300px;
+        z-index: 4;
+    }
+
+    header {
+        position: fixed;
+        right: 0;
+        left: 0;
+        border-radius: 0;
+        top: 0;
+        z-index: 2;
+    }
+
+    .sidebar {
+        background-color: #fff;
+        position: fixed;
+        margin-top: 75px;
+        right: 0;
+        left: 0;
+        border-radius: 0;
+        top: 0;
+        z-index: 1;
+    }
+}

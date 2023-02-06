@@ -1,0 +1,228 @@
+@font-face {
+    font-family: "DINOT-Bold";
+    src: url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.eot");
+    src: url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.eot?#iefix") format("embedded-opentype"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.woff2") format("woff2"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.woff") format("woff"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.ttf") format("truetype"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.svg#DINOT-Bold") format("svg"); }
+  
+@font-face {
+    font-family: "DINOT-Regular";
+    src: url("../dist/fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.eot");
+    src: url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.eot?#iefix") format("embedded-opentype"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.woff2") format("woff2"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.woff") format("woff"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.ttf") format("truetype"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.svg#DINOT-Regular") format("svg"); }
+  
+@font-face {
+    font-family: "DINOT";
+    src: url("../fonts/DINOT-Black/DINOT-Black.eot");
+    src: url("../fonts/DINOT-Black/DINOT-Black.eot?#iefix") format("embedded-opentype"), url("../fonts/DINOT-Black/DINOT-Black.woff2") format("woff2"), url("../fonts/DINOT-Black/DINOT-Black.woff") format("woff"), url("../fonts/DINOT-Black/DINOT-Black.ttf") format("truetype"), url("../fonts/DINOT-Black/DINOT-Black.svg#DINOT-Black") format("svg");
+    font-weight: 900;
+    font-style: normal; }
+        
+@font-face {
+    font-family: 'boldregular';
+    src: url("../fonts/Bold/bold-regular-webfont.eot");
+    src: url("../fonts/Bold/bold-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Bold/bold-regular-webfont.woff2") format("woff2"), url("../fonts/Bold/bold-regular-webfont.woff") format("woff"), url("../fonts/Bold/bold-regular-webfont.ttf") format("truetype"), url("../fonts/Bold/bold-regular-webfont.svg#boldregular") format("svg");
+    font-weight: normal;
+    font-style: normal; }
+
+/* section .container ul.img-big-list > li > a,
+section .container ul.img-big-list > li > .img-jumbo-container {
+    width: 100%;
+    padding-top: 39.72%;
+    background: url("../img/signal-welcome.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+section .container ul.img-big-list > li > a {
+    position: relative;
+    display: flex;
+}
+
+section .container ul.img-big-list > li > a > div,
+section .container ul.img-big-list > li > .img-jumbo-container > .row {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+
+section .container ul.img-big-list > li > a > div h2,
+section .container ul.img-big-list > li > a > div p {
+    font-family: "boldregular", sans-serif;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #fff;
+}
+
+section .container ul.img-big-list > li > a > div h2 {
+    font-size: 3rem;
+}
+
+section .container ul.img-big-list > li > a:hover > div h2 {
+    -webkit-transition: all .25s ease-in-out;
+    -o-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
+    color: #1B5183;
+    text-shadow: 1px 1px 8px #fff;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > .row > * {
+    padding: 0 16px;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > .row h2,
+section .container ul.img-big-list > li > .img-jumbo-container > .row p {
+    position: initial;
+}
+
+section .container ul.img-big-list > li > a > div p,
+section .container ul.img-big-list > li > .img-jumbo-container > .row p {
+    font-family: "DINOT-Regular", sans-serif;
+}
+
+section .container ul.img-big-list > li > a.recommendation {
+    background: url("../img/recommendation.jpg");
+}
+
+section .container ul.img-big-list > li > a.question {
+    background: url("../img/question.jpg");
+}
+
+section .container ul.img-big-list > li > a.fundamental {
+    background: url("../img/fundamental-reports.jpg");
+}
+
+section .container ul.img-big-list > li > a.tools {
+    background: url("../img/tools.jpg");
+}
+
+.signal-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.signal-content > p {
+    margin-bottom: 0;
+}
+
+@media (max-width: 576px) {
+    section .container ul.img-big-list > li > .img-jumbo-container {
+        padding-top: 150%;
+        background-size: cover;
+    }
+
+    section .container ul.img-big-list > li > .img-jumbo-container > .row h2,
+    section .container ul.img-big-list > li > a > div h2 {
+        font-size: 2rem;
+    }
+
+    .navbar-secondary .nav-item ul {
+        position: initial;
+    }
+} */
+
+section .container ul.img-big-list > li {
+    background: #3692e1;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container,
+section .container ul.img-big-list > li > a {
+    display: block;
+    position: relative;
+    min-height: 440px;
+    overflow: hidden;
+}
+
+section .container ul.img-big-list > li > a {
+    text-decoration: none;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > div {
+    margin: 0 auto;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > div {
+    margin: 0;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > div,
+section .container ul.img-big-list > li > a > div {
+    min-height: 440px;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > div h2,
+section .container ul.img-big-list > li > .img-jumbo-container > div p,
+section .container ul.img-big-list > li > a > div h2,
+section .container ul.img-big-list > li > a > div p {
+    position: initial;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > .img-container .row,
+section .container ul.img-big-list > li > a > .img-container .row {
+    margin: 0;
+}
+section .container ul.img-big-list > li > .img-jumbo-container > .img-container,
+section .container ul.img-big-list > li > a > .img-container {
+    position: absolute;
+}
+
+section .container ul.img-big-list > li > a > div h2,
+section .container ul.img-big-list > li > a > div p {
+    font-family: "boldregular", sans-serif;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #fff;
+}
+
+section .container ul.img-big-list > li > .img-jumbo-container > div h2,
+section .container ul.img-big-list > li > a > div h2 {
+    font-size: 3.5vmax;
+    margin-top: 10px;
+}
+
+section .container ul.img-big-list > li > a:hover > div h2 {
+    -webkit-transition: all .25s ease-in-out;
+    -o-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
+    color: #1B5183;
+    text-shadow: 1px 1px 8px #fff;
+}
+
+section .container ul.img-big-list > li > a > div p,
+section .container ul.img-big-list > li > .img-jumbo-container > .row p {
+    font-family: "DINOT-Regular", sans-serif;
+}
+
+
+section.market .container ul.img-big-list > li > .img-jumbo-container,
+section.market .container ul.img-big-list > li > a {
+    min-height: 325px;
+}
+
+section.market .container ul.img-big-list > li > .img-jumbo-container > div,
+section.market .container ul.img-big-list > li > a > div {
+    min-height: 325px;
+}
+
+
+section.market .container ul.img-big-list > li > .img-jumbo-container > div h2,
+section.market .container ul.img-big-list > li > a > div h2 {
+    margin-bottom: 10px;
+}
+
+
+@media (max-width: 1200px) {
+    section.market .container ul.img-big-list > li > .img-jumbo-container,
+    section.market .container ul.img-big-list > li > a,
+    section .container ul.img-big-list > li > .img-jumbo-container,
+    section .container ul.img-big-list > li > a {
+        min-height: initial;
+    }
+
+    section.market .container ul.img-big-list > li > .img-jumbo-container > div,
+    section.market .container ul.img-big-list > li > a > div,
+    section .container ul.img-big-list > li > .img-jumbo-container > div,
+    section .container ul.img-big-list > li > a > div {
+        min-height: initial;
+    }
+}

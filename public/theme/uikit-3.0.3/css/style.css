@@ -1,0 +1,7 @@
+html, body{
+    height:100%;
+}
+
+.uk-navbar-container {
+    background-color: #1e87f0 !important;
+}

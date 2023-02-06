@@ -1,0 +1,225 @@
+/*-------------------------- BACKGROUND -----------------------*/
+
+.bg-workshop1 {
+    background: linear-gradient( rgba(55, 55, 55, 0.82), rgba(55, 55, 55, 0.97)), url('/theme/emi/img/workshop1.jpg') no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-workshop2 {
+    background: linear-gradient( rgba(55, 55, 55, 0.82), rgba(55, 55, 55, 0.97)), url('/theme/emi/img/workshop2.jpg') no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-workshop3 {
+    background: linear-gradient( rgba(55, 55, 55, 0.82), rgba(55, 55, 55, 0.97)), url('/theme/emi/img/workshop3.jpg') no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-learn {
+    background: linear-gradient( rgba(55, 55, 55, 0.82), rgba(55, 55, 55, 0.97)), url('/theme/emi/img/workshop3.jpg') no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/*-------------------------- SECTION HOW -----------------------*/
+
+.section-how {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #f4f4f4;
+}
+
+.section-how h2 {
+    color: #373737;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.4em;
+}
+
+.section-how .section-detail-intro {
+    max-width: 800px;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 40px;
+}
+
+.section-how .section-detail-intro li {
+    line-height: 1.85714285714286;
+}
+
+.section-how p {
+    margin-bottom: 2.6em;
+    font-size: 16px;
+    color: #373737;
+    font-weight: 300;
+    line-height: 2em;
+}
+
+/*-------------------------- SECTION STEP 1 -----------------------*/
+
+.section-step1 p {
+    margin-bottom: 1.6em;
+    color: #F4F4F4;
+    line-height: 2em;
+}
+
+/*-------------------------- SECTION STEP 2 -----------------------*/
+.section-step2 {
+    background-color: #f4f4f4;
+}
+
+.section-step2 .description-product p {
+    max-width: 700px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+
+#swiper-container1 {
+    height: auto;
+}
+
+#swiper-container1 .swiper-slide p {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+#swiper-container1 .swiper-slide .name {
+    color: #82ccdd;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Ovo', serif;
+}
+
+/*-------------------------- SECTION STEP 3 -----------------------*/
+
+.section-step3 span {
+    line-height: 1.5em;
+    font-weight: 200;
+    color: #82ccdd;
+    font-family: 'Ovo', serif;
+    font-size: 1.7rem;
+}
+
+.section-step3 ul {
+    margin-top: 20px;
+}
+
+.section-step3 .subheading {
+    color: #F4F4F4;
+    margin-bottom: 50px;
+}
+
+.section-step3 ul li {
+    text-align: left;
+    line-height: 1.5em;
+    font-weight: 200;
+    color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
+    padding-bottom: 6px;
+    box-sizing: border-box;
+    line-height: 1.85714285714286;
+}
+
+.section-step3 .row {
+    max-width: 1024px;
+    margin-bottom: 50px;
+}
+
+/*-------------------------- SECTION TESTI PRODUCT -----------------------*/
+.section-testi-product{
+    background-color: #f4f4f4;
+}
+
+.section-testi-product h2 {
+    color: #343434;
+    font-weight: 600;
+}
+
+#swiper-container2, #swiper-container0 {
+    height: auto;
+}
+
+#swiper-container2 .swiper-slide p,#swiper-container0 .swiper-slide p {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+#swiper-container2 .swiper-slide .name, #swiper-container0 .swiper-slide .name{
+    color: black;
+    font-size: 24px;
+    font-weight: 900;
+    font-family: 'Ovo', serif;
+    line-height: 1.85714285714286;
+}
+
+.section-testi-product .swiper-pagination-bullet-active {
+    background-color: black !important;
+}
+
+/*-------------------------- SECTION TESTI PRODUCT2 -----------------------*/
+.section-testi-product2{
+    background-color: #f4f4f4;
+}
+
+.section-testi-product2 h2 {
+    color:#000000;
+    font-size:45px;
+    font-weight:600;
+}
+
+/*-------------------------- SECTION MODUL -----------------------*/
+
+.section-modul {
+    max-width: 910px;
+}
+
+.section-modul .subheading {
+    max-width: 100%;
+    margin-bottom: 40px;
+}
+
+.section-modul p {
+    font-size: 16px;
+}
+
+.section-modul .btn-lg-custom {
+    max-width: 480px;
+    background-color: #f4f4f4;
+    color: #373737;
+    fill: #373737;
+}
+
+.section-modul .btn-lg:hover {
+    color: #82ccdd;
+}
+
+/*-------------------------- SECTION TESTI PRODUCT 2 -----------------------*/
+
+#swiper-container3 {
+    height: auto;
+}
+
+#swiper-container3 .swiper-slide p {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+#swiper-container3 .swiper-slide .name {
+    color: black;
+    font-size: 24px;
+    font-weight: 900;
+    font-family: 'Ovo', serif;
+    line-height: 1.85714285714286;
+}
+
+.section-testi-product2 .swiper-pagination-bullet-active {
+    background-color: black !important;
+}

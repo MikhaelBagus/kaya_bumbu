@@ -1,0 +1,44 @@
+.heading-title {
+    background: #1F81E2;
+        background-color: rgb(31, 129, 226);
+        background-position-x: 0%;
+        background-position-y: 0%;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-image: none;
+        background-size: auto;
+        background-origin: padding-box;
+        background-clip: border-box;
+    color: #fff;
+    font-family: "DINOT-Bold", sans-serif;
+    text-transform: uppercase;
+    padding: .8rem 0;
+        padding-top: 0.8rem;
+        padding-right: 0px;
+        padding-bottom: 0.8rem;
+        padding-left: 0px;
+    margin-bottom: 2.5rem;
+}
+
+
+.fa-ul {
+    list-style-type: none;
+    margin-left: 2.5em;
+    padding-left: 0;
+}
+
+.fa-li {
+    left: -2em;
+    position: absolute;
+    text-align: center;
+    width: 2em;
+    line-height: inherit;
+}
+
+.btn-primary-custom {
+    color: #fff;
+    background: #FFB81A;
+    font-family: "boldregular", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

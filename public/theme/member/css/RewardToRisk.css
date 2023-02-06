@@ -1,0 +1,34 @@
+/* Halaman RewardToRisk */
+@media all and (min-width: 769px) {
+    /* put your css styles in here */
+
+    main .content {
+        margin: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .detail-rewardtorisk {
+        background-color: #fff;
+    }
+
+    main {
+        padding: 30px;
+    }
+}
+
+@media all and (min-width: 769px) {
+    .detail-rewardtorisk {
+        background-color: #f1f1f1;
+    }
+    .baris-satu {
+        border-left: #f1f1f1 solid 20px;
+        border-right: #f1f1f1 solid 20px;
+        border-top: #f1f1f1 solid 20px;
+        border-bottom: #f1f1f1 solid 6px;
+    }
+}

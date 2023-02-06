@@ -1,0 +1,1102 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,800,800i&display=swap");
+@font-face {
+    font-family: ProximaNova-Regular;
+    src: url("../fonts/proxima/ProximaNova-Regular.otf") format("opentype");
+}
+@font-face {
+    font-family: ProximaNova-Bold;
+    src: url("../fonts/proxima/Proxima_Nova_Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: ProximaNova-Thin;
+    src: url("../fonts/proxima/Proxima_Nova_Thin.otf") format("opentype");
+}
+html {
+    scroll-behavior: smooth;
+}
+
+/* --------------- COLOR ------------------ */
+
+.cl-krem {
+    color: #c0b283;
+}
+
+.cl-blue {
+    color: #0abde3;
+}
+
+.cl-white {
+    color: #f4f4f4;
+}
+
+/* --------------- HEADER FOR HOME & LANDERS ------------------ */
+
+.header-headline {
+    position: relative;
+    height: 100%;
+    min-height: 25rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.header-headline video {
+    position: fixed;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    top: 50%;
+    z-index: -999;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.header-headline .header-tagline {
+    position: relative;
+    z-index: 2;
+}
+
+.header-headline .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+/* --------------- BUTTON ------------------ */
+
+.btn-blue {
+    background-color: #82ccdd;
+    border-color: #82ccdd;
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.btn-blue:hover {
+    background-color: #82ccdd;
+    border-color: #82ccdd;
+    color: #fff;
+}
+
+.btn-black {
+    background-color: #25282b;
+    border-color: #25282b;
+    color: #fff;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.btn-black:hover {
+    background-color: #25282b;
+    border-color: #25282b;
+    color: #fff;
+}
+
+.btn-grow:hover {
+    color: #373737;
+    background-color: #f4f4f4;
+    transform: scale(1.1);
+    transition: all 0.3s;
+}
+
+.btn-lg-custom {
+    padding: 15px 40px 15px 40px;
+    letter-spacing: 3.1px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-float-whatsapp {
+    width: 250px;
+    bottom: 10px;
+    position: fixed;
+    font-size: 1.2rem;
+    background-color: #25d366;
+    color: #ffffff;
+    right: 10px;
+    z-index: 99;
+}
+
+.btn-whatsapp {
+    width: 250px;
+    font-size: 1.2rem;
+    background-color: #25d366;
+    color: #ffffff;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .btn-float-whatsapp {
+        width: 100%;
+        bottom: 0px;
+        right: 0px;
+    }
+}
+
+.btn-float-whatsapp:hover {
+    background-color: #25d366;
+    color: #ffffff;
+}
+
+/* --------------- MENU ------------------ */
+
+#navbarPrimary ul li a {
+    color: #fff;
+}
+
+.margin-100 {
+    margin-bottom: 150px;
+}
+
+/* --------------- SECTION TOP ------------------ */
+
+.section-top h1 {
+    font-family: "Ovo", serif;
+    font-size: 62px;
+    color: #fff;
+}
+
+.section-top {
+    margin-top: 120px;
+}
+
+.section-top .sm-heading {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #fff;
+    font-style: italic;
+}
+
+.section-top h3 {
+    font-family: "Ovo", serif;
+    color: #82ccdd;
+    font-size: 32px;
+}
+
+.section-top p {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #f4f4f4;
+    font-weight: 700;
+}
+
+/* --------------- SECTION ABOUT ------------------ */
+
+.section-about {
+    padding-top: 100px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 100px;
+}
+
+.section-about h2 {
+    font-family: "Ovo", serif;
+    color: #82ccdd;
+    font-size: 54px;
+}
+
+.section-about p {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+}
+
+.card-img-caption .card-img-top {
+    z-index: 0;
+}
+
+.card-img-caption .card-text {
+    line-height: 15px;
+    text-shadow: 1px 2px 3px #343434;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: #fff;
+}
+
+/* --------------- SECTION TESTI TOP ------------------ */
+
+.section-testi-top {
+    background-color: #373737;
+    padding-top: 25px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 25px;
+}
+
+.section-testi-top p {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #fff;
+}
+
+.section-testi-top span.name {
+    font-family: "Ovo", serif;
+    color: #82ccdd;
+    font-size: 25px;
+}
+
+/* --------------- SWIPER ------------------ */
+
+.swiper-container {
+    width: 100%;
+    height: auto;
+}
+
+.swiper-slide.custom {
+    padding-top: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    text-align: center;
+    /* Center slide text vertically */
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .swiper-slide {
+        padding: 27px;
+    }
+}
+@media only screen and (min-width: 769px) {
+    /* For Desktop: */
+    .swiper-slide.custom {
+        padding-top: 50px;
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #fff !important;
+}
+
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+    background: #373737 !important;
+}
+
+.swiper-button-next,
+.swiper-container-rtl .swiper-button-prev,
+.swiper-button-prev,
+.swiper-container-rtl .swiper-button-next {
+    background-image: none !important;
+}
+
+/* --------------- SECTION PRODUCT ------------------ */
+
+.section-product {
+    padding-top: 100px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 100px;
+}
+
+.section-product h2 {
+    font-family: "Ovo", serif;
+    font-size: 60px;
+    color: #fff;
+}
+
+.section-product h3 {
+    font-family: "Ovo", serif;
+    color: #82ccdd;
+    font-size: 32px;
+}
+
+.section-product p {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #f4f4f4;
+    font-weight: 700;
+}
+
+.section-product .sm-heading {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #f4f4f4;
+    font-style: italic;
+}
+
+/* --------------- SECTION TESTI ------------------ */
+
+.section-testi .content-testi {
+    padding: 35px;
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
+
+.section-testi .content-testi:hover {
+    box-shadow: 0px 0px 55px 0px rgba(0, 0, 0, 0.31);
+}
+
+.section-testi {
+    padding-top: 100px;
+    padding-right: 8%;
+    padding-left: 8%;
+    padding-bottom: 100px;
+}
+
+/* --------------- Background Parallax & Zoom ------------------ */
+
+.bg-parallax {
+    width: 100%;
+    background-position: center bottom 40%;
+    position: relative;
+    transition: 0s linear;
+    transition-property: background-position;
+}
+
+/* --------------- Background Workshop ------------------ */
+
+.bg-ws {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/workshop3.jpg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-ws2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+        url("/theme/emi/img/workshop_mirror.jpg") no-repeat 50% 50%;
+    background-size: 1500px;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Seminar Online ------------------ */
+
+.bg-seminaronline {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/seminaronline.jpg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Seminar Online ------------------ */
+
+.bg-mainHallIDX {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/images/main-hall-idx.jpg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Product Premium Access ------------------ */
+
+.bg-pa {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/pa2.jpeg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Landers Premium Access ------------------ */
+
+.bg-pa2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/pa2.jpeg") no-repeat 50% 50%;
+    background-size: 1500px;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-pa3 {
+    background: linear-gradient(rgba(55, 55, 55, 0.82), rgba(55, 55, 55, 0.97)),
+        url("/theme/emi/img/pa2.jpeg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Online Class  ------------------ */
+
+.bg-olc {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/olc2.jpeg") no-repeat 50% 50%;
+
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Personal Coaching ------------------ */
+
+.bg-pc {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/pc2.jpeg") no-repeat 50% -50%;
+
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Buku ------------------ */
+
+.bg-buku {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/buku.jpg") no-repeat 50% 90%;
+
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Investor ------------------ */
+
+.bg-ni {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/new-investor8.jpeg") no-repeat 50% 50%;
+    background-size: 1500px;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Landers New Investor ------------------ */
+
+.bg-ni2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/new-investor7.jpeg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+.bg-ni3 {
+    background: linear-gradient(rgba(55, 55, 55, 0.82), rgba(55, 55, 55, 0.97)),
+        url("/theme/emi/img/new-investor8.jpeg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Blog By Ellen May ------------------ */
+
+.bg-blogbyellen {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/blogbyellenmay.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+/* --------------- Background Podcasts ------------------ */
+
+.bg-podcasts {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/podcasts-background.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+/* --------------- Background Content ------------------ */
+
+.bg-content {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/content-background.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+/* --------------- Background Articles ------------------ */
+
+.bg-articles {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/articles-background.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+.bg-articles-lg {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/articles-background-lg.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+/* --------------- Background Videos ------------------ */
+
+.bg-videos {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/videos-background.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+/* --------------- Background Kopi Pagi & 5 Top Stocks------------------ */
+
+.bg-topstocks {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/topstocks-background.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+.bg-topstocks-lg {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/topstocks-background-lg.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    z-index: 0;
+}
+
+/* --------------- Background Contact Us ------------------ */
+
+.bg-contact {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/contact-us.jpg") no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: top;
+    z-index: 0;
+}
+
+/* --------------- Background About ------------------ */
+
+.bg-about {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/ellen-may-about.png") no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Career ------------------ */
+
+.bg-career {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/team_emi_4.jpeg") no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Background Open Account ------------------ */
+
+.bg-openaccount {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/AccountOpening.jpg") no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-sucor {
+    background: linear-gradient(rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+        url("/theme/emi/img/sucor_sekuritas.png") no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-sucor-lg {
+    background: linear-gradient(rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+        url("/theme/emi/img/sucor_sekuritas-lg.jpg") no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+.bg-mandiri {
+    background: linear-gradient(rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+        url("/theme/emi/img/mandiri_sekuritas.png") no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+/* --------------- Footer ------------------ */
+
+footer {
+    padding-top: 20px;
+    background-color: #f2f2f2;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5px;
+}
+
+footer .navbar,
+footer .navbar ul,
+footer .navbar ul li {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+footer nav li a {
+    font-family: "Roboto", sans-serif;
+    color: #878787;
+    font-size: 15px;
+    transition: 0.4s;
+    line-height: 20px;
+}
+
+footer nav li a:hover {
+    color: #000000;
+}
+
+footer p {
+    padding-top: 5px;
+    font-family: "Ovo", serif;
+    color: #54595f;
+    font-size: 13px;
+}
+
+footer hr {
+    margin: 0;
+    padding: 0;
+    border-top: dotted 1px;
+    color: #9b9b9b;
+}
+
+/* ---------------------------------------------- Landers Page ------------------------------------------- */
+
+.section-detail-product {
+    background-color: transparent;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+.section-detail-product .section-detail-intro {
+    font-style: italic;
+}
+
+.section-detail-product h2 {
+    font-family: "Ovo", serif;
+    font-size: 65px;
+    color: #ffffff;
+}
+
+.section-detail-product p {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: #373737;
+}
+
+ul.list {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+ul.list li {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+ul.list li:before {
+    content: "  ";
+    padding-right: 5px;
+}
+
+/* --------------- Icon Box ------------------ */
+
+.section-detail-product .icon-box {
+    padding: 45px;
+    box-sizing: border-box;
+}
+
+.section-detail-product .icon-box .icon-box-header {
+    color: #82ccdd;
+    width: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.section-detail-product .icon-box .icon-box-title {
+    font-family: "Ovo", serif;
+    font-size: 25px;
+    color: #f4f4f4;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.section-detail-product .icon-box .icon-box-content {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: #f4f4f4;
+    line-height: 1.4;
+}
+
+/* --------------- Box Detail Product ------------------ */
+
+.price-table {
+    margin: 100px 2% 50px;
+    border: #dddddd solid 1px;
+    overflow: hidden;
+    transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s, -webkit-border-radius 0.3s,
+        -webkit-box-shadow 0.3s;
+    box-sizing: border-box;
+    color: #373737;
+    line-height: 1.85714285714286;
+    position: relative;
+}
+
+.price-table:hover {
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.31);
+}
+
+.price-table .price-table-header {
+    padding: 20px 0px;
+    font-family: "Ovo", serif;
+    color: #000000;
+}
+
+.price-table .price-table-header h3 {
+    font-family: "Ovo", serif;
+    font-weight: 200;
+    font-size: 35px;
+}
+
+.price-table .price-table-header span {
+    font-weight: bold;
+    font-family: "Ovo", serif;
+    font-size: 16px;
+    color: #82ccdd;
+}
+
+.price-table .promo-price-table {
+    font-family: "Ovo", serif;
+    background-color: #efefef;
+    color: #000000;
+    padding: 30px;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.price-table .promo-price-table span {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+}
+
+.price-table .price-table-features {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    padding: 30px 0px;
+    color: #686868;
+    text-align: left;
+    padding-left: calc((100% - 60%) / 2);
+    padding-right: calc((100% - 60%) / 2);
+}
+
+.price-table .price-table-features i {
+    color: #61ce70;
+}
+
+.price-table .price-table-features hr {
+    width: 80%;
+}
+
+.price-table .price-table-footer {
+    padding: 30px 0px;
+}
+
+.price-table .price-table-footer p {
+    margin-top: 15px;
+    color: #c6c6c6;
+    font-family: "Roboto", sans-serif;
+    font-size: 13px;
+}
+
+/* --------------- Collapse ------------------ */
+
+.widget-collapsible .collapsible {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    padding: 30px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    font-family: "Ovo", serif;
+    font-weight: 900;
+}
+
+.widget-collapsible {
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.12);
+}
+
+.widget-collapsible .collapsible:after {
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+    content: "\f0da";
+    color: black;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.widget-collapsible .active:after {
+    content: "\f0d8";
+}
+
+.widget-collapsible .collapsible-content {
+    padding: 0 35px;
+    margin-bottom: 30px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: white;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+}
+
+/* --------------- Accordion ------------------ */
+
+.widget-accordion {
+    border: 1px solid #d4d4d4;
+}
+
+.widget-accordion .accordion {
+    background-color: transparent;
+    color: #f4f4f4;
+    cursor: pointer;
+    padding: 15px 20px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 24px;
+    transition: 0.4s;
+    font-family: "Ovo", serif;
+    font-weight: 200;
+}
+
+.widget-accordion .active,
+.widget-accordion .accordion:hover {
+    background-color: transparent;
+}
+
+.widget-accordion .accordion:before {
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+    content: " \f067";
+    color: #f4f4f4;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.widget-accordion .active:before {
+    content: " \f068";
+}
+
+.widget-accordion .panel {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #f4f4f4;
+    text-align: left;
+    padding: 0px 55px;
+    background-color: transparent;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/* --------------- Accordion Disable ------------------ */
+
+.widget-accordion-disable {
+    border: 1px solid #d4d4d4;
+}
+
+.widget-accordion-disable .accordion {
+    background-color: transparent;
+    color: #f4f4f4;
+    cursor: pointer;
+    padding: 15px 20px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 24px;
+    transition: 0.4s;
+    font-family: "Ovo", serif;
+    font-weight: 200;
+}
+
+.widget-accordion-disable .active,
+.widget-accordion-disable .accordion:hover {
+    background-color: transparent;
+}
+
+.widget-accordion-disable .accordion:before {
+    font-weight: 900;
+    content: "\00a0";
+    color: #f4f4f4;
+    font-weight: bold;
+    margin-right: 28px;
+}
+
+.widget-accordion-disable .panel {
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    color: #f4f4f4;
+    text-align: left;
+    padding: 0px 55px;
+    background-color: transparent;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/* --------------- Card Product ------------------ */
+.card-product:hover {
+    box-shadow: unset;
+    border: unset;
+    transition: all linear 0.1s;
+}
+.card-product a .card-title {
+    color: #82ccdd;
+}
+
+.card-product a:hover .card-title {
+    color: #82ccdd;
+}
+
+.card-product .card-text {
+    color: #f4f4f4;
+}
+
+.card-product .card-title {
+    color: #f4f4f4;
+}
+.card-product .card-text {
+    font-family: ProximaNova-Thin;
+}
+
+.card-product a:hover {
+    text-decoration: none;
+    color: #82ccdd;
+}
+
+.card-product {
+    font-family: ProximaNova-Thin;
+    background-color: transparent;
+    color: #f4f4f4;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 9px;
+    box-shadow: unset;
+    border: unset;
+}
+
+/* --------------- Shadow Image ------------------ */
+
+.shadow-image {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* --------------- Background Investor ------------------ */
+
+.bg-webinar {
+    background: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)),
+        url("/theme/emi/img/webinar-background.jpg") no-repeat 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 0;
+}
+/* --------------- Ribbon OLC ------------------ */
+.ribbon-wrapper {
+    position: relative;
+    z-index: 1;
+    margin: 5% auto;
+}
+
+h1.post-title {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.ribbon {
+    font-size: 20px !important;
+    text-transform: uppercase;
+    width: 50%;
+    position: relative;
+    background: #f35b5b;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    margin: 2em auto 3em;
+}
+
+.ribbon:after,
+.ribbon:before {
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: -1em;
+    border: 1.5em solid #d74545;
+    z-index: -1;
+}
+
+.ribbon:before {
+    left: -2em;
+    border-right-width: 1.5em;
+    border-left-color: transparent;
+}
+
+.ribbon:after {
+    right: -2em;
+    border-left-width: 1.5em;
+    border-right-color: transparent;
+}
+
+.ribbon .ribbon-inner:after,
+.ribbon .ribbon-inner:before {
+    content: "";
+    position: absolute;
+    display: block;
+    border-style: solid;
+    border-color: #b23232 transparent transparent;
+    bottom: -1em;
+}
+
+.ribbon .ribbon-inner:before {
+    left: 0;
+    border-width: 1em 0 0 1em;
+}
+
+.ribbon .ribbon-inner:after {
+    right: 0;
+    border-width: 1em 1em 0 0;
+}

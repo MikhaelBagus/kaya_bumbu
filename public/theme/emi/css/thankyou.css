@@ -1,0 +1,22 @@
+.thankyouHeading {
+    position: absolute;
+    width: 538px;
+    height: 129px;
+    left: 443px;
+    top: 273px;
+
+    font-family: DINOT;
+    font-size: 100px !important;
+    line-height: normal;
+
+    color: #000000;
+}
+
+.konfirmasiButton {
+    left: 447px !important;
+    font-size: 100px !important;
+}
+
+.thankyouMb {
+    margin-bottom: 10px;
+}

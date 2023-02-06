@@ -1,0 +1,80 @@
+@font-face {
+    font-family: "DINOT-Bold";
+    src: url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.eot");
+    src: url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.eot?#iefix") format("embedded-opentype"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.woff2") format("woff2"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.woff") format("woff"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.ttf") format("truetype"), url("../fonts/DINOT-Bold/feab4f015f183ad38338781e0369490d.svg#DINOT-Bold") format("svg"); }
+  
+@font-face {
+    font-family: "DINOT-Regular";
+    src: url("../dist/fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.eot");
+    src: url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.eot?#iefix") format("embedded-opentype"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.woff2") format("woff2"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.woff") format("woff"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.ttf") format("truetype"), url("../fonts/DINOT-Regular/1c587cd97662ab09cb8ba96867f212e7.svg#DINOT-Regular") format("svg"); }
+  
+@font-face {
+    font-family: "DINOT";
+    src: url("../fonts/DINOT-Black/DINOT-Black.eot");
+    src: url("../fonts/DINOT-Black/DINOT-Black.eot?#iefix") format("embedded-opentype"), url("../fonts/DINOT-Black/DINOT-Black.woff2") format("woff2"), url("../fonts/DINOT-Black/DINOT-Black.woff") format("woff"), url("../fonts/DINOT-Black/DINOT-Black.ttf") format("truetype"), url("../fonts/DINOT-Black/DINOT-Black.svg#DINOT-Black") format("svg");
+    font-weight: 900;
+    font-style: normal; }
+        
+@font-face {
+    font-family: 'boldregular';
+    src: url("../fonts/Bold/bold-regular-webfont.eot");
+    src: url("../fonts/Bold/bold-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Bold/bold-regular-webfont.woff2") format("woff2"), url("../fonts/Bold/bold-regular-webfont.woff") format("woff"), url("../fonts/Bold/bold-regular-webfont.ttf") format("truetype"), url("../fonts/Bold/bold-regular-webfont.svg#boldregular") format("svg");
+    font-weight: normal;
+    font-style: normal; }
+
+
+section {
+    padding: 0;
+}
+    
+section > .container > .main-jumbotron > .banner-wrapper {
+    margin-bottom: 2rem;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .banner {
+    margin-bottom: 0;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row > .btn.btn-primary-custom {
+    position: initial;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row .signal-content {
+    margin-top: 5px;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row .signal-content h2,
+section > .container > .main-jumbotron > .banner-wrapper > .row .signal-content p {
+    font-family: 'boldregular';
+    color: white;
+    text-align: center;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row .signal-content h2 {
+    font-size: 3vmax;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row .signal-content h2 sub {
+    font-size: 1.5vmax;
+    top: -1vmax;
+}
+
+section > .container > .main-jumbotron > .banner-wrapper > .row .signal-content p {
+    font-size: 1vmax;
+}
+
+.main-jumbotron .banner-wrapper .btn-primary-custom {
+    position: initial;
+}

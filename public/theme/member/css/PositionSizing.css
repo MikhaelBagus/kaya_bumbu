@@ -1,0 +1,39 @@
+/* Halaman Position Sizing */
+
+@media all and (min-width:769px) {
+  /* put your css styles in here */
+
+  main .content {
+    margin:20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  .baris-satu {
+    border-left: #F1F1F1 solid 20px;
+    border-right: #F1F1F1 solid 20px;
+    border-top: #F1F1F1 solid 20px;
+    border-bottom: #F1F1F1 solid 6px;
+  }
+  .baris-dua {
+    border-left: #F1F1F1 solid 20px;
+    border-right: #F1F1F1 solid 20px;
+    border-top: #F1F1F1 solid 6px;
+    border-bottom: #F1F1F1 solid 6px;
+  }
+  .baris-tiga-kolom-satu {
+    border-left: #F1F1F1 solid 20px;
+    border-right: #F1F1F1 solid 6px;
+    border-top: #F1F1F1 solid 6px;
+    border-bottom: #F1F1F1 solid 20px;
+  }
+  .baris-tiga-kolom-dua {
+    border-left: #F1F1F1 solid 6px;
+    border-right: #F1F1F1 solid 20px;
+    border-top: #F1F1F1 solid 6px;
+    border-bottom: #F1F1F1 solid 20px;
+  }
+
+}

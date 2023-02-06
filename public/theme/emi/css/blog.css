@@ -1,0 +1,15 @@
+.container-fluid {
+    max-width: 1240px;
+}
+/*====================================== HEADING BLOG ===========================================*/
+
+.container-fluid .heading-blog {
+    padding: 3.34em 2.4em;
+    background-color: #eee;
+}
+
+.container-fluid .heading-blog h1 {
+    color: #c0b283;
+    line-height: 1.2;
+    font-family: 'Ovo', serif;
+}
