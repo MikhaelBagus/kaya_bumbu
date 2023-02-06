@@ -57,14 +57,6 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Photo</th>
-                <th>No MAPPI</th>
-                <th>No Izin Penilai Publik</th>
-                <th>No Izin BPN</th>
-                <th>No Register Penilai</th>
-                <th>Price</th>
-                <th>KJPP</th>
-                <th>City</th>
                 <th>@lang('auth.index_last_login')</th>
                 <th>@lang('auth.index_status_th')</th>
                 <th>@lang('auth.index_action_th')</th>
@@ -147,14 +139,6 @@
                 },
                 {data: 'email', name: 'email'},
                 {data: 'phone', name: 'phone'},
-                {data: 'photo', name: 'photo'},
-                {data: 'no_mappi', name: 'no_mappi'},
-                {data: 'no_izin_penilai_publik', name: 'no_izin_penilai_publik'},
-                {data: 'no_izin_bpn', name: 'no_izin_bpn'},
-                {data: 'no_register_penilai', name: 'no_register_penilai'},
-                {data: 'price', name: 'price'},
-                {data: 'kjpp_user.kjpp.name', name: 'kjpp_user.kjpp.name', defaultContent: ''},
-                {data: 'user_city.city.name', name: 'user_city.city.name', defaultContent: ''},
                 {data: 'last_login', name: 'last_login'},
                 {
                     data: 'status', name: 'status', fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
@@ -170,7 +154,7 @@
                 {
                     extend: 'colvis',
                     text: '<i class="fa fa-columns"></i> @lang('auth.index_column')',
-                    columns: '2, 3, 4, 5, 6, 7, 8, 9'
+                    columns: '2, 3, 4, 5, 6, 7, 8'
                 }
             ],
             buttons: [

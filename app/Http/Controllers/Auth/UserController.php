@@ -292,27 +292,27 @@ class UserController extends Controller {
                                     $q->where('role_id', $role);
                                 })->whereHas('activations', function($q) {
 	                                $q->where('completed', 0);
-	                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+	                            })->with('roles', 'activations');
 					}
 					else if($status == 1){
 						$dataDb = User::select($select)->whereHas('user_role', function($q) use($role) {
                                     $q->where('role_id', $role);
                                 })->whereHas('activations', function($q) {
 	                                $q->where('completed', 1);
-	                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+	                            })->with('roles', 'activations');
 					}
 					else{
 						$dataDb = User::select($select)->whereHas('user_role', function($q) use($role) {
                                     $q->where('role_id', $role);
                                 })->whereDoesntHave('activations', function($q) {
 	                                $q;
-	                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+	                            })->with('roles', 'activations');
 					}
 				}
 				else{
 					$dataDb = User::select($select)->whereHas('user_role', function($q) use($role) {
                                 $q->where('role_id', $role);
-                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+                            })->with('roles', 'activations');
 				}
 			}
 			else{
@@ -322,21 +322,21 @@ class UserController extends Controller {
 					if($status == 0){
 						$dataDb = User::select($select)->whereHas('activations', function($q) {
 	                                $q->where('completed', 0);
-	                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+	                            })->with('roles', 'activations');
 					}
 					else if($status == 1){
 						$dataDb = User::select($select)->whereHas('activations', function($q) {
 	                                $q->where('completed', 1);
-	                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+	                            })->with('roles', 'activations');
 					}
 					else{
 						$dataDb = User::select($select)->whereDoesntHave('activations', function($q) {
 	                                $q;
-	                            })->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+	                            })->with('roles', 'activations');
 					}
 				}
 				else{
-					$dataDb = User::select($select)->with('roles', 'activations', 'kjpp_user', 'kjpp_user.kjpp', 'user_city', 'user_city.city');
+					$dataDb = User::select($select)->with('roles', 'activations');
 				}
 			}
 

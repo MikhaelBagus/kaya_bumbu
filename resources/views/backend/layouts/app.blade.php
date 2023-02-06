@@ -139,18 +139,7 @@
 
                 @if(Sentinel::getUser()->type !== 'member')
                     @include('backend.menus.auth')
-                    @include('backend.menus.setting_price')
-                    @include('backend.menus.jenis_keahlian')
-                    @include('backend.menus.jenis_object_penilaian')
-                    @include('backend.menus.bank')
-                    @include('backend.menus.kjpp')
-                    @include('backend.menus.kjpp_bank_affiliate')
-                    @include('backend.menus.kjpp_user')
-                    @include('backend.menus.kjpp_surveyor')
-                    @include('backend.menus.transaction_penilaian')
-                    @include('backend.menus.notification')
                     @include('backend.menus.faq')
-                    @include('backend.menus.banner')
                     @include('backend.menus.news')
                     @include('backend.menus.media')
                     @include('backend.menus.about_us')
@@ -158,8 +147,6 @@
                     @include('backend.menus.disclaimer')
                     @include('backend.menus.privacy_policy')
                     @include('backend.menus.term_condition')
-                    @include('backend.menus.province')
-                    @include('backend.menus.city')
                 @endif
             </ul>
             <!-- End: Sidebar Menu -->

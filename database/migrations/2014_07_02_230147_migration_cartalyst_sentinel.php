@@ -47,11 +47,9 @@ class MigrationCartalystSentinel extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->string('name');
             $table->string('phone');
-            $table->string('image')->default('');
             $table->text('firebase_device_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('created_by')->default('');
