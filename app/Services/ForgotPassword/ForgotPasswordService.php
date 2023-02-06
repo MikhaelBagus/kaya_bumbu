@@ -23,7 +23,7 @@ class ForgotPasswordService implements ForgotPasswordServiceContract
         try {
             $user = User::where('email', $request->email)->first();
             if($user){
-                if($user->user_role->role->slug == 'member' || $user->user_role->role->slug == 'penilai-publik' || $user->user_role->role->slug == 'penilai-publik-admin' || $user->user_role->role->slug == 'surveyor'){
+                if($user->user_role->role->slug == 'member'){
                     $user = Sentinel::findByCredentials(['login' => $request->email]);
 
                     $checkReminder = Reminder::exists($user);

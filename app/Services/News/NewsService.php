@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\News;
-use App\Models\Notification;
 use Laravel\Passport\Token;
 use Lcobucci\JWT\Parser;
 use Yajra\DataTables\Facades\DataTables;
@@ -27,32 +26,13 @@ class NewsService implements NewsServiceContract
 
         try {
             if($request->hasFile('image')){
-                // $file = $request->image;
+                $file = $request->image;
+                $file_path = $file->getPathName();
 
-                // $filename = time().'.'.$file->getClientOriginalExtension();
-                // $file->move(public_path('image'), $filename);
+                $filename = time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('media'), $filename);
 
-                // $filename = 'image/'.$filename;
-
-                if (function_exists('curl_file_create')) { // php 5.5+
-                    $cFile = curl_file_create($request->image);
-                }
-                else { // 
-                    $cFile = '@' . realpath($request->image);
-                }
-                $post = array('image' => $cFile);
-
-                $ch = curl_init ();
-                curl_setopt ( $ch, CURLOPT_URL, 'http://api.ayonilai.com/api/media' );
-                curl_setopt ( $ch, CURLOPT_POST, true );
-                curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-                curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post );
-                $result = curl_exec ( $ch );
-                curl_close ( $ch );
-
-                $json = json_decode($result);
-
-                $filename = $json->data;
+                $filename = url('media/'.$filename);
             }
             else{
                 $filename = '';
@@ -66,50 +46,7 @@ class NewsService implements NewsServiceContract
             $newsDb->created_by   = Sentinel::getUser()->name;
             $newsDb->save();
 
-            if($request->publish == 1){
-                $notificationDb = new Notification();
-                $notificationDb->user_id    = 1;
-                $notificationDb->type       = 'News';
-                $notificationDb->item_id    = $newsDb->id;
-                $notificationDb->message    = $newsDb->title;
-                $notificationDb->created_by = Sentinel::getUser()->name;
-                $notificationDb->save();
-            }
-
             DB::commit();
-
-            if($request->publish == 1){
-                $notification = [
-                    'title' => 'Ayo Nilai',
-                    'body'  => $newsDb->title,
-                ];
-                $data = [
-                    'type'    => 'News',
-                    'item_id' => (string) $newsDb->id,
-                ];
-                $url = 'https://fcm.googleapis.com/fcm/send';
-                $fields = array(
-                    'to'           => '/topics/Prospektus',
-                    'notification' => $notification,
-                    'data'         => $data
-                );
-                $fields = json_encode($fields);
-                $headers = array(
-                    'Authorization: key=AAAATp2hBPg:APA91bHBnPr5kVeTbpZ7yWzNHG7OQrhUuIVEOpOhIebG-ydUoj6mj48GmqB0V3ZmOoVcMFlbxDXox5meviWNgh4wd_R_mfpKNRlju90U_P55ZxPg1-xg1EzcdCWFYKTP-1TEYwvJ8TSm',
-                    'Content-Type: application/json'
-                );
-
-                $ch = curl_init ();
-                curl_setopt ( $ch, CURLOPT_URL, $url );
-                curl_setopt ( $ch, CURLOPT_POST, true );
-                curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
-                curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-                curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
-
-                $result = curl_exec ( $ch );
-                // echo $result;
-                curl_close ( $ch );
-            }
 
             return $newsDb;
         }
@@ -125,32 +62,13 @@ class NewsService implements NewsServiceContract
 
         try {
             if($request->hasFile('image')){
-                // $file = $request->image;
+                $file = $request->image;
+                $file_path = $file->getPathName();
 
-                // $filename = time().'.'.$file->getClientOriginalExtension();
-                // $file->move(public_path('image'), $filename);
+                $filename = time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('media'), $filename);
 
-                // $filename = 'image/'.$filename;
-
-                if (function_exists('curl_file_create')) { // php 5.5+
-                    $cFile = curl_file_create($request->image);
-                }
-                else { // 
-                    $cFile = '@' . realpath($request->image);
-                }
-                $post = array('image' => $cFile);
-
-                $ch = curl_init ();
-                curl_setopt ( $ch, CURLOPT_URL, 'http://api.ayonilai.com/api/media' );
-                curl_setopt ( $ch, CURLOPT_POST, true );
-                curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-                curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post );
-                $result = curl_exec ( $ch );
-                curl_close ( $ch );
-
-                $json = json_decode($result);
-
-                $filename = $json->data;
+                $filename = url('media/'.$filename);
             }
             else{
                 $filename = '';

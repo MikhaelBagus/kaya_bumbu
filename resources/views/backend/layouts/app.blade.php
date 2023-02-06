@@ -173,10 +173,10 @@
     <footer id="content-footer">
         <div class="row">
             <div class="col-md-6">
-                <span class="footer-legal">{{config('app.name')}} <b>Version</b> 1.0.0.dev <b>Build</b> 1231231</span> || <a href="mailto:info@kayabumbu.com">Contact Support</a>
+                <span class="footer-legal">{{config('app.name')}} <b>Version</b> 1.0.0 <b>Build</b> 1</span> || <a href="mailto:info@kayabumbu.com">Contact Support</a>
             </div>
             <div class="col-md-6 text-right">
-                <strong style="margin-right: 40px">Copyright &copy; 2018 Limited.</strong>
+                <strong style="margin-right: 40px">Copyright &copy; 2023 Limited.</strong>
                 <a href="#content" class="footer-return-top">
                     <span class="fa fa-arrow-up"></span>
                 </a>

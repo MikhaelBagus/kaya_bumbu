@@ -134,12 +134,6 @@ Route::group( [
     Route::get('/ajax/select2', 'Auth\UserController@select2')
        ->name('users.ajax.select2');
 
-    Route::get('/ajax-penilai-publik/select2', 'Auth\UserController@select2PenilaiPublik')
-       ->name('users_penilai_publik.ajax.select2');
-
-    Route::get('/ajax-surveyor/select2', 'Auth\UserController@select2Surveyor')
-       ->name('users_surveyor.ajax.select2');
-
 	Route::put('users/status/{id}', 'Auth\UserController@status')
 	    ->name('users.status')->middleware('sentinel.permission:user.status');
 });

@@ -25,32 +25,13 @@ class MediaService implements MediaServiceContract
 
         try {
             if($request->hasFile('image')){
-                // $file = $request->image;
+                $file = $request->image;
+                $file_path = $file->getPathName();
 
-                // $filename = time().'.'.$file->getClientOriginalExtension();
-                // $file->move(public_path('image'), $filename);
+                $filename = time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('media'), $filename);
 
-                // $filename = 'image/'.$filename;
-
-                if (function_exists('curl_file_create')) { // php 5.5+
-                    $cFile = curl_file_create($request->image);
-                }
-                else { // 
-                    $cFile = '@' . realpath($request->image);
-                }
-                $post = array('image' => $cFile);
-
-                $ch = curl_init ();
-                curl_setopt ( $ch, CURLOPT_URL, 'http://api.ayonilai.com/api/media' );
-                curl_setopt ( $ch, CURLOPT_POST, true );
-                curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-                curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post );
-                $result = curl_exec ( $ch );
-                curl_close ( $ch );
-
-                $json = json_decode($result);
-
-                $filename = $json->data;
+                $filename = url('media/'.$filename);
             }
             else{
                 $filename = '';
@@ -78,32 +59,13 @@ class MediaService implements MediaServiceContract
 
         try {
             if($request->hasFile('image')){
-                // $file = $request->image;
+                $file = $request->image;
+                $file_path = $file->getPathName();
 
-                // $filename = time().'.'.$file->getClientOriginalExtension();
-                // $file->move(public_path('image'), $filename);
+                $filename = time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('media'), $filename);
 
-                // $filename = 'image/'.$filename;
-
-                if (function_exists('curl_file_create')) { // php 5.5+
-                    $cFile = curl_file_create($request->image);
-                }
-                else { // 
-                    $cFile = '@' . realpath($request->image);
-                }
-                $post = array('image' => $cFile);
-
-                $ch = curl_init ();
-                curl_setopt ( $ch, CURLOPT_URL, 'http://api.ayonilai.com/api/media' );
-                curl_setopt ( $ch, CURLOPT_POST, true );
-                curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-                curl_setopt ( $ch, CURLOPT_POSTFIELDS, $post );
-                $result = curl_exec ( $ch );
-                curl_close ( $ch );
-
-                $json = json_decode($result);
-
-                $filename = $json->data;
+                $filename = url('media/'.$filename);
             }
             else{
                 $filename = '';
