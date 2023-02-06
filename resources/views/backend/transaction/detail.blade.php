@@ -32,18 +32,6 @@
                         <dd>
                             : {{$transaction->date}}
                         </dd>
-                        <dt class="text-left">
-                            Discount
-                        </dt>
-                        <dd>
-                            : Rp {{number_format($transaction->discount,0,',','.')}}
-                        </dd>
-                        <dt class="text-left">
-                            Grand Price
-                        </dt>
-                        <dd>
-                            : Rp {{number_format($transaction->grand_price,0,',','.')}}
-                        </dd>
                     </dl>
                 </div>
 
@@ -70,11 +58,31 @@
                             <td>{{$transactionProduct->product->name}}</td>
                             <td>Rp {{number_format($transactionProduct->price,0,',','.')}}</td>
                             <td>{{number_format($transactionProduct->qty,0,',','.')}}</td>
-                            <td>Rp {{number_format($transactionProduct->price * $transactionProduct->price,0,',','.'}}</td>
+                            <td>Rp {{number_format($transactionProduct->price * $transactionProduct->qty,0,',','.')}}</td>
                         </tr>
                         @empty
                         @endforelse
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" class="text-right">
+                                Total :
+                            </th>
+                            <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->grand_price + $transaction->discount,0,',','.')}}</strong></span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5" class="text-right">
+                                Discount :
+                            </th>
+                            <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->discount,0,',','.')}}</strong></span></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5" class="text-right">
+                                Grand Price :
+                            </th>
+                            <th colspan="1" class="text-left"><span id="grandPrice"><strong>Rp {{number_format($transaction->grand_price,0,',','.')}}</strong></span></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
 

@@ -23,14 +23,6 @@
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group @if($errors->has('discount')) has-error @endif">
-                            <label for="discount" class="control-label">Discount <span style="color: red">*</span></label>
-                            <input type="number" name="discount" id="discount" value="{{old('discount')}}" class="form-control input-sm" placeholder="Discount ...*" min="0" required>
-                            {!! $errors->first('discount', '<em for="discount" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
                         <hr class="short alt">
                         <label for="selectProduct" class="control-label">Select Product
                             <span style="color: red">*</span></label>
@@ -52,7 +44,7 @@
                                 <tr>
                                     <th>Code</th>
                                     <th>Name</th>
-                                    <th>Price</th>
+                                    <th width="200">Price</th>
                                     <th width="100">Qty</th>
                                     <th>Total Price</th>
                                     <th width="50" class="text-center">
@@ -67,6 +59,32 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" class="text-right">
+                                        Total :
+                                    </th>
+                                    <th colspan="1" class="text-left"><span id="totalPrice"><strong>0</strong></span></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" class="text-right">
+                                        Discount :
+                                    </th>
+                                    <th colspan="1" class="text-left">
+                                        <input type="number" name="discount" id="discount" value="0" class="form-control input-sm" placeholder="Discount ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        {!! $errors->first('discount', '<em for="discount" class="text-danger">:message</em>') !!}
+                                    </th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" class="text-right">
+                                        Grand Total :
+                                    </th>
+                                    <th colspan="1" class="text-left"><span id="grandPrice"><strong>0</strong></span></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </tfoot>
                         </table>
 
                         <hr class="short alt">
@@ -123,6 +141,13 @@
             });
         })
 
+        $('#date').datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0"
+        });
+
         $('#product').select2({
             theme: "bootstrap",
             placeholder: "Select",
@@ -163,12 +188,13 @@
             productHtml += '<input type="hidden" name="item[' + data.id + '][code]" value="' + data.code + '">';
             productHtml += '<input type="hidden" name="item[' + data.id + '][name]" value="' + data.text + '">';
             productHtml += '<input type="hidden" name="item[' + data.id + '][price]" value="' + data.price + '">';
+            productHtml += '<input type="hidden" name="item[' + data.id + '][total_price]" id="total_price_hidden' + data.id + '" value="' + addCommas(data.price) + '" class="total_price">';
             productHtml += '<td>';
             productHtml += data.text;
             productHtml += '</td>';
-            productHtml += '<td><input type="number" name="item[' + data.id + '][price]" value="' + data.price + '" min="0" class="form-control input-sm" id="price' + data.id + '"></td>';
-            productHtml += '<td><input type="number" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
-            productHtml += '<td>';
+            productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][price]" value="' + data.price + '" min="0" class="form-control input-sm" id="price' + data.id + '"></td>';
+            productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
+            productHtml += '<td id="total_price' + data.id + '">';
             productHtml += addCommas(data.price);
             productHtml += '</td>';
             productHtml += '<td class="text-center">';
@@ -182,6 +208,8 @@
         //To Remove Product Row
         function removeProductList(productId) {
             $('.product-row-' + productId).remove();
+
+            qty(productId);
 
             //Remove item in jquery array data
             productData.splice(productData.indexOf(productId.toString()), 1);
@@ -213,6 +241,8 @@
 
                 //Appent Item Html
                 htmlProduct(select2Data[0]);
+
+                qty(select2Data[0].id);
             }
 
             //Remove Hidden Tr SO
@@ -220,6 +250,30 @@
 
             $('#product').val(null).trigger("change");
         });
+
+        function qty(rowIndex) {
+            let price = $('#price' + rowIndex).val();
+            let qty = $('#qty' + rowIndex).val();
+
+            let total_price = parseFloat(price) * parseFloat(qty);
+
+            $('#total_price' + rowIndex).text(addCommas(total_price));
+            $('#total_price_hidden' + rowIndex).val(total_price);
+
+            grandPriceCalculate();
+        }
+
+        function grandPriceCalculate() {
+            let total_price = 0;
+            $('.total_price').each(function() {
+                total_price += parseInt($(this).val());
+            });
+            
+            let discount = $('#discount').val();
+
+            $('#totalPrice').text(addCommas(total_price));
+            $('#grandPrice').text(addCommas(total_price - discount));
+        }
     </script>
     <script>
         //Disable Enter

@@ -48,7 +48,7 @@ class TransactionService implements TransactionServiceContract
 
             $total_price = 0;
             foreach($request->item as $item){
-                $total_price = $total_price + ($item->qty * $item->price);
+                $total_price = $total_price + ($item['qty'] * $item['price']);
             }
 
             $transactionDb = new Transaction();
