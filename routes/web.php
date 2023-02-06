@@ -185,12 +185,6 @@ Route::group([
 
     Route::get('/ajax/data', 'Backend\AboutUsController@datatable')
         ->name('about_us.ajax.data')->middleware('sentinel.permission:about_us.show');
-
-    Route::delete('/bulk/delete', 'Backend\AboutUsController@bulkDestroy')
-        ->name('about_us.destroy.bulk')->middleware('sentinel.permission:about_us.destroy');
-
-    Route::get('/ajax/select2', 'Backend\AboutUsController@select2')
-        ->name('about_us.ajax.select2');
 });
 
 // contact-us
@@ -223,12 +217,6 @@ Route::group([
 
     Route::get('/ajax/data', 'Backend\ContactUsController@datatable')
         ->name('contact_us.ajax.data')->middleware('sentinel.permission:contact_us.show');
-
-    Route::delete('/bulk/delete', 'Backend\ContactUsController@bulkDestroy')
-        ->name('contact_us.destroy.bulk')->middleware('sentinel.permission:contact_us.destroy');
-
-    Route::get('/ajax/select2', 'Backend\ContactUsController@select2')
-        ->name('contact_us.ajax.select2');
 });
 
 // disclaimer
@@ -261,88 +249,6 @@ Route::group([
 
     Route::get('/ajax/data', 'Backend\DisclaimerController@datatable')
         ->name('disclaimer.ajax.data')->middleware('sentinel.permission:disclaimer.show');
-
-    Route::delete('/bulk/delete', 'Backend\DisclaimerController@bulkDestroy')
-        ->name('disclaimer.destroy.bulk')->middleware('sentinel.permission:disclaimer.destroy');
-
-    Route::get('/ajax/select2', 'Backend\DisclaimerController@select2')
-        ->name('disclaimer.ajax.select2');
-});
-
-// privacy-policy
-Route::group([
-    'middleware' => [
-        'prevent.back.history'
-    ],
-    'prefix'     => 'privacy-policy',
-], function () {
-    Route::get('', 'Backend\PrivacyPolicyController@index')
-        ->name('privacy_policy.index')->middleware('sentinel.permission:privacy_policy.show');
-
-    Route::get('/create', 'Backend\PrivacyPolicyController@create')
-        ->name('privacy_policy.create')->middleware('sentinel.permission:privacy_policy.create');
-
-    Route::post('', 'Backend\PrivacyPolicyController@store')
-        ->name('privacy_policy.store')->middleware('sentinel.permission:privacy_policy.create');
-
-    Route::get('/{id}/show', 'Backend\PrivacyPolicyController@show')
-        ->name('privacy_policy.show')->middleware('sentinel.permission:privacy_policy.show');
-
-    Route::get('/{id}/edit', 'Backend\PrivacyPolicyController@edit')
-        ->name('privacy_policy.edit')->middleware('sentinel.permission:privacy_policy.edit');
-
-    Route::put('/{id}', 'Backend\PrivacyPolicyController@update')
-        ->name('privacy_policy.update')->middleware('sentinel.permission:privacy_policy.edit');
-
-    Route::delete('/{id}', 'Backend\PrivacyPolicyController@destroy')
-        ->name('privacy_policy.destroy')->middleware('sentinel.permission:privacy_policy.destroy');
-
-    Route::get('/ajax/data', 'Backend\PrivacyPolicyController@datatable')
-        ->name('privacy_policy.ajax.data')->middleware('sentinel.permission:privacy_policy.show');
-
-    Route::delete('/bulk/delete', 'Backend\PrivacyPolicyController@bulkDestroy')
-        ->name('privacy_policy.destroy.bulk')->middleware('sentinel.permission:privacy_policy.destroy');
-
-    Route::get('/ajax/select2', 'Backend\PrivacyPolicyController@select2')
-        ->name('privacy_policy.ajax.select2');
-});
-
-// term-condition
-Route::group([
-    'middleware' => [
-        'prevent.back.history'
-    ],
-    'prefix'     => 'term-condition',
-], function () {
-    Route::get('', 'Backend\TermConditionController@index')
-        ->name('term_condition.index')->middleware('sentinel.permission:term_condition.show');
-
-    Route::get('/create', 'Backend\TermConditionController@create')
-        ->name('term_condition.create')->middleware('sentinel.permission:term_condition.create');
-
-    Route::post('', 'Backend\TermConditionController@store')
-        ->name('term_condition.store')->middleware('sentinel.permission:term_condition.create');
-
-    Route::get('/{id}/show', 'Backend\TermConditionController@show')
-        ->name('term_condition.show')->middleware('sentinel.permission:term_condition.show');
-
-    Route::get('/{id}/edit', 'Backend\TermConditionController@edit')
-        ->name('term_condition.edit')->middleware('sentinel.permission:term_condition.edit');
-
-    Route::put('/{id}', 'Backend\TermConditionController@update')
-        ->name('term_condition.update')->middleware('sentinel.permission:term_condition.edit');
-
-    Route::delete('/{id}', 'Backend\TermConditionController@destroy')
-        ->name('term_condition.destroy')->middleware('sentinel.permission:term_condition.destroy');
-
-    Route::get('/ajax/data', 'Backend\TermConditionController@datatable')
-        ->name('term_condition.ajax.data')->middleware('sentinel.permission:term_condition.show');
-
-    Route::delete('/bulk/delete', 'Backend\TermConditionController@bulkDestroy')
-        ->name('term_condition.destroy.bulk')->middleware('sentinel.permission:term_condition.destroy');
-
-    Route::get('/ajax/select2', 'Backend\TermConditionController@select2')
-        ->name('term_condition.ajax.select2');
 });
 
 // faq
@@ -375,50 +281,6 @@ Route::group([
 
     Route::get('/ajax/data', 'Backend\FaqController@datatable')
         ->name('faq.ajax.data')->middleware('sentinel.permission:faq.show');
-
-    Route::delete('/bulk/delete', 'Backend\FaqController@bulkDestroy')
-        ->name('faq.destroy.bulk')->middleware('sentinel.permission:faq.destroy');
-
-    Route::get('/ajax/select2', 'Backend\FaqController@select2')
-        ->name('faq.ajax.select2');
-});
-
-// news
-Route::group([
-    'middleware' => [
-        'prevent.back.history'
-    ],
-    'prefix'     => 'news',
-], function () {
-    Route::get('', 'Backend\NewsController@index')
-        ->name('news.index')->middleware('sentinel.permission:news.show');
-
-    Route::get('/create', 'Backend\NewsController@create')
-        ->name('news.create')->middleware('sentinel.permission:news.create');
-
-    Route::post('', 'Backend\NewsController@store')
-        ->name('news.store')->middleware('sentinel.permission:news.create');
-
-    Route::get('/{id}/show', 'Backend\NewsController@show')
-        ->name('news.show')->middleware('sentinel.permission:news.show');
-
-    Route::get('/{id}/edit', 'Backend\NewsController@edit')
-        ->name('news.edit')->middleware('sentinel.permission:news.edit');
-
-    Route::put('/{id}', 'Backend\NewsController@update')
-        ->name('news.update')->middleware('sentinel.permission:news.edit');
-
-    Route::delete('/{id}', 'Backend\NewsController@destroy')
-        ->name('news.destroy')->middleware('sentinel.permission:news.destroy');
-
-    Route::get('/ajax/data', 'Backend\NewsController@datatable')
-        ->name('news.ajax.data')->middleware('sentinel.permission:news.show');
-
-    Route::delete('/bulk/delete', 'Backend\NewsController@bulkDestroy')
-        ->name('news.destroy.bulk')->middleware('sentinel.permission:news.destroy');
-
-    Route::get('/ajax/select2', 'Backend\NewsController@select2')
-        ->name('news.ajax.select2');
 });
 
 // media
@@ -451,12 +313,198 @@ Route::group([
 
     Route::get('/ajax/data', 'Backend\MediaController@datatable')
         ->name('media.ajax.data')->middleware('sentinel.permission:media.show');
+});
 
-    Route::delete('/bulk/delete', 'Backend\MediaController@bulkDestroy')
-        ->name('media.destroy.bulk')->middleware('sentinel.permission:media.destroy');
+// news
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'news',
+], function () {
+    Route::get('', 'Backend\NewsController@index')
+        ->name('news.index')->middleware('sentinel.permission:news.show');
 
-    Route::get('/ajax/select2', 'Backend\MediaController@select2')
-        ->name('media.ajax.select2');
+    Route::get('/create', 'Backend\NewsController@create')
+        ->name('news.create')->middleware('sentinel.permission:news.create');
+
+    Route::post('', 'Backend\NewsController@store')
+        ->name('news.store')->middleware('sentinel.permission:news.create');
+
+    Route::get('/{id}/show', 'Backend\NewsController@show')
+        ->name('news.show')->middleware('sentinel.permission:news.show');
+
+    Route::get('/{id}/edit', 'Backend\NewsController@edit')
+        ->name('news.edit')->middleware('sentinel.permission:news.edit');
+
+    Route::put('/{id}', 'Backend\NewsController@update')
+        ->name('news.update')->middleware('sentinel.permission:news.edit');
+
+    Route::delete('/{id}', 'Backend\NewsController@destroy')
+        ->name('news.destroy')->middleware('sentinel.permission:news.destroy');
+
+    Route::get('/ajax/data', 'Backend\NewsController@datatable')
+        ->name('news.ajax.data')->middleware('sentinel.permission:news.show');
+});
+
+// privacy-policy
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'privacy-policy',
+], function () {
+    Route::get('', 'Backend\PrivacyPolicyController@index')
+        ->name('privacy_policy.index')->middleware('sentinel.permission:privacy_policy.show');
+
+    Route::get('/create', 'Backend\PrivacyPolicyController@create')
+        ->name('privacy_policy.create')->middleware('sentinel.permission:privacy_policy.create');
+
+    Route::post('', 'Backend\PrivacyPolicyController@store')
+        ->name('privacy_policy.store')->middleware('sentinel.permission:privacy_policy.create');
+
+    Route::get('/{id}/show', 'Backend\PrivacyPolicyController@show')
+        ->name('privacy_policy.show')->middleware('sentinel.permission:privacy_policy.show');
+
+    Route::get('/{id}/edit', 'Backend\PrivacyPolicyController@edit')
+        ->name('privacy_policy.edit')->middleware('sentinel.permission:privacy_policy.edit');
+
+    Route::put('/{id}', 'Backend\PrivacyPolicyController@update')
+        ->name('privacy_policy.update')->middleware('sentinel.permission:privacy_policy.edit');
+
+    Route::delete('/{id}', 'Backend\PrivacyPolicyController@destroy')
+        ->name('privacy_policy.destroy')->middleware('sentinel.permission:privacy_policy.destroy');
+
+    Route::get('/ajax/data', 'Backend\PrivacyPolicyController@datatable')
+        ->name('privacy_policy.ajax.data')->middleware('sentinel.permission:privacy_policy.show');
+});
+
+// term-condition
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'term-condition',
+], function () {
+    Route::get('', 'Backend\TermConditionController@index')
+        ->name('term_condition.index')->middleware('sentinel.permission:term_condition.show');
+
+    Route::get('/create', 'Backend\TermConditionController@create')
+        ->name('term_condition.create')->middleware('sentinel.permission:term_condition.create');
+
+    Route::post('', 'Backend\TermConditionController@store')
+        ->name('term_condition.store')->middleware('sentinel.permission:term_condition.create');
+
+    Route::get('/{id}/show', 'Backend\TermConditionController@show')
+        ->name('term_condition.show')->middleware('sentinel.permission:term_condition.show');
+
+    Route::get('/{id}/edit', 'Backend\TermConditionController@edit')
+        ->name('term_condition.edit')->middleware('sentinel.permission:term_condition.edit');
+
+    Route::put('/{id}', 'Backend\TermConditionController@update')
+        ->name('term_condition.update')->middleware('sentinel.permission:term_condition.edit');
+
+    Route::delete('/{id}', 'Backend\TermConditionController@destroy')
+        ->name('term_condition.destroy')->middleware('sentinel.permission:term_condition.destroy');
+
+    Route::get('/ajax/data', 'Backend\TermConditionController@datatable')
+        ->name('term_condition.ajax.data')->middleware('sentinel.permission:term_condition.show');
+});
+
+// ingredient
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'ingredient',
+], function () {
+    Route::get('', 'Backend\IngredientController@index')
+        ->name('ingredient.index')->middleware('sentinel.permission:ingredient.show');
+
+    Route::get('/create', 'Backend\IngredientController@create')
+        ->name('ingredient.create')->middleware('sentinel.permission:ingredient.create');
+
+    Route::post('', 'Backend\IngredientController@store')
+        ->name('ingredient.store')->middleware('sentinel.permission:ingredient.create');
+
+    Route::get('/{id}/show', 'Backend\IngredientController@show')
+        ->name('ingredient.show')->middleware('sentinel.permission:ingredient.show');
+
+    Route::get('/{id}/edit', 'Backend\IngredientController@edit')
+        ->name('ingredient.edit')->middleware('sentinel.permission:ingredient.edit');
+
+    Route::put('/{id}', 'Backend\IngredientController@update')
+        ->name('ingredient.update')->middleware('sentinel.permission:ingredient.edit');
+
+    Route::delete('/{id}', 'Backend\IngredientController@destroy')
+        ->name('ingredient.destroy')->middleware('sentinel.permission:ingredient.destroy');
+
+    Route::get('/ajax/data', 'Backend\IngredientController@datatable')
+        ->name('ingredient.ajax.data')->middleware('sentinel.permission:ingredient.show');
+
+    Route::get('/ajax/select2', 'Backend\IngredientController@select2')
+        ->name('ingredient.ajax.select2');
+});
+
+// product
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'product',
+], function () {
+    Route::get('', 'Backend\ProductController@index')
+        ->name('product.index')->middleware('sentinel.permission:product.show');
+
+    Route::get('/create', 'Backend\ProductController@create')
+        ->name('product.create')->middleware('sentinel.permission:product.create');
+
+    Route::post('', 'Backend\ProductController@store')
+        ->name('product.store')->middleware('sentinel.permission:product.create');
+
+    Route::get('/{id}/show', 'Backend\ProductController@show')
+        ->name('product.show')->middleware('sentinel.permission:product.show');
+
+    Route::get('/{id}/edit', 'Backend\ProductController@edit')
+        ->name('product.edit')->middleware('sentinel.permission:product.edit');
+
+    Route::put('/{id}', 'Backend\ProductController@update')
+        ->name('product.update')->middleware('sentinel.permission:product.edit');
+
+    Route::delete('/{id}', 'Backend\ProductController@destroy')
+        ->name('product.destroy')->middleware('sentinel.permission:product.destroy');
+
+    Route::get('/ajax/data', 'Backend\ProductController@datatable')
+        ->name('product.ajax.data')->middleware('sentinel.permission:product.show');
+
+    Route::get('/ajax/select2', 'Backend\ProductController@select2')
+        ->name('product.ajax.select2');
+});
+
+// transaction
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'transaction',
+], function () {
+    Route::get('', 'Backend\TransactionController@index')
+        ->name('transaction.index')->middleware('sentinel.permission:transaction.show');
+
+    Route::get('/create', 'Backend\TransactionController@create')
+        ->name('transaction.create')->middleware('sentinel.permission:transaction.create');
+
+    Route::post('', 'Backend\TransactionController@store')
+        ->name('transaction.store')->middleware('sentinel.permission:transaction.create');
+
+    Route::get('/{id}/show', 'Backend\TransactionController@show')
+        ->name('transaction.show')->middleware('sentinel.permission:transaction.show');
+
+    Route::delete('/{id}', 'Backend\TransactionController@destroy')
+        ->name('transaction.destroy')->middleware('sentinel.permission:transaction.destroy');
+
+    Route::get('/ajax/data', 'Backend\TransactionController@datatable')
+        ->name('transaction.ajax.data')->middleware('sentinel.permission:transaction.show');
 });
 
 // log
