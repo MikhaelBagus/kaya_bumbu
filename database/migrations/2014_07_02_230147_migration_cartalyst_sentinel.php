@@ -11,10 +11,10 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Sentinel
- * @version    4.0.0
+ * @version    6.0.0
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
- * @copyright  (c) 2011-2020, Cartalyst LLC
+ * @copyright  (c) 2011-2022, Cartalyst LLC
  * @link       https://cartalyst.com
  */
 
@@ -31,8 +31,40 @@ class MigrationCartalystSentinel extends Migration
      */
     public function up()
     {
+        Schema::create('activations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('code');
+            $table->boolean('completed')->default(0);
+            $table->timestamp('completed_at')->nullable();
+            $table->timestamps();
+
+            $table->engine = 'InnoDB';
+        });
+
+        Schema::create('persistences', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('code');
+            $table->timestamps();
+
+            $table->engine = 'InnoDB';
+            $table->unique('code');
+        });
+
+        Schema::create('reminders', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('code');
+            $table->boolean('completed')->default(0);
+            $table->timestamp('completed_at')->nullable();
+            $table->timestamps();
+
+            $table->engine = 'InnoDB';
+        });
+
         Schema::create('roles', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('slug');
             $table->string('name');
             $table->text('permissions')->nullable();
@@ -41,61 +73,48 @@ class MigrationCartalystSentinel extends Migration
             $table->string('deleted_by')->default('');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->engine = 'InnoDB';
+            $table->unique('slug');
+        });
+
+        Schema::create('role_users', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('role_id')->unsigned();
+            $table->nullableTimestamps();
+
+            $table->engine = 'InnoDB';
+            $table->primary(['user_id', 'role_id']);
+        });
+
+        Schema::create('throttle', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->string('type');
+            $table->string('ip')->nullable();
+            $table->timestamps();
+
+            $table->engine = 'InnoDB';
+            $table->index('user_id');
         });
 
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
+            $table->increments('id');
+            $table->string('name')->nullable();
+            $table->string('email');
             $table->string('password');
+            $table->string('phone')->default('');
+            $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
-            $table->string('name');
-            $table->string('phone');
             $table->text('firebase_device_token')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');
             $table->timestamps();
             $table->softDeletes();
-        });
 
-        Schema::create('role_users', function (Blueprint $table) {
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->nullableTimestamps();
-        }); 
-
-        Schema::create('activations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('code');
-            $table->boolean('completed')->default(0);
-            $table->timestamp('completed_at')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('reminders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('code');
-            $table->boolean('completed')->default(0);
-            $table->timestamp('completed_at')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('persistences', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('code')->unique();
-            $table->timestamps();
-        });
-
-        Schema::create('throttle', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id')->nullable();
-            $table->string('type');
-            $table->string('ip')->nullable();
-            $table->timestamps();
+            $table->engine = 'InnoDB';
+            $table->unique('email');
         });
     }
 
@@ -106,12 +125,12 @@ class MigrationCartalystSentinel extends Migration
      */
     public function down()
     {
-        Schema::drop('throttle');
+        Schema::drop('activations');
         Schema::drop('persistences');
         Schema::drop('reminders');
-        Schema::drop('activations');
-        Schema::drop('role_users');
-        Schema::drop('users');
         Schema::drop('roles');
+        Schema::drop('role_users');
+        Schema::drop('throttle');
+        Schema::drop('users');
     }
 }
