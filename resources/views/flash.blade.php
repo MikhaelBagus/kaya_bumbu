@@ -1,4 +1,4 @@
-﻿@if(Session::has('success'))
+@if(Session::has('success'))
     <div class="alert alert-sm alert-border-left alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <i class="fa fa-info pr10"></i>
