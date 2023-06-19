@@ -5,14 +5,13 @@ namespace App\Models\Auth;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject as AuthenticatableUserContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Auth\UserRole;
 
-class User extends EloquentUser implements AuthenticatableUserContract, AuthenticatableContract // implements JWTSubject // Authenticatable implements JWTSubject
+class User extends EloquentUser implements AuthenticatableContract
 {
     use Authenticatable, HasApiTokens, SoftDeletes;
     const last_login = null;
@@ -28,26 +27,6 @@ class User extends EloquentUser implements AuthenticatableUserContract, Authenti
         'phone',
         'created_by'
     ];
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -113,6 +92,16 @@ class User extends EloquentUser implements AuthenticatableUserContract, Authenti
     }
 
     public function getFirebaseDeviceTokenAttribute($value)
+    {
+        if($value == null){
+            return '';
+        }
+        else{
+            return $value;
+        }
+    }
+
+    public function getPermissionsAttribute($value)
     {
         if($value == null){
             return '';

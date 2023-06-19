@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class UserRole extends Model
 {
-	protected $table = 'role_users';
+    protected $table = 'role_users';
     protected $fillable = [
         'role_id'
     ];
