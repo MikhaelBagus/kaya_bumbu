@@ -34,78 +34,13 @@
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-group @if($errors->has('quota_per_day')) has-error @endif">
-                            <label for="quota_per_day" class="control-label">Quota Per Day <span style="color: red">*</span></label>
-                            <input type="number" name="quota_per_day" id="quota_per_day" value="{{old('quota_per_day', $product->quota_per_day)}}" class="form-control input-sm" placeholder="Quota Per Day ...*" required>
-                            {!! $errors->first('quota_per_day', '<em for="quota_per_day" class="text-danger">:message</em>') !!}
+                        <div class="form-group @if($errors->has('unit')) has-error @endif">
+                            <label for="unit" class="control-label">Unit <span style="color: red">*</span></label>
+                            <input type="text" name="unit" id="unit" value="{{old('unit', $product->unit)}}" class="form-control input-sm" placeholder="Unit ...*" required>
+                            {!! $errors->first('unit', '<em for="unit" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <hr class="short alt">
-                        <label for="selectProduct" class="control-label">Select Ingredient
-                            <span style="color: red">*</span></label>
-                        <div class="input-group" style="margin-top: 2%; margin-bottom: 1%">
-                            <label class="input-group-addon" for="item">
-                                <i class="fa fa-shopping-basket"></i>
-                            </label>
-
-                            <select id="ingredient" class="form-control" data-placeholder="Select Ingredient">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        {!! $errors->first('item', '<p class="text-danger">:message</p>') !!}
-
-                        <hr class="short alt">
-
-                        <table class="table table-hover table-condensed" id="ingredient-container">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Name</th>
-                                    <th width="100">Qty</th>
-                                    <th>Unit</th>
-                                    <th width="50" class="text-center">
-                                        <i class="fa fa-trash"></i>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($product->product_ingredient as $product_ingredient)
-                                <tr class="ingredient-row-{{$product_ingredient->ingredient_id}}">
-                                    <td>
-                                        {{$product_ingredient->ingredient->code}}
-                                        <input type="hidden" name="item[{{$product_ingredient->ingredient_id}}][ingredient_id]" value="{{$product_ingredient->ingredient_id}}">
-                                        <input type="hidden" name="item[{{$product_ingredient->ingredient_id}}][code]" value="{{$product_ingredient->ingredient->code}}">
-                                        <input type="hidden" name="item[{{$product_ingredient->ingredient_id}}][name]" value="{{$product_ingredient->ingredient->name}}">
-                                        <input type="hidden" name="item[{{$product_ingredient->ingredient_id}}][unit]" value="{{$product_ingredient->ingredient->unit}}">
-                                    </td>
-                                    <td>
-                                        {{$product_ingredient->ingredient->name}}
-                                    </td>
-                                    <td>
-                                        <input type="number" name="item[{{$product_ingredient->ingredient_id}}][qty]" value="{{$product_ingredient->qty}}" min="0" class="form-control input-sm" id="qty{{$product_ingredient->ingredient_id}}">
-                                    </td>
-                                    <td>
-                                        {{$product_ingredient->ingredient->unit}}
-                                    </td>
-                                    <td class="text-center">
-                                        <i class="fa fa-times" onclick="removeIngredientList({{$product_ingredient->ingredient_id}})"></i>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr class="info" id="hidden-tr-po">
-                                    <td colspan="6">
-                                        Please select the ingredient
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-
-                        <hr class="short alt">
-
-                    </div>
                 </div>
 
                 <div class="panel-footer">
@@ -160,106 +95,6 @@
             });
         })
 
-        $('#ingredient').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('ingredient.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
-
-        //For Place To Check Item Same Or Not
-        let ingredientData = [];
-        var product = {!! json_encode($product->toArray()) !!};
-        for (var i = product.product_ingredient.length - 1; i >= 0; i--) {
-            ingredientData.push(product.product_ingredient[i].ingredient_id.toString());
-        }
-
-        //Ready For Append Html Form
-        function htmlIngredient(data) {
-            let ingredientHtml = '<tr class="ingredient-row-' + data.id + '">';
-            ingredientHtml += '<td>';
-            ingredientHtml += data.code;
-            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][ingredient_id]" value="' + data.id + '">';
-            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][code]" value="' + data.code + '">';
-            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][name]" value="' + data.text + '">';
-            ingredientHtml += '<input type="hidden" name="item[' + data.id + '][unit]" value="' + data.unit + '">';
-            ingredientHtml += '<td>';
-            ingredientHtml += data.text;
-            ingredientHtml += '</td>';
-            ingredientHtml += '<td><input type="number" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
-            ingredientHtml += '<td>';
-            ingredientHtml += data.unit;
-            ingredientHtml += '</td>';
-            ingredientHtml += '<td class="text-center">';
-            ingredientHtml += '<i class="fa fa-times" onclick="removeIngredientList(' + data.id + ')"></i>';
-            ingredientHtml += '</td>';
-            ingredientHtml += '</tr>';
-
-            $('#ingredient-container tbody').append(ingredientHtml);
-        }
-
-        //To Remove Ingredient Row
-        function removeIngredientList(ingredientId) {
-            $('.ingredient-row-' + ingredientId).remove();
-
-            //Remove item in jquery array data
-            ingredientData.splice(ingredientData.indexOf(ingredientId.toString()), 1);
-        }
-
-        function addCommas(nStr) {
-            nStr += '';
-            x = nStr.split('.');
-            x1 = x[0];
-            x2 = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-            while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + ',' + '$2');
-            }
-            return x1 + x2;
-        }
-
-        //Add The Ingredient Data And Clear Ingredient Search Data
-        $('#ingredient').on("select2:select", function() {
-            //Set Ingredient Data
-            const select2Data = $(this).select2("data");
-
-            if ($.inArray(select2Data[0].id, ingredientData) == -1) {
-                //Add Item Id To Array
-                ingredientData.push(select2Data[0].id);
-
-                //Remove Hidden Tr SO
-                $('#hidden-tr-po').remove();
-
-                //Appent Item Html
-                htmlIngredient(select2Data[0]);
-            }
-
-            //Remove Hidden Tr SO
-            $('#hidden-tr-po').remove();
-
-            $('#ingredient').val(null).trigger("change");
-        });
     </script>
     <script>
         //Disable Enter

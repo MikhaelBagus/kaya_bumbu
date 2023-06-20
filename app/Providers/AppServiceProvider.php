@@ -25,22 +25,22 @@ use App\Services\News\NewsService;
 use App\Services\News\NewsServiceContract;
 use App\Services\Faq\FaqService;
 use App\Services\Faq\FaqServiceContract;
-use App\Services\Constraction\ConstractionService;
-use App\Services\Constraction\ConstractionServiceContract;
-use App\Services\Type\TypeService;
-use App\Services\Type\TypeServiceContract;
-use App\Services\Unit\UnitService;
-use App\Services\Unit\UnitServiceContract;
-use App\Services\Feeder\FeederService;
-use App\Services\Feeder\FeederServiceContract;
-use App\Services\Asset\AssetService;
-use App\Services\Asset\AssetServiceContract;
-use App\Services\AssetToAsset\AssetToAssetService;
-use App\Services\AssetToAsset\AssetToAssetServiceContract;
-use App\Services\Network\NetworkService;
-use App\Services\Network\NetworkServiceContract;
-use App\Services\Gallery\GalleryService;
-use App\Services\Gallery\GalleryServiceContract;
+use App\Services\Bank\BankService;
+use App\Services\Bank\BankServiceContract;
+use App\Services\Province\ProvinceService;
+use App\Services\Province\ProvinceServiceContract;
+use App\Services\City\CityService;
+use App\Services\City\CityServiceContract;
+use App\Services\Source\SourceService;
+use App\Services\Source\SourceServiceContract;
+use App\Services\Customer\CustomerService;
+use App\Services\Customer\CustomerServiceContract;
+use App\Services\Product\ProductService;
+use App\Services\Product\ProductServiceContract;
+use App\Services\Transaction\TransactionService;
+use App\Services\Transaction\TransactionServiceContract;
+use App\Services\Log\LogService;
+use App\Services\Log\LogServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -103,43 +103,43 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            ConstractionServiceContract::class,
-            ConstractionService::class
+            BankServiceContract::class,
+            BankService::class
         );
 
         $this->app->bind(
-            TypeServiceContract::class,
-            TypeService::class
+            ProvinceServiceContract::class,
+            ProvinceService::class
         );
 
         $this->app->bind(
-            UnitServiceContract::class,
-            UnitService::class
+            CityServiceContract::class,
+            CityService::class
         );
 
         $this->app->bind(
-            FeederServiceContract::class,
-            FeederService::class
+            SourceServiceContract::class,
+            SourceService::class
         );
 
         $this->app->bind(
-            AssetServiceContract::class,
-            AssetService::class
+            CustomerServiceContract::class,
+            CustomerService::class
         );
 
         $this->app->bind(
-            AssetToAssetServiceContract::class,
-            AssetToAssetService::class
+            ProductServiceContract::class,
+            ProductService::class
         );
 
         $this->app->bind(
-            NetworkServiceContract::class,
-            NetworkService::class
+            TransactionServiceContract::class,
+            TransactionService::class
         );
 
         $this->app->bind(
-            GalleryServiceContract::class,
-            GalleryService::class
+            LogServiceContract::class,
+            LogService::class
         );
     }
 

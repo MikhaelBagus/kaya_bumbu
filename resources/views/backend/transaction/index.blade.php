@@ -21,7 +21,11 @@
                     <th style="text-align: center">&nbsp;</th>
                     <th>Code</th>
                     <th>Date</th>
-                    <th>Discount</th>
+                    <th>Status</th>
+                    <th>Customer Name</th>
+                    <th>Customer Phone</th>
+                    <th>Discount Price</th>
+                    <th>Ongkir Price</th>
                     <th>Grand Price</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
@@ -84,8 +88,17 @@
                 },
                 {data: 'code', name: 'code'},
                 {data: 'date', name: 'date'},
+                {data: 'status', name: 'status'},
+                {data: 'customer.name', name: 'customer.name'},
+                {data: 'customer.phone', name: 'customer.phone'},
                 {
-                    data: 'discount', name: 'discount',
+                    data: 'discount_price', name: 'discount_price',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
+                {
+                    data: 'ongkir_price', name: 'ongkir_price',
                     render: function (data, type, oObj) {
                         return 'Rp. ' + $.number(data);
                     }

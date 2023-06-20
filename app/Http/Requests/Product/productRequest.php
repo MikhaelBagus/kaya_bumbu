@@ -27,16 +27,14 @@ class productRequest extends FormRequest
             return [
                 'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
                 'price'         => 'required|numeric',
-                'quota_per_day' => 'required|numeric',
-                'item'          => 'required'
+                'unit'          => 'required|regex:/^(?:[^"\'\<>])+$/i'
             ];
         }
         else{
             return [
                 'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
                 'price'         => 'required|numeric',
-                'quota_per_day' => 'required|numeric',
-                'item'          => 'required'
+                'unit'          => 'required|regex:/^(?:[^"\'\<>])+$/i'
             ];
         }
     }

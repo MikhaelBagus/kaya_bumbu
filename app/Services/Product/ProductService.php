@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Product;
-use App\Models\ProductIngredient;
-use App\Models\Ingredient;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -47,21 +45,9 @@ class ProductService implements ProductServiceContract
             $productDb->code          = $product_code_new;
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
-            $productDb->quota_per_day = $request->quota_per_day;
+            $productDb->unit          = $request->unit;
             $productDb->created_by    = Sentinel::getUser()->name;
             $productDb->save();
-
-            foreach($request->item as $item){
-                $ingredientDb = Ingredient::where('id',$item['ingredient_id'])->first();
-                if($ingredientDb){
-                    $productIngredientDb = new ProductIngredient();
-                    $productIngredientDb->product_id    = $productDb->id;
-                    $productIngredientDb->ingredient_id = $item['ingredient_id'];
-                    $productIngredientDb->qty           = $item['qty'];
-                    $productIngredientDb->created_by    = Sentinel::getUser()->name;
-                    $productIngredientDb->save();
-                }
-            }
 
             DB::commit();
 
@@ -81,26 +67,9 @@ class ProductService implements ProductServiceContract
             $productDb = Product::find($id);
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
-            $productDb->quota_per_day = $request->quota_per_day;
+            $productDb->unit          = $request->unit;
             $productDb->updated_by    = Sentinel::getUser()->name;
             $productDb->save();
-
-            foreach($productDb->product_ingredient as $productIngredientDb){
-                $productIngredientDb->forceDelete();
-            }
-
-            foreach($request->item as $item){
-                $ingredientDb = Ingredient::where('id',$item['ingredient_id'])->first();
-                if($ingredientDb){
-                    $productIngredientDb = new ProductIngredient();
-                    $productIngredientDb->product_id    = $productDb->id;
-                    $productIngredientDb->ingredient_id = $item['ingredient_id'];
-                    $productIngredientDb->qty           = $item['qty'];
-                    $productIngredientDb->created_by    = Sentinel::getUser()->name;
-                    $productIngredientDb->updated_by    = Sentinel::getUser()->name;
-                    $productIngredientDb->save();
-                }
-            }
 
             DB::commit();
 
@@ -144,12 +113,6 @@ class ProductService implements ProductServiceContract
         $productDb->deleted_by = Sentinel::getUser()->name;
         $productDb->save();
 
-        foreach($productDb->product_ingredient as $productIngredientDb){
-            $productIngredientDb->deleted_by = Sentinel::getUser()->name;
-            $productIngredientDb->save();
-            $productIngredientDb->delete();
-        }
-
         return Product::where('id', $id)->delete();
     }
 
@@ -172,7 +135,7 @@ class ProductService implements ProductServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Product::select('id', 'name as text', 'code', 'price', 'quota_per_day')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Product::select('id', 'name as text', 'code', 'price', 'unit')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

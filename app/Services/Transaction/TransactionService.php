@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Transaction;
 use App\Models\TransactionProduct;
-use App\Models\TransactionIngredient;
 use App\Models\Product;
-use App\Models\ProductIngredient;
-use App\Models\Ingredient;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -52,11 +49,19 @@ class TransactionService implements TransactionServiceContract
             }
 
             $transactionDb = new Transaction();
-            $transactionDb->code          = $transaction_code_new;
-            $transactionDb->date          = $request->date;
-            $transactionDb->discount      = $request->discount;
-            $transactionDb->grand_price   = $total_price - $request->discount;
-            $transactionDb->created_by    = Sentinel::getUser()->name;
+            $transactionDb->customer_id         = $request->customer_id;
+            $transactionDb->bank_id             = $request->bank_id;
+            $transactionDb->source_id           = $request->source_id;
+            $transactionDb->city_id             = $request->city_id;
+            $transactionDb->code                = $transaction_code_new;
+            $transactionDb->date                = $request->date;
+            $transactionDb->discount_price      = $request->discount_price;
+            $transactionDb->ongkir_price        = $request->ongkir_price;
+            $transactionDb->actual_ongkir_price = $request->ongkir_price;
+            $transactionDb->grand_price         = $total_price - $request->discount_price + $request->ongkir_price;
+            $transactionDb->address             = $request->address;
+            $transactionDb->status              = 0;
+            $transactionDb->created_by          = Sentinel::getUser()->name;
             $transactionDb->save();
 
             foreach($request->item as $item){
@@ -69,19 +74,6 @@ class TransactionService implements TransactionServiceContract
                     $transactionProductDb->price          = $item['price'];
                     $transactionProductDb->created_by     = Sentinel::getUser()->name;
                     $transactionProductDb->save();
-
-                    foreach($productDb->product_ingredient as $ingredientDb){
-                        $ingredientDb = Ingredient::where('id',$ingredientDb->ingredient_id)->first();
-                        $ingredientDb->stock = $ingredientDb->stock - $ingredientDb->qty;
-                        $ingredientDb->save();
-
-                        $transactionIngredientDb = new TransactionIngredient();
-                        $transactionIngredientDb->transaction_product_id = $transactionProductDb->id;
-                        $transactionIngredientDb->ingredient_id          = $ingredientDb->ingredient_id;
-                        $transactionIngredientDb->qty                    = $ingredientDb->qty;
-                        $transactionIngredientDb->created_by             = Sentinel::getUser()->name;
-                        $transactionIngredientDb->save();
-                    }
                 }
             }
 
@@ -129,11 +121,6 @@ class TransactionService implements TransactionServiceContract
         foreach($transactionDb->transaction_product as $transactionProductDb){
             $transactionProductDb->deleted_by = Sentinel::getUser()->name;
             $transactionProductDb->save();
-
-            foreach($transactionProductDb->transaction_ingredient as $transactionIngredientDb){
-                $transactionIngredientDb->deleted_by = Sentinel::getUser()->name;
-                $transactionIngredientDb->delete();
-            }
 
             $transactionProductDb->delete();
         }

@@ -39,39 +39,13 @@
                             : Rp {{number_format($product->price,0,',','.')}}
                         </dd>
                         <dt class="text-left">
-                            Quota Per Day
+                            Unit
                         </dt>
                         <dd>
-                            : {{number_format($product->quota_per_day,0,',','.')}}
+                            : {{$product->unit}}
                         </dd>
                     </dl>
                 </div>
-
-                <table class="table table-striped table-bordered table-hover table-condensed" id="product-ingredient-table" width="100%">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Qty</th>
-                            <th>Unit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no = 0; ?>
-                        @forelse($product->product_ingredient as $productIngredient)
-                        <?php $no = $no + 1; ?>
-                        <tr>
-                            <td>{{$no}}</td>
-                            <td>{{$productIngredient->ingredient->code}}</td>
-                            <td>{{$productIngredient->ingredient->name}}</td>
-                            <td>{{number_format($productIngredient->qty,0,',','.')}}</td>
-                            <td>{{$productIngredient->ingredient->unit}}</td>
-                        </tr>
-                        @empty
-                        @endforelse
-                    </tbody>
-                </table>
 
                 <div class="clearfix"></div>
             </div>

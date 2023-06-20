@@ -147,8 +147,12 @@
                     @include('backend.menus.news')
                     @include('backend.menus.privacy_policy')
                     @include('backend.menus.term_condition')
-
-                    @include('backend.menus.ingredient')
+                    @include('backend.menus.log')
+                    @include('backend.menus.province')
+                    @include('backend.menus.city')
+                    @include('backend.menus.bank')
+                    @include('backend.menus.source')
+                    @include('backend.menus.customer')
                     @include('backend.menus.product')
                     @include('backend.menus.transaction')
                 @endif

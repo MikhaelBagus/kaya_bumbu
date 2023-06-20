@@ -5,17 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-use App\Models\ProductIngredient;
 use App\Models\TransactionProduct;
 
 class Product extends Model
 {
     use SoftDeletes;
     protected $table = 'product';
-
-    public function product_ingredient(){
-        return $this->hasMany(ProductIngredient::class, 'product_id', 'id');
-    }
 
     public function transaction_product(){
         return $this->hasMany(TransactionProduct::class, 'product_id', 'id');
@@ -48,16 +43,6 @@ class Product extends Model
         }
         else{
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
-        }
-    }
-
-    public function getAnswerAttribute($value)
-    {
-        if($value == null){
-            return '';
-        }
-        else{
-            return $value;
         }
     }
 }

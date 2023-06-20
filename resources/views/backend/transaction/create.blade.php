@@ -15,10 +15,63 @@
                     {!! csrf_field() !!}
 
                     <div class="col-md-12">
+                        <div class="form-group @if($errors->has('customer_id')) has-error @endif">
+                            <label for="customer_id" class="control-label">Customer <span style="color: red">*</span></label>
+                            <select id="customer_id" class="form-control" data-placeholder="Select Customer" required>
+                            </select>
+                            {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
                         <div class="form-group @if($errors->has('date')) has-error @endif">
                             <label for="date" class="control-label">Date <span style="color: red">*</span></label>
                             <input type="text" name="date" id="date" value="{{old('date')}}" class="form-control input-sm" placeholder="Date ...*" readonly required>
                             {!! $errors->first('date', '<em for="date" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('bank_id')) has-error @endif">
+                            <label for="bank_id" class="control-label">Bank <span style="color: red">*</span></label>
+                            <select id="bank_id" class="form-control" data-placeholder="Select Bank" required>
+                            </select>
+                            {!! $errors->first('bank_id', '<em for="bank_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('source_id')) has-error @endif">
+                            <label for="source_id" class="control-label">Source <span style="color: red">*</span></label>
+                            <select id="source_id" class="form-control" data-placeholder="Select Source" required>
+                            </select>
+                            {!! $errors->first('source_id', '<em for="source_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('province_id')) has-error @endif">
+                            <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
+                            <select id="province_id" class="form-control" data-placeholder="Select Province" required>
+                            </select>
+                            {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('city_id')) has-error @endif">
+                            <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
+                            <select id="city_id" class="form-control" data-placeholder="Select City" required>
+                            </select>
+                            {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('address')) has-error @endif">
+                            <label for="address" class="control-label">Address <span style="color: red">*</span></label>
+                            <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ...*" required>{{old('address'}}</textarea>
+                            {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
@@ -46,6 +99,7 @@
                                     <th>Name</th>
                                     <th width="200">Price</th>
                                     <th width="100">Qty</th>
+                                    <th>Unit</th>
                                     <th>Total Price</th>
                                     <th width="50" class="text-center">
                                         <i class="fa fa-trash"></i>
@@ -62,24 +116,34 @@
                             <tfoot>
                                 <tr>
                                     <th colspan="4" class="text-right">
-                                        Total :
+                                        Total Price :
                                     </th>
                                     <th colspan="1" class="text-left"><span id="totalPrice"><strong>0</strong></span></th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
                                     <th colspan="4" class="text-right">
-                                        Discount :
+                                        Discount Price :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="discount" id="discount" value="0" class="form-control input-sm" placeholder="Discount ...*" min="0" onchange="grandPriceCalculate()" required>
-                                        {!! $errors->first('discount', '<em for="discount" class="text-danger">:message</em>') !!}
+                                        <input type="number" name="discount_price" id="discount_price" value="0" class="form-control input-sm" placeholder="Discount Price ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        {!! $errors->first('discount_price', '<em for="discount_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
                                     <th colspan="4" class="text-right">
-                                        Grand Total :
+                                        Ongkir Price :
+                                    </th>
+                                    <th colspan="1" class="text-left">
+                                        <input type="number" name="ongkir_price" id="ongkir_price" value="0" class="form-control input-sm" placeholder="Ongkir Price ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        {!! $errors->first('ongkir_price', '<em for="ongkir_price" class="text-danger">:message</em>') !!}
+                                    </th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" class="text-right">
+                                        Grand Total Price :
                                     </th>
                                     <th colspan="1" class="text-left"><span id="grandPrice"><strong>0</strong></span></th>
                                     <th>&nbsp;</th>
@@ -197,6 +261,9 @@
             productHtml += '<td id="total_price' + data.id + '">';
             productHtml += addCommas(data.price);
             productHtml += '</td>';
+            productHtml += '<td>';
+            productHtml += data.unit;
+            productHtml += '</td>';
             productHtml += '<td class="text-center">';
             productHtml += '<i class="fa fa-times" onclick="removeProductList(' + data.id + ')"></i>';
             productHtml += '</td>';
@@ -269,10 +336,11 @@
                 total_price += parseInt($(this).val());
             });
             
-            let discount = $('#discount').val();
+            let discount = $('#discount_price').val();
+            let ongkir = $('#ongkir_price').val();
 
             $('#totalPrice').text(addCommas(total_price));
-            $('#grandPrice').text(addCommas(total_price - discount));
+            $('#grandPrice').text(addCommas(total_price - discount + ongkir));
         }
     </script>
     <script>

@@ -15,10 +15,10 @@ class CreateProductTable extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->string('name');
-            $table->double('price');
-            $table->double('quota_per_day');
+            $table->string('code')->default('');
+            $table->string('name')->default('');
+            $table->double('price')->default(0);
+            $table->string('unit')->default('');
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');
