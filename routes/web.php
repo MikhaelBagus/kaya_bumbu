@@ -689,6 +689,27 @@ Route::group([
 
     Route::get('/ajax/data', [TransactionController::class, 'datatable'])
         ->name('transaction.ajax.data')->middleware('sentinel.permission:transaction.show');
+
+    Route::get('/{id}/update-actual-ongkir-price', [TransactionController::class, 'editActualOngkirPrice'])
+        ->name('transaction.edit_actual_ongkir_price')->middleware('sentinel.permission:transaction.edit_actual_ongkir_price');
+
+    Route::post('/{id}/update-actual-ongkir-price', [TransactionController::class, 'updateActualOngkirPrice'])
+        ->name('transaction.update_actual_ongkir_price')->middleware('sentinel.permission:transaction.edit_actual_ongkir_price');
+
+    Route::get('/{id}/update-start-cooking', [TransactionController::class, 'editStartCooking'])
+        ->name('transaction.edit_start_cooking')->middleware('sentinel.permission:transaction.edit_start_cooking');
+
+    Route::get('/{id}/update-end-cooking', [TransactionController::class, 'editEndCooking'])
+        ->name('transaction.edit_end_cooking')->middleware('sentinel.permission:transaction.edit_end_cooking');
+
+    Route::get('/{id}/update-start-delivery', [TransactionController::class, 'editStartDelivery'])
+        ->name('transaction.edit_start_delivery')->middleware('sentinel.permission:transaction.edit_start_delivery');
+
+    Route::get('/{id}/update-end-delivery', [TransactionController::class, 'editEndDelivery'])
+        ->name('transaction.edit_end_delivery')->middleware('sentinel.permission:transaction.edit_end_delivery');
+
+    Route::post('/{id}/update-end-delivery', [TransactionController::class, 'updateEndDelivery'])
+        ->name('transaction.update_end_delivery')->middleware('sentinel.permission:transaction.edit_end_delivery');
 });
 
 // log

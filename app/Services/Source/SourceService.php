@@ -24,7 +24,7 @@ class SourceService implements SourceServiceContract
         try {
             $sourceDb = new Source();
             $sourceDb->name          = $request->name;
-            $sourceDb->created_by    = Sentinel::getUser()->name;
+            $sourceDb->created_by    = Sentinel::getUser()->email;
             $sourceDb->save();
 
             DB::commit();
@@ -44,7 +44,7 @@ class SourceService implements SourceServiceContract
         try {
             $sourceDb = Source::find($id);
             $sourceDb->name          = $request->name;
-            $sourceDb->updated_by    = Sentinel::getUser()->name;
+            $sourceDb->updated_by    = Sentinel::getUser()->email;
             $sourceDb->save();
 
             DB::commit();
@@ -86,7 +86,7 @@ class SourceService implements SourceServiceContract
     public function destroy(int $id)
     {
         $sourceDb = Source::where('id', $id)->first();
-        $sourceDb->deleted_by = Sentinel::getUser()->name;
+        $sourceDb->deleted_by = Sentinel::getUser()->email;
         $sourceDb->save();
 
         return Source::where('id', $id)->delete();

@@ -41,7 +41,7 @@ class NewsService implements NewsServiceContract
             $newsDb->content      = Purifier::clean($request->content);
             $newsDb->image        = $filename;
             $newsDb->publish      = $request->publish;
-            $newsDb->created_by   = Sentinel::getUser()->name;
+            $newsDb->created_by   = Sentinel::getUser()->email;
             $newsDb->save();
 
             DB::commit();
@@ -84,7 +84,7 @@ class NewsService implements NewsServiceContract
                 $newsDb->image    = '';
             }
 
-            $newsDb->updated_by   = Sentinel::getUser()->name;
+            $newsDb->updated_by   = Sentinel::getUser()->email;
             $newsDb->save();
 
             DB::commit();
@@ -149,7 +149,7 @@ class NewsService implements NewsServiceContract
     public function destroy(int $id)
     {
         $newsDb = News::where('id', $id)->first();
-        $newsDb->deleted_by = Sentinel::getUser()->name;
+        $newsDb->deleted_by = Sentinel::getUser()->email;
         $newsDb->save();
 
         return News::where('id', $id)->delete();

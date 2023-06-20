@@ -61,7 +61,7 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->grand_price         = $total_price - $request->discount_price + $request->ongkir_price;
             $transactionDb->address             = $request->address;
             $transactionDb->status              = 0;
-            $transactionDb->created_by          = Sentinel::getUser()->name;
+            $transactionDb->created_by          = Sentinel::getUser()->email;
             $transactionDb->save();
 
             foreach($request->item as $item){
@@ -72,7 +72,7 @@ class TransactionService implements TransactionServiceContract
                     $transactionProductDb->transaction_id = $transactionDb->id;
                     $transactionProductDb->qty            = $item['qty'];
                     $transactionProductDb->price          = $item['price'];
-                    $transactionProductDb->created_by     = Sentinel::getUser()->name;
+                    $transactionProductDb->created_by     = Sentinel::getUser()->email;
                     $transactionProductDb->save();
                 }
             }
@@ -115,16 +115,124 @@ class TransactionService implements TransactionServiceContract
     public function destroy(int $id)
     {
         $transactionDb = Transaction::where('id', $id)->first();
-        $transactionDb->deleted_by = Sentinel::getUser()->name;
+        $transactionDb->deleted_by = Sentinel::getUser()->email;
         $transactionDb->save();
 
         foreach($transactionDb->transaction_product as $transactionProductDb){
-            $transactionProductDb->deleted_by = Sentinel::getUser()->name;
+            $transactionProductDb->deleted_by = Sentinel::getUser()->email;
             $transactionProductDb->save();
 
             $transactionProductDb->delete();
         }
 
         return Transaction::where('id', $id)->delete();
+    }
+
+    public function updateActualOngkirPrice(int $id, $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->actual_ongkir_price = $request->actual_ongkir_price;
+            $transactionDb->updated_by          = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function updateStartCooking(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->status           = 1;
+            $transactionDb->start_cooking_at = date('yyyy-mm-dd H:i:s');
+            $transactionDb->start_cooking_by = Sentinel::getUser()->email;
+            $transactionDb->updated_by       = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function updateEndCooking(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->status          = 2;
+            $transactionDb->end_cooking_at  = date('yyyy-mm-dd H:i:s');
+            $transactionDb->end_cooking_by  = Sentinel::getUser()->email;
+            $transactionDb->updated_by      = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function updateStartDelivery(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->status             = 3;
+            $transactionDb->start_delivery_at  = date('yyyy-mm-dd H:i:s');
+            $transactionDb->start_delivery_by  = Sentinel::getUser()->email;
+            $transactionDb->updated_by         = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function updateEndDelivery(int $id, $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->status           = 4;
+            $transactionDb->end_delivery_at  = date('yyyy-mm-dd H:i:s');
+            $transactionDb->end_delivery_by  = Sentinel::getUser()->email;
+            $transactionDb->updated_by       = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
     }
 }

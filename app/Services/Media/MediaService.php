@@ -38,7 +38,7 @@ class MediaService implements MediaServiceContract
             $mediaDb = new Media();
             $mediaDb->type         = $request->type;
             $mediaDb->url          = $filename;
-            $mediaDb->created_by   = Sentinel::getUser()->name;
+            $mediaDb->created_by   = Sentinel::getUser()->email;
             $mediaDb->save();
 
             DB::commit();
@@ -79,7 +79,7 @@ class MediaService implements MediaServiceContract
                 $mediaDb->url    = '';
             }
 
-            $mediaDb->updated_by = Sentinel::getUser()->name;
+            $mediaDb->updated_by = Sentinel::getUser()->email;
             $mediaDb->save();
 
             DB::commit();
@@ -147,7 +147,7 @@ class MediaService implements MediaServiceContract
     public function destroy(int $id)
     {
         $mediaDb = Media::where('id', $id)->first();
-        $mediaDb->deleted_by = Sentinel::getUser()->name;
+        $mediaDb->deleted_by = Sentinel::getUser()->email;
         $mediaDb->save();
 
         return Media::where('id', $id)->delete();

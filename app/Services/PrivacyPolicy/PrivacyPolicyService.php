@@ -25,7 +25,7 @@ class PrivacyPolicyService implements PrivacyPolicyServiceContract
         try {
             $privacyPolicyDb = new PrivacyPolicy();
             $privacyPolicyDb->content     = Purifier::clean($request->content);
-            $privacyPolicyDb->created_by  = Sentinel::getUser()->name;
+            $privacyPolicyDb->created_by  = Sentinel::getUser()->email;
             $privacyPolicyDb->save();
 
             DB::commit();
@@ -45,7 +45,7 @@ class PrivacyPolicyService implements PrivacyPolicyServiceContract
         try {
             $privacyPolicyDb = PrivacyPolicy::find($id);
             $privacyPolicyDb->content     = Purifier::clean($request->content);
-            $privacyPolicyDb->updated_by  = Sentinel::getUser()->name;
+            $privacyPolicyDb->updated_by  = Sentinel::getUser()->email;
             $privacyPolicyDb->save();
 
             DB::commit();
@@ -87,7 +87,7 @@ class PrivacyPolicyService implements PrivacyPolicyServiceContract
     public function destroy(int $id)
     {
         $privacyPolicyDb = PrivacyPolicy::where('id', $id)->first();
-        $privacyPolicyDb->deleted_by = Sentinel::getUser()->name;
+        $privacyPolicyDb->deleted_by = Sentinel::getUser()->email;
         $privacyPolicyDb->save();
 
         return PrivacyPolicy::where('id', $id)->delete();

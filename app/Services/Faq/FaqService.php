@@ -25,7 +25,7 @@ class FaqService implements FaqServiceContract
             $faqDb = new Faq();
             $faqDb->question    = $request->question;
             $faqDb->answer      = $request->answer;
-            $faqDb->created_by  = Sentinel::getUser()->name;
+            $faqDb->created_by  = Sentinel::getUser()->email;
             $faqDb->save();
 
             DB::commit();
@@ -46,7 +46,7 @@ class FaqService implements FaqServiceContract
             $faqDb = Faq::find($id);
             $faqDb->question    = $request->question;
             $faqDb->answer      = $request->answer;
-            $faqDb->updated_by  = Sentinel::getUser()->name;
+            $faqDb->updated_by  = Sentinel::getUser()->email;
             $faqDb->save();
 
             DB::commit();
@@ -88,7 +88,7 @@ class FaqService implements FaqServiceContract
     public function destroy(int $id)
     {
         $faqDb = Faq::where('id', $id)->first();
-        $faqDb->deleted_by = Sentinel::getUser()->name;
+        $faqDb->deleted_by = Sentinel::getUser()->email;
         $faqDb->save();
 
         return Faq::where('id', $id)->delete();

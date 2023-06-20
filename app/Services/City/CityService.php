@@ -25,7 +25,7 @@ class CityService implements CityServiceContract
             $cityDb = new City();
             $cityDb->province_id   = $request->province_id;
             $cityDb->name          = $request->name;
-            $cityDb->created_by    = Sentinel::getUser()->name;
+            $cityDb->created_by    = Sentinel::getUser()->email;
             $cityDb->save();
 
             DB::commit();
@@ -46,7 +46,7 @@ class CityService implements CityServiceContract
             $cityDb = City::find($id);
             $cityDb->province_id   = $request->province_id;
             $cityDb->name          = $request->name;
-            $cityDb->updated_by    = Sentinel::getUser()->name;
+            $cityDb->updated_by    = Sentinel::getUser()->email;
             $cityDb->save();
 
             DB::commit();
@@ -88,7 +88,7 @@ class CityService implements CityServiceContract
     public function destroy(int $id)
     {
         $cityDb = City::where('id', $id)->first();
-        $cityDb->deleted_by = Sentinel::getUser()->name;
+        $cityDb->deleted_by = Sentinel::getUser()->email;
         $cityDb->save();
 
         return City::where('id', $id)->delete();

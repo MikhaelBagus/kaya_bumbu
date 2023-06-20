@@ -46,7 +46,7 @@ class ProductService implements ProductServiceContract
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->unit          = $request->unit;
-            $productDb->created_by    = Sentinel::getUser()->name;
+            $productDb->created_by    = Sentinel::getUser()->email;
             $productDb->save();
 
             DB::commit();
@@ -68,7 +68,7 @@ class ProductService implements ProductServiceContract
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->unit          = $request->unit;
-            $productDb->updated_by    = Sentinel::getUser()->name;
+            $productDb->updated_by    = Sentinel::getUser()->email;
             $productDb->save();
 
             DB::commit();
@@ -110,7 +110,7 @@ class ProductService implements ProductServiceContract
     public function destroy(int $id)
     {
         $productDb = Product::where('id', $id)->first();
-        $productDb->deleted_by = Sentinel::getUser()->name;
+        $productDb->deleted_by = Sentinel::getUser()->email;
         $productDb->save();
 
         return Product::where('id', $id)->delete();

@@ -27,7 +27,7 @@ class CustomerService implements CustomerServiceContract
             $customerDb->phone          = $request->phone;
             $customerDb->city_id        = $request->city_id;
             $customerDb->address        = $request->address;
-            $customerDb->created_by     = Sentinel::getUser()->name;
+            $customerDb->created_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
             DB::commit();
@@ -50,7 +50,7 @@ class CustomerService implements CustomerServiceContract
             $customerDb->phone          = $request->phone;
             $customerDb->city_id        = $request->city_id;
             $customerDb->address        = $request->address;
-            $customerDb->updated_by     = Sentinel::getUser()->name;
+            $customerDb->updated_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
             DB::commit();
@@ -92,7 +92,7 @@ class CustomerService implements CustomerServiceContract
     public function destroy(int $id)
     {
         $customerDb = Customer::where('id', $id)->first();
-        $customerDb->deleted_by = Sentinel::getUser()->name;
+        $customerDb->deleted_by = Sentinel::getUser()->email;
         $customerDb->save();
 
         return Customer::where('id', $id)->delete();

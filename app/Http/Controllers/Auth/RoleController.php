@@ -46,7 +46,7 @@ class RoleController extends Controller {
 	 */
 	public function store( createRequest $request ) {
 		
-		$userDb = Sentinel::getUser()->name;
+		$userDb = Sentinel::getUser()->email;
 		
 		$data             = new Role();
 		$data->name       = $request->name;
@@ -122,7 +122,7 @@ class RoleController extends Controller {
 			return redirect()->back();
 		}
 		
-		$userDb             = Sentinel::getUser()->name;
+		$userDb             = Sentinel::getUser()->email;
 		$dataDb->name       = $request->name;
 		$dataDb->updated_by = $userDb;
 		
@@ -161,7 +161,7 @@ class RoleController extends Controller {
             return redirect()->route('roles.index');
         }
         else{
-            $dataDb->deleted_by = Sentinel::getUser()->name;
+            $dataDb->deleted_by = Sentinel::getUser()->email;
             $dataDb->save();
 
             $dataDb->users()->detach($userDb);

@@ -25,7 +25,7 @@ class AboutUsService implements AboutUsServiceContract
         try {
             $aboutUsDb = new AboutUs();
             $aboutUsDb->content     = Purifier::clean($request->content);
-            $aboutUsDb->created_by  = Sentinel::getUser()->name;
+            $aboutUsDb->created_by  = Sentinel::getUser()->email;
             $aboutUsDb->save();
 
             DB::commit();
@@ -45,7 +45,7 @@ class AboutUsService implements AboutUsServiceContract
         try {
             $aboutUsDb = AboutUs::find($id);
             $aboutUsDb->content     = Purifier::clean($request->content);
-            $aboutUsDb->updated_by  = Sentinel::getUser()->name;
+            $aboutUsDb->updated_by  = Sentinel::getUser()->email;
             $aboutUsDb->save();
 
             DB::commit();
@@ -87,7 +87,7 @@ class AboutUsService implements AboutUsServiceContract
     public function destroy(int $id)
     {
         $aboutUsDb = AboutUs::where('id', $id)->first();
-        $aboutUsDb->deleted_by = Sentinel::getUser()->name;
+        $aboutUsDb->deleted_by = Sentinel::getUser()->email;
         $aboutUsDb->save();
 
         return AboutUs::where('id', $id)->delete();

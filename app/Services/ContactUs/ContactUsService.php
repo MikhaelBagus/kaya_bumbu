@@ -25,7 +25,7 @@ class ContactUsService implements ContactUsServiceContract
         try {
             $contactUsDb = new ContactUs();
             $contactUsDb->content     = Purifier::clean($request->content);
-            $contactUsDb->created_by  = Sentinel::getUser()->name;
+            $contactUsDb->created_by  = Sentinel::getUser()->email;
             $contactUsDb->save();
 
             DB::commit();
@@ -45,7 +45,7 @@ class ContactUsService implements ContactUsServiceContract
         try {
             $contactUsDb = ContactUs::find($id);
             $contactUsDb->content     = Purifier::clean($request->content);
-            $contactUsDb->updated_by  = Sentinel::getUser()->name;
+            $contactUsDb->updated_by  = Sentinel::getUser()->email;
             $contactUsDb->save();
 
             DB::commit();
@@ -87,7 +87,7 @@ class ContactUsService implements ContactUsServiceContract
     public function destroy(int $id)
     {
         $contactUsDb = ContactUs::where('id', $id)->first();
-        $contactUsDb->deleted_by = Sentinel::getUser()->name;
+        $contactUsDb->deleted_by = Sentinel::getUser()->email;
         $contactUsDb->save();
 
         return ContactUs::where('id', $id)->delete();

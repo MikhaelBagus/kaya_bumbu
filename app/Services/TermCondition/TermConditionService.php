@@ -25,7 +25,7 @@ class TermConditionService implements TermConditionServiceContract
         try {
             $termConditionDb = new TermCondition();
             $termConditionDb->content     = Purifier::clean($request->content);
-            $termConditionDb->created_by  = Sentinel::getUser()->name;
+            $termConditionDb->created_by  = Sentinel::getUser()->email;
             $termConditionDb->save();
 
             DB::commit();
@@ -45,7 +45,7 @@ class TermConditionService implements TermConditionServiceContract
         try {
             $termConditionDb = TermCondition::find($id);
             $termConditionDb->content     = Purifier::clean($request->content);
-            $termConditionDb->updated_by  = Sentinel::getUser()->name;
+            $termConditionDb->updated_by  = Sentinel::getUser()->email;
             $termConditionDb->save();
 
             DB::commit();
@@ -87,7 +87,7 @@ class TermConditionService implements TermConditionServiceContract
     public function destroy(int $id)
     {
         $termConditionDb = TermCondition::where('id', $id)->first();
-        $termConditionDb->deleted_by = Sentinel::getUser()->name;
+        $termConditionDb->deleted_by = Sentinel::getUser()->email;
         $termConditionDb->save();
 
         return TermCondition::where('id', $id)->delete();

@@ -26,7 +26,7 @@ class DisclaimerService implements DisclaimerServiceContract
             $disclaimerDb = new Disclaimer();
             $disclaimerDb->content     = Purifier::clean($request->content);
             $disclaimerDb->publish     = 1;
-            $disclaimerDb->created_by  = Sentinel::getUser()->name;
+            $disclaimerDb->created_by  = Sentinel::getUser()->email;
             $disclaimerDb->save();
 
             DB::commit();
@@ -47,7 +47,7 @@ class DisclaimerService implements DisclaimerServiceContract
             $disclaimerDb = Disclaimer::find($id);
             $disclaimerDb->content     = Purifier::clean($request->content);
             $disclaimerDb->publish     = 1;
-            $disclaimerDb->updated_by  = Sentinel::getUser()->name;
+            $disclaimerDb->updated_by  = Sentinel::getUser()->email;
             $disclaimerDb->save();
 
             DB::commit();
@@ -89,7 +89,7 @@ class DisclaimerService implements DisclaimerServiceContract
     public function destroy(int $id)
     {
         $disclaimerDb = Disclaimer::where('id', $id)->first();
-        $disclaimerDb->deleted_by = Sentinel::getUser()->name;
+        $disclaimerDb->deleted_by = Sentinel::getUser()->email;
         $disclaimerDb->save();
 
         return Disclaimer::where('id', $id)->delete();

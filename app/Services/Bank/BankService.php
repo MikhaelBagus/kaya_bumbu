@@ -26,7 +26,7 @@ class BankService implements BankServiceContract
             $bankDb->bank_name      = $request->bank_name;
             $bankDb->account_number = $request->account_number;
             $bankDb->account_name   = $request->account_name;
-            $bankDb->created_by     = Sentinel::getUser()->name;
+            $bankDb->created_by     = Sentinel::getUser()->email;
             $bankDb->save();
 
             DB::commit();
@@ -48,7 +48,7 @@ class BankService implements BankServiceContract
             $bankDb->bank_name      = $request->bank_name;
             $bankDb->account_number = $request->account_number;
             $bankDb->account_name   = $request->account_name;
-            $bankDb->updated_by     = Sentinel::getUser()->name;
+            $bankDb->updated_by     = Sentinel::getUser()->email;
             $bankDb->save();
 
             DB::commit();
@@ -90,7 +90,7 @@ class BankService implements BankServiceContract
     public function destroy(int $id)
     {
         $bankDb = Bank::where('id', $id)->first();
-        $bankDb->deleted_by = Sentinel::getUser()->name;
+        $bankDb->deleted_by = Sentinel::getUser()->email;
         $bankDb->save();
 
         return Bank::where('id', $id)->delete();

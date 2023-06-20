@@ -257,7 +257,7 @@ class UserController extends Controller {
             return redirect()->route('users.index');
         }
         else{
-            $data->deleted_by = Sentinel::getUser()->name;
+            $data->deleted_by = Sentinel::getUser()->email;
             $data->save();
 			
 			$data->delete();

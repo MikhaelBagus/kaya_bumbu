@@ -24,7 +24,7 @@ class ProvinceService implements ProvinceServiceContract
         try {
             $provinceDb = new Province();
             $provinceDb->name          = $request->name;
-            $provinceDb->created_by    = Sentinel::getUser()->name;
+            $provinceDb->created_by    = Sentinel::getUser()->email;
             $provinceDb->save();
 
             DB::commit();
@@ -44,7 +44,7 @@ class ProvinceService implements ProvinceServiceContract
         try {
             $provinceDb = Province::find($id);
             $provinceDb->name          = $request->name;
-            $provinceDb->updated_by    = Sentinel::getUser()->name;
+            $provinceDb->updated_by    = Sentinel::getUser()->email;
             $provinceDb->save();
 
             DB::commit();
@@ -86,7 +86,7 @@ class ProvinceService implements ProvinceServiceContract
     public function destroy(int $id)
     {
         $provinceDb = Province::where('id', $id)->first();
-        $provinceDb->deleted_by = Sentinel::getUser()->name;
+        $provinceDb->deleted_by = Sentinel::getUser()->email;
         $provinceDb->save();
 
         return Province::where('id', $id)->delete();
