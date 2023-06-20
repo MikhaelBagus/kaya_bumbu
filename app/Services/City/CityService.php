@@ -65,7 +65,7 @@ class CityService implements CityServiceContract
             'city.*',
         ];
 
-        $dataDb = City::select($select);
+        $dataDb = City::select($select)->with('province');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(

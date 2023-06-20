@@ -69,7 +69,7 @@ class CustomerService implements CustomerServiceContract
             'customer.*',
         ];
 
-        $dataDb = Customer::select($select);
+        $dataDb = Customer::select($select)->with('city','city.province');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
@@ -117,7 +117,7 @@ class CustomerService implements CustomerServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Customer::select('id', DB::raw('concat(name, " (", phone, ") ") as text'), 'phone', 'city_id', 'address')->where('name', 'LIKE', '%'.$request->term.'%')->orWhere('phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Customer::select('customer.id', DB::raw('concat(customer.name, " (", customer.phone, ") ") as text'), 'customer.phone', 'customer.city_id', 'city.name as city_name', 'city.province_id', 'province.name as province_name', 'customer.address')->join('city','customer.city_id','city.id')->join('province','city.province_id','province.id')->where('customer.name', 'LIKE', '%'.$request->term.'%')->orWhere('customer.phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

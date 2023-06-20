@@ -9,7 +9,6 @@ use App\Models\Bank;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use DB;
 
 class BankService implements BankServiceContract
 {

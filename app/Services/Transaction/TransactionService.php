@@ -93,7 +93,7 @@ class TransactionService implements TransactionServiceContract
             'transaction.*',
         ];
 
-        $dataDb = Transaction::select($select);
+        $dataDb = Transaction::select($select)->with('city','city.province','customer','bank','source');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(

@@ -20,7 +20,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">Name <span style="color: red">*</span></label>
-                            <input type="text" name="name" id="name" value="{{old('name', $customer->name}}" class="form-control input-sm" placeholder="Name ...*" required>
+                            <input type="text" name="name" id="name" value="{{old('name', $customer->name)}}" class="form-control input-sm" placeholder="Name ...*" required>
                             {!! $errors->first('name', '<em for="name" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('phone')) has-error @endif">
                             <label for="phone" class="control-label">Phone <span style="color: red">*</span></label>
-                            <input type="number" name="phone" id="phone" value="{{old('phone', $customer->phone}}" class="form-control input-sm" placeholder="Phone ...*" required>
+                            <input type="number" name="phone" id="phone" value="{{old('phone', $customer->phone)}}" class="form-control input-sm" placeholder="Phone ...*" required>
                             {!! $errors->first('phone', '<em for="phone" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('province_id')) has-error @endif">
                             <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
-                            <select id="province_id" class="form-control" data-placeholder="Select Province" required>
+                            <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
                                 <option value="{{$customer->city->province_id}}">{{$customer->city->province->name}}</option>
                             </select>
                             {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
@@ -46,7 +46,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('city_id')) has-error @endif">
                             <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
-                            <select id="city_id" class="form-control" data-placeholder="Select City" required>
+                            <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
                                 <option value="{{$customer->city_id}}">{{$customer->city->name}}</option>
                             </select>
                             {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
@@ -56,7 +56,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('address')) has-error @endif">
                             <label for="address" class="control-label">Address <span style="color: red">*</span></label>
-                            <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ...*" required>{{old('address', $customer->address}}</textarea>
+                            <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ...*" required>{{old('address', $customer->address)}}</textarea>
                             {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
@@ -155,7 +155,8 @@
                 data: function(params) {
                     return {
                         term: params.term,
-                        page: params.page
+                        page: params.page,
+                        province_id: $('#province_id').val()
                     };
                 },
                 processResults: function(data, params) {

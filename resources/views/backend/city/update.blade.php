@@ -20,7 +20,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('province_id')) has-error @endif">
                             <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
-                            <select id="province_id" class="form-control" data-placeholder="Select Province" required>
+                            <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
                                 <option value="{{$city->province_id}}">{{$city->province->name}}</option>
                             </select>
                             {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}

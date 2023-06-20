@@ -2,7 +2,7 @@
     <li class="{{request()->is('source*') == true  ? 'active' : '' }}">
         <a class="accordion-toggle {{request()->is('source*') == true  ? 'menu-open' : '' }}" href="#">
             <span class="fas fa-dot-circle-o"></span>
-            <span class="sidebar-title">Bank</span>
+            <span class="sidebar-title">Source</span>
             <span class="caret"></span>
         </a>
 

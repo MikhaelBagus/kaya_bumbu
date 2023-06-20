@@ -33,7 +33,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('province_id')) has-error @endif">
                             <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
-                            <select id="province_id" class="form-control" data-placeholder="Select Province" required>
+                            <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
                             </select>
                             {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
                         </div>
@@ -42,7 +42,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('city_id')) has-error @endif">
                             <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
-                            <select id="city_id" class="form-control" data-placeholder="Select City" required>
+                            <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
                             </select>
                             {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
                         </div>
@@ -147,7 +147,8 @@
                 data: function(params) {
                     return {
                         term: params.term,
-                        page: params.page
+                        page: params.page,
+                        province_id: $('#province_id').val()
                     };
                 },
                 processResults: function(data, params) {

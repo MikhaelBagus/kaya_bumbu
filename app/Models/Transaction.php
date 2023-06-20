@@ -42,7 +42,7 @@ class Transaction extends Model
             return '';
         }
         else{
-            return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
+            return $value;
         }
     }
 

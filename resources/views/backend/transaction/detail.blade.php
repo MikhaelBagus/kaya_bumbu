@@ -151,25 +151,25 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="5" class="text-right">
+                            <th colspan="6" class="text-right">
                                 Total Price :
                             </th>
                             <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->grand_price + $transaction->discount,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
-                            <th colspan="5" class="text-right">
+                            <th colspan="6" class="text-right">
                                 Discount Price :
                             </th>
                             <th colspan="1" class="text-left"><span id="discountPrice"><strong>Rp {{number_format($transaction->discount_price,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
-                            <th colspan="5" class="text-right">
+                            <th colspan="6" class="text-right">
                                 Ongkir Price :
                             </th>
                             <th colspan="1" class="text-left"><span id="ongkirPrice"><strong>Rp {{number_format($transaction->ongkir_price,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
-                            <th colspan="5" class="text-right">
+                            <th colspan="6" class="text-right">
                                 Grand Price :
                             </th>
                             <th colspan="1" class="text-left"><span id="grandPrice"><strong>Rp {{number_format($transaction->grand_price,0,',','.')}}</strong></span></th>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use App\Http\Requests\Customer\customerFromRequest;
+use App\Http\Requests\Customer\customerRequest;
 use App\Services\Customer\CustomerServiceContract;
 use App\Traits\redirectTo;
 
@@ -28,7 +28,7 @@ class CustomerController extends Controller
         return view('backend.customer.create');
     }
 
-    public function store(customerFromRequest $request, CustomerServiceContract $customerServiceContract)
+    public function store(customerRequest $request, CustomerServiceContract $customerServiceContract)
     {
         #Save Customer Data
         if (is_object($customerServiceContract->store($request))) {
@@ -48,7 +48,7 @@ class CustomerController extends Controller
         return view('backend.customer.update', compact('customer'));
     }
 
-    public function update(customerFromRequest $request, $id, CustomerServiceContract $customerServiceContract)
+    public function update(customerRequest $request, $id, CustomerServiceContract $customerServiceContract)
     {
         #Save Customer Data
         if (is_object($customerServiceContract->update($id, $request))) {

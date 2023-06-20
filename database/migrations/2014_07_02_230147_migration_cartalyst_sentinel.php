@@ -32,7 +32,7 @@ class MigrationCartalystSentinel extends Migration
     public function up()
     {
         Schema::create('activations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('user_id')->unsigned();
             $table->string('code');
             $table->boolean('completed')->default(0);
@@ -43,7 +43,7 @@ class MigrationCartalystSentinel extends Migration
         });
 
         Schema::create('persistences', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('user_id')->unsigned();
             $table->string('code');
             $table->timestamps();
@@ -53,7 +53,7 @@ class MigrationCartalystSentinel extends Migration
         });
 
         Schema::create('reminders', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('user_id')->unsigned();
             $table->string('code');
             $table->boolean('completed')->default(0);
@@ -64,7 +64,7 @@ class MigrationCartalystSentinel extends Migration
         });
 
         Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('slug');
             $table->string('name');
             $table->text('permissions')->nullable();
@@ -88,7 +88,7 @@ class MigrationCartalystSentinel extends Migration
         });
 
         Schema::create('throttle', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('user_id')->unsigned()->nullable();
             $table->string('type');
             $table->string('ip')->nullable();
@@ -99,7 +99,7 @@ class MigrationCartalystSentinel extends Migration
         });
 
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name')->nullable();
             $table->string('email');
             $table->string('password');
