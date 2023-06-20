@@ -11,6 +11,44 @@
                 </div>
             </div>
 
+            <div class="panel panel-default" style="margin-bottom:0px">
+                <div class="panel-heading">
+                    Filter
+                </div>
+                <div class="panel-body">
+                    <form action="" method="POST">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="order_date">Date Range</label>
+                                    <div class="input-group input-group-sm date">
+                                        <input type="text" name="order_date_from" id="order_date_from" value="{{ old('order_date_from', request()->orderDate) }}" class="form-control input-sm" readonly>
+                                        <label class="input-group-addon input-sm" for="order_date_from">
+                                            <i class="fa fa-calendar"></i>
+                                        </label>
+                                        <label class="input-group-addon input-sm tip" id="clearOrderDateFrom" title="Clear Date From" for="order_date_from">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                        <input type="text" name="order_date_to" id="order_date_to" value="{{ old('order_date_to', request()->orderDateTo) }}" class="form-control input-sm" readonly>
+                                        <label class="input-group-addon input-sm" for="order_date_to">
+                                            <i class="fa fa-calendar"></i>
+                                        </label>
+                                        <label class="input-group-addon input-sm tip" id="clearOrderDateTo" title="Clear Date To" for="order_date_to">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="panel-menu">
                 <a href="{{route('transaction.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
             </div>
@@ -78,7 +116,11 @@
             pagingType: "full_numbers",
             ajax: {
                 url: '{!! route('transaction.ajax.data') !!}',
-                dataType: 'json'
+                dataType: 'json',
+                data: function (d) {
+                    d.order_date_from = $('#order_date_from').val();
+                    d.order_date_to   = $('#order_date_to').val();
+                },
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},
@@ -128,6 +170,43 @@
             select: {
                 style: 'multi'
             },
+        });
+
+        $('#choose').on('click', function (e) {
+            e.preventDefault();
+            table.draw();
+        });
+
+        $('#order_date_from').datepicker({
+            dateFormat : 'yy-mm-dd',
+            changeMonth: true,
+            changeYear : true,
+            yearRange  : "-100:+0"
+        });
+
+        $('#order_date_to').datepicker({
+            dateFormat : 'yy-mm-dd',
+            changeMonth: true,
+            changeYear : true,
+            yearRange  : "-100:+0"
+        });
+
+        $('#order_date_from').on('change',function(){
+           if($('#order_date_to').val()=='')
+              $('#order_date_to').val($('#order_date_from').val());
+        });
+
+        $('#order_date_to').on('change',function(){
+           if($('#order_date_from').val()=='')
+              $('#order_date_from').val($('#order_date_to').val());
+        });
+
+        $('#clearOrderDateFrom').on('click', function () {
+            $('#order_date_from').val('');
+        });
+
+        $('#clearOrderDateTo').on('click', function () {
+            $('#order_date_to').val('');
         });
     });
 </script>

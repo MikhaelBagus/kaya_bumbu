@@ -115,4 +115,12 @@ class Transaction extends Model
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
+
+    public function scopeDate($query, $orderDateFrom, $orderDateTo)
+    {
+        if ($orderDateFrom != null && $orderDateTo != null) {
+            return $query->whereBetween('date', [$orderDateFrom, $orderDateTo]);
+        }
+        return $query;
+    }
 }
