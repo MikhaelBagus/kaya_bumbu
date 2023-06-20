@@ -61,4 +61,86 @@ class TransactionController extends Controller
 
         abort('404', 'uups');
     }
+
+    public function editActualOngkirPrice($id, TransactionServiceContract $transactionServiceContract)
+    {
+        $transaction = $transactionServiceContract->get($id);
+        return view('backend.transaction.update_actual_ongkir_price', compact('transaction'));
+    }
+
+    public function updateActualOngkirPrice($request, $id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updateActualOngkirPrice($id, $request))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
+
+    public function editStartCooking($id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updateStartCooking($id))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
+
+    public function editEndCooking($id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updateEndCooking($id))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
+
+    public function editStartDelivery($id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updateStartDelivery($id))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
+
+    public function editEndDelivery($id, TransactionServiceContract $transactionServiceContract)
+    {
+        $transaction = $transactionServiceContract->get($id);
+        return view('backend.transaction.update_end_delivery', compact('transaction'));
+    }
+
+    public function updateEndDelivery($request, $id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updateEndDelivery($id, $request))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
 }

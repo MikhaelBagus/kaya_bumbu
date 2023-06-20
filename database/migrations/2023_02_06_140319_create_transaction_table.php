@@ -29,9 +29,13 @@ class CreateTransactionTable extends Migration
             $table->double('actual_ongkir_price')->default(0);
             $table->string('tanda_terima_url')->default('');
             $table->datetime('start_cooking_at')->nullable();
+            $table->string('start_cooking_by')->default('');
             $table->datetime('end_cooking_at')->nullable();
+            $table->string('end_cooking_by')->default('');
             $table->datetime('start_delivery_at')->nullable();
+            $table->string('start_delivery_by')->default('');
             $table->datetime('end_delivery_at')->nullable();
+            $table->string('end_delivery_by')->default('');
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');
