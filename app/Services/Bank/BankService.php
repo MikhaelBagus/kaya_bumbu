@@ -9,6 +9,7 @@ use App\Models\Bank;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use DB;
 
 class BankService implements BankServiceContract
 {
@@ -115,7 +116,7 @@ class BankService implements BankServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Bank::select('id', 'bank_name as text', 'account_name', 'account_number')->where('bank_name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Bank::select('id', DB::raw('concat(bank_name, " a/n ", account_name, " ", account_number) as text'))->where('bank_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_number', 'LIKE', '%'.$request->term.'%')->orderBy('text')->paginate($perPage);
 
             return $dataDb;
         }

@@ -55,4 +55,12 @@ class City extends Model
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
+
+    public function scopeProvince($query, $value)
+    {
+        if ($value != null) {
+            return $query->where('province_id', 'like', '%'.$value.'%');
+        }
+        return $query;
+    }
 }

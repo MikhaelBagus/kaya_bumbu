@@ -100,6 +100,7 @@ class CityService implements CityServiceContract
             $perPage = 10;
             $page    = $request->page ?? 1;
             $term = $request->term;
+            $province_id = $request->province_id;
 
             Paginator::currentPageResolver(
                 function () use ($page) {
@@ -113,7 +114,7 @@ class CityService implements CityServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = City::select('id', 'name as text')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = City::select('id', 'name as text')->province($province_id)->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

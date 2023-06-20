@@ -117,7 +117,7 @@ class CustomerService implements CustomerServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Customer::select('id', 'name as text', 'phone', 'city_id', 'address')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Customer::select('id', DB::raw('concat(name, " (", phone, ") ") as text'), 'phone', 'city_id', 'address')->where('name', 'LIKE', '%'.$request->term.'%')->orWhere('phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }
