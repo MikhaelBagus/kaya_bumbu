@@ -18,15 +18,9 @@ class LogService implements LogServiceContract
             'log.*',
         ];
 
-        $dataDb = Log::select($select);
+        $dataDb = Log::select($select)->with('user');
 
         return DataTables::eloquent($dataDb)
-            ->addColumn(
-                'action',
-                function ($dataDb) {
-                    return '';
-                }
-            )
             ->addColumn(
                 'checkbox',
                 function ($dataDb) {

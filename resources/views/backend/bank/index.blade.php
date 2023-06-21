@@ -73,7 +73,11 @@
 
         let table = $('#bank-table').DataTable({
             aaSorting: [[0, 'desc']],
-            iDisplayLength: 25,
+            aLengthMenu: [
+                    [50, 100, 500, 1000, 5000, -1],
+                    [50, 100, 500, 1000, 5000, "All"]
+                ],
+            iDisplayLength: 100,
             //stateSave: true,
             // responsive: true,
             // fixedHeader: true,

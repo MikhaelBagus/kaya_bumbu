@@ -16,15 +16,12 @@
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>User Name</th>
                     <th>User Email</th>
-                    <th>User Phone</th>
                     <th>Action</th>
                     <th>Menu</th>
                     <th>Item Id</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
-                    <th width="100">@lang('global.action')</th>
                 </tr>
                 </thead>
                 <tbody></tbody>
@@ -73,7 +70,11 @@
 
         let table = $('#log-table').DataTable({
             aaSorting: [[0, 'desc']],
-            iDisplayLength: 25,
+            aLengthMenu: [
+                    [50, 100, 500, 1000, 5000, -1],
+                    [50, 100, 500, 1000, 5000, "All"]
+                ],
+            iDisplayLength: 100,
             //stateSave: true,
             // responsive: true,
             // fixedHeader: true,
@@ -94,20 +95,12 @@
                     data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
                     checkboxes: true
                 },
-                {data: 'user.name', name: 'user.name'},
                 {data: 'user.email', name: 'user.email'},
-                {data: 'user.phone', name: 'user.phone'},
                 {data: 'action', name: 'action'},
                 {data: 'menu', name: 'menu'},
                 {data: 'item_id', name: 'item_id'},
                 {data: 'created_at', name: 'created_at', visible: true},
                 {data: 'updated_at', name: 'updated_at', visible: false},
-                {
-                    data: 'action', name: 'action', orderable: false, searchable: false,
-                    fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
-                        $("a", nTd).tooltip({container: 'body'});
-                    }
-                }
             ],
             buttons: [
                 {

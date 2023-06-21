@@ -339,11 +339,12 @@ class TransactionService implements TransactionServiceContract
         DB::beginTransaction();
 
         try {
+            $transactionDb = Transaction::find($id);
             if($request->hasFile('file')){
                 $file = $request->file;
                 $file_path = $file->getPathName();
 
-                $filename = time().'_update_end_delivery.'.$file->getClientOriginalExtension();
+                $filename = $transactionDb->code.'_transaction_end_delivery_'.time().'.'.$file->getClientOriginalExtension();
                 $file->move(public_path('update_end_delivery'), $filename);
 
                 $tanda_terima_url = 'update_end_delivery/'.$filename;
@@ -351,8 +352,6 @@ class TransactionService implements TransactionServiceContract
             else{
                 $tanda_terima_url = '';
             }
-
-            $transactionDb = Transaction::find($id);
             $transactionDb->tanda_terima_url = $tanda_terima_url;
             $transactionDb->status           = 4;
             $transactionDb->end_delivery_at  = date('y-m-d H:i:s');
