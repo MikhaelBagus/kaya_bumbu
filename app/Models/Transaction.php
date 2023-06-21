@@ -123,4 +123,44 @@ class Transaction extends Model
         }
         return $query;
     }
+
+    public function scopeStatus($query, $status)
+    {
+        if ($status != null) {
+            return $query->where('status', $status);
+        }
+        return $query;
+    }
+
+    public function scopePaymentstatus($query, $paymentstatus)
+    {
+        if ($paymentstatus != null) {
+            return $query->where('payment_status', $paymentstatus);
+        }
+        return $query;
+    }
+
+    public function scopeBank($query, $bank)
+    {
+        if ($bank != null) {
+            return $query->where('bank_id', $bank);
+        }
+        return $query;
+    }
+
+    public function scopeSource($query, $source)
+    {
+        if ($source != null) {
+            return $query->where('source_id', $source);
+        }
+        return $query;
+    }
+
+    public function scopeCustomer($query, $customer)
+    {
+        if ($customer != null) {
+            return $query->where('customer_id', $customer);
+        }
+        return $query;
+    }
 }

@@ -259,6 +259,10 @@
                     <label>PDF</label>
                 </div>
                 <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_payment_status" {{ old('transaction_edit_payment_status') || array_key_exists('transaction.edit_payment_status', $permissions) ? 'checked' : ''}}>
+                    <label>Payment Status</label>
+                </div>
+                <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_actual_ongkir_price" {{ old('transaction_edit_actual_ongkir_price') || array_key_exists('transaction.edit_actual_ongkir_price', $permissions) ? 'checked' : ''}}>
                     <label>Actual Ongkir Price</label>
                 </div>

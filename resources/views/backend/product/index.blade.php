@@ -19,7 +19,6 @@
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Code</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Unit</th>
@@ -99,7 +98,6 @@
                     data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
                     checkboxes: true
                 },
-                {data: 'code', name: 'code'},
                 {data: 'name', name: 'name'},
                 {
                     data: 'price', name: 'price',

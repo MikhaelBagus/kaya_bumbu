@@ -21,12 +21,6 @@
                             : {{$product->id}}
                         </dd>
                         <dt class="text-left">
-                            Code
-                        </dt>
-                        <dd>
-                            : {{$product->code}}
-                        </dd>
-                        <dt class="text-left">
                             Name
                         </dt>
                         <dd>

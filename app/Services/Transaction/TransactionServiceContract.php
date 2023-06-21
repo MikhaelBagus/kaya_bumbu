@@ -12,6 +12,8 @@ interface TransactionServiceContract
 
     public function destroy(int $id);
 
+    public function updatePaymentStatus(int $id, $request);
+
     public function updateActualOngkirPrice(int $id, $request);
 
     public function updateStartCooking(int $id);

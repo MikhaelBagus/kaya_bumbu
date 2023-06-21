@@ -19,7 +19,7 @@
                     <form action="" method="POST">
                         <div class="row">
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label" for="order_date">Date Range</label>
                                     <div class="input-group input-group-sm date">
@@ -41,6 +41,31 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+                                    <select id="status" class="input-sm form-control select_2" style="width:100%" name="status">
+                                        <option value=""></option>
+                                        <option value="0">New Order</option>
+                                        <option value="1">Start Cooking</option>
+                                        <option value="2">End Cooking</option>
+                                        <option value="3">Start Delivery</option>
+                                        <option value="4">Done</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Payment Status</label>
+                                    <select id="payment_status" class="input-sm form-control select_2" style="width:100%" name="payment_status">
+                                        <option value=""></option>
+                                        <option value="0">Pending</option>
+                                        <option value="1">Done</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
                             </div>
@@ -58,12 +83,11 @@
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
                     <th>Code</th>
-                    <th>Date</th>
                     <th>Status</th>
+                    <th>Date</th>
+                    <th>Payment Status</th>
                     <th>Customer Name</th>
                     <th>Customer Phone</th>
-                    <th>Discount Price</th>
-                    <th>Ongkir Price</th>
                     <th>Grand Price</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
@@ -137,6 +161,8 @@
                 data: function (d) {
                     d.order_date_from = $('#order_date_from').val();
                     d.order_date_to   = $('#order_date_to').val();
+                    d.status          = $('#status').val();
+                    d.payment_status  = $('#payment_status').val();
                 },
             },
             columns: [
@@ -146,7 +172,6 @@
                     checkboxes: true
                 },
                 {data: 'code', name: 'code'},
-                {data: 'date', name: 'date'},
                 {
                     data: 'status', name: 'status',
                     render: function (data, type, oObj) {
@@ -170,20 +195,23 @@
                         }
                     }
                 },
+                {data: 'date', name: 'date'},
+                {
+                    data: 'payment_status', name: 'payment_status',
+                    render: function (data, type, oObj) {
+                        if(data == 0){
+                            return 'Pending';
+                        }
+                        else if(data == 1){
+                            return 'Done';
+                        }
+                        else{
+                            return '';
+                        }
+                    }
+                },
                 {data: 'customer.name', name: 'customer.name'},
                 {data: 'customer.phone', name: 'customer.phone'},
-                {
-                    data: 'discount_price', name: 'discount_price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
-                {
-                    data: 'ongkir_price', name: 'ongkir_price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
                 {
                     data: 'grand_price', name: 'grand_price',
                     render: function (data, type, oObj) {
@@ -203,7 +231,7 @@
                 {
                     extend: 'colvis',
                     text: '<i class="fa fa-columns"></i> @lang('auth.index_column')',
-                    columns: '2, 3, 4'
+                    columns: '2, 3, 4, 5, 6'
                 }
             ],
             buttons: [

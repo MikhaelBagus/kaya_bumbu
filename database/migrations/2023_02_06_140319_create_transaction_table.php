@@ -22,6 +22,7 @@ class CreateTransactionTable extends Migration
             $table->string('code')->default('');
             $table->date('date')->nullable();
             $table->integer('status')->default(0);
+            $table->integer('payment_status')->default(0);
             $table->text('address')->nullable();
             $table->double('discount_price')->default(0);
             $table->double('grand_price')->default(0);

@@ -27,12 +27,6 @@
                             : {{$transaction->code}}
                         </dd>
                         <dt class="text-left">
-                            Date
-                        </dt>
-                        <dd>
-                            : {{$transaction->date}}
-                        </dd>
-                        <dt class="text-left">
                             Status
                         </dt>
                         <dd>
@@ -49,16 +43,26 @@
                             @endif
                         </dd>
                         <dt class="text-left">
-                            Customer Name
+                            Date
                         </dt>
                         <dd>
-                            : {{$transaction->customer->name}}
+                            : {{$transaction->date}}
                         </dd>
                         <dt class="text-left">
-                            Customer Phone
+                            Source
                         </dt>
                         <dd>
-                            : {{$transaction->customer->phone}}
+                            : {{$transaction->source->name}}
+                        </dd>
+                        <dt class="text-left">
+                            Payment Status
+                        </dt>
+                        <dd>
+                            : @if($transaction->payment_status == 0)
+                            Pending
+                            @elseif($transaction->payment_status == 1)
+                            Done
+                            @endif
                         </dd>
                         <dt class="text-left">
                             Bank
@@ -67,10 +71,16 @@
                             : {{$transaction->bank->bank_name}} {{$transaction->bank->account_number}} a\n {{$transaction->bank->account_name}}
                         </dd>
                         <dt class="text-left">
-                            Source
+                            Customer Phone
                         </dt>
                         <dd>
-                            : {{$transaction->source->name}}
+                            : {{$transaction->customer->phone}}
+                        </dd>
+                        <dt class="text-left">
+                            Customer Name
+                        </dt>
+                        <dd>
+                            : {{$transaction->customer->name}}
                         </dd>
                         <dt class="text-left">
                             Province
@@ -159,11 +169,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Code</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Qty</th>
                             <th>Unit</th>
+                            <th>Notes</th>
                             <th>Total Price</th>
                         </tr>
                     </thead>
@@ -173,11 +183,11 @@
                         <?php $no = $no + 1; ?>
                         <tr>
                             <td>{{$no}}</td>
-                            <td>{{$transactionProduct->product->code}}</td>
-                            <td>{{$transactionProduct->product->name}}</td>
+                            <td>{{$transactionProduct->name}}</td>
                             <td>Rp {{number_format($transactionProduct->price,0,',','.')}}</td>
                             <td>{{number_format($transactionProduct->qty,0,',','.')}}</td>
-                            <td>{{$transactionProduct->product->unit}}</td>
+                            <td>{{$transactionProduct->unit}}</td>
+                            <td>{{$transactionProduct->notes}}</td>
                             <td>Rp {{number_format($transactionProduct->price * $transactionProduct->qty,0,',','.')}}</td>
                         </tr>
                         @empty

@@ -48,13 +48,29 @@ class TransactionService implements TransactionServiceContract
                 $total_price = $total_price + ($item['qty'] * $item['price']);
             }
 
+            if($request->customer_id == 0){
+                $customerDb = new Customer();
+                $customerDb->name           = $request->customer_name;
+                $customerDb->phone          = $request->customer_phone;
+                $customerDb->city_id        = $request->city_id;
+                $customerDb->address        = $request->address;
+                $customerDb->created_by     = Sentinel::getUser()->email;
+                $customerDb->save();
+            }
+
             $transactionDb = new Transaction();
-            $transactionDb->customer_id         = $request->customer_id;
+            if($request->customer_id == 0){
+                $transactionDb->customer_id     = $customerDb->customer_id;
+            }
+            else{
+                $transactionDb->customer_id     = $request->customer_id;
+            }
             $transactionDb->bank_id             = $request->bank_id;
             $transactionDb->source_id           = $request->source_id;
             $transactionDb->city_id             = $request->city_id;
             $transactionDb->code                = $transaction_code_new;
             $transactionDb->date                = $request->date;
+            $transactionDb->payment_status      = $request->payment_status;
             $transactionDb->discount_price      = $request->discount_price;
             $transactionDb->ongkir_price        = $request->ongkir_price;
             $transactionDb->actual_ongkir_price = $request->ongkir_price;
@@ -70,8 +86,10 @@ class TransactionService implements TransactionServiceContract
                     $transactionProductDb = new TransactionProduct();
                     $transactionProductDb->product_id     = $item['product_id'];
                     $transactionProductDb->transaction_id = $transactionDb->id;
+                    $transactionProductDb->name           = $item['name'];
                     $transactionProductDb->qty            = $item['qty'];
                     $transactionProductDb->price          = $item['price'];
+                    $transactionProductDb->notes          = $item['notes'];
                     $transactionProductDb->created_by     = Sentinel::getUser()->email;
                     $transactionProductDb->save();
                 }
@@ -93,7 +111,7 @@ class TransactionService implements TransactionServiceContract
             'transaction.*',
         ];
 
-        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->with('city','city.province','customer','bank','source');
+        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->source($request->source_id)->customer($request->customer_id)->with('city','city.province','customer','bank','source');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
@@ -112,9 +130,16 @@ class TransactionService implements TransactionServiceContract
                     else if($dataDb->status == 3){
                         $updateButton = '<a href="'.route('transaction.edit_end_delivery', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-success label-sm">End Delivery</span></a>';
                     }
+
+                    $updatePaymentButton = '';
+                    if($dataDb->payment_status == 0){
+                        $updateButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
+                    }
+
                     return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
                         <a href="'.route('transaction.pdf', [$dataDb->id]).'" id="tooltip" title="PDF"><span class="label label-warning label-sm">PDF</span></a>
                         '.$updateButton.'
+                        '.$updatePaymentButton.'
                         <a href="'.route('transaction.edit_actual_ongkir_price', [$dataDb->id]).'" id="tooltip" title="Actual Ongkir"><span class="label label-warning label-sm">Actual Ongkir</span></a>
                         <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->code]).'" data-href="'.route('transaction.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
                 }
@@ -142,6 +167,26 @@ class TransactionService implements TransactionServiceContract
         }
 
         return Transaction::where('id', $id)->delete();
+    }
+
+    public function updatePaymentStatus(int $id, $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->payment_status = $request->payment_status;
+            $transactionDb->updated_by     = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
     }
 
     public function updateActualOngkirPrice(int $id, $request)

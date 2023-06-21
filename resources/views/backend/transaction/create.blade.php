@@ -14,16 +14,7 @@
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('customer_id')) has-error @endif">
-                            <label for="customer_id" class="control-label">Customer <span style="color: red">*</span></label>
-                            <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer" required>
-                            </select>
-                            {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group @if($errors->has('date')) has-error @endif">
                             <label for="date" class="control-label">Date <span style="color: red">*</span></label>
                             <input type="text" name="date" id="date" value="{{old('date')}}" class="form-control input-sm" placeholder="Date ...*" readonly required>
@@ -31,16 +22,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('bank_id')) has-error @endif">
-                            <label for="bank_id" class="control-label">Bank <span style="color: red">*</span></label>
-                            <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Select Bank" required>
-                            </select>
-                            {!! $errors->first('bank_id', '<em for="bank_id" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group @if($errors->has('source_id')) has-error @endif">
                             <label for="source_id" class="control-label">Source <span style="color: red">*</span></label>
                             <select id="source_id" name="source_id" class="form-control" data-placeholder="Select Source" required>
@@ -49,7 +31,46 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group @if($errors->has('payment_status')) has-error @endif">
+                            <label for="payment_status" class="control-label">Payment Status <span style="color: red">*</span></label>
+                            <select id="payment_status" name="payment_status" class="form-control" data-placeholder="Select Payment Status" required>
+                                <option value=""></option>
+                                <option value="0">Pending</option>
+                                <option value="1">Done</option>
+                            </select>
+                            {!! $errors->first('payment_status', '<em for="payment_status" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group @if($errors->has('bank_id')) has-error @endif">
+                            <label for="bank_id" class="control-label">Bank <span style="color: red">*</span></label>
+                            <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Select Bank" required>
+                            </select>
+                            {!! $errors->first('bank_id', '<em for="bank_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group @if($errors->has('customer_id')) has-error @endif">
+                            <label for="customer_id" class="control-label">Customer Phone <span style="color: red">*</span></label>
+                            <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer" required>
+                            </select>
+                            <input type="hidden" name="customer_phone" id="customer_phone" /> 
+                            {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group @if($errors->has('customer_name')) has-error @endif">
+                            <label for="customer_name" class="control-label">Customer Name</label>
+                            <input type="text" name="customer_name" id="customer_name" value="{{old('customer_name')}}" class="form-control input-sm" placeholder="Customer Name ...*" readonly>
+                            {!! $errors->first('customer_name', '<em for="customer_name" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
                         <div class="form-group @if($errors->has('province_id')) has-error @endif">
                             <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
                             <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
@@ -58,7 +79,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group @if($errors->has('city_id')) has-error @endif">
                             <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
                             <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
@@ -95,11 +116,11 @@
                         <table class="table table-hover table-condensed" id="product-container">
                             <thead>
                                 <tr>
-                                    <th>Code</th>
                                     <th>Name</th>
                                     <th width="200">Price</th>
                                     <th width="100">Qty</th>
-                                    <th>Unit</th>
+                                    <th width="100">Unit</th>
+                                    <th>Notes</th>
                                     <th>Total Price</th>
                                     <th width="50" class="text-center">
                                         <i class="fa fa-trash"></i>
@@ -309,6 +330,8 @@
             }));
             $('#city_id').val(select2Data[0].city_id).change();
             $('#address').val(select2Data[0].address);
+            $('#customer_name').val(select2Data[0].name);
+            $('#customer_phone').val(select2Data[0].text);
         });
 
         $('#province_id').select2({
@@ -402,27 +425,18 @@
         //Ready For Append Html Form
         function htmlProduct(data) {
             let productHtml = '<tr class="product-row-' + data.id + '">';
-            productHtml += '<td>';
-            productHtml += data.code;
             productHtml += '<input type="hidden" name="item[' + data.id + '][product_id]" value="' + data.id + '">';
-            productHtml += '<input type="hidden" name="item[' + data.id + '][code]" value="' + data.code + '">';
             productHtml += '<input type="hidden" name="item[' + data.id + '][name]" value="' + data.text + '">';
             productHtml += '<input type="hidden" name="item[' + data.id + '][price]" value="' + data.price + '">';
+            productHtml += '<input type="hidden" name="item[' + data.id + '][unit]" value="' + data.unit + '">';
             productHtml += '<input type="hidden" name="item[' + data.id + '][total_price]" id="total_price_hidden' + data.id + '" value="' + addCommas(data.price) + '" class="total_price">';
-            productHtml += '<td>';
-            productHtml += data.text;
-            productHtml += '</td>';
-            productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][price]" value="' + data.price + '" min="0" class="form-control input-sm" id="price' + data.id + '"></td>';
+            productHtml += '<td>' + data.text + '</td>';
+            productHtml += '<td>' + addCommas(data.price) + '</td>';
             productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
-            productHtml += '<td>';
-            productHtml += data.unit;
-            productHtml += '</td>';
-            productHtml += '<td id="total_price' + data.id + '">';
-            productHtml += addCommas(data.price);
-            productHtml += '</td>';
-            productHtml += '<td class="text-center">';
-            productHtml += '<i class="fa fa-times" onclick="removeProductList(' + data.id + ')"></i>';
-            productHtml += '</td>';
+            productHtml += '<td>' + data.unit + '</td>';
+            productHtml += '<td><textarea name="item[' + data.id + '][notes]" class="form-control input-sm" id="notes' + data.id + '"></textarea></td>';
+            productHtml += '<td id="total_price' + data.id + '">' + addCommas(data.price) + '</td>';
+            productHtml += '<td class="text-center"><i class="fa fa-times" onclick="removeProductList(' + data.id + ')"></i></td>';
             productHtml += '</tr>';
 
             $('#product-container tbody').append(productHtml);

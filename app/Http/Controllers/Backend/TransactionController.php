@@ -62,6 +62,26 @@ class TransactionController extends Controller
         abort('404', 'uups');
     }
 
+    public function editPaymentStatus($id, TransactionServiceContract $transactionServiceContract)
+    {
+        $transaction = $transactionServiceContract->get($id);
+        return view('backend.transaction.update_payment_status', compact('transaction'));
+    }
+
+    public function updatePaymentStatus($request, $id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updatePaymentStatus($id, $request))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
+
     public function editActualOngkirPrice($id, TransactionServiceContract $transactionServiceContract)
     {
         $transaction = $transactionServiceContract->get($id);

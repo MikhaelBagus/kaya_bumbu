@@ -696,6 +696,12 @@ Route::group([
     Route::post('/{id}/update-actual-ongkir-price', [TransactionController::class, 'updateActualOngkirPrice'])
         ->name('transaction.update_actual_ongkir_price')->middleware('sentinel.permission:transaction.edit_actual_ongkir_price');
 
+    Route::get('/{id}/update-payment-status', [TransactionController::class, 'editPaymentStatus'])
+        ->name('transaction.edit_payment_status')->middleware('sentinel.permission:transaction.edit_payment_status');
+
+    Route::post('/{id}/update-payment-status', [TransactionController::class, 'updatePaymentStatus'])
+        ->name('transaction.update_payment_status')->middleware('sentinel.permission:transaction.edit_payment_status');
+
     Route::put('/{id}/update-start-cooking', [TransactionController::class, 'updateStartCooking'])
         ->name('transaction.update_start_cooking')->middleware('sentinel.permission:transaction.edit_start_cooking');
 
