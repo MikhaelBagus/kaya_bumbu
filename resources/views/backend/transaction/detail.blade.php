@@ -46,13 +46,7 @@
                             Date
                         </dt>
                         <dd>
-                            : {{$transaction->date}}
-                        </dd>
-                        <dt class="text-left">
-                            Source
-                        </dt>
-                        <dd>
-                            : {{$transaction->source->name}}
+                            : {{$transaction->date}} {{$transaction->time}}
                         </dd>
                         <dt class="text-left">
                             Payment Status
@@ -65,22 +59,70 @@
                             @endif
                         </dd>
                         <dt class="text-left">
+                            Bukti Transfer Url
+                        </dt>
+                        <dd>
+                            : @if($transaction->payment_bukti_transfer_url != '')<a href="{{asset($transaction->payment_bukti_transfer_url)}}">{{asset($transaction->payment_bukti_transfer_url)}}</a>@endif
+                        </dd>
+                        <dt class="text-left">
                             Bank
                         </dt>
                         <dd>
                             : {{$transaction->bank->bank_name}} {{$transaction->bank->account_number}} a\n {{$transaction->bank->account_name}}
                         </dd>
                         <dt class="text-left">
+                            Source
+                        </dt>
+                        <dd>
+                            : {{$transaction->source->name}}
+                        </dd>
+                        <dt class="text-left">
+                            Delivery Option
+                        </dt>
+                        <dd>
+                            : {{$transaction->delivery_option}}
+                        </dd>
+                        <dt class="text-left">
+                            Delivery Transport
+                        </dt>
+                        <dd>
+                            : {{$transaction->delivery_transport}}
+                        </dd>
+                        <dt class="text-left">
+                            Delivery Type
+                        </dt>
+                        <dd>
+                            : {{$transaction->delivery_type}}
+                        </dd>
+                        <dt class="text-left">
+                            Notes
+                        </dt>
+                        <dd>
+                            : {{$transaction->notes}}
+                        </dd>
+                        <dt class="text-left">
                             Customer Phone
                         </dt>
                         <dd>
-                            : {{$transaction->customer->phone}}
+                            : {{$transaction->customer_phone}}
                         </dd>
                         <dt class="text-left">
                             Customer Name
                         </dt>
                         <dd>
-                            : {{$transaction->customer->name}}
+                            : {{$transaction->customer_name}}
+                        </dd>
+                        <dt class="text-left">
+                            Recipient Phone
+                        </dt>
+                        <dd>
+                            : {{$transaction->recipient_phone}}
+                        </dd>
+                        <dt class="text-left">
+                            Recipient Name
+                        </dt>
+                        <dd>
+                            : {{$transaction->recipient_name}}
                         </dd>
                         <dt class="text-left">
                             Province
@@ -99,6 +141,18 @@
                         </dt>
                         <dd>
                             : {{$transaction->address}}
+                        </dd>
+                        <dt class="text-left">
+                            Ongkir Customer Price
+                        </dt>
+                        <dd>
+                            : Rp {{number_format($transaction->ongkir_price,0,',','.')}}
+                        </dd>
+                        <dt class="text-left">
+                            Ongkir Driver Price
+                        </dt>
+                        <dd>
+                            : Rp {{number_format($transaction->ongkir_driver_price,0,',','.')}}
                         </dd>
                         <dt class="text-left">
                             Actual Ongkir Price

@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Bank;
 use App\Models\City;
 use App\Models\Source;
+use App\Models\Auth\User;
 
 class Transaction extends Model
 {
@@ -18,6 +19,10 @@ class Transaction extends Model
 
     public function transaction_product(){
         return $this->hasMany(TransactionProduct::class, 'transaction_id', 'id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function customer(){

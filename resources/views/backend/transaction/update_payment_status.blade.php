@@ -29,6 +29,14 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('file')) has-error @endif">
+                            <label for="file" class="control-label">Bukti Transfer</label>
+                            <input type="file" name="file" id="file" class="form-control input-sm">
+                            {!! $errors->first('file', '<em for="file" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="panel-footer">

@@ -85,7 +85,11 @@
                     <th>Code</th>
                     <th>Status</th>
                     <th>Date</th>
+                    <th>Time</th>
                     <th>Payment Status</th>
+                    <th>Delivery Option</th>
+                    <th>Delivery Transport</th>
+                    <th>Delivery Type</th>
                     <th>Customer Name</th>
                     <th>Customer Phone</th>
                     <th>Grand Price</th>
@@ -196,6 +200,7 @@
                     }
                 },
                 {data: 'date', name: 'date'},
+                {data: 'time', name: 'time'},
                 {
                     data: 'payment_status', name: 'payment_status',
                     render: function (data, type, oObj) {
@@ -210,6 +215,9 @@
                         }
                     }
                 },
+                {data: 'delivery_option', name: 'delivery_option'},
+                {data: 'delivery_transport', name: 'delivery_transport'},
+                {data: 'delivery_type', name: 'delivery_type'},
                 {data: 'customer.name', name: 'customer.name'},
                 {data: 'customer.phone', name: 'customer.phone'},
                 {

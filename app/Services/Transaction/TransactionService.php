@@ -67,17 +67,33 @@ class TransactionService implements TransactionServiceContract
             else{
                 $transactionDb->customer_id     = $request->customer_id;
             }
+            $transactionDb->user_id             = Sentinel::getUser()->id;
             $transactionDb->bank_id             = $request->bank_id;
             $transactionDb->source_id           = $request->source_id;
             $transactionDb->city_id             = $request->city_id;
             $transactionDb->code                = $transaction_code_new;
             $transactionDb->date                = $request->date;
+            $transactionDb->time                = $request->hour.':'.$request->minute;
             $transactionDb->payment_status      = $request->payment_status;
             $transactionDb->discount_price      = $request->discount_price;
             $transactionDb->ongkir_price        = $request->ongkir_price;
-            $transactionDb->actual_ongkir_price = $request->ongkir_price;
+            $transactionDb->actual_ongkir_price = $request->ongkir_driver_price;
+            $transactionDb->ongkir_driver_price = $request->ongkir_driver_price;
             $transactionDb->grand_price         = $total_price - $request->discount_price + $request->ongkir_price;
             $transactionDb->address             = $request->address;
+            $transactionDb->recipient_phone     = $request->recipient_phone;
+            $transactionDb->recipient_name      = $request->recipient_name;
+            if($request->customer_phone == null){
+                $transactionDb->customer_phone  = $request->customer_id;
+            }
+            else{
+                $transactionDb->customer_phone  = $request->customer_phone;
+            }
+            $transactionDb->customer_name       = $request->customer_name;
+            $transactionDb->delivery_option     = $request->delivery_option;
+            $transactionDb->delivery_transport  = $request->delivery_transport;
+            $transactionDb->delivery_type       = $request->delivery_type;
+            $transactionDb->notes               = $request->notes;
             $transactionDb->status              = 0;
             $transactionDb->created_by          = Sentinel::getUser()->email;
             $transactionDb->save();
@@ -195,8 +211,21 @@ class TransactionService implements TransactionServiceContract
 
         try {
             $transactionDb = Transaction::find($id);
-            $transactionDb->payment_status = $request->payment_status;
-            $transactionDb->updated_by     = Sentinel::getUser()->email;
+            if($request->hasFile('file')){
+                $file = $request->file;
+                $file_path = $file->getPathName();
+
+                $filename = $transactionDb->code.'_transaction_payment_status_'.time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('update_payment_status'), $filename);
+
+                $payment_bukti_transfer_url = 'update_payment_status/'.$filename;
+            }
+            else{
+                $payment_bukti_transfer_url = '';
+            }
+            $transactionDb->payment_bukti_transfer_url  = $payment_bukti_transfer_url;
+            $transactionDb->payment_status              = $request->payment_status;
+            $transactionDb->updated_by                  = Sentinel::getUser()->email;
             $transactionDb->save();
 
             $logDb = new Log();

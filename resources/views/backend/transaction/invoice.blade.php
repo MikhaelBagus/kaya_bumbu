@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Transaction {{$transaction->code}}</title>
+    <title>Invoice {{$transaction->code}}</title>
 </head>
 <body>
     <table width="100%">

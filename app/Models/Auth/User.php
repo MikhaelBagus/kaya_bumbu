@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Auth\UserRole;
+use App\Models\Transaction;
+use App\Models\Log;
 
 class User extends EloquentUser implements AuthenticatableContract
 {
@@ -39,6 +41,14 @@ class User extends EloquentUser implements AuthenticatableContract
 
     public function user_role(){
         return $this->hasOne(UserRole::class, 'user_id', 'id');
+    }
+
+    public function transaction(){
+        return $this->hasMany(Transaction::class, 'user_id', 'id');
+    }
+
+    public function log(){
+        return $this->hasMany(Log::class, 'user_id', 'id');
     }
 
     public function getCreatedAtAttribute($value)
