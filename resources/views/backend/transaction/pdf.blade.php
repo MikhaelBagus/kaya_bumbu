@@ -6,8 +6,8 @@
     <title>Transaction {{$transaction->code}}</title>
 </head>
 <body>
-    <br>Admin: {{$transaction->user->name}}
-    <br>Tanggal pengiriman: {{date('d/M/Y', strtotime($transaction->date))}}
+    Admin: {{$transaction->user->name}}
+    <br>Tanggal pengiriman: {{date('d/m/Y', strtotime($transaction->date))}}
     <br>Jam pengiriman: {{$transaction->time}}
     <br>
     <br>Nama penerima: {{$transaction->recipient_name}}
@@ -20,7 +20,7 @@
     <br>
     <br>Pesanan: 
     <br>@forelse($transaction->transaction_product as $detail)
-    - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}}
+    - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}}<br>
     @empty
     -
     @endforelse

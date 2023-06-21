@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <form action="{{route('transaction.update_actual_ongkir_price', [request()->id])}}" method="post">
+            <form action="{{route('transaction.update_actual_ongkir_price', [request()->id])}}" method="post" enctype="multipart/form-data">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
