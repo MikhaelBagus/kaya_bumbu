@@ -168,8 +168,17 @@ class TransactionController extends Controller
     public function pdf($id, TransactionServiceContract $transactionServiceContract)
     {
         $transaction = $transactionServiceContract->get($id);
-        $pdf = PDF::loadView('backend.transaction.pdf', $transaction);
+        // $pdf = PDF::loadView('backend.transaction.pdf', compact('transaction'))->setPaper('a4', 'landscape');;
 
-        return $pdf->download($transaction->code.'.pdf');
+        // return $pdf->download($transaction->code.'.pdf');
+        return view('backend.transaction.pdf', compact('transaction'));
+    }
+
+    public function invoice($id, TransactionServiceContract $transactionServiceContract)
+    {
+        $transaction = $transactionServiceContract->get($id);
+        $pdf = PDF::loadView('backend.transaction.invoice', compact('transaction'))->setPaper('a4', 'landscape');;
+
+        return $pdf->download('Invoice '.$transaction->code.'.pdf');
     }
 }

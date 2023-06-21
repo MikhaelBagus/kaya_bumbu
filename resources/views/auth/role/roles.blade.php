@@ -240,7 +240,16 @@
                     <label></label>
                 </div>
             </td>
-            <td>&nbsp;</td>
+            <td>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_payment_status" {{ old('transaction_edit_payment_status') || array_key_exists('transaction.edit_payment_status', $permissions) ? 'checked' : ''}}>
+                    <label>Payment Status</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_actual_ongkir_price" {{ old('transaction_edit_actual_ongkir_price') || array_key_exists('transaction.edit_actual_ongkir_price', $permissions) ? 'checked' : ''}}>
+                    <label>Actual Ongkir Price</label>
+                </div>
+            </td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_show" {{ old('transaction_show') || array_key_exists('transaction.show', $permissions) ? 'checked' : ''}}>
@@ -255,16 +264,12 @@
             </td>
             <td>
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="transaction_pdf" {{ old('transaction_pdf') || array_key_exists('transaction.edit_pdf', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_pdf" {{ old('transaction_pdf') || array_key_exists('transaction.pdf', $permissions) ? 'checked' : ''}}>
                     <label>PDF</label>
                 </div>
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_payment_status" {{ old('transaction_edit_payment_status') || array_key_exists('transaction.edit_payment_status', $permissions) ? 'checked' : ''}}>
-                    <label>Payment Status</label>
-                </div>
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_actual_ongkir_price" {{ old('transaction_edit_actual_ongkir_price') || array_key_exists('transaction.edit_actual_ongkir_price', $permissions) ? 'checked' : ''}}>
-                    <label>Actual Ongkir Price</label>
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_invoice" {{ old('transaction_invoice') || array_key_exists('transaction.invoice', $permissions) ? 'checked' : ''}}>
+                    <label>Invoice</label>
                 </div>
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_cooking" {{ old('transaction_edit_start_cooking') || array_key_exists('transaction.edit_start_cooking', $permissions) ? 'checked' : ''}}>

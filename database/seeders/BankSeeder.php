@@ -16,9 +16,9 @@ class BankSeeder extends Seeder
     public function run()
     {
         DB::table('bank')->insert([
-            'bank_name'        => 'Default',
-            'account_number'   => '0000000000',
-            'account_name'     => 'Default',
+            'bank_name'        => 'BCA',
+            'account_number'   => '0120431293',
+            'account_name'     => 'Daniel Sidarta',
             'created_at'       => '2017-05-04 00:00:00'
 	    ]);
     }
