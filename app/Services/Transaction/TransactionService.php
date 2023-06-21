@@ -166,6 +166,7 @@ class TransactionService implements TransactionServiceContract
                     return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
                         <a href="'.route('transaction.pdf', [$dataDb->id]).'" id="tooltip" title="PDF"><span class="label label-warning label-sm">PDF</span></a>
                         <a href="'.route('transaction.invoice', [$dataDb->id]).'" id="tooltip" title="Invoice"><span class="label label-warning label-sm">Invoice</span></a>
+                        <a href="'.route('transaction.delivery_pdf', [$dataDb->id]).'" id="tooltip" title="Delivery PDF"><span class="label label-warning label-sm">Delivery PDF</span></a>
                         '.$updateButton.'
                         '.$updatePaymentButton.'
                         <a href="'.route('transaction.edit_actual_ongkir_price', [$dataDb->id]).'" id="tooltip" title="Actual Ongkir"><span class="label label-warning label-sm">Actual Ongkir</span></a>

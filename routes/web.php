@@ -722,6 +722,9 @@ Route::group([
 
     Route::get('/{id}/invoice', [TransactionController::class, 'invoice'])
         ->name('transaction.invoice')->middleware('sentinel.permission:transaction.invoice');
+
+    Route::get('/{id}/delivery-pdf', [TransactionController::class, 'deliveryPdf'])
+        ->name('transaction.delivery_pdf')->middleware('sentinel.permission:transaction.delivery_pdf');
 });
 
 // log

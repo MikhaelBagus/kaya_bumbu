@@ -272,6 +272,10 @@
                     <label>Invoice</label>
                 </div>
                 <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_delivery_pdf" {{ old('transaction_delivery_pdf') || array_key_exists('transaction.delivery_pdf', $permissions) ? 'checked' : ''}}>
+                    <label>Delivery PDF</label>
+                </div>
+                <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_cooking" {{ old('transaction_edit_start_cooking') || array_key_exists('transaction.edit_start_cooking', $permissions) ? 'checked' : ''}}>
                     <label>Start Cooking</label>
                 </div>
