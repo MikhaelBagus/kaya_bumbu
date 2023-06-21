@@ -139,7 +139,7 @@ class CityService implements CityServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = City::select('id', 'name as text')->province($province_id)->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = City::select('id', 'name as text')->where('province_id', $province_id)->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

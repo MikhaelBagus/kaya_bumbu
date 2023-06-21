@@ -22,8 +22,8 @@
                             <label for="payment_status" class="control-label">Payment Status <span style="color: red">*</span></label>
                             <select id="payment_status" name="payment_status" class="form-control" data-placeholder="Select Payment Status" required>
                                 <option value=""></option>
-                                <option value="0" @if($transaction->payment_status == 0)selected@endif>Pending</option>
-                                <option value="1" @if($transaction->payment_status == 1)selected@endif>Done</option>
+                                <option value="0" @if($transaction->payment_status == 0) selected @endif>Pending</option>
+                                <option value="1" @if($transaction->payment_status == 1) selected @endif>Done</option>
                             </select>
                             {!! $errors->first('payment_status', '<em for="payment_status" class="text-danger">:message</em>') !!}
                         </div>
@@ -82,6 +82,13 @@
                 ]
             });
         })
+
+        $('#payment_status').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+        });
 
     </script>
     <script>

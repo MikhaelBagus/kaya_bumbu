@@ -69,7 +69,7 @@ class TransactionController extends Controller
         return view('backend.transaction.update_payment_status', compact('transaction'));
     }
 
-    public function updatePaymentStatus($request, $id, TransactionServiceContract $transactionServiceContract)
+    public function updatePaymentStatus(Request $request, $id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data
         if (is_object($transactionServiceContract->updatePaymentStatus($id, $request))) {
@@ -89,7 +89,7 @@ class TransactionController extends Controller
         return view('backend.transaction.update_actual_ongkir_price', compact('transaction'));
     }
 
-    public function updateActualOngkirPrice($request, $id, TransactionServiceContract $transactionServiceContract)
+    public function updateActualOngkirPrice(Request $request, $id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data
         if (is_object($transactionServiceContract->updateActualOngkirPrice($id, $request))) {
@@ -151,7 +151,7 @@ class TransactionController extends Controller
         return view('backend.transaction.update_end_delivery', compact('transaction'));
     }
 
-    public function updateEndDelivery($request, $id, TransactionServiceContract $transactionServiceContract)
+    public function updateEndDelivery(Request $request, $id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data
         if (is_object($transactionServiceContract->updateEndDelivery($id, $request))) {

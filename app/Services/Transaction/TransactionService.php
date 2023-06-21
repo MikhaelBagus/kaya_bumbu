@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\Transaction;
 use App\Models\TransactionProduct;
 use App\Models\Product;
+use App\Models\Customer;
 use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
@@ -49,10 +50,10 @@ class TransactionService implements TransactionServiceContract
                 $total_price = $total_price + ($item['qty'] * $item['price']);
             }
 
-            if($request->customer_id == 0){
+            if($request->customer_phone == null){
                 $customerDb = new Customer();
                 $customerDb->name           = $request->customer_name;
-                $customerDb->phone          = $request->customer_phone;
+                $customerDb->phone          = $request->customer_id;
                 $customerDb->city_id        = $request->city_id;
                 $customerDb->address        = $request->address;
                 $customerDb->created_by     = Sentinel::getUser()->email;
@@ -60,8 +61,8 @@ class TransactionService implements TransactionServiceContract
             }
 
             $transactionDb = new Transaction();
-            if($request->customer_id == 0){
-                $transactionDb->customer_id     = $customerDb->customer_id;
+            if($request->customer_phone == null){
+                $transactionDb->customer_id     = $customerDb->id;
             }
             else{
                 $transactionDb->customer_id     = $request->customer_id;
@@ -90,6 +91,7 @@ class TransactionService implements TransactionServiceContract
                     $transactionProductDb->name           = $item['name'];
                     $transactionProductDb->qty            = $item['qty'];
                     $transactionProductDb->price          = $item['price'];
+                    $transactionProductDb->unit           = $item['unit'];
                     $transactionProductDb->notes          = $item['notes'];
                     $transactionProductDb->created_by     = Sentinel::getUser()->email;
                     $transactionProductDb->save();
@@ -142,7 +144,7 @@ class TransactionService implements TransactionServiceContract
 
                     $updatePaymentButton = '';
                     if($dataDb->payment_status == 0){
-                        $updateButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
+                        $updatePaymentButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
                     }
 
                     return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
@@ -249,7 +251,7 @@ class TransactionService implements TransactionServiceContract
         try {
             $transactionDb = Transaction::find($id);
             $transactionDb->status           = 1;
-            $transactionDb->start_cooking_at = date('yyyy-mm-dd H:i:s');
+            $transactionDb->start_cooking_at = date('y-m-d H:i:s');
             $transactionDb->start_cooking_by = Sentinel::getUser()->email;
             $transactionDb->updated_by       = Sentinel::getUser()->email;
             $transactionDb->save();
@@ -279,7 +281,7 @@ class TransactionService implements TransactionServiceContract
         try {
             $transactionDb = Transaction::find($id);
             $transactionDb->status          = 2;
-            $transactionDb->end_cooking_at  = date('yyyy-mm-dd H:i:s');
+            $transactionDb->end_cooking_at  = date('y-m-d H:i:s');
             $transactionDb->end_cooking_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by      = Sentinel::getUser()->email;
             $transactionDb->save();
@@ -309,7 +311,7 @@ class TransactionService implements TransactionServiceContract
         try {
             $transactionDb = Transaction::find($id);
             $transactionDb->status             = 3;
-            $transactionDb->start_delivery_at  = date('yyyy-mm-dd H:i:s');
+            $transactionDb->start_delivery_at  = date('y-m-d H:i:s');
             $transactionDb->start_delivery_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by         = Sentinel::getUser()->email;
             $transactionDb->save();
@@ -341,10 +343,10 @@ class TransactionService implements TransactionServiceContract
                 $file = $request->file;
                 $file_path = $file->getPathName();
 
-                $filename = time().'_transaction.'.$file->getClientOriginalExtension();
-                $file->move(public_path('transaction'), $filename);
+                $filename = time().'_update_end_delivery.'.$file->getClientOriginalExtension();
+                $file->move(public_path('update_end_delivery'), $filename);
 
-                $tanda_terima_url = 'transaction/'.$filename;
+                $tanda_terima_url = 'update_end_delivery/'.$filename;
             }
             else{
                 $tanda_terima_url = '';
@@ -353,7 +355,7 @@ class TransactionService implements TransactionServiceContract
             $transactionDb = Transaction::find($id);
             $transactionDb->tanda_terima_url = $tanda_terima_url;
             $transactionDb->status           = 4;
-            $transactionDb->end_delivery_at  = date('yyyy-mm-dd H:i:s');
+            $transactionDb->end_delivery_at  = date('y-m-d H:i:s');
             $transactionDb->end_delivery_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by       = Sentinel::getUser()->email;
             $transactionDb->save();

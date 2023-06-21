@@ -110,7 +110,7 @@
                             Tanda Terima Url
                         </dt>
                         <dd>
-                            : @if($transaction->tanda_terima_url != '')<img src="{{asset($transaction->tanda_terima_url)}}" height="100px;">@endif
+                            : @if($transaction->tanda_terima_url != '')<a href="{{asset($transaction->tanda_terima_url)}}">{{asset($transaction->tanda_terima_url)}}</a>@endif
                         </dd>
                         <dt class="text-left">
                             Start Cooking At

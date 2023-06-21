@@ -55,36 +55,38 @@
                     <div class="col-md-6">
                         <div class="form-group @if($errors->has('customer_id')) has-error @endif">
                             <label for="customer_id" class="control-label">Customer Phone <span style="color: red">*</span></label>
-                            <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer" required>
+                            <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer Phone">
                             </select>
-                            <input type="hidden" name="customer_phone" id="customer_phone" /> 
+                            <input type="hidden" name="customer_phone" id="customer_phone" value="" /> 
                             {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group @if($errors->has('customer_name')) has-error @endif">
-                            <label for="customer_name" class="control-label">Customer Name</label>
-                            <input type="text" name="customer_name" id="customer_name" value="{{old('customer_name')}}" class="form-control input-sm" placeholder="Customer Name ...*" readonly>
+                            <label for="customer_name" class="control-label">Customer Name <span style="color: red">*</span></label>
+                            <input type="text" name="customer_name" id="customer_name" value="{{old('customer_name')}}" class="form-control input-sm" placeholder="Customer Name ...*" required>
                             {!! $errors->first('customer_name', '<em for="customer_name" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group @if($errors->has('province_id')) has-error @endif">
-                            <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
-                            <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
-                            </select>
-                            {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group @if($errors->has('province_id')) has-error @endif">
+                                <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
+                                <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
+                                </select>
+                                {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group @if($errors->has('city_id')) has-error @endif">
-                            <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
-                            <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
-                            </select>
-                            {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
+                        <div class="col-md-6">
+                            <div class="form-group @if($errors->has('city_id')) has-error @endif">
+                                <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
+                                </select>
+                                {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
+                            </div>
                         </div>
                     </div>
 
@@ -233,6 +235,13 @@
             yearRange: "-100:+0"
         });
 
+        $('#payment_status').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+        });
+
         $('#bank_id').select2({
             theme: "bootstrap",
             placeholder: "Select",
@@ -320,14 +329,9 @@
 
         $('#customer_id').on("select2:select", function() {
             const select2Data = $(this).select2("data");
-            if (typeof select2Data[0].name !== "undefined") {
-                $('#customer_id').val(select2Data[0].id);
+            if (select2Data[0].text == select2Data[0].id) {
+                $('#customer_phone').val('');
             } else {
-                $('#customer_id').val(0);
-                $('#customer_phone').val(select2Data[0].text);
-            }
-
-            if (typeof select2Data[0].text !== "undefined") {
                 $('#province_id').append($('<option>', {
                     value: select2Data[0].province_id,
                     text: select2Data[0].province_name
@@ -441,7 +445,7 @@
             productHtml += '<input type="hidden" name="item[' + data.id + '][unit]" value="' + data.unit + '">';
             productHtml += '<input type="hidden" name="item[' + data.id + '][total_price]" id="total_price_hidden' + data.id + '" value="' + addCommas(data.price) + '" class="total_price">';
             productHtml += '<td>' + data.text + '</td>';
-            productHtml += '<td>' + addCommas(data.price) + '</td>';
+            productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][price]" value="' + data.price + '" min="0" class="form-control input-sm" id="price' + data.id + '" readonly></td>';
             productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
             productHtml += '<td>' + data.unit + '</td>';
             productHtml += '<td><textarea name="item[' + data.id + '][notes]" class="form-control input-sm" id="notes' + data.id + '"></textarea></td>';

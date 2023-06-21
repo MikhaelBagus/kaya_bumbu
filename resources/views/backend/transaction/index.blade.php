@@ -19,7 +19,7 @@
                     <form action="" method="POST">
                         <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="order_date">Date Range</label>
                                     <div class="input-group input-group-sm date">
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
                                     <select id="status" class="input-sm form-control select_2" style="width:100%" name="status">
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Payment Status</label>
                                     <select id="payment_status" class="input-sm form-control select_2" style="width:100%" name="payment_status">
@@ -294,6 +294,22 @@
 
         $('#clearOrderDateTo').on('click', function () {
             $('#order_date_to').val('');
+        });
+
+        $('#payment_status').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#status').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
         });
     });
 </script>
