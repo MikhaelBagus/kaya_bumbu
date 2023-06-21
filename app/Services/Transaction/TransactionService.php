@@ -99,8 +99,23 @@ class TransactionService implements TransactionServiceContract
             ->addColumn(
                 'action',
                 function ($dataDb) {
+                    $updateButton = '';
+                    if($dataDb->status == 0){
+                        $updateButton = '<a href="#" data-message="Start Cooking '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Start Cooking '.$dataDb->code.' ?" data-title-modal="Start Cooking '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Start Cooking '.$dataDb->code.' ?"><span class="label label-success label-sm">Start Cooking</span></a>';
+                    }
+                    else if($dataDb->status == 1){
+                        $updateButton = '<a href="#" data-message="End Cooking '.$dataDb->code.' ?" data-href="' . route('transaction.update_end_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="End Cooking '.$dataDb->code.' ?" data-title-modal="End Cooking '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="End Cooking '.$dataDb->code.' ?"><span class="label label-success label-sm">End Cooking</span></a>';
+                    }
+                    else if($dataDb->status == 2){
+                        $updateButton = '<a href="#" data-message="Start Delivery '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_delivery', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Start Delivery '.$dataDb->code.' ?" data-title-modal="Start Delivery '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Start Delivery '.$dataDb->code.' ?"><span class="label label-success label-sm">Start Delivery</span></a>';
+                    }
+                    else if($dataDb->status == 3){
+                        $updateButton = '<a href="'.route('transaction.edit_end_delivery', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-success label-sm">End Delivery</span></a>';
+                    }
                     return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
-                        <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->name]).'" data-href="'.route('transaction.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
+                        '.$updateButton.'
+                        <a href="'.route('transaction.edit_actual_ongkir_price', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-warning label-sm">Actual Ongkir</span></a>
+                        <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->code]).'" data-href="'.route('transaction.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
                 }
             )
             ->addColumn(
@@ -219,7 +234,21 @@ class TransactionService implements TransactionServiceContract
         DB::beginTransaction();
 
         try {
+            if($request->hasFile('file')){
+                $file = $request->file;
+                $file_path = $file->getPathName();
+
+                $filename = time().'_transaction.'.$file->getClientOriginalExtension();
+                $file->move(public_path('transaction'), $filename);
+
+                $tanda_terima_url = 'transaction/'.$filename;
+            }
+            else{
+                $tanda_terima_url = '';
+            }
+
             $transactionDb = Transaction::find($id);
+            $transactionDb->tanda_terima_url = $tanda_terima_url;
             $transactionDb->status           = 4;
             $transactionDb->end_delivery_at  = date('yyyy-mm-dd H:i:s');
             $transactionDb->end_delivery_by  = Sentinel::getUser()->email;

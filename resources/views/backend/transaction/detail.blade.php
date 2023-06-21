@@ -36,7 +36,17 @@
                             Status
                         </dt>
                         <dd>
-                            : {{$transaction->status}}
+                            : @if($transaction->status == 0)
+                            New Order
+                            @elseif($transaction->status == 1)
+                            Start Cooking
+                            @elseif($transaction->status == 2)
+                            End Cooking
+                            @elseif($transaction->status == 3)
+                            Start Delivery
+                            @elseif($transaction->status == 4)
+                            Done
+                            @endif
                         </dd>
                         <dt class="text-left">
                             Customer Name
@@ -90,7 +100,7 @@
                             Tanda Terima Url
                         </dt>
                         <dd>
-                            : <a href="{{$transaction->tanda_terima_url}}">{{$transaction->tanda_terima_url}}</a>
+                            : @if($transaction->tanda_terima_url != '')<img src="{{asset($transaction->tanda_terima_url)}}" height="100px;">@endif
                         </dd>
                         <dt class="text-left">
                             Start Cooking At
@@ -99,10 +109,22 @@
                             : {{$transaction->start_cooking_at}}
                         </dd>
                         <dt class="text-left">
+                            Start Cooking By
+                        </dt>
+                        <dd>
+                            : {{$transaction->start_cooking_by}}
+                        </dd>
+                        <dt class="text-left">
                             End Cooking At
                         </dt>
                         <dd>
                             : {{$transaction->end_cooking_at}}
+                        </dd>
+                        <dt class="text-left">
+                            End Cooking By
+                        </dt>
+                        <dd>
+                            : {{$transaction->end_cooking_by}}
                         </dd>
                         <dt class="text-left">
                             Start Delivery At
@@ -111,10 +133,22 @@
                             : {{$transaction->start_delivery_at}}
                         </dd>
                         <dt class="text-left">
+                            Start Delivery By
+                        </dt>
+                        <dd>
+                            : {{$transaction->start_delivery_by}}
+                        </dd>
+                        <dt class="text-left">
                             End Delivery At
                         </dt>
                         <dd>
                             : {{$transaction->end_delivery_at}}
+                        </dd>
+                        <dt class="text-left">
+                            End Delivery By
+                        </dt>
+                        <dd>
+                            : {{$transaction->end_delivery_by}}
                         </dd>
                     </dl>
                 </div>

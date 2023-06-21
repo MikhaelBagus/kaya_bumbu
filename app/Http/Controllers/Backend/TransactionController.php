@@ -82,7 +82,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function editStartCooking($id, TransactionServiceContract $transactionServiceContract)
+    public function updateStartCooking($id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data
         if (is_object($transactionServiceContract->updateStartCooking($id))) {
@@ -96,7 +96,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function editEndCooking($id, TransactionServiceContract $transactionServiceContract)
+    public function updateEndCooking($id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data
         if (is_object($transactionServiceContract->updateEndCooking($id))) {
@@ -110,7 +110,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function editStartDelivery($id, TransactionServiceContract $transactionServiceContract)
+    public function updateStartDelivery($id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data
         if (is_object($transactionServiceContract->updateStartDelivery($id))) {

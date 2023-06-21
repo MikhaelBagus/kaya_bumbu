@@ -14,11 +14,11 @@ interface TransactionServiceContract
 
     public function updateActualOngkirPrice(int $id, $request);
 
-    public function updateEndCooking(int $id);
+    public function updateStartCooking(int $id);
 
     public function updateEndCooking(int $id);
 
     public function updateStartDelivery(int $id);
 
-    public function updateEndDelivery(int $id);
+    public function updateEndDelivery(int $id, $request);
 }
