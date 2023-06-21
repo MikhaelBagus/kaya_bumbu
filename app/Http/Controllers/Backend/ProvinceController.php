@@ -64,11 +64,14 @@ class ProvinceController extends Controller
 
     public function destroy($id, ProvinceServiceContract $provinceServiceContract)
     {
-        #Get services for bulk delete
-        $provinceServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('province.index'), 'Province');
+        if($provinceServiceContract->destroy($id) != ''){
+            #Bump....
+            return $this->redirectSuccessDelete(route('province.index'), 'Province');
+        }
+        else{
+            #Bump....
+            return $this->redirectFailed(route('province.index'), 'Failed To Delete Province because there is data connected');
+        }
     }
 
     public function datatable(Request $request, ProvinceServiceContract $provinceServiceContract)

@@ -64,11 +64,14 @@ class CustomerController extends Controller
 
     public function destroy($id, CustomerServiceContract $customerServiceContract)
     {
-        #Get services for bulk delete
-        $customerServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('customer.index'), 'Customer');
+        if($customerServiceContract->destroy($id) != ''){
+            #Bump....
+            return $this->redirectSuccessDelete(route('customer.index'), 'Customer');
+        }
+        else{
+            #Bump....
+            return $this->redirectFailed(route('customer.index'), 'Failed To Delete Customer because there is data connected');
+        }
     }
 
     public function datatable(Request $request, CustomerServiceContract $customerServiceContract)

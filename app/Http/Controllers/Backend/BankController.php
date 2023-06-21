@@ -64,11 +64,14 @@ class BankController extends Controller
 
     public function destroy($id, BankServiceContract $bankServiceContract)
     {
-        #Get services for bulk delete
-        $bankServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('bank.index'), 'Bank');
+        if($bankServiceContract->destroy($id) != ''){
+            #Bump....
+            return $this->redirectSuccessDelete(route('bank.index'), 'Bank');
+        }
+        else{
+            #Bump....
+            return $this->redirectFailed(route('bank.index'), 'Failed To Delete Bank because there is data connected');
+        }
     }
 
     public function datatable(Request $request, BankServiceContract $bankServiceContract)

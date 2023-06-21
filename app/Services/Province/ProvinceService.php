@@ -103,18 +103,23 @@ class ProvinceService implements ProvinceServiceContract
     public function destroy(int $id)
     {
         $provinceDb = Province::where('id', $id)->first();
-        $provinceDb->deleted_by = Sentinel::getUser()->email;
-        $provinceDb->save();
+        if(!$provinceDb->city->isEmpty()){
+            return '';
+        }
+        else{
+            $provinceDb->deleted_by = Sentinel::getUser()->email;
+            $provinceDb->save();
 
-        $logDb = new Log();
-        $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Delete '.$provinceDb->name;
-        $logDb->menu        = 'Province';
-        $logDb->item_id     = $provinceDb->id;
-        $logDb->created_by  = Sentinel::getUser()->email;
-        $logDb->save();
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$provinceDb->name;
+            $logDb->menu        = 'Province';
+            $logDb->item_id     = $provinceDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
-        return Province::where('id', $id)->delete();
+            return Province::where('id', $id)->delete();
+        }
     }
 
     public function select2($request)

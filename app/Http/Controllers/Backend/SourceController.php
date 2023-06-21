@@ -64,11 +64,14 @@ class SourceController extends Controller
 
     public function destroy($id, SourceServiceContract $sourceServiceContract)
     {
-        #Get services for bulk delete
-        $sourceServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('source.index'), 'Know From');
+        if($sourceServiceContract->destroy($id) != ''){
+            #Bump....
+            return $this->redirectSuccessDelete(route('source.index'), 'Source');
+        }
+        else{
+            #Bump....
+            return $this->redirectFailed(route('source.index'), 'Failed To Delete Source because there is data connected');
+        }
     }
 
     public function datatable(Request $request, SourceServiceContract $sourceServiceContract)

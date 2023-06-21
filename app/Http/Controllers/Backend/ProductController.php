@@ -64,11 +64,14 @@ class ProductController extends Controller
 
     public function destroy($id, ProductServiceContract $productServiceContract)
     {
-        #Get services for bulk delete
-        $productServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('product.index'), 'Product');
+        if($productServiceContract->destroy($id) != ''){
+            #Bump....
+            return $this->redirectSuccessDelete(route('product.index'), 'Product');
+        }
+        else{
+            #Bump....
+            return $this->redirectFailed(route('product.index'), 'Failed To Delete Product because there is data connected');
+        }
     }
 
     public function datatable(Request $request, ProductServiceContract $productServiceContract)

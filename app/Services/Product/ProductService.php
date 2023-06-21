@@ -107,18 +107,23 @@ class ProductService implements ProductServiceContract
     public function destroy(int $id)
     {
         $productDb = Product::where('id', $id)->first();
-        $productDb->deleted_by = Sentinel::getUser()->email;
-        $productDb->save();
+        if(!$productDb->transaction_product->isEmpty()){
+            return '';
+        }
+        else{
+            $productDb->deleted_by = Sentinel::getUser()->email;
+            $productDb->save();
 
-        $logDb = new Log();
-        $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Delete '.$productDb->name;
-        $logDb->menu        = 'Product';
-        $logDb->item_id     = $productDb->id;
-        $logDb->created_by  = Sentinel::getUser()->email;
-        $logDb->save();
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$productDb->name;
+            $logDb->menu        = 'Product';
+            $logDb->item_id     = $productDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
-        return Product::where('id', $id)->delete();
+            return Product::where('id', $id)->delete();
+        }
     }
 
     public function select2($request)

@@ -107,18 +107,23 @@ class BankService implements BankServiceContract
     public function destroy(int $id)
     {
         $bankDb = Bank::where('id', $id)->first();
-        $bankDb->deleted_by = Sentinel::getUser()->email;
-        $bankDb->save();
+        if(!$bankDb->transaction->isEmpty()){
+            return '';
+        }
+        else{
+            $bankDb->deleted_by = Sentinel::getUser()->email;
+            $bankDb->save();
 
-        $logDb = new Log();
-        $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Delete '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
-        $logDb->menu        = 'Bank';
-        $logDb->item_id     = $bankDb->id;
-        $logDb->created_by  = Sentinel::getUser()->email;
-        $logDb->save();
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
+            $logDb->menu        = 'Bank';
+            $logDb->item_id     = $bankDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
-        return Bank::where('id', $id)->delete();
+            return Bank::where('id', $id)->delete();
+        }
     }
 
     public function select2($request)

@@ -103,18 +103,23 @@ class SourceService implements SourceServiceContract
     public function destroy(int $id)
     {
         $sourceDb = Source::where('id', $id)->first();
-        $sourceDb->deleted_by = Sentinel::getUser()->email;
-        $sourceDb->save();
+        if(!$sourceDb->transaction->isEmpty()){
+            return '';
+        }
+        else{
+            $sourceDb->deleted_by = Sentinel::getUser()->email;
+            $sourceDb->save();
 
-        $logDb = new Log();
-        $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Delete '.$sourceDb->name;
-        $logDb->menu        = 'Source';
-        $logDb->item_id     = $sourceDb->id;
-        $logDb->created_by  = Sentinel::getUser()->email;
-        $logDb->save();
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$sourceDb->name;
+            $logDb->menu        = 'Source';
+            $logDb->item_id     = $sourceDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
-        return Source::where('id', $id)->delete();
+            return Source::where('id', $id)->delete();
+        }
     }
 
     public function select2($request)

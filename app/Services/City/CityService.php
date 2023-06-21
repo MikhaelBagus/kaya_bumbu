@@ -105,18 +105,26 @@ class CityService implements CityServiceContract
     public function destroy(int $id)
     {
         $cityDb = City::where('id', $id)->first();
-        $cityDb->deleted_by = Sentinel::getUser()->email;
-        $cityDb->save();
+        if(!$cityDb->transaction->isEmpty()){
+            return '';
+        }
+        else if(!$cityDb->customer->isEmpty()){
+            return '';
+        }
+        else{
+            $cityDb->deleted_by = Sentinel::getUser()->email;
+            $cityDb->save();
 
-        $logDb = new Log();
-        $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Delete '.$cityDb->name;
-        $logDb->menu        = 'City';
-        $logDb->item_id     = $cityDb->id;
-        $logDb->created_by  = Sentinel::getUser()->email;
-        $logDb->save();
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$cityDb->name;
+            $logDb->menu        = 'City';
+            $logDb->item_id     = $cityDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
-        return City::where('id', $id)->delete();
+            return City::where('id', $id)->delete();
+        }
     }
 
     public function select2($request)

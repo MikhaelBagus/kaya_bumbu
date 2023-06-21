@@ -269,7 +269,7 @@ class UserController extends Controller {
 			return redirect()->route('users.index');
 		}
 
-		if(!$data->deposit->isEmpty() || !$data->asset->isEmpty() || !$data->dividen_withdrawal->isEmpty() || !$data->notification->isEmpty()){
+		if(!$data->transaction->isEmpty() || !$data->log->isEmpty()){
         	Session::flash('failed', 'Failed To Delete User because there is data connected');
             return redirect()->route('users.index');
         }

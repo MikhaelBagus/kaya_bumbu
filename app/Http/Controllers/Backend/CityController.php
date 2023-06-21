@@ -64,11 +64,14 @@ class CityController extends Controller
 
     public function destroy($id, CityServiceContract $cityServiceContract)
     {
-        #Get services for bulk delete
-        $cityServiceContract->destroy($id);
-
-        #Bump....
-        return $this->redirectSuccessDelete(route('city.index'), 'City');
+        if($cityServiceContract->destroy($id) != ''){
+            #Bump....
+            return $this->redirectSuccessDelete(route('city.index'), 'City');
+        }
+        else{
+            #Bump....
+            return $this->redirectFailed(route('city.index'), 'Failed To Delete City because there is data connected');
+        }
     }
 
     public function datatable(Request $request, CityServiceContract $cityServiceContract)

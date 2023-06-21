@@ -109,18 +109,23 @@ class CustomerService implements CustomerServiceContract
     public function destroy(int $id)
     {
         $customerDb = Customer::where('id', $id)->first();
-        $customerDb->deleted_by = Sentinel::getUser()->email;
-        $customerDb->save();
+        if(!$customerDb->transaction->isEmpty()){
+            return '';
+        }
+        else{
+            $customerDb->deleted_by = Sentinel::getUser()->email;
+            $customerDb->save();
 
-        $logDb = new Log();
-        $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Delete '.$customerDb->name;
-        $logDb->menu        = 'Customer';
-        $logDb->item_id     = $customerDb->id;
-        $logDb->created_by  = Sentinel::getUser()->email;
-        $logDb->save();
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$customerDb->name;
+            $logDb->menu        = 'Customer';
+            $logDb->item_id     = $customerDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
-        return Customer::where('id', $id)->delete();
+            return Customer::where('id', $id)->delete();
+        }
     }
 
     public function select2($request)
