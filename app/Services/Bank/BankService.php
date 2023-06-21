@@ -32,7 +32,7 @@ class BankService implements BankServiceContract
 
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Create '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
+            $logDb->action      = 'Create '.$bankDb->bank_name.' '.$bankDb->account_number.' a/n'.$bankDb->account_name;
             $logDb->menu        = 'Bank';
             $logDb->item_id     = $bankDb->id;
             $logDb->created_by  = Sentinel::getUser()->email;
@@ -62,7 +62,7 @@ class BankService implements BankServiceContract
 
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Update '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
+            $logDb->action      = 'Update '.$bankDb->bank_name.' '.$bankDb->account_number.' a/n'.$bankDb->account_name;
             $logDb->menu        = 'Bank';
             $logDb->item_id     = $bankDb->id;
             $logDb->created_by  = Sentinel::getUser()->email;

@@ -121,6 +121,26 @@
                     columns: '2, 3, 4'
                 }
             ],
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all',
+                            search: 'none' 
+                        }
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all',
+                            search: 'none' 
+                        }
+                    }
+                }
+            ],
             select: {
                 style: 'multi'
             },

@@ -36,7 +36,7 @@
                             Province
                         </dt>
                         <dd>
-                            : {{$customer->province->name}}
+                            : {{$customer->city->province->name}}
                         </dd>
                         <dt class="text-left">
                             City

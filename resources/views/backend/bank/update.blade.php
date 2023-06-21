@@ -20,7 +20,7 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('bank_name')) has-error @endif">
                             <label for="bank_name" class="control-label">Bank Name <span style="color: red">*</span></label>
-                            <input type="text" name="bank_name" id="bank_name" value="{{old('bank_name', $bank->bank_name}}" class="form-control input-sm" placeholder="Bank Name ...*" required>
+                            <input type="text" name="bank_name" id="bank_name" value="{{old('bank_name', $bank->bank_name)}}" class="form-control input-sm" placeholder="Bank Name ...*" required>
                             {!! $errors->first('bank_name', '<em for="bank_name" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
