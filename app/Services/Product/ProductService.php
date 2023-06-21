@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Product;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -29,6 +30,14 @@ class ProductService implements ProductServiceContract
             $productDb->created_by    = Sentinel::getUser()->email;
             $productDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$productDb->name;
+            $logDb->menu        = 'Product';
+            $logDb->item_id     = $productDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $productDb;
@@ -50,6 +59,14 @@ class ProductService implements ProductServiceContract
             $productDb->unit          = $request->unit;
             $productDb->updated_by    = Sentinel::getUser()->email;
             $productDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$productDb->name;
+            $logDb->menu        = 'Product';
+            $logDb->item_id     = $productDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -92,6 +109,14 @@ class ProductService implements ProductServiceContract
         $productDb = Product::where('id', $id)->first();
         $productDb->deleted_by = Sentinel::getUser()->email;
         $productDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$productDb->name;
+        $logDb->menu        = 'Product';
+        $logDb->item_id     = $productDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 
         return Product::where('id', $id)->delete();
     }

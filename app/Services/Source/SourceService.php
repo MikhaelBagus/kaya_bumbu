@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Source;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -27,6 +28,14 @@ class SourceService implements SourceServiceContract
             $sourceDb->created_by    = Sentinel::getUser()->email;
             $sourceDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$sourceDb->name;
+            $logDb->menu        = 'Source';
+            $logDb->item_id     = $sourceDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $sourceDb;
@@ -46,6 +55,14 @@ class SourceService implements SourceServiceContract
             $sourceDb->name          = $request->name;
             $sourceDb->updated_by    = Sentinel::getUser()->email;
             $sourceDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$sourceDb->name;
+            $logDb->menu        = 'Source';
+            $logDb->item_id     = $sourceDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -88,6 +105,14 @@ class SourceService implements SourceServiceContract
         $sourceDb = Source::where('id', $id)->first();
         $sourceDb->deleted_by = Sentinel::getUser()->email;
         $sourceDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$sourceDb->name;
+        $logDb->menu        = 'Source';
+        $logDb->item_id     = $sourceDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 
         return Source::where('id', $id)->delete();
     }

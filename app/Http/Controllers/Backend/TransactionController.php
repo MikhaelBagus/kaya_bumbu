@@ -8,6 +8,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Requests\Transaction\transactionRequest;
 use App\Services\Transaction\TransactionServiceContract;
 use App\Traits\redirectTo;
+use PDF;
 
 class TransactionController extends Controller
 {
@@ -167,7 +168,8 @@ class TransactionController extends Controller
     public function pdf($id, TransactionServiceContract $transactionServiceContract)
     {
         $transaction = $transactionServiceContract->get($id);
+        $pdf = PDF::loadView('backend.transaction.pdf', $transaction);
 
-        return view('backend.transaction.pdf', compact('transaction'));
+        return $pdf->download($transaction->code.'.pdf');
     }
 }

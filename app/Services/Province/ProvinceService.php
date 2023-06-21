@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Province;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -27,6 +28,14 @@ class ProvinceService implements ProvinceServiceContract
             $provinceDb->created_by    = Sentinel::getUser()->email;
             $provinceDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$provinceDb->name;
+            $logDb->menu        = 'Province';
+            $logDb->item_id     = $provinceDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $provinceDb;
@@ -46,6 +55,14 @@ class ProvinceService implements ProvinceServiceContract
             $provinceDb->name          = $request->name;
             $provinceDb->updated_by    = Sentinel::getUser()->email;
             $provinceDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$provinceDb->name;
+            $logDb->menu        = 'Province';
+            $logDb->item_id     = $provinceDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -88,6 +105,14 @@ class ProvinceService implements ProvinceServiceContract
         $provinceDb = Province::where('id', $id)->first();
         $provinceDb->deleted_by = Sentinel::getUser()->email;
         $provinceDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$provinceDb->name;
+        $logDb->menu        = 'Province';
+        $logDb->item_id     = $provinceDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 
         return Province::where('id', $id)->delete();
     }

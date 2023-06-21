@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auth\Role;
+use App\Models\Log;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
@@ -61,6 +62,14 @@ class RoleController extends Controller {
 		$data->permissions = $permissions;
 		
 		$data->save();
+
+		$logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Create '.$data->name;
+        $logDb->menu        = 'Role';
+        $logDb->item_id     = $data->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 		
 		Session::flash( 'success', __( 'auth.role_creation_successful' ) );
 		
@@ -132,6 +141,14 @@ class RoleController extends Controller {
 		$permissions         = collect( json_decode( $this->permissions( $request ) ) )->toArray();
 		$dataDb->permissions = $permissions;
 		$dataDb->save();
+
+		$logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Update '.$data->name;
+        $logDb->menu        = 'Role';
+        $logDb->item_id     = $data->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 		
 		Session::flash( 'success', __( 'auth.role_update_successful' ) );
 		
@@ -166,6 +183,14 @@ class RoleController extends Controller {
 
             $dataDb->users()->detach($userDb);
 			$dataDb->delete();
+
+			$logDb = new Log();
+	        $logDb->user_id     = Sentinel::getUser()->id;
+	        $logDb->action      = 'Delete '.$data->name;
+	        $logDb->menu        = 'Role';
+	        $logDb->item_id     = $data->id;
+	        $logDb->created_by  = Sentinel::getUser()->email;
+	        $logDb->save();
 			
 			Session::flash('success', __('auth.delete_account'));
 			

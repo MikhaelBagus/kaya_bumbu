@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\User\createRequest;
 use App\Http\Requests\Auth\User\updateRequest;
 use App\Models\Auth\Role;
 use App\Models\Auth\User;
+use App\Models\Log;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Pagination\Paginator;
@@ -87,6 +88,14 @@ class UserController extends Controller {
 			//Attach the user to the role
 			
 			$role->users()->attach($user);
+
+			$logDb = new Log();
+	        $logDb->user_id     = Sentinel::getUser()->id;
+	        $logDb->action      = 'Create '.$user->email;
+	        $logDb->menu        = 'User';
+	        $logDb->item_id     = $user->id;
+	        $logDb->created_by  = Sentinel::getUser()->email;
+	        $logDb->save();
 
 			DB::commit();
 
@@ -214,6 +223,14 @@ class UserController extends Controller {
 			#Update User
 			Sentinel::update($user, $credentials);
 
+			$logDb = new Log();
+	        $logDb->user_id     = Sentinel::getUser()->id;
+	        $logDb->action      = 'Update '.$user->email;
+	        $logDb->menu        = 'User';
+	        $logDb->item_id     = $user->id;
+	        $logDb->created_by  = Sentinel::getUser()->email;
+	        $logDb->save();
+
 			DB::commit();
 
 			Session::flash('success', __('auth.update_successful'));
@@ -261,6 +278,14 @@ class UserController extends Controller {
             $data->save();
 			
 			$data->delete();
+
+			$logDb = new Log();
+	        $logDb->user_id     = Sentinel::getUser()->id;
+	        $logDb->action      = 'Delete '.$user->name;
+	        $logDb->menu        = 'User';
+	        $logDb->item_id     = $user->id;
+	        $logDb->created_by  = Sentinel::getUser()->email;
+	        $logDb->save();
 
 			Session::flash('success', __('auth.delete_account'));
 
@@ -403,6 +428,14 @@ class UserController extends Controller {
 
 			Session::flash('success', __('auth.activate_successful'));
 
+			$logDb = new Log();
+	        $logDb->user_id     = Sentinel::getUser()->id;
+	        $logDb->action      = 'Activate '.$user->email;
+	        $logDb->menu        = 'User';
+	        $logDb->item_id     = $user->id;
+	        $logDb->created_by  = Sentinel::getUser()->email;
+	        $logDb->save();
+
 			return redirect()->back();
 		}
 		else{
@@ -412,6 +445,14 @@ class UserController extends Controller {
 				Activation::complete($user, $activation->code);
 
 				Session::flash('success', __('auth.activate_successful'));
+
+				$logDb = new Log();
+		        $logDb->user_id     = Sentinel::getUser()->id;
+		        $logDb->action      = 'Activate '.$user->email;
+		        $logDb->menu        = 'User';
+		        $logDb->item_id     = $user->id;
+		        $logDb->created_by  = Sentinel::getUser()->email;
+		        $logDb->save();
 
 				return redirect()->back();
 			}
@@ -427,6 +468,14 @@ class UserController extends Controller {
 				Activation::remove($user);
 
 				Session::flash('success', __('auth.deactivate_successful'));
+
+				$logDb = new Log();
+		        $logDb->user_id     = Sentinel::getUser()->id;
+		        $logDb->action      = 'Deactivate '.$user->email;
+		        $logDb->menu        = 'User';
+		        $logDb->item_id     = $user->id;
+		        $logDb->created_by  = Sentinel::getUser()->email;
+		        $logDb->save();
 
 				return redirect()->back();
 			}

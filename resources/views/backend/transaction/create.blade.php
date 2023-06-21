@@ -293,6 +293,7 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
+            tags: true,
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('customer.ajax.select2')}}',
@@ -319,19 +320,28 @@
 
         $('#customer_id').on("select2:select", function() {
             const select2Data = $(this).select2("data");
-            $('#province_id').append($('<option>', {
-                value: select2Data[0].province_id,
-                text: select2Data[0].province_name
-            }));
-            $('#province_id').val(select2Data[0].province_id).change();
-            $('#city_id').append($('<option>', {
-                value: select2Data[0].city_id,
-                text: select2Data[0].city_name
-            }));
-            $('#city_id').val(select2Data[0].city_id).change();
-            $('#address').val(select2Data[0].address);
-            $('#customer_name').val(select2Data[0].name);
-            $('#customer_phone').val(select2Data[0].text);
+            if (typeof select2Data[0].name !== "undefined") {
+                $('#customer_id').val(select2Data[0].id);
+            } else {
+                $('#customer_id').val(0);
+                $('#customer_phone').val(select2Data[0].text);
+            }
+
+            if (typeof select2Data[0].text !== "undefined") {
+                $('#province_id').append($('<option>', {
+                    value: select2Data[0].province_id,
+                    text: select2Data[0].province_name
+                }));
+                $('#province_id').val(select2Data[0].province_id).change();
+                $('#city_id').append($('<option>', {
+                    value: select2Data[0].city_id,
+                    text: select2Data[0].city_name
+                }));
+                $('#city_id').val(select2Data[0].city_id).change();
+                $('#address').val(select2Data[0].address);
+                $('#customer_name').val(select2Data[0].name);
+                $('#customer_phone').val(select2Data[0].text);
+            }
         });
 
         $('#province_id').select2({

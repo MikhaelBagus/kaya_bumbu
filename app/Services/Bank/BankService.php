@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Bank;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -29,6 +30,14 @@ class BankService implements BankServiceContract
             $bankDb->created_by     = Sentinel::getUser()->email;
             $bankDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
+            $logDb->menu        = 'Bank';
+            $logDb->item_id     = $bankDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $bankDb;
@@ -50,6 +59,14 @@ class BankService implements BankServiceContract
             $bankDb->account_name   = $request->account_name;
             $bankDb->updated_by     = Sentinel::getUser()->email;
             $bankDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
+            $logDb->menu        = 'Bank';
+            $logDb->item_id     = $bankDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -92,6 +109,14 @@ class BankService implements BankServiceContract
         $bankDb = Bank::where('id', $id)->first();
         $bankDb->deleted_by = Sentinel::getUser()->email;
         $bankDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$bankDb->bank_name.' '.$dataDb->account_number.' a/n'.$dataDb->account_name;
+        $logDb->menu        = 'Bank';
+        $logDb->item_id     = $bankDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 
         return Bank::where('id', $id)->delete();
     }

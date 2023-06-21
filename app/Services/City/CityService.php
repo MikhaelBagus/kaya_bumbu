@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\City;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -28,6 +29,14 @@ class CityService implements CityServiceContract
             $cityDb->created_by    = Sentinel::getUser()->email;
             $cityDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$cityDb->name;
+            $logDb->menu        = 'City';
+            $logDb->item_id     = $cityDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $cityDb;
@@ -48,6 +57,14 @@ class CityService implements CityServiceContract
             $cityDb->name          = $request->name;
             $cityDb->updated_by    = Sentinel::getUser()->email;
             $cityDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$cityDb->name;
+            $logDb->menu        = 'City';
+            $logDb->item_id     = $cityDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -90,6 +107,14 @@ class CityService implements CityServiceContract
         $cityDb = City::where('id', $id)->first();
         $cityDb->deleted_by = Sentinel::getUser()->email;
         $cityDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$cityDb->name;
+        $logDb->menu        = 'City';
+        $logDb->item_id     = $cityDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 
         return City::where('id', $id)->delete();
     }

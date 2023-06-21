@@ -8,6 +8,7 @@ use App\Models\Auth\User;
 use App\Models\Transaction;
 use App\Models\TransactionProduct;
 use App\Models\Product;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -95,6 +96,14 @@ class TransactionService implements TransactionServiceContract
                 }
             }
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $transactionDb;
@@ -166,6 +175,14 @@ class TransactionService implements TransactionServiceContract
             $transactionProductDb->delete();
         }
 
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$transactionDb->code;
+        $logDb->menu        = 'Transaction';
+        $logDb->item_id     = $transactionDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
+
         return Transaction::where('id', $id)->delete();
     }
 
@@ -178,6 +195,14 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->payment_status = $request->payment_status;
             $transactionDb->updated_by     = Sentinel::getUser()->email;
             $transactionDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update Payment Status '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -198,6 +223,14 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->actual_ongkir_price = $request->actual_ongkir_price;
             $transactionDb->updated_by          = Sentinel::getUser()->email;
             $transactionDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update Actual Ongkir Price '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -221,6 +254,14 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->updated_by       = Sentinel::getUser()->email;
             $transactionDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update Start Cooking '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $transactionDb;
@@ -243,6 +284,14 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->updated_by      = Sentinel::getUser()->email;
             $transactionDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update End Cooking '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $transactionDb;
@@ -264,6 +313,14 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->start_delivery_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by         = Sentinel::getUser()->email;
             $transactionDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update Start Delivery '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -300,6 +357,14 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->end_delivery_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by       = Sentinel::getUser()->email;
             $transactionDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update End Delivery '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 

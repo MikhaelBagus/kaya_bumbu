@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Customer;
+use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -30,6 +31,14 @@ class CustomerService implements CustomerServiceContract
             $customerDb->created_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$customerDb->name;
+            $logDb->menu        = 'Customer';
+            $logDb->item_id     = $customerDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
             DB::commit();
 
             return $customerDb;
@@ -52,6 +61,14 @@ class CustomerService implements CustomerServiceContract
             $customerDb->address        = $request->address;
             $customerDb->updated_by     = Sentinel::getUser()->email;
             $customerDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$customerDb->name;
+            $logDb->menu        = 'Customer';
+            $logDb->item_id     = $customerDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
 
             DB::commit();
 
@@ -94,6 +111,14 @@ class CustomerService implements CustomerServiceContract
         $customerDb = Customer::where('id', $id)->first();
         $customerDb->deleted_by = Sentinel::getUser()->email;
         $customerDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Delete '.$customerDb->name;
+        $logDb->menu        = 'Customer';
+        $logDb->item_id     = $customerDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
 
         return Customer::where('id', $id)->delete();
     }

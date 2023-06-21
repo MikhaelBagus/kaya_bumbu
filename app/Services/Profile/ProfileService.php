@@ -5,6 +5,7 @@ namespace App\Services\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
+use App\Models\Log;
 use Laravel\Passport\Token;
 use Lcobucci\JWT\Parser as JwtParser;
 use Illuminate\Support\Facades\Hash;
