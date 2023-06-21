@@ -2,7 +2,7 @@
     <li class="{{(request()->is('users*') || request()->is('roles*')) == true  ? 'active' : '' }}">
         <a class="accordion-toggle {{(request()->is('users*') || request()->is('roles*')) == true  ? 'menu-open' : '' }}" href="#">
             <span class="fas fa-key"></span>
-            <span class="sidebar-title">ROLE & USER</span>
+            <span class="sidebar-title">Role & User</span>
             <span class="caret"></span>
         </a>
 

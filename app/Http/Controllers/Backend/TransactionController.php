@@ -143,4 +143,11 @@ class TransactionController extends Controller
             return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
         }
     }
+
+    public function pdf($id, TransactionServiceContract $transactionServiceContract)
+    {
+        $transaction = $transactionServiceContract->get($id);
+
+        return view('backend.transaction.pdf', compact('transaction'));
+    }
 }

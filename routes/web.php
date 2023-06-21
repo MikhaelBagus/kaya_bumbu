@@ -710,6 +710,9 @@ Route::group([
 
     Route::post('/{id}/update-end-delivery', [TransactionController::class, 'updateEndDelivery'])
         ->name('transaction.update_end_delivery')->middleware('sentinel.permission:transaction.edit_end_delivery');
+
+    Route::get('/{id}/pdf', [TransactionController::class, 'pdf'])
+        ->name('transaction.pdf')->middleware('sentinel.permission:transaction.pdf');
 });
 
 // log

@@ -17,8 +17,11 @@ class CreateTransactionProductTable extends Migration
             $table->id();
             $table->foreignId('transaction_id')->references('id')->on('transaction')->onDelete('cascade');
             $table->foreignId('product_id')->references('id')->on('product')->onDelete('cascade');
+            $table->string('name')->default('');
             $table->double('price')->default(0);
             $table->double('qty')->default(0);
+            $table->string('unit')->default('');
+            $table->text('notes')->nullable();
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');

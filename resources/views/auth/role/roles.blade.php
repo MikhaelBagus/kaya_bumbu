@@ -96,211 +96,6 @@
             <td>&nbsp;</td>
         </tr>
 
-        <!-- About Us -->
-        <tr>
-            <td>About Us</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="about_us_create" {{ old('about_us_create') || array_key_exists('about_us.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="about_us_edit" {{ old('about_us_edit') || array_key_exists('about_us.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="about_us_show" {{ old('about_us_show') || array_key_exists('about_us.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Contact Us -->
-        <tr>
-            <td>Contact Us</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="contact_us_create" {{ old('contact_us_create') || array_key_exists('contact_us.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="contact_us_edit" {{ old('contact_us_edit') || array_key_exists('contact_us.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="contact_us_show" {{ old('contact_us_show') || array_key_exists('contact_us.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Disclaimer -->
-        <tr>
-            <td>Disclaimer</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="disclaimer_create" {{ old('disclaimer_create') || array_key_exists('disclaimer.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="disclaimer_edit" {{ old('disclaimer_edit') || array_key_exists('disclaimer.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="disclaimer_show" {{ old('disclaimer_show') || array_key_exists('disclaimer.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Faq -->
-        <tr>
-            <td>Faq</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="faq_create" {{ old('faq_create') || array_key_exists('faq.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="faq_edit" {{ old('faq_edit') || array_key_exists('faq.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="faq_show" {{ old('faq_show') || array_key_exists('faq.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="faq_destroy" {{ old('faq_destroy') || array_key_exists('faq.destroy', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Media -->
-        <tr>
-            <td>Media</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="media_create" {{ old('media_create') || array_key_exists('media.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="media_show" {{ old('media_show') || array_key_exists('media.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- News -->
-        <tr>
-            <td>News</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="news_create" {{ old('news_create') || array_key_exists('news.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="news_edit" {{ old('news_edit') || array_key_exists('news.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="news_show" {{ old('news_show') || array_key_exists('news.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="news_destroy" {{ old('news_destroy') || array_key_exists('news.destroy', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Privacy Policy -->
-        <tr>
-            <td>Privacy Policy</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="privacy_policy_create" {{ old('privacy_policy_create') || array_key_exists('privacy_policy.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="privacy_policy_edit" {{ old('privacy_policy_edit') || array_key_exists('privacy_policy.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="privacy_policy_show" {{ old('privacy_policy_show') || array_key_exists('privacy_policy.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Term Condition -->
-        <tr>
-            <td>Term Condition</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="term_condition_create" {{ old('term_condition_create') || array_key_exists('term_condition.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="term_condition_edit" {{ old('term_condition_edit') || array_key_exists('term_condition.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="term_condition_show" {{ old('term_condition_show') || array_key_exists('term_condition.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
         <!-- Log -->
         <tr>
             <td>Log</td>
@@ -313,66 +108,6 @@
                 </div>
             </td>
             <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- Province -->
-        <tr>
-            <td>Province</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="province_create" {{ old('province_create') || array_key_exists('province.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="province_edit" {{ old('province_edit') || array_key_exists('province.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="province_show" {{ old('province_show') || array_key_exists('province.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="province_destroy" {{ old('province_destroy') || array_key_exists('province.destroy', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td>&nbsp;</td>
-        </tr>
-
-        <!-- City -->
-        <tr>
-            <td>City</td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="city_create" {{ old('city_create') || array_key_exists('city.create', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="city_edit" {{ old('city_edit') || array_key_exists('city.edit', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="city_show" {{ old('city_show') || array_key_exists('city.show', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
-            <td class="text-center">
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="city_destroy" {{ old('city_destroy') || array_key_exists('city.destroy', $permissions) ? 'checked' : ''}}>
-                    <label></label>
-                </div>
-            </td>
             <td>&nbsp;</td>
         </tr>
 
@@ -514,11 +249,36 @@
             </td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="product_destroy" {{ old('transaction_destroy') || array_key_exists('transaction.destroy', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_destroy" {{ old('transaction_destroy') || array_key_exists('transaction.destroy', $permissions) ? 'checked' : ''}}>
                     <label></label>
                 </div>
             </td>
-            <td>&nbsp;</td>
+            <td>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_pdf" {{ old('transaction_pdf') || array_key_exists('transaction.edit_pdf', $permissions) ? 'checked' : ''}}>
+                    <label>PDF</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_actual_ongkir_price" {{ old('transaction_edit_actual_ongkir_price') || array_key_exists('transaction.edit_actual_ongkir_price', $permissions) ? 'checked' : ''}}>
+                    <label>Actual Ongkir Price</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_cooking" {{ old('transaction_edit_start_cooking') || array_key_exists('transaction.edit_start_cooking', $permissions) ? 'checked' : ''}}>
+                    <label>Start Cooking</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_end_cooking" {{ old('transaction_edit_end_cooking') || array_key_exists('transaction.edit_end_cooking', $permissions) ? 'checked' : ''}}>
+                    <label>End Cooking</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_delivery" {{ old('transaction_edit_start_delivery') || array_key_exists('transaction.edit_start_delivery', $permissions) ? 'checked' : ''}}>
+                    <label>Start Delivery</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_end_delivery" {{ old('transaction_edit_end_delivery') || array_key_exists('transaction.edit_end_delivery', $permissions) ? 'checked' : ''}}>
+                    <label>End Delivery</label>
+                </div>
+            </td>
         </tr>
 
     </tbody>

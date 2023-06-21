@@ -95,7 +95,7 @@
     <!-- Start: Header -->
     <header class="navbar navbar-fixed-top bg-info">
         <div class="navbar-branding">
-            <a class="navbar-brand" href="{{url('auth')}}">
+            <a class="navbar-brand" href="{{url('/')}}">
                 {{config('app.name')}}
             </a>
             <span id="toggle_sidemenu_l" class="ad ad-lines"></span>
@@ -139,22 +139,13 @@
 
                 @if(Sentinel::getUser()->type !== 'member')
                     @include('backend.menus.auth')
-                    @include('backend.menus.about_us')
-                    @include('backend.menus.contact_us')
-                    @include('backend.menus.disclaimer')
-                    @include('backend.menus.faq')
-                    @include('backend.menus.media')
-                    @include('backend.menus.news')
-                    @include('backend.menus.privacy_policy')
-                    @include('backend.menus.term_condition')
                     @include('backend.menus.log')
-                    @include('backend.menus.province')
-                    @include('backend.menus.city')
-                    @include('backend.menus.bank')
                     @include('backend.menus.source')
+                    @include('backend.menus.bank')
                     @include('backend.menus.customer')
                     @include('backend.menus.product')
                     @include('backend.menus.transaction')
+                    @include('backend.menus.others')
                 @endif
             </ul>
             <!-- End: Sidebar Menu -->
