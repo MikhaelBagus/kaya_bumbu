@@ -8,6 +8,11 @@
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
                     <span class="glyphicon glyphicon-tasks"></span>Transaction Detail
+                    <div class="pull-right">
+                        <a href="{{route('transaction.pdf', [$transaction->id])}}" class="btn btn-warning btn-sm">PDF</a>
+                        <a href="{{route('transaction.invoice', [$transaction->id])}}" class="btn btn-warning btn-sm">Invoice</a>
+                        <a href="{{route('transaction.delivery_pdf', [$transaction->id])}}" class="btn btn-warning btn-sm">Delivery PDF</a>
+                    </div>                    
                 </div>
             </div>
 
@@ -282,6 +287,19 @@
                 </a>
 
                 <div class="pull-right">
+                    @if($transaction->status == 0)
+                    <a href="#" data-message="Start Cooking {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Start Cooking {{$transaction->code}} ?" data-title-modal="Start Cooking {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Start Cooking {{$transaction->code}} ?" class="btn btn-success btn-sm">Start Cooking</a>
+                    @elseif($transaction->status == 1)
+                    <a href="#" data-message="End Cooking {{$transaction->code}} ?" data-href="{{route('transaction.update_end_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="End Cooking {{$transaction->code}} ?" data-title-modal="End Cooking {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="End Cooking {{$transaction->code}} ?" class="btn btn-success btn-sm">End Cooking</a>
+                    @elseif($transaction->status == 2)
+                    <a href="#" data-message="Start Delivery {{$transaction->code}} ?" data-href="{{route('transaction.update_start_delivery', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Start Delivery {{$transaction->code}} ?" data-title-modal="Start Delivery {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Start Delivery {{$transaction->code}} ?" class="btn btn-success btn-sm">Start Delivery</a>
+                    @elseif($transaction->status == 3)
+                    <a href="{{route('transaction.edit_end_delivery', [$dataDb->id])}}" class="btn btn-success btn-sm">End Delivery</a>
+                    @endif
+                    @if($transaction->payment_status == 0)
+                    <a href="{{route('transaction.edit_actual_ongkir_price', [$transaction->id])}}" class="btn btn-warning btn-sm">Actual Ongkir</a>
+                    @endif
+                    <a href="{{route('transaction.edit_payment_status', [$transaction->id])}}" class="btn btn-warning btn-sm">Payment Status</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
