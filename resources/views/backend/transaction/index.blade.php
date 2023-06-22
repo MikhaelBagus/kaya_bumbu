@@ -141,6 +141,14 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Bank</label>
+                                    <select id="bank_id" class="input-sm form-control select_2" style="width:100%" name="bank_id">
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
                             </div>
@@ -164,6 +172,7 @@
                     <th>Admin</th>
                     <th>Source</th>
                     <th>Payment Status</th>
+                    <th>Bank</th>
                     <th>Delivery Option</th>
                     <th>Delivery Transport</th>
                     <th>Delivery Type</th>
@@ -259,6 +268,7 @@
                     d.user_id            = $('#user_id').val();
                     d.customer_id        = $('#customer_id').val();
                     d.source_id          = $('#source_id').val();
+                    d.bank_id            = $('#bank_id').val();
                 },
             },
             columns: [
@@ -309,6 +319,7 @@
                         }
                     }
                 },
+                {data: 'bank_full', name: 'bank.account_number'},
                 {data: 'delivery_option', name: 'delivery_option'},
                 {data: 'delivery_transport', name: 'delivery_transport'},
                 {data: 'delivery_type', name: 'delivery_type'},
@@ -492,6 +503,35 @@
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('source.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#bank_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('bank.ajax.select2')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

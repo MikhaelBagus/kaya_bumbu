@@ -92,7 +92,7 @@ class BankService implements BankServiceContract
                 function ($dataDb) {
                     return '<a href="' . route('bank.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
                         <a href="'.route('bank.edit', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-warning label-sm"><i class="fa fa-edit"></i></span></a>
-                        <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->bank_name.' '.$dataDb->account_number.' a\n '.$dataDb->account_name]).'" data-href="'.route('bank.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
+                        <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->bank_name.' '.$dataDb->account_number.' a/n '.$dataDb->account_name]).'" data-href="'.route('bank.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
                 }
             )
             ->addColumn(
@@ -145,7 +145,7 @@ class BankService implements BankServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Bank::select('id', DB::raw('concat(bank_name, " a/n ", account_name, " ", account_number) as text'))->where('bank_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_number', 'LIKE', '%'.$request->term.'%')->orderBy('text')->paginate($perPage);
+            $dataDb = Bank::select('id', DB::raw('concat(bank_name, " ", account_number, " a/n ", account_name) as text'))->where('bank_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_number', 'LIKE', '%'.$request->term.'%')->orderBy('text')->paginate($perPage);
 
             return $dataDb;
         }

@@ -179,6 +179,10 @@ class TransactionService implements TransactionServiceContract
                     return $dataDb->id;
                 }
             )
+            ->addColumn('bank_full', function ($dataDb) {
+                return $dataDb->bank->bank_name.' '.$dataDb->bank->account_number.' a/n '.$dataDb->bank->account_name;
+            })
+            ->rawColumns(array('bank_full', 'action'))
             ->make(true);
     }
 
