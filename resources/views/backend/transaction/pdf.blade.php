@@ -24,7 +24,7 @@
     @empty
     -
     @endforelse
-    <br>Request: @if($transaction->notes == null)
+    <br>Notes: @if($transaction->notes == null)
     -
     @else
     {{$transaction->notes}}
