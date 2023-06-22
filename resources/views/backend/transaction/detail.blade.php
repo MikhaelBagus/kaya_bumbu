@@ -158,12 +158,6 @@
                             : Rp {{number_format($transaction->ongkir_price,0,',','.')}}
                         </dd>
                         <dt class="text-left">
-                            Ongkir Driver Price
-                        </dt>
-                        <dd>
-                            : Rp {{number_format($transaction->ongkir_driver_price,0,',','.')}}
-                        </dd>
-                        <dt class="text-left">
                             Actual Ongkir Price
                         </dt>
                         <dd>
