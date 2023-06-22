@@ -24,6 +24,10 @@
     @empty
     -
     @endforelse
-    <br>Request: {{$transaction->notes}}
+    <br>Request: @if($transaction->notes == null)
+    -
+    @else
+    {{$transaction->notes}}
+    @endif
 </body>
 </html>
