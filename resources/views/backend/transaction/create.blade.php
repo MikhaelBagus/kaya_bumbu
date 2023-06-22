@@ -15,6 +15,17 @@
                     {!! csrf_field() !!}
 
                     <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group @if($errors->has('user_id')) has-error @endif">
+                                <label for="user_id" class="control-label">Admin <span style="color: red">*</span></label>
+                                <select id="user_id" name="user_id" class="form-control" data-placeholder="Select Admin" required>
+                                </select>
+                                {!! $errors->first('user_id', '<em for="user_id" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('date')) has-error @endif">
                                 <label for="date" class="control-label">Date <span style="color: red">*</span></label>
@@ -365,6 +376,34 @@
             placeholder: "Select",
             width: '100%',
             containerCssClass: ':all:',
+        });
+
+        $('#user_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('users.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
         });
 
         $('#bank_id').select2({
