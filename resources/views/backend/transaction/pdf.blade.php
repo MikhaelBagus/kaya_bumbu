@@ -10,6 +10,8 @@
     <br>Tanggal pengiriman: {{date('d/m/Y', strtotime($transaction->date))}}
     <br>Jam pengiriman: {{$transaction->time}}
     <br>
+    <br>Nama pemesan: {{$transaction->customer->name}}
+    <br>No.HP pemesan: {{$transaction->customer->phone}}
     <br>Nama penerima: {{$transaction->recipient_name}}
     <br>No.HP penerima: {{$transaction->recipient_phone}}
     <br>

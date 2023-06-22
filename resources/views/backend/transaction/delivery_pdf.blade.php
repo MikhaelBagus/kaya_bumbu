@@ -34,7 +34,7 @@
                 {{date('d F Y', strtotime($transaction->date))}}
                 <br>
                 Delivery Time:
-                ____________________
+                ___________
             </td>
         </tr>
     </table>
