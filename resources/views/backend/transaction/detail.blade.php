@@ -32,6 +32,12 @@
                             : {{$transaction->code}}
                         </dd>
                         <dt class="text-left">
+                            Transaction Type
+                        </dt>
+                        <dd>
+                            : {{$transaction->transaction_type}}
+                        </dd>
+                        <dt class="text-left">
                             Status
                         </dt>
                         <dd>
