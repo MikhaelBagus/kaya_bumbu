@@ -20,7 +20,7 @@
     <br>
     <br>Pesanan: 
     <br>@forelse($transaction->transaction_product as $detail)
-    - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}} ({{$detail->notes}})<br>
+    - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}} @if($detail->notes != null) ({{$detail->notes}}) @endif<br>
     @empty
     -
     @endforelse

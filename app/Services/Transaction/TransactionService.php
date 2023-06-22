@@ -179,10 +179,20 @@ class TransactionService implements TransactionServiceContract
                 $transaction_detail = '';
                 foreach($dataDb->transaction_product as $detail){
                     if($transaction_detail == ''){
-                        $transaction_detail = '- '.$detail->name.' | '.$detail->qty.' '.$detail->unit.' ('.$detail->notes.')';
+                        if($detail->notes != null){
+                            $transaction_detail = '- '.$detail->name.' | '.$detail->qty.' '.$detail->unit.' ('.$detail->notes.')';
+                        }
+                        else{
+                            $transaction_detail = '- '.$detail->name.' | '.$detail->qty.' '.$detail->unit;
+                        }
                     }
                     else{
-                        $transaction_detail = $transaction_detail.'<br>- '.$detail->name.' | '.$detail->qty.' '.$detail->unit.' ('.$detail->notes.')';
+                        if($detail->notes != null){
+                            $transaction_detail = $transaction_detail.'<br>- '.$detail->name.' | '.$detail->qty.' '.$detail->unit.' ('.$detail->notes.')';
+                        }
+                        else{
+                            $transaction_detail = $transaction_detail.'<br>- '.$detail->name.' | '.$detail->qty.' '.$detail->unit;
+                        }
                     }
                 }
                 return $transaction_detail;
