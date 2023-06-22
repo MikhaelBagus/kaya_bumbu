@@ -180,6 +180,7 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>Detail Pesanan</th>
+                    <th>Transaction Type</th>
                     <th>Recipient Name</th>
                     <th>Recipient Phone</th>
                     <th>Address</th>
@@ -280,6 +281,7 @@
                 {data: 'date', name: 'date'},
                 {data: 'time', name: 'time'},
                 {data: 'transaction_detail', name: 'transaction_detail'},
+                {data: 'transaction_type', name: 'transaction_type'},
                 {data: 'recipient_name', name: 'recipient_name'},
                 {data: 'recipient_phone', name: 'recipient_phone'},
                 {data: 'address', name: 'address'},
