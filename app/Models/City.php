@@ -56,10 +56,10 @@ class City extends Model
         }
     }
 
-    public function scopeProvince($query, $value)
+    public function scopeProvince($query, $province)
     {
-        if ($value != null) {
-            return $query->where('province_id', 'like', '%'.$value.'%');
+        if ($province != null) {
+            return $query->where('province_id', $province);
         }
         return $query;
     }

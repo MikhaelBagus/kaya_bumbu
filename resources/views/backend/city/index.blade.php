@@ -11,6 +11,30 @@
                 </div>
             </div>
 
+            <div class="panel panel-default" style="margin-bottom:0px">
+                <div class="panel-heading">
+                    Filter
+                </div>
+                <div class="panel-body">
+                    <form action="" method="POST">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Province</label>
+                                    <select id="province_id" class="input-sm form-control select_2" style="width:100%" name="province_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="panel-menu">
                 <a href="{{route('city.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
             </div>
@@ -19,7 +43,7 @@
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Province Name</th>
+                    <th>Province</th>
                     <th>Name</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
@@ -89,7 +113,10 @@
             pagingType: "full_numbers",
             ajax: {
                 url: '{!! route('city.ajax.data') !!}',
-                dataType: 'json'
+                dataType: 'json',
+                data: function (d) {
+                    d.province_id = $('#province_id').val();
+                },
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},
@@ -138,6 +165,40 @@
             select: {
                 style: 'multi'
             },
+        });
+
+        $('#choose').on('click', function (e) {
+            e.preventDefault();
+            table.draw();
+        });
+
+        $('#province_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('province.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
         });
     });
 </script>

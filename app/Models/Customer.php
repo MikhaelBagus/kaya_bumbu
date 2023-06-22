@@ -50,4 +50,22 @@ class Customer extends Model
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
+
+    public function scopeCity($query, $city)
+    {
+        if ($city != null) {
+            return $query->where('city_id', $city);
+        }
+        return $query;
+    }
+
+    public function scopeProvince($query, $province)
+    {
+        if ($province != null) {
+            return $query->whereHas('city', function($q) use($province) {
+                        $q->where('province_id', $province);
+                    });
+        }
+        return $query;
+    }
 }

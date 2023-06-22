@@ -86,7 +86,7 @@ class CustomerService implements CustomerServiceContract
             'customer.*',
         ];
 
-        $dataDb = Customer::select($select)->with('city','city.province');
+        $dataDb = Customer::select($select)->province($request->province_id)->city($request->city_id)->with('city','city.province');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(

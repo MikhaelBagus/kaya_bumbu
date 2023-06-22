@@ -145,6 +145,35 @@ class Transaction extends Model
         return $query;
     }
 
+    public function scopeDeliveryoption($query, $deliveryoption)
+    {
+        if ($deliveryoption != null) {
+            return $query->where('delivery_option', $deliveryoption);
+        }
+        return $query;
+    }
+
+    public function scopeDeliverytransport($query, $deliverytransport)
+    {
+        if ($deliverytransport != null) {
+            if($deliverytransport == 'Other'){
+                return $query->whereNotIn('delivery_transport', ['Mobil','Motor']);
+            }
+            else{
+                return $query->where('delivery_transport', $deliverytransport);
+            }
+        }
+        return $query;
+    }
+
+    public function scopeDeliverytype($query, $deliverytype)
+    {
+        if ($deliverytype != null) {
+            return $query->where('delivery_type', $deliverytype);
+        }
+        return $query;
+    }
+
     public function scopeBank($query, $bank)
     {
         if ($bank != null) {
@@ -165,6 +194,32 @@ class Transaction extends Model
     {
         if ($customer != null) {
             return $query->where('customer_id', $customer);
+        }
+        return $query;
+    }
+
+    public function scopeUser($query, $user)
+    {
+        if ($user != null) {
+            return $query->where('user_id', $user);
+        }
+        return $query;
+    }
+
+    public function scopeCity($query, $city)
+    {
+        if ($city != null) {
+            return $query->where('city_id', $city);
+        }
+        return $query;
+    }
+
+    public function scopeProvince($query, $province)
+    {
+        if ($province != null) {
+            return $query->whereHas('city', function($q) use($province) {
+                        $q->where('province_id', $province);
+                    });
         }
         return $query;
     }

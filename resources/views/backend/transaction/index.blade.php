@@ -66,6 +66,81 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Delivery Option</label>
+                                    <select id="delivery_option" class="input-sm form-control select_2" style="width:100%" name="delivery_option">
+                                        <option value=""></option>
+                                        <option value="Via Kaya Bumbu">Via Kaya Bumbu</option>
+                                        <option value="Self Order">Self Order</option>
+                                        <option value="Pick Up">Pick Up</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Delivery Transport</label>
+                                    <select id="delivery_transport" class="input-sm form-control select_2" style="width:100%" name="delivery_transport">
+                                        <option value=""></option>
+                                        <option value="Mobil">Mobil</option>
+                                        <option value="Motor">Motor</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Delivery Type</label>
+                                    <select id="delivery_type" class="input-sm form-control select_2" style="width:100%" name="delivery_type">
+                                        <option value=""></option>
+                                        <option value="Instant">Instant</option>
+                                        <option value="Same Day">Same Day</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Source</label>
+                                    <select id="source_id" class="input-sm form-control select_2" style="width:100%" name="source_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Admin</label>
+                                    <select id="user_id" class="input-sm form-control select_2" style="width:100%" name="user_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Customer Phone</label>
+                                    <select id="customer_id" class="input-sm form-control select_2" style="width:100%" name="customer_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Province</label>
+                                    <select id="province_id" class="input-sm form-control select_2" style="width:100%" name="province_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">City</label>
+                                    <select id="city_id" class="input-sm form-control select_2" style="width:100%" name="city_id">
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
                             </div>
@@ -86,12 +161,21 @@
                     <th>Status</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Admin</th>
+                    <th>Source</th>
                     <th>Payment Status</th>
                     <th>Delivery Option</th>
                     <th>Delivery Transport</th>
                     <th>Delivery Type</th>
                     <th>Customer Name</th>
                     <th>Customer Phone</th>
+                    <th>Recipient Name</th>
+                    <th>Recipient Phone</th>
+                    <th>Province</th>
+                    <th>City</th>
+                    <th>Address</th>
+                    <th>Ongkir Customer Price</th>
+                    <th>Actual Ongkir Price</th>
                     <th>Grand Price</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
@@ -163,10 +247,18 @@
                 url: '{!! route('transaction.ajax.data') !!}',
                 dataType: 'json',
                 data: function (d) {
-                    d.order_date_from = $('#order_date_from').val();
-                    d.order_date_to   = $('#order_date_to').val();
-                    d.status          = $('#status').val();
-                    d.payment_status  = $('#payment_status').val();
+                    d.order_date_from    = $('#order_date_from').val();
+                    d.order_date_to      = $('#order_date_to').val();
+                    d.status             = $('#status').val();
+                    d.payment_status     = $('#payment_status').val();
+                    d.delivery_option    = $('#delivery_option').val();
+                    d.delivery_transport = $('#delivery_transport').val();
+                    d.delivery_type      = $('#delivery_type').val();
+                    d.province_id        = $('#province_id').val();
+                    d.city_id            = $('#city_id').val();
+                    d.user_id            = $('#user_id').val();
+                    d.customer_id        = $('#customer_id').val();
+                    d.source_id          = $('#source_id').val();
                 },
             },
             columns: [
@@ -201,6 +293,8 @@
                 },
                 {data: 'date', name: 'date'},
                 {data: 'time', name: 'time'},
+                {data: 'user.name', name: 'user.name'},
+                {data: 'source.name', name: 'source.name'},
                 {
                     data: 'payment_status', name: 'payment_status',
                     render: function (data, type, oObj) {
@@ -218,8 +312,25 @@
                 {data: 'delivery_option', name: 'delivery_option'},
                 {data: 'delivery_transport', name: 'delivery_transport'},
                 {data: 'delivery_type', name: 'delivery_type'},
-                {data: 'customer.name', name: 'customer.name'},
-                {data: 'customer.phone', name: 'customer.phone'},
+                {data: 'customer_name', name: 'customer_name'},
+                {data: 'customer_phone', name: 'customer_phone'},
+                {data: 'recipient_name', name: 'recipient_name'},
+                {data: 'recipient_phone', name: 'recipient_phone'},
+                {data: 'city.province.name', name: 'city.province.name'},
+                {data: 'city.name', name: 'city.name'},
+                {data: 'address', name: 'address'},
+                {
+                    data: 'ongkir_price', name: 'ongkir_price',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
+                {
+                    data: 'actual_ongkir_price', name: 'actual_ongkir_price',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
                 {
                     data: 'grand_price', name: 'grand_price',
                     render: function (data, type, oObj) {
@@ -312,12 +423,186 @@
             containerCssClass: ':all:',
         });
 
+        $('#delivery_transport').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#delivery_option').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#delivery_type').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
         $('#status').select2({
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
             allowClear: true,
             containerCssClass: ':all:',
+        });
+
+        $('#user_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('users.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#source_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('source.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#customer_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('customer.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#province_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('province.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#province_id').on("select2:select", function() {
+            $('#city_id').empty();
+        });
+
+        $('#city_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('city.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page,
+                        province_id: $('#province_id').val()
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
         });
     });
 </script>

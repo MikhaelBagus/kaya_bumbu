@@ -37,7 +37,16 @@
                         <div class="col-md-3">
                             <div class="form-group @if($errors->has('hour')) has-error @endif">
                                 <label for="hour" class="control-label">Hour <span style="color: red">*</span></label>
-                                <input type="number" min="0" max="23" name="hour" id="hour" value="{{old('hour')}}" class="form-control input-sm" placeholder="Hour ...*" required>
+                                <select id="hour" name="hour" class="form-control" data-placeholder="Select Hour" required>
+                                    <option value=""></option>
+                                    <?php for ($i=0; $i < 24; $i++) { ?>
+                                        @if($i < 10)
+                                        <option value="0{{$i}}">0{{$i}}</option>
+                                        @else
+                                        <option value="{{$i}}">{{$i}}</option>
+                                        @endif
+                                    <?php } ?>
+                                </select>
                                 {!! $errors->first('hour', '<em for="hour" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -45,7 +54,16 @@
                         <div class="col-md-3">
                             <div class="form-group @if($errors->has('minute')) has-error @endif">
                                 <label for="minute" class="control-label">Minute <span style="color: red">*</span></label>
-                                <input type="number" min="0" max="59" name="minute" id="minute" value="{{old('minute')}}" class="form-control input-sm" placeholder="Minute ...*" required>
+                                <select id="minute" name="minute" class="form-control" data-placeholder="Select Minute" required>
+                                    <option value=""></option>
+                                    <?php for ($i=0; $i < 60; $i++) { ?>
+                                        @if($i < 10)
+                                        <option value="0{{$i}}">0{{$i}}</option>
+                                        @else
+                                        <option value="{{$i}}">{{$i}}</option>
+                                        @endif
+                                    <?php } ?>
+                                </select>
                                 {!! $errors->first('minute', '<em for="minute" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -542,6 +560,10 @@
             }
         });
 
+        $('#province_id').on("select2:select", function() {
+            $('#city_id').empty();
+        });
+
         $('#city_id').select2({
             theme: "bootstrap",
             placeholder: "Select",
@@ -597,6 +619,20 @@
                 },
                 cache: true,
             }
+        });
+
+        $('#hour').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+        });
+
+        $('#minute').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
         });
 
         //For Place To Check Item Same Or Not
