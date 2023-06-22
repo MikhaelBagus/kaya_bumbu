@@ -280,10 +280,6 @@
                     <label>Start Cooking</label>
                 </div>
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_end_cooking" {{ old('transaction_edit_end_cooking') || array_key_exists('transaction.edit_end_cooking', $permissions) ? 'checked' : ''}}>
-                    <label>End Cooking</label>
-                </div>
-                <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_delivery" {{ old('transaction_edit_start_delivery') || array_key_exists('transaction.edit_start_delivery', $permissions) ? 'checked' : ''}}>
                     <label>Start Delivery</label>
                 </div>

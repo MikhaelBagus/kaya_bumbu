@@ -40,10 +40,8 @@
                             @elseif($transaction->status == 1)
                             Start Cooking
                             @elseif($transaction->status == 2)
-                            End Cooking
-                            @elseif($transaction->status == 3)
                             Start Delivery
-                            @elseif($transaction->status == 4)
+                            @elseif($transaction->status == 3)
                             Done
                             @endif
                         </dd>
@@ -184,18 +182,6 @@
                             : {{$transaction->start_cooking_by}}
                         </dd>
                         <dt class="text-left">
-                            End Cooking At
-                        </dt>
-                        <dd>
-                            : {{$transaction->end_cooking_at}}
-                        </dd>
-                        <dt class="text-left">
-                            End Cooking By
-                        </dt>
-                        <dd>
-                            : {{$transaction->end_cooking_by}}
-                        </dd>
-                        <dt class="text-left">
                             Start Delivery At
                         </dt>
                         <dd>
@@ -290,10 +276,8 @@
                     @if($transaction->status == 0)
                     <a href="#" data-message="Start Cooking {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Start Cooking {{$transaction->code}} ?" data-title-modal="Start Cooking {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Start Cooking {{$transaction->code}} ?" class="btn btn-success btn-sm">Start Cooking</a>
                     @elseif($transaction->status == 1)
-                    <a href="#" data-message="End Cooking {{$transaction->code}} ?" data-href="{{route('transaction.update_end_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="End Cooking {{$transaction->code}} ?" data-title-modal="End Cooking {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="End Cooking {{$transaction->code}} ?" class="btn btn-success btn-sm">End Cooking</a>
-                    @elseif($transaction->status == 2)
                     <a href="#" data-message="Start Delivery {{$transaction->code}} ?" data-href="{{route('transaction.update_start_delivery', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Start Delivery {{$transaction->code}} ?" data-title-modal="Start Delivery {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Start Delivery {{$transaction->code}} ?" class="btn btn-success btn-sm">Start Delivery</a>
-                    @elseif($transaction->status == 3)
+                    @elseif($transaction->status == 2)
                     <a href="{{route('transaction.edit_end_delivery', [$dataDb->id])}}" class="btn btn-success btn-sm">End Delivery</a>
                     @endif
                     @if($transaction->payment_status == 0)

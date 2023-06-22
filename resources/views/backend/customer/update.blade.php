@@ -55,8 +55,8 @@
 
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('address')) has-error @endif">
-                            <label for="address" class="control-label">Address <span style="color: red">*</span></label>
-                            <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ...*" required>{{old('address', $customer->address)}}</textarea>
+                            <label for="address" class="control-label">Address </label>
+                            <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ..." required>{{old('address', $customer->address)}}</textarea>
                             {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
                         </div>
                     </div>

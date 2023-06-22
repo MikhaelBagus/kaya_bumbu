@@ -30,8 +30,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group @if($errors->has('email')) has-error @endif">
-                            <label for="email" class="control-label">@lang('auth.form_user_email_label') <span style="color: red">*</span></label>
-                            <input type="email" name="email" class="form-control input-sm" placeholder="user@klikabc.com" value="{{ old('email') }}" tabindex="3" required>
+                            <label for="email" class="control-label">Username <span style="color: red">*</span></label>
+                            <input type="text" name="email" class="form-control input-sm" placeholder="Username ...*" value="{{ old('email') }}" tabindex="3" required>
                             {!! $errors->first('email', '<p class="text-danger">:message</p>') !!}
                         </div>
 

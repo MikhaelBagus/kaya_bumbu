@@ -55,7 +55,6 @@ class TransactionService implements TransactionServiceContract
                 $customerDb->name           = $request->customer_name;
                 $customerDb->phone          = $request->customer_id;
                 $customerDb->city_id        = $request->city_id;
-                $customerDb->address        = $request->address;
                 $customerDb->created_by     = Sentinel::getUser()->email;
                 $customerDb->save();
             }
@@ -77,8 +76,7 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->payment_status      = $request->payment_status;
             $transactionDb->discount_price      = $request->discount_price;
             $transactionDb->ongkir_price        = $request->ongkir_price;
-            $transactionDb->actual_ongkir_price = $request->ongkir_driver_price;
-            $transactionDb->ongkir_driver_price = $request->ongkir_driver_price;
+            $transactionDb->actual_ongkir_price = $request->actual_ongkir_price;
             $transactionDb->grand_price         = $total_price - $request->discount_price + $request->ongkir_price;
             $transactionDb->address             = $request->address;
             $transactionDb->recipient_phone     = $request->recipient_phone;
@@ -93,6 +91,7 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->delivery_option     = $request->delivery_option;
             $transactionDb->delivery_transport  = $request->delivery_transport;
             $transactionDb->delivery_type       = $request->delivery_type;
+            $transactionDb->transaction_type    = $request->transaction_type;
             $transactionDb->notes               = $request->notes;
             $transactionDb->status              = 0;
             $transactionDb->created_by          = Sentinel::getUser()->email;
@@ -138,7 +137,7 @@ class TransactionService implements TransactionServiceContract
             'transaction.*',
         ];
 
-        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->deliveryoption($request->delivery_option)->deliverytransport($request->delivery_transport)->deliverytype($request->delivery_type)->source($request->source_id)->customer($request->customer_id)->user($request->user_id)->province($request->province_id)->city($request->city_id)->with('city','city.province','customer','bank','source','user');
+        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->deliveryoption($request->delivery_option)->deliverytransport($request->delivery_transport)->deliverytype($request->delivery_type)->transactiontype($request->transaction_type)->source($request->source_id)->customer($request->customer_id)->user($request->user_id)->province($request->province_id)->city($request->city_id)->with('city','city.province','customer','bank','source','user');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
@@ -149,19 +148,13 @@ class TransactionService implements TransactionServiceContract
                         $updateButton = '<a href="#" data-message="Start Cooking '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Start Cooking '.$dataDb->code.' ?" data-title-modal="Start Cooking '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Start Cooking '.$dataDb->code.' ?"><span class="label label-success label-sm">Start Cooking</span></a>';
                     }
                     else if($dataDb->status == 1){
-                        $updateButton = '<a href="#" data-message="End Cooking '.$dataDb->code.' ?" data-href="' . route('transaction.update_end_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="End Cooking '.$dataDb->code.' ?" data-title-modal="End Cooking '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="End Cooking '.$dataDb->code.' ?"><span class="label label-success label-sm">End Cooking</span></a>';
-                    }
-                    else if($dataDb->status == 2){
                         $updateButton = '<a href="#" data-message="Start Delivery '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_delivery', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Start Delivery '.$dataDb->code.' ?" data-title-modal="Start Delivery '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Start Delivery '.$dataDb->code.' ?"><span class="label label-success label-sm">Start Delivery</span></a>';
                     }
-                    else if($dataDb->status == 3){
+                    else if($dataDb->status == 2){
                         $updateButton = '<a href="'.route('transaction.edit_end_delivery', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-success label-sm">End Delivery</span></a>';
                     }
 
-                    $updatePaymentButton = '';
-                    if($dataDb->payment_status == 0){
-                        $updatePaymentButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
-                    }
+                    $updatePaymentButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
 
                     return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
                         <a href="'.route('transaction.pdf', [$dataDb->id]).'" id="tooltip" title="PDF"><span class="label label-warning label-sm">PDF</span></a>
@@ -182,7 +175,19 @@ class TransactionService implements TransactionServiceContract
             ->addColumn('bank_full', function ($dataDb) {
                 return $dataDb->bank->bank_name.' '.$dataDb->bank->account_number.' a/n '.$dataDb->bank->account_name;
             })
-            ->rawColumns(array('bank_full', 'action'))
+            ->addColumn('transaction_detail', function ($dataDb) {
+                $transaction_detail = '';
+                foreach($dataDb->transaction_product as $detail){
+                    if($transaction_detail == ''){
+                        $transaction_detail = '- '.$detail->name.' | '.$detail->qty.' '.$detail->unit.' ('.$detail->notes.')';
+                    }
+                    else{
+                        $transaction_detail = $transaction_detail.'<br>- '.$detail->name.' | '.$detail->qty.' '.$detail->unit.' ('.$detail->notes.')';
+                    }
+                }
+                return $transaction_detail;
+            })
+            ->rawColumns(array('bank_full', 'transaction_detail', 'action'))
             ->make(true);
     }
 
@@ -309,43 +314,13 @@ class TransactionService implements TransactionServiceContract
         }
     }
 
-    public function updateEndCooking(int $id)
-    {
-        DB::beginTransaction();
-
-        try {
-            $transactionDb = Transaction::find($id);
-            $transactionDb->status          = 2;
-            $transactionDb->end_cooking_at  = date('y-m-d H:i:s');
-            $transactionDb->end_cooking_by  = Sentinel::getUser()->email;
-            $transactionDb->updated_by      = Sentinel::getUser()->email;
-            $transactionDb->save();
-
-            $logDb = new Log();
-            $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Update End Cooking '.$transactionDb->code;
-            $logDb->menu        = 'Transaction';
-            $logDb->item_id     = $transactionDb->id;
-            $logDb->created_by  = Sentinel::getUser()->email;
-            $logDb->save();
-
-            DB::commit();
-
-            return $transactionDb;
-        }
-        catch (\Exception $exception) {
-            DB::rollBack();
-            dd($exception->getMessage());
-        }
-    }
-
     public function updateStartDelivery(int $id)
     {
         DB::beginTransaction();
 
         try {
             $transactionDb = Transaction::find($id);
-            $transactionDb->status             = 3;
+            $transactionDb->status             = 2;
             $transactionDb->start_delivery_at  = date('y-m-d H:i:s');
             $transactionDb->start_delivery_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by         = Sentinel::getUser()->email;
@@ -388,7 +363,7 @@ class TransactionService implements TransactionServiceContract
                 $tanda_terima_url = '';
             }
             $transactionDb->tanda_terima_url = $tanda_terima_url;
-            $transactionDb->status           = 4;
+            $transactionDb->status           = 3;
             $transactionDb->end_delivery_at  = date('y-m-d H:i:s');
             $transactionDb->end_delivery_by  = Sentinel::getUser()->email;
             $transactionDb->updated_by       = Sentinel::getUser()->email;

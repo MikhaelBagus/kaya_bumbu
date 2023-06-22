@@ -157,7 +157,7 @@ class Transaction extends Model
     {
         if ($deliverytransport != null) {
             if($deliverytransport == 'Other'){
-                return $query->whereNotIn('delivery_transport', ['Mobil','Motor']);
+                return $query->whereNotIn('delivery_transport', ['-', 'Mobil','Motor']);
             }
             else{
                 return $query->where('delivery_transport', $deliverytransport);
@@ -220,6 +220,14 @@ class Transaction extends Model
             return $query->whereHas('city', function($q) use($province) {
                         $q->where('province_id', $province);
                     });
+        }
+        return $query;
+    }
+
+    public function scopeTransactiontype($query, $transactiontype)
+    {
+        if ($transactiontype != null) {
+            return $query->where('transaction_type', $transactiontype);
         }
         return $query;
     }

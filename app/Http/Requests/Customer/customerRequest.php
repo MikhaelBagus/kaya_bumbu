@@ -26,7 +26,6 @@ class customerRequest extends FormRequest
         if(request()->method == 'POST'){
             return [
                 'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
-                'address'       => 'required|regex:/^(?:[^"\'\<>])+$/i',
                 'phone'         => 'required|numeric',
                 'city_id'       => 'required|numeric',
             ];
@@ -34,7 +33,6 @@ class customerRequest extends FormRequest
         else{
             return [
                 'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
-                'address'       => 'required|regex:/^(?:[^"\'\<>])+$/i',
                 'phone'         => 'required|numeric',
                 'city_id'       => 'required|numeric',
             ];

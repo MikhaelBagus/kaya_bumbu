@@ -27,6 +27,7 @@ class CreateTransactionTable extends Migration
             $table->string('customer_phone')->default('');
             $table->string('recipient_name')->default('');
             $table->string('recipient_phone')->default('');
+            $table->string('transaction_type')->default('');
             $table->string('delivery_option')->default('');
             $table->string('delivery_transport')->default('');
             $table->string('delivery_type')->default('');
@@ -37,13 +38,10 @@ class CreateTransactionTable extends Migration
             $table->double('discount_price')->default(0);
             $table->double('grand_price')->default(0);
             $table->double('ongkir_price')->default(0);
-            $table->double('ongkir_driver_price')->default(0);
             $table->double('actual_ongkir_price')->default(0);
             $table->string('tanda_terima_url')->default('');
             $table->datetime('start_cooking_at')->nullable();
             $table->string('start_cooking_by')->default('');
-            $table->datetime('end_cooking_at')->nullable();
-            $table->string('end_cooking_by')->default('');
             $table->datetime('start_delivery_at')->nullable();
             $table->string('start_delivery_by')->default('');
             $table->datetime('end_delivery_at')->nullable();

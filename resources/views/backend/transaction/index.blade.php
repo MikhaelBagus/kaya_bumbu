@@ -48,9 +48,8 @@
                                         <option value=""></option>
                                         <option value="0">New Order</option>
                                         <option value="1">Start Cooking</option>
-                                        <option value="2">End Cooking</option>
-                                        <option value="3">Start Delivery</option>
-                                        <option value="4">Done</option>
+                                        <option value="2">Start Delivery</option>
+                                        <option value="3">Done</option>
                                     </select>
                                 </div>
                             </div>
@@ -83,6 +82,7 @@
                                     <label class="control-label">Delivery Transport</label>
                                     <select id="delivery_transport" class="input-sm form-control select_2" style="width:100%" name="delivery_transport">
                                         <option value=""></option>
+                                        <option value="-">-</option>
                                         <option value="Mobil">Mobil</option>
                                         <option value="Motor">Motor</option>
                                         <option value="Other">Other</option>
@@ -95,6 +95,7 @@
                                     <label class="control-label">Delivery Type</label>
                                     <select id="delivery_type" class="input-sm form-control select_2" style="width:100%" name="delivery_type">
                                         <option value=""></option>
+                                        <option value="-">-</option>
                                         <option value="Instant">Instant</option>
                                         <option value="Same Day">Same Day</option>
                                     </select>
@@ -149,6 +150,17 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Transaction Type</label>
+                                    <select id="transaction_type" class="input-sm form-control select_2" style="width:100%" name="transaction_type">
+                                        <option value=""></option>
+                                        <option value="PO">PO</option>
+                                        <option value="Dadakan">Dadakan</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
                             </div>
@@ -164,28 +176,18 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th style="text-align: center">&nbsp;</th>
-                    <th>Code</th>
-                    <th>Status</th>
+                    <th>Admin</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Admin</th>
-                    <th>Source</th>
-                    <th>Payment Status</th>
-                    <th>Bank</th>
+                    <th>Detail Pesanan</th>
+                    <th>Recipient Name</th>
+                    <th>Recipient Phone</th>
+                    <th>Address</th>
                     <th>Delivery Option</th>
                     <th>Delivery Transport</th>
                     <th>Delivery Type</th>
-                    <th>Customer Name</th>
-                    <th>Customer Phone</th>
-                    <th>Recipient Name</th>
-                    <th>Recipient Phone</th>
-                    <th>Province</th>
-                    <th>City</th>
-                    <th>Address</th>
-                    <th>Ongkir Customer Price</th>
-                    <th>Actual Ongkir Price</th>
-                    <th>Grand Price</th>
+                    <th>Payment Status</th>
+                    <th>Notes</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -269,42 +271,21 @@
                     d.customer_id        = $('#customer_id').val();
                     d.source_id          = $('#source_id').val();
                     d.bank_id            = $('#bank_id').val();
+                    d.transaction_type   = $('#transaction_type').val();
                 },
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},
-                {
-                    data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
-                    checkboxes: true
-                },
-                {data: 'code', name: 'code'},
-                {
-                    data: 'status', name: 'status',
-                    render: function (data, type, oObj) {
-                        if(data == 0){
-                            return 'New Order';
-                        }
-                        else if(data == 1){
-                            return 'Start Cooking';
-                        }
-                        else if(data == 2){
-                            return 'End Cooking';
-                        }
-                        else if(data == 3){
-                            return 'Start Delivery';
-                        }
-                        else if(data == 4){
-                            return 'Done';
-                        }
-                        else{
-                            return '';
-                        }
-                    }
-                },
+                {data: 'user.name', name: 'user.name'},
                 {data: 'date', name: 'date'},
                 {data: 'time', name: 'time'},
-                {data: 'user.name', name: 'user.name'},
-                {data: 'source.name', name: 'source.name'},
+                {data: 'transaction_detail', name: 'transaction_detail'},
+                {data: 'recipient_name', name: 'recipient_name'},
+                {data: 'recipient_phone', name: 'recipient_phone'},
+                {data: 'address', name: 'address'},
+                {data: 'delivery_option', name: 'delivery_option'},
+                {data: 'delivery_transport', name: 'delivery_transport'},
+                {data: 'delivery_type', name: 'delivery_type'},
                 {
                     data: 'payment_status', name: 'payment_status',
                     render: function (data, type, oObj) {
@@ -319,35 +300,7 @@
                         }
                     }
                 },
-                {data: 'bank_full', name: 'bank.account_number'},
-                {data: 'delivery_option', name: 'delivery_option'},
-                {data: 'delivery_transport', name: 'delivery_transport'},
-                {data: 'delivery_type', name: 'delivery_type'},
-                {data: 'customer.name', name: 'customer.name'},
-                {data: 'customer.phone', name: 'customer.phone'},
-                {data: 'recipient_name', name: 'recipient_name'},
-                {data: 'recipient_phone', name: 'recipient_phone'},
-                {data: 'city.province.name', name: 'city.province.name'},
-                {data: 'city.name', name: 'city.name'},
-                {data: 'address', name: 'address'},
-                {
-                    data: 'ongkir_price', name: 'ongkir_price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
-                {
-                    data: 'actual_ongkir_price', name: 'actual_ongkir_price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
-                {
-                    data: 'grand_price', name: 'grand_price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
+                {data: 'notes', name: 'notes'},
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {
@@ -427,6 +380,14 @@
         });
 
         $('#payment_status').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#transaction_type').select2({
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',

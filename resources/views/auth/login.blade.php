@@ -57,9 +57,9 @@
                             <div class="row">
                                 <div class="col-sm-12 pr30">
                                     <div class="section">
-                                        <label for="email" class="field-label text-muted fs18 mb10">Email</label>
+                                        <label for="email" class="field-label text-muted fs18 mb10">Username</label>
                                         <label for="email" class="field prepend-icon {{ $errors->has('email') ? 'state-error' : '' }}">
-                                            <input type="email" name="email" id="email" class="gui-input" placeholder="Email">
+                                            <input type="text" name="email" id="email" class="gui-input" placeholder="Username">
                                             <label for="email" class="field-icon">
                                                 <i class="fa fa-envelope"></i>
                                             </label>

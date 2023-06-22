@@ -705,9 +705,6 @@ Route::group([
     Route::put('/{id}/update-start-cooking', [TransactionController::class, 'updateStartCooking'])
         ->name('transaction.update_start_cooking')->middleware('sentinel.permission:transaction.edit_start_cooking');
 
-    Route::put('/{id}/update-end-cooking', [TransactionController::class, 'updateEndCooking'])
-        ->name('transaction.update_end_cooking')->middleware('sentinel.permission:transaction.edit_end_cooking');
-
     Route::put('/{id}/update-start-delivery', [TransactionController::class, 'updateStartDelivery'])
         ->name('transaction.update_start_delivery')->middleware('sentinel.permission:transaction.edit_start_delivery');
 

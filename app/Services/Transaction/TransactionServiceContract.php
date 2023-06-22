@@ -18,8 +18,6 @@ interface TransactionServiceContract
 
     public function updateStartCooking(int $id);
 
-    public function updateEndCooking(int $id);
-
     public function updateStartDelivery(int $id);
 
     public function updateEndDelivery(int $id, $request);

@@ -15,12 +15,24 @@
                     {!! csrf_field() !!}
 
                     <div class="col-md-12">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group @if($errors->has('user_id')) has-error @endif">
                                 <label for="user_id" class="control-label">Admin <span style="color: red">*</span></label>
-                                <select id="user_id" name="user_id" class="form-control" data-placeholder="Select Admin" required>
+                                <select id="user_id" name="user_id" class="form-control" data-placeholder="Select Admin" required @if(Sentinel::inRole('root')) @else disabled @endif>
+                                    <option value="{{Sentinel::getUser()->id}}">{{Sentinel::getUser()->name}}</option>
                                 </select>
                                 {!! $errors->first('user_id', '<em for="user_id" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @if($errors->has('transaction_type')) has-error @endif">
+                                <label for="transaction_type" class="control-label">Transaction Type <span style="color: red">*</span></label>
+                                <select id="transaction_type" name="transaction_type" class="form-control" data-placeholder="Select Transaction Type" required>
+                                    <option value=""></option>
+                                    <option value="PO">PO</option>
+                                    <option value="Dadakan">Dadakan</option>
+                                </select>
+                                {!! $errors->first('transaction_type', '<em for="transaction_type" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
                     </div>
@@ -190,6 +202,7 @@
                                 <label for="delivery_transport" class="control-label">Delivery Transport <span style="color: red">*</span></label>
                                 <select id="delivery_transport" name="delivery_transport" class="form-control" data-placeholder="Select Delivery Transport" required>
                                     <option value=""></option>
+                                    <option value="-">-</option>
                                     <option value="Mobil">Mobil</option>
                                     <option value="Motor">Motor</option>
                                 </select>
@@ -202,6 +215,7 @@
                                 <label for="delivery_type" class="control-label">Delivery Type <span style="color: red">*</span></label>
                                 <select id="delivery_type" name="delivery_type" class="form-control" data-placeholder="Select Delivery Type" required>
                                     <option value=""></option>
+                                    <option value="-">-</option>
                                     <option value="Instant">Instant</option>
                                     <option value="Same Day">Same Day</option>
                                 </select>
@@ -214,7 +228,7 @@
                         <div class="col-md-12">
                             <div class="form-group @if($errors->has('notes')) has-error @endif">
                                 <label for="notes" class="control-label">Notes</label>
-                                <textarea name="notes" id="notes" class="form-control input-sm" placeholder="Notes ...*">{{old('notes')}}</textarea>
+                                <textarea name="notes" id="notes" class="form-control input-sm" placeholder="Notes ...">{{old('notes')}}</textarea>
                                 {!! $errors->first('notes', '<em for="notes" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -298,8 +312,8 @@
                                         Ongkir Driver Price :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="ongkir_driver_price" id="ongkir_driver_price" value="0" class="form-control input-sm" placeholder="Ongkir Driver Price ...*" min="0" required>
-                                        {!! $errors->first('ongkir_driver_price', '<em for="ongkir_driver_price" class="text-danger">:message</em>') !!}
+                                        <input type="number" name="actual_ongkir_price" id="actual_ongkir_price" value="0" class="form-control input-sm" placeholder="Ongkir Driver Price ...*" min="0" required>
+                                        {!! $errors->first('actual_ongkir_price', '<em for="actual_ongkir_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
                                 </tr>
@@ -390,6 +404,13 @@
         });
 
         $('#delivery_type').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+        });
+
+        $('#transaction_type').select2({
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',

@@ -31,18 +31,10 @@
             <td width="30%" style="text-align: right;">
                 <span style="font-size: 32px">DELIVERY ORDER</span><br>
                 Delivery Date:
-                @if($transaction->start_delivery_at == null)
-                -
-                @else
-                {{date('d F Y', strtotime($transaction->start_delivery_at))}}
-                @endif
+                {{date('d F Y', strtotime($transaction->date))}}
                 <br>
                 Delivery Time:
-                @if($transaction->start_delivery_at == null)
-                -
-                @else
-                {{date('H:i', strtotime($transaction->start_delivery_at))}}
-                @endif
+                ____________________
             </td>
         </tr>
     </table>
@@ -55,7 +47,7 @@
             <td>No Kontak: {{$transaction->recipient_phone}}</td>
         </tr>
         <tr>
-            <td>Alamat Kirim: {{$transaction->address}}</td>
+            <td>Alamat Kirim: {{$transaction->address}}, {{$transaction->city->name}}, {{$transaction->city->province->name}}</td>
         </tr>
     </table>
     <br>
@@ -109,8 +101,6 @@
             </td>
             <td width="33%" style="border: solid 1px; vertical-align: top;">
                 CATATAN
-                <br>
-                {{$transaction->notes}}
             </td>
         </tr>
     </table>

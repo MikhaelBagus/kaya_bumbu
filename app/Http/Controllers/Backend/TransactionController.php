@@ -117,20 +117,6 @@ class TransactionController extends Controller
         }
     }
 
-    public function updateEndCooking($id, TransactionServiceContract $transactionServiceContract)
-    {
-        #Save Transaction Data
-        if (is_object($transactionServiceContract->updateEndCooking($id))) {
-
-            #Bump....
-            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
-        } else {
-
-            #Bump....
-            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
-        }
-    }
-
     public function updateStartDelivery($id, TransactionServiceContract $transactionServiceContract)
     {
         #Save Transaction Data

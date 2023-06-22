@@ -31,7 +31,7 @@
             <td width="30%" style="text-align: right;">
                 <span style="font-size: 32px">INVOICE</span><br>
                 Tanggal Pengiriman:
-                {{date('d F Y', strtotime($transaction->start_delivery_at))}}
+                {{date('d F Y', strtotime($transaction->date))}}
                 <br>
                 No Invoice:
                 {{$transaction->code}}
@@ -82,6 +82,12 @@
             <td colspan="2">SUBTOTAL</td>
             <td>Rp</td>
             <td style="text-align: right;">{{number_format($subtotal,0,',','.')}}</td>
+        </tr>
+        <tr>
+            <td colspan="4"></td>
+            <td colspan="2">Diskon</td>
+            <td>Rp</td>
+            <td style="text-align: right;">{{number_format($transaction->discount_price,0,',','.')}}</td>
         </tr>
         <tr>
             <td colspan="4"></td>
