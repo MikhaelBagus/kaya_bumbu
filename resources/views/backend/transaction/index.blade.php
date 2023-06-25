@@ -59,6 +59,17 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    <label class="control-label">Transaction Type</label>
+                                    <select id="transaction_type" class="input-sm form-control select_2" style="width:100%" name="transaction_type">
+                                        <option value=""></option>
+                                        <option value="PO">PO</option>
+                                        <option value="Pesanan Baru">Pesanan Baru</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label class="control-label">Status</label>
                                     <select id="status" class="input-sm form-control select_2" style="width:100%" name="status">
                                         <option value=""></option>
@@ -77,6 +88,14 @@
                                         <option value=""></option>
                                         <option value="0">Pending</option>
                                         <option value="1">Done</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Bank</label>
+                                    <select id="bank_id" class="input-sm form-control select_2" style="width:100%" name="bank_id">
                                     </select>
                                 </div>
                             </div>
@@ -144,14 +163,6 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Driver</label>
-                                    <select id="driver_id" class="input-sm form-control select_2" style="width:100%" name="driver_id">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
                                     <label class="control-label">Province</label>
                                     <select id="province_id" class="input-sm form-control select_2" style="width:100%" name="province_id">
                                     </select>
@@ -168,19 +179,8 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Bank</label>
-                                    <select id="bank_id" class="input-sm form-control select_2" style="width:100%" name="bank_id">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Transaction Type</label>
-                                    <select id="transaction_type" class="input-sm form-control select_2" style="width:100%" name="transaction_type">
-                                        <option value=""></option>
-                                        <option value="PO">PO</option>
-                                        <option value="Pesanan Baru">Pesanan Baru</option>
+                                    <label class="control-label">Driver</label>
+                                    <select id="driver_id" class="input-sm form-control select_2" style="width:100%" name="driver_id">
                                     </select>
                                 </div>
                             </div>
@@ -391,13 +391,15 @@
         });
 
         $('#order_date_from').on('change',function(){
-           if($('#order_date_to').val() == '')
+           if($('#order_date_to').val() == ''){
               $('#order_date_to').val($('#order_date_from').val());
+           }
         });
 
         $('#order_date_to').on('change',function(){
-           if($('#order_date_from').val() == '')
+           if($('#order_date_from').val() == ''){
               $('#order_date_from').val($('#order_date_to').val());
+           }
         });
 
         $('#clearOrderDateFrom').on('click', function () {
@@ -409,13 +411,16 @@
         });
 
         $('#grand_price_from').on('change',function(){
-           if($('#grand_price_to').val() == '')
+            console.log($('#grand_price_to').val());
+           if($('#grand_price_to').val() == ''){
               $('#grand_price_to').val($('#order_date_from').val());
+           }
         });
 
         $('#grand_price_to').on('change',function(){
-           if($('#grand_price_from').val() == '')
+           if($('#grand_price_from').val() == ''){
               $('#grand_price_from').val($('#order_date_to').val());
+           }
         });
 
         $('#clearGrandPriceFrom').on('click', function () {
