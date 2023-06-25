@@ -59,7 +59,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Transaction Type</label>
+                                    <label class="control-label">Tipe Transaksi</label>
                                     <select id="transaction_type" class="input-sm form-control select_2" style="width:100%" name="transaction_type">
                                         <option value=""></option>
                                         <option value="PO">PO</option>
@@ -73,9 +73,9 @@
                                     <label class="control-label">Status</label>
                                     <select id="status" class="input-sm form-control select_2" style="width:100%" name="status">
                                         <option value=""></option>
-                                        <option value="0">New Order</option>
-                                        <option value="1">Start Cooking</option>
-                                        <option value="2">Start Delivery</option>
+                                        <option value="0">Pesanan Baru</option>
+                                        <option value="1">Mulai Masak</option>
+                                        <option value="2">Mulai Pengiriman</option>
                                         <option value="3">Done</option>
                                     </select>
                                 </div>
@@ -83,7 +83,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Payment Status</label>
+                                    <label class="control-label">Status Pembayaran</label>
                                     <select id="payment_status" class="input-sm form-control select_2" style="width:100%" name="payment_status">
                                         <option value=""></option>
                                         <option value="0">Pending</option>
@@ -102,7 +102,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Delivery Option</label>
+                                    <label class="control-label">Pengiriman Menggunakan</label>
                                     <select id="delivery_option" class="input-sm form-control select_2" style="width:100%" name="delivery_option">
                                         <option value=""></option>
                                         <option value="Via Kaya Bumbu">Via Kaya Bumbu</option>
@@ -114,7 +114,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Delivery Transport</label>
+                                    <label class="control-label">Jenis Kendaraan</label>
                                     <select id="delivery_transport" class="input-sm form-control select_2" style="width:100%" name="delivery_transport">
                                         <option value=""></option>
                                         <option value="-">-</option>
@@ -127,7 +127,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Delivery Type</label>
+                                    <label class="control-label">Jenis Pengiriman</label>
                                     <select id="delivery_type" class="input-sm form-control select_2" style="width:100%" name="delivery_type">
                                         <option value=""></option>
                                         <option value="-">-</option>
@@ -139,7 +139,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Source</label>
+                                    <label class="control-label">Sumber</label>
                                     <select id="source_id" class="input-sm form-control select_2" style="width:100%" name="source_id">
                                     </select>
                                 </div>
@@ -155,7 +155,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Customer Phone</label>
+                                    <label class="control-label">Phone Pemesan</label>
                                     <select id="customer_id" class="input-sm form-control select_2" style="width:100%" name="customer_id">
                                     </select>
                                 </div>
@@ -163,7 +163,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Province</label>
+                                    <label class="control-label">Provinsi</label>
                                     <select id="province_id" class="input-sm form-control select_2" style="width:100%" name="province_id">
                                     </select>
                                 </div>
@@ -171,7 +171,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">City</label>
+                                    <label class="control-label">Kota</label>
                                     <select id="city_id" class="input-sm form-control select_2" style="width:100%" name="city_id">
                                     </select>
                                 </div>
@@ -201,17 +201,17 @@
                 <tr>
                     <th>#</th>
                     <th>Admin</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th>Tanggal Pengiriman</th>
+                    <th>Waktu Pengiriman</th>
                     <th>Detail Pesanan</th>
-                    <th>Transaction Type</th>
-                    <th>Recipient Name</th>
-                    <th>Recipient Phone</th>
-                    <th>Address</th>
-                    <th>Delivery Option</th>
-                    <th>Delivery Transport</th>
-                    <th>Delivery Type</th>
-                    <th>Payment Status</th>
+                    <th>Tipe Transaksi</th>
+                    <th>Nama Penerima</th>
+                    <th>Phone Penerima</th>
+                    <th>Alamat</th>
+                    <th>Pengiriman Menggunakan</th>
+                    <th>Jenis Kendaraan</th>
+                    <th>Jenis Pengiriman</th>
+                    <th>Status Pembayaran</th>
                     <th>Notes</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>

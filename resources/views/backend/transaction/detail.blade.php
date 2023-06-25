@@ -32,7 +32,7 @@
                             : {{$transaction->code}}
                         </dd>
                         <dt class="text-left">
-                            Transaction Type
+                            Tipe Transaksi
                         </dt>
                         <dd>
                             : {{$transaction->transaction_type}}
@@ -52,13 +52,13 @@
                             @endif
                         </dd>
                         <dt class="text-left">
-                            Date
+                            Tanggal Pengiriman
                         </dt>
                         <dd>
                             : {{$transaction->date}} {{$transaction->time}}
                         </dd>
                         <dt class="text-left">
-                            Payment Status
+                            Status Pembayaran
                         </dt>
                         <dd>
                             : @if($transaction->payment_status == 0)
@@ -80,25 +80,25 @@
                             : {{$transaction->bank->bank_name}} {{$transaction->bank->account_number}} a\n {{$transaction->bank->account_name}}
                         </dd>
                         <dt class="text-left">
-                            Source
+                            Sumber
                         </dt>
                         <dd>
                             : {{$transaction->source->name}}
                         </dd>
                         <dt class="text-left">
-                            Delivery Option
+                            Pengiriman Menggunakan
                         </dt>
                         <dd>
                             : {{$transaction->delivery_option}}
                         </dd>
                         <dt class="text-left">
-                            Delivery Transport
+                            Jenis Kendaraan
                         </dt>
                         <dd>
                             : {{$transaction->delivery_transport}}
                         </dd>
                         <dt class="text-left">
-                            Delivery Type
+                            Jenis Pengiriman
                         </dt>
                         <dd>
                             : {{$transaction->delivery_type}}
@@ -110,55 +110,55 @@
                             : {{$transaction->notes}}
                         </dd>
                         <dt class="text-left">
-                            Customer Phone
+                            Phone Pemesan
                         </dt>
                         <dd>
                             : {{$transaction->customer_phone}}
                         </dd>
                         <dt class="text-left">
-                            Customer Name
+                            Nama Pemesan
                         </dt>
                         <dd>
                             : {{$transaction->customer_name}}
                         </dd>
                         <dt class="text-left">
-                            Recipient Phone
+                            Phone Penerima
                         </dt>
                         <dd>
                             : {{$transaction->recipient_phone}}
                         </dd>
                         <dt class="text-left">
-                            Recipient Name
+                            Nama Penerima
                         </dt>
                         <dd>
                             : {{$transaction->recipient_name}}
                         </dd>
                         <dt class="text-left">
-                            Province
+                            Provinsi
                         </dt>
                         <dd>
                             : {{$transaction->city->province->name}}
                         </dd>
                         <dt class="text-left">
-                            City
+                            Kota
                         </dt>
                         <dd>
                             : {{$transaction->city->name}}
                         </dd>
                         <dt class="text-left">
-                            Address
+                            Alamat
                         </dt>
                         <dd>
                             : {{$transaction->address}}
                         </dd>
                         <dt class="text-left">
-                            Ongkir Customer Price
+                            Harga Ongkir Customer
                         </dt>
                         <dd>
                             : Rp {{number_format($transaction->ongkir_price,0,',','.')}}
                         </dd>
                         <dt class="text-left">
-                            Actual Ongkir Price
+                            Harga Ongkir Driver
                         </dt>
                         <dd>
                             : Rp {{number_format($transaction->actual_ongkir_price,0,',','.')}}
@@ -170,37 +170,37 @@
                             : @if($transaction->tanda_terima_url != '')<a href="{{asset($transaction->tanda_terima_url)}}">{{asset($transaction->tanda_terima_url)}}</a>@endif
                         </dd>
                         <dt class="text-left">
-                            Start Cooking At
+                            Mulai Masak
                         </dt>
                         <dd>
                             : {{$transaction->start_cooking_at}}
                         </dd>
                         <dt class="text-left">
-                            Start Cooking By
+                            Mulai Masak Oleh
                         </dt>
                         <dd>
                             : {{$transaction->start_cooking_by}}
                         </dd>
                         <dt class="text-left">
-                            Start Delivery At
+                            Mulai Pengantaran
                         </dt>
                         <dd>
                             : {{$transaction->start_delivery_at}}
                         </dd>
                         <dt class="text-left">
-                            Start Delivery By
+                            Mulai Pengantaran Oleh
                         </dt>
                         <dd>
                             : {{$transaction->start_delivery_by}}
                         </dd>
                         <dt class="text-left">
-                            End Delivery At
+                            Selesai Pengantaran
                         </dt>
                         <dd>
                             : {{$transaction->end_delivery_at}}
                         </dd>
                         <dt class="text-left">
-                            End Delivery By
+                            Selesai Pengantaran Oleh
                         </dt>
                         <dd>
                             : {{$transaction->end_delivery_by}}
@@ -222,12 +222,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Price</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
                             <th>Qty</th>
                             <th>Unit</th>
                             <th>Notes</th>
-                            <th>Total Price</th>
+                            <th>Total Harga</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -249,25 +249,25 @@
                     <tfoot>
                         <tr>
                             <th colspan="6" class="text-right">
-                                Total Price :
+                                Harga Total :
                             </th>
                             <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->grand_price + $transaction->discount,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
                             <th colspan="6" class="text-right">
-                                Discount Price :
+                                Harga Discount :
                             </th>
                             <th colspan="1" class="text-left"><span id="discountPrice"><strong>Rp {{number_format($transaction->discount_price,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
                             <th colspan="6" class="text-right">
-                                Ongkir Price :
+                                Harga Ongkir :
                             </th>
                             <th colspan="1" class="text-left"><span id="ongkirPrice"><strong>Rp {{number_format($transaction->ongkir_price,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
                             <th colspan="6" class="text-right">
-                                Grand Price :
+                                Harga Grand Total :
                             </th>
                             <th colspan="1" class="text-left"><span id="grandPrice"><strong>Rp {{number_format($transaction->grand_price,0,',','.')}}</strong></span></th>
                         </tr>
@@ -282,16 +282,16 @@
 
                 <div class="pull-right">
                     @if($transaction->status == 0)
-                    <a href="#" data-message="Start Cooking {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Start Cooking {{$transaction->code}} ?" data-title-modal="Start Cooking {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Start Cooking {{$transaction->code}} ?" class="btn btn-success btn-sm">Start Cooking</a>
+                    <a href="#" data-message="Mulai Masak {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Masak {{$transaction->code}} ?" data-title-modal="Mulai Masak {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Masak {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Masak</a>
                     @elseif($transaction->status == 1)
-                    <a href="#" data-message="Start Delivery {{$transaction->code}} ?" data-href="{{route('transaction.update_start_delivery', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Start Delivery {{$transaction->code}} ?" data-title-modal="Start Delivery {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Start Delivery {{$transaction->code}} ?" class="btn btn-success btn-sm">Start Delivery</a>
+                    <a href="#" data-message="Mulai Pengiriman {{$transaction->code}} ?" data-href="{{route('transaction.update_start_delivery', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Pengiriman {{$transaction->code}} ?" data-title-modal="Mulai Pengiriman {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Pengiriman {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Pengiriman</a>
                     @elseif($transaction->status == 2)
-                    <a href="{{route('transaction.edit_end_delivery', [$dataDb->id])}}" class="btn btn-success btn-sm">End Delivery</a>
+                    <a href="{{route('transaction.edit_end_delivery', [$dataDb->id])}}" class="btn btn-success btn-sm">Selesai Pengiriman</a>
                     @endif
                     @if($transaction->payment_status == 0)
-                    <a href="{{route('transaction.edit_actual_ongkir_price', [$transaction->id])}}" class="btn btn-warning btn-sm">Actual Ongkir</a>
+                    <a href="{{route('transaction.edit_actual_ongkir_price', [$transaction->id])}}" class="btn btn-warning btn-sm">Actual Ongkir Driver</a>
                     @endif
-                    <a href="{{route('transaction.edit_payment_status', [$transaction->id])}}" class="btn btn-warning btn-sm">Payment Status</a>
+                    <a href="{{route('transaction.edit_payment_status', [$transaction->id])}}" class="btn btn-warning btn-sm">Status Pembayaran</a>
                 </div>
                 <div class="clearfix"></div>
             </div>

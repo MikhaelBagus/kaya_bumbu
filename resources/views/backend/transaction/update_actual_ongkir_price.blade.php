@@ -19,7 +19,7 @@
                     
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('actual_ongkir_price')) has-error @endif">
-                            <label for="actual_ongkir_price" class="control-label">Actual Ongkir Price <span style="color: red">*</span></label>
+                            <label for="actual_ongkir_price" class="control-label">Actual Ongkir Driver <span style="color: red">*</span></label>
                             <input type="number" name="actual_ongkir_price" id="actual_ongkir_price" value="{{old('actual_ongkir_price', $transaction->actual_ongkir_price)}}" class="form-control input-sm" placeholder="Actual Ongkir Price ...*" required>
                             {!! $errors->first('actual_ongkir_price', '<em for="actual_ongkir_price" class="text-danger">:message</em>') !!}
                         </div>

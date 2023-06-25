@@ -19,8 +19,8 @@
                     
                     <div class="col-md-6">
                         <div class="form-group @if($errors->has('payment_status')) has-error @endif">
-                            <label for="payment_status" class="control-label">Payment Status <span style="color: red">*</span></label>
-                            <select id="payment_status" name="payment_status" class="form-control" data-placeholder="Select Payment Status" required @if($transaction->payment_status == 1) disabled @endif>
+                            <label for="payment_status" class="control-label">Status Pembayaran <span style="color: red">*</span></label>
+                            <select id="payment_status" name="payment_status" class="form-control" data-placeholder="Pilih Status Pembayaran" required @if($transaction->payment_status == 1) disabled @endif>
                                 <option value=""></option>
                                 <option value="0" @if($transaction->payment_status == 0) selected @endif>Pending</option>
                                 <option value="1" @if($transaction->payment_status == 1) selected @endif>Done</option>

@@ -18,7 +18,7 @@
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('user_id')) has-error @endif">
                                 <label for="user_id" class="control-label">Admin <span style="color: red">*</span></label>
-                                <select id="user_id" name="user_id" class="form-control" data-placeholder="Select Admin" required @if(Sentinel::inRole('root')) @else disabled @endif>
+                                <select id="user_id" name="user_id" class="form-control" data-placeholder="Pilih Admin" required @if(Sentinel::inRole('root')) @else disabled @endif>
                                     <option value="{{Sentinel::getUser()->id}}">{{Sentinel::getUser()->name}}</option>
                                 </select>
                                 {!! $errors->first('user_id', '<em for="user_id" class="text-danger">:message</em>') !!}
@@ -26,8 +26,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('transaction_type')) has-error @endif">
-                                <label for="transaction_type" class="control-label">Transaction Type <span style="color: red">*</span></label>
-                                <select id="transaction_type" name="transaction_type" class="form-control" data-placeholder="Select Transaction Type" required>
+                                <label for="transaction_type" class="control-label">Tipe Transaksi <span style="color: red">*</span></label>
+                                <select id="transaction_type" name="transaction_type" class="form-control" data-placeholder="Pilih Tipe Transaksi" required>
                                     <option value=""></option>
                                     <option value="PO">PO</option>
                                     <option value="Pesanan Baru">Pesanan Baru</option>
@@ -40,16 +40,16 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('date')) has-error @endif">
-                                <label for="date" class="control-label">Date <span style="color: red">*</span></label>
-                                <input type="text" name="date" id="date" value="{{old('date')}}" class="form-control input-sm" placeholder="Date ...*" readonly required>
+                                <label for="date" class="control-label">Tanggal Pengiriman <span style="color: red">*</span></label>
+                                <input type="text" name="date" id="date" value="{{old('date')}}" class="form-control input-sm" placeholder="Tanggal Pengiriman ...*" readonly required>
                                 {!! $errors->first('date', '<em for="date" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group @if($errors->has('hour')) has-error @endif">
-                                <label for="hour" class="control-label">Hour <span style="color: red">*</span></label>
-                                <select id="hour" name="hour" class="form-control" data-placeholder="Select Hour" required>
+                                <label for="hour" class="control-label">Jam Pengiriman <span style="color: red">*</span></label>
+                                <select id="hour" name="hour" class="form-control" data-placeholder="Pilih Jam" required>
                                     <option value=""></option>
                                     <?php for ($i=0; $i < 24; $i++) { ?>
                                         @if($i < 10)
@@ -65,8 +65,8 @@
 
                         <div class="col-md-3">
                             <div class="form-group @if($errors->has('minute')) has-error @endif">
-                                <label for="minute" class="control-label">Minute <span style="color: red">*</span></label>
-                                <select id="minute" name="minute" class="form-control" data-placeholder="Select Minute" required>
+                                <label for="minute" class="control-label">Menit Pengiriman <span style="color: red">*</span></label>
+                                <select id="minute" name="minute" class="form-control" data-placeholder="Pilih Menit" required>
                                     <option value=""></option>
                                     <?php for ($i=0; $i < 60; $i++) { ?>
                                         @if($i < 10)
@@ -84,8 +84,8 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('payment_status')) has-error @endif">
-                                <label for="payment_status" class="control-label">Payment Status <span style="color: red">*</span></label>
-                                <select id="payment_status" name="payment_status" class="form-control" data-placeholder="Select Payment Status" required>
+                                <label for="payment_status" class="control-label">Status Pembayaran <span style="color: red">*</span></label>
+                                <select id="payment_status" name="payment_status" class="form-control" data-placeholder="Pilih Status Pembayaran" required>
                                     <option value=""></option>
                                     <option value="0">Pending</option>
                                     <option value="1">Done</option>
@@ -97,7 +97,7 @@
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('bank_id')) has-error @endif">
                                 <label for="bank_id" class="control-label">Bank <span style="color: red">*</span></label>
-                                <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Select Bank" required>
+                                <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Pilih Bank" required>
                                 </select>
                                 {!! $errors->first('bank_id', '<em for="bank_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -107,8 +107,8 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('customer_id')) has-error @endif">
-                                <label for="customer_id" class="control-label">Customer Phone <span style="color: red">*</span></label>
-                                <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer Phone" required>
+                                <label for="customer_id" class="control-label">Phone Pemesan <span style="color: red">*</span></label>
+                                <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Pilih Phone Pemesan" required>
                                 </select>
                                 <input type="hidden" name="customer_phone" id="customer_phone" value="" /> 
                                 {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
@@ -117,8 +117,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('customer_name')) has-error @endif">
-                                <label for="customer_name" class="control-label">Customer Name <span style="color: red">*</span></label>
-                                <input type="text" name="customer_name" id="customer_name" value="{{old('customer_name')}}" class="form-control input-sm" placeholder="Customer Name ...*" required>
+                                <label for="customer_name" class="control-label">Nama Pemesan <span style="color: red">*</span></label>
+                                <input type="text" name="customer_name" id="customer_name" value="{{old('customer_name')}}" class="form-control input-sm" placeholder="Nama Pemesan ...*" required>
                                 {!! $errors->first('customer_name', '<em for="customer_name" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -127,16 +127,16 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('recipient_phone')) has-error @endif">
-                                <label for="recipient_phone" class="control-label">Recipient Phone <span style="color: red">*</span></label>
-                                <input type="number" name="recipient_phone" id="recipient_phone" value="{{old('recipient_phone')}}" class="form-control input-sm" placeholder="Recipient Phone ...*" required>
+                                <label for="recipient_phone" class="control-label">Phone Penerima <span style="color: red">*</span></label>
+                                <input type="number" name="recipient_phone" id="recipient_phone" value="{{old('recipient_phone')}}" class="form-control input-sm" placeholder="Phone Penerima...*" required>
                                 {!! $errors->first('recipient_phone', '<em for="recipient_phone" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('recipient_name')) has-error @endif">
-                                <label for="recipient_name" class="control-label">Recipient Name <span style="color: red">*</span></label>
-                                <input type="text" name="recipient_name" id="recipient_name" value="{{old('recipient_name')}}" class="form-control input-sm" placeholder="Recipient Name ...*" required>
+                                <label for="recipient_name" class="control-label">Nama Penerima <span style="color: red">*</span></label>
+                                <input type="text" name="recipient_name" id="recipient_name" value="{{old('recipient_name')}}" class="form-control input-sm" placeholder="Nama Penerima ...*" required>
                                 {!! $errors->first('recipient_name', '<em for="recipient_name" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -145,8 +145,8 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('province_id')) has-error @endif">
-                                <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
-                                <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
+                                <label for="province_id" class="control-label">Provinsi <span style="color: red">*</span></label>
+                                <select id="province_id" name="province_id" class="form-control" data-placeholder="Pilih Provinsi" required>
                                 </select>
                                 {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -154,8 +154,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('city_id')) has-error @endif">
-                                <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
-                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
+                                <label for="city_id" class="control-label">Kota <span style="color: red">*</span></label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Pilih Kota" required>
                                 </select>
                                 {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -165,8 +165,8 @@
                     <div class="col-md-12">
                         <div class="col-md-12">
                             <div class="form-group @if($errors->has('address')) has-error @endif">
-                                <label for="address" class="control-label">Address <span style="color: red">*</span></label>
-                                <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ...*" required>{{old('address')}}</textarea>
+                                <label for="address" class="control-label">Alamat <span style="color: red">*</span></label>
+                                <textarea name="address" id="address" class="form-control input-sm" placeholder="Alamat ...*" required>{{old('address')}}</textarea>
                                 {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -175,8 +175,8 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('source_id')) has-error @endif">
-                                <label for="source_id" class="control-label">Source <span style="color: red">*</span></label>
-                                <select id="source_id" name="source_id" class="form-control" data-placeholder="Select Source" required>
+                                <label for="source_id" class="control-label">Sumber <span style="color: red">*</span></label>
+                                <select id="source_id" name="source_id" class="form-control" data-placeholder="Pilih Sumber" required>
                                 </select>
                                 {!! $errors->first('source_id', '<em for="source_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -184,8 +184,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('delivery_option')) has-error @endif">
-                                <label for="delivery_option" class="control-label">Delivery Option <span style="color: red">*</span></label>
-                                <select id="delivery_option" name="delivery_option" class="form-control" data-placeholder="Select Delivery Option" required>
+                                <label for="delivery_option" class="control-label">Pengiriman Menggunakan <span style="color: red">*</span></label>
+                                <select id="delivery_option" name="delivery_option" class="form-control" data-placeholder="Pilih Pengiriman Menggunakan" required>
                                     <option value=""></option>
                                     <option value="Via Kaya Bumbu">Via Kaya Bumbu</option>
                                     <option value="Self Order">Self Order</option>
@@ -199,8 +199,8 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('delivery_transport')) has-error @endif">
-                                <label for="delivery_transport" class="control-label">Delivery Transport <span style="color: red">*</span></label>
-                                <select id="delivery_transport" name="delivery_transport" class="form-control" data-placeholder="Select Delivery Transport" required>
+                                <label for="delivery_transport" class="control-label">Jenis Kendaraan <span style="color: red">*</span></label>
+                                <select id="delivery_transport" name="delivery_transport" class="form-control" data-placeholder="Pilih Jenis Kendaraan" required>
                                     <option value=""></option>
                                     <option value="-">-</option>
                                     <option value="Mobil">Mobil</option>
@@ -212,8 +212,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('delivery_type')) has-error @endif">
-                                <label for="delivery_type" class="control-label">Delivery Type <span style="color: red">*</span></label>
-                                <select id="delivery_type" name="delivery_type" class="form-control" data-placeholder="Select Delivery Type" required>
+                                <label for="delivery_type" class="control-label">Jenis Pengiriman <span style="color: red">*</span></label>
+                                <select id="delivery_type" name="delivery_type" class="form-control" data-placeholder="Pilih Jenis Pengiriman" required>
                                     <option value=""></option>
                                     <option value="-">-</option>
                                     <option value="Instant">Instant</option>
@@ -236,14 +236,14 @@
 
                     <div class="col-md-12">
                         <hr class="short alt">
-                        <label for="selectProduct" class="control-label">Select Product
+                        <label for="selectProduct" class="control-label">Pilih Product
                             <span style="color: red">*</span></label>
                         <div class="input-group" style="margin-top: 2%; margin-bottom: 1%">
                             <label class="input-group-addon" for="item">
                                 <i class="fa fa-shopping-basket"></i>
                             </label>
 
-                            <select id="product" class="form-control" data-placeholder="Select Product">
+                            <select id="product" class="form-control" data-placeholder="Pilih Product">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -254,12 +254,12 @@
                         <table class="table table-hover table-condensed" id="product-container">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th width="200">Price</th>
+                                    <th>Nama</th>
+                                    <th width="200">Harga</th>
                                     <th width="100">Qty</th>
                                     <th width="100">Unit</th>
                                     <th>Notes</th>
-                                    <th>Total Price</th>
+                                    <th>Total Harga</th>
                                     <th width="50" class="text-center">
                                         <i class="fa fa-trash"></i>
                                     </th>
@@ -268,51 +268,51 @@
                             <tbody>
                                 <tr class="info" id="hidden-tr-po">
                                     <td colspan="6">
-                                        Please select the product
+                                        Tolong pilih product
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th colspan="5" class="text-right">
-                                        Total Price :
+                                        Harga Total :
                                     </th>
                                     <th colspan="1" class="text-left"><span id="totalPrice"><strong>0</strong></span></th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
                                     <th colspan="5" class="text-right">
-                                        Discount Price :
+                                        Harga Discount :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="discount_price" id="discount_price" value="0" class="form-control input-sm" placeholder="Discount Price ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        <input type="number" name="discount_price" id="discount_price" value="0" class="form-control input-sm" placeholder="Harga Discount ...*" min="0" onchange="grandPriceCalculate()" required>
                                         {!! $errors->first('discount_price', '<em for="discount_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
                                     <th colspan="5" class="text-right">
-                                        Ongkir Customer Price :
+                                        Harga Ongkir Customer :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="ongkir_price" id="ongkir_price" value="0" class="form-control input-sm" placeholder="Ongkir Price ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        <input type="number" name="ongkir_price" id="ongkir_price" value="0" class="form-control input-sm" placeholder="Harga Ongkir Customer ...*" min="0" onchange="grandPriceCalculate()" required>
                                         {!! $errors->first('ongkir_price', '<em for="ongkir_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
                                     <th colspan="5" class="text-right">
-                                        Grand Total Price :
+                                        Harga Grand Total :
                                     </th>
                                     <th colspan="1" class="text-left"><span id="grandPrice"><strong>0</strong></span></th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
                                     <th colspan="5" class="text-right">
-                                        Ongkir Driver Price :
+                                        Harga Ongkir Driver :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="actual_ongkir_price" id="actual_ongkir_price" value="0" class="form-control input-sm" placeholder="Ongkir Driver Price ...*" min="0" required>
+                                        <input type="number" name="actual_ongkir_price" id="actual_ongkir_price" value="0" class="form-control input-sm" placeholder="Harga Ongkir Driver ...*" min="0" required>
                                         {!! $errors->first('actual_ongkir_price', '<em for="actual_ongkir_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
