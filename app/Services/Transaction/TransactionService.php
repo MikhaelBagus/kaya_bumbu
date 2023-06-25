@@ -252,8 +252,19 @@ class TransactionService implements TransactionServiceContract
             else{
                 $payment_bukti_transfer_url = '';
             }
-            $transactionDb->payment_bukti_transfer_url  = $payment_bukti_transfer_url;
-            $transactionDb->payment_status              = $request->payment_status;
+
+            if($payment_bukti_transfer_url == ''){
+                if($transactionDb->payment_bukti_transfer_url == ''){
+                    $transactionDb->payment_bukti_transfer_url = $payment_bukti_transfer_url;
+                }
+            }
+            else{
+                $transactionDb->payment_bukti_transfer_url  = $payment_bukti_transfer_url;
+            }
+
+            if($request->payment_status != null){
+                $transactionDb->payment_status          = $request->payment_status;
+            }
             $transactionDb->updated_by                  = Sentinel::getUser()->email;
             $transactionDb->save();
 
