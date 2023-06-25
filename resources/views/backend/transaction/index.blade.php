@@ -23,7 +23,7 @@
                                 <div class="form-group">
                                     <label class="control-label" for="order_date">Date Range</label>
                                     <div class="input-group input-group-sm date">
-                                        <input type="text" name="order_date_from" id="order_date_from" value="{{ old('order_date_from', request()->orderDate) }}" class="form-control input-sm" readonly>
+                                        <input type="text" name="order_date_from" id="order_date_from" value="{{ old('order_date_from', request()->orderDateFrom) }}" class="form-control input-sm" readonly>
                                         <label class="input-group-addon input-sm" for="order_date_from">
                                             <i class="fa fa-calendar"></i>
                                         </label>
@@ -35,6 +35,22 @@
                                             <i class="fa fa-calendar"></i>
                                         </label>
                                         <label class="input-group-addon input-sm tip" id="clearOrderDateTo" title="Clear Date To" for="order_date_to">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="order_date">Grand Price Range</label>
+                                    <div class="input-group input-group-sm date">
+                                        <input type="number" name="grand_price_from" id="grand_price_from" value="{{ old('grand_price_from', request()->grandPriceFrom) }}" class="form-control input-sm">
+                                        <label class="input-group-addon input-sm tip" id="clearGrandPriceFrom" title="Clear Grand Price From" for="grand_price_from">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                        <input type="number" name="grand_price_to" id="grand_price_to" value="{{ old('grand_price_to', request()->grandPriceTo) }}" class="form-control input-sm">
+                                        <label class="input-group-addon input-sm tip" id="clearGrandPriceTo" title="Clear Grand Price To" for="grand_price_to">
                                             <i class="fa fa-eraser"></i>
                                         </label>
                                     </div>
@@ -128,6 +144,14 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    <label class="control-label">Driver</label>
+                                    <select id="driver_id" class="input-sm form-control select_2" style="width:100%" name="driver_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label class="control-label">Province</label>
                                     <select id="province_id" class="input-sm form-control select_2" style="width:100%" name="province_id">
                                     </select>
@@ -156,7 +180,7 @@
                                     <select id="transaction_type" class="input-sm form-control select_2" style="width:100%" name="transaction_type">
                                         <option value=""></option>
                                         <option value="PO">PO</option>
-                                        <option value="Dadakan">Dadakan</option>
+                                        <option value="Pesanan Baru">Pesanan Baru</option>
                                     </select>
                                 </div>
                             </div>
@@ -261,6 +285,8 @@
                 data: function (d) {
                     d.order_date_from    = $('#order_date_from').val();
                     d.order_date_to      = $('#order_date_to').val();
+                    d.grand_price_from   = $('#grand_price_from').val();
+                    d.grand_price_to     = $('#grand_price_to').val();
                     d.status             = $('#status').val();
                     d.payment_status     = $('#payment_status').val();
                     d.delivery_option    = $('#delivery_option').val();
@@ -270,6 +296,7 @@
                     d.city_id            = $('#city_id').val();
                     d.user_id            = $('#user_id').val();
                     d.customer_id        = $('#customer_id').val();
+                    d.driver_id          = $('#driver_id').val();
                     d.source_id          = $('#source_id').val();
                     d.bank_id            = $('#bank_id').val();
                     d.transaction_type   = $('#transaction_type').val();
@@ -364,12 +391,12 @@
         });
 
         $('#order_date_from').on('change',function(){
-           if($('#order_date_to').val()=='')
+           if($('#order_date_to').val() == '')
               $('#order_date_to').val($('#order_date_from').val());
         });
 
         $('#order_date_to').on('change',function(){
-           if($('#order_date_from').val()=='')
+           if($('#order_date_from').val() == '')
               $('#order_date_from').val($('#order_date_to').val());
         });
 
@@ -379,6 +406,24 @@
 
         $('#clearOrderDateTo').on('click', function () {
             $('#order_date_to').val('');
+        });
+
+        $('#grand_price_from').on('change',function(){
+           if($('#grand_price_to').val() == '')
+              $('#grand_price_to').val($('#order_date_from').val());
+        });
+
+        $('#grand_price_to').on('change',function(){
+           if($('#grand_price_from').val() == '')
+              $('#grand_price_from').val($('#order_date_to').val());
+        });
+
+        $('#clearGrandPriceFrom').on('click', function () {
+            $('#grand_price_from').val('');
+        });
+
+        $('#clearGrandPriceTo').on('click', function () {
+            $('#grand_price_to').val('');
         });
 
         $('#payment_status').select2({
@@ -524,6 +569,35 @@
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('customer.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#driver_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('driver.ajax.select2')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

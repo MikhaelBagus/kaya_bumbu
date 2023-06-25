@@ -26,8 +26,6 @@ class CustomerService implements CustomerServiceContract
             $customerDb = new Customer();
             $customerDb->name           = $request->name;
             $customerDb->phone          = $request->phone;
-            $customerDb->city_id        = $request->city_id;
-            $customerDb->address        = $request->address;
             $customerDb->created_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
@@ -57,8 +55,6 @@ class CustomerService implements CustomerServiceContract
             $customerDb = Customer::find($id);
             $customerDb->name           = $request->name;
             $customerDb->phone          = $request->phone;
-            $customerDb->city_id        = $request->city_id;
-            $customerDb->address        = $request->address;
             $customerDb->updated_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
@@ -86,7 +82,7 @@ class CustomerService implements CustomerServiceContract
             'customer.*',
         ];
 
-        $dataDb = Customer::select($select)->province($request->province_id)->city($request->city_id)->with('city','city.province');
+        $dataDb = Customer::select($select);
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
@@ -147,7 +143,7 @@ class CustomerService implements CustomerServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Customer::select('customer.id', 'customer.phone as text', 'customer.name', 'customer.city_id', 'city.name as city_name', 'city.province_id', 'province.name as province_name', 'customer.address')->join('city','customer.city_id','city.id')->join('province','city.province_id','province.id')->where('customer.phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Customer::select('id', 'phone as text', 'name')->where('phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

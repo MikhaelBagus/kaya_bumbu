@@ -205,6 +205,14 @@
                         <dd>
                             : {{$transaction->end_delivery_by}}
                         </dd>
+                        <dt class="text-left">
+                            Driver
+                        </dt>
+                        <dd>
+                            : @if($transaction->driver)
+                            {{$transaction->driver->name}}
+                            @endif
+                        </dd>
                     </dl>
                 </div>
 

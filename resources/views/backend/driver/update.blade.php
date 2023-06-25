@@ -7,11 +7,11 @@
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Customer Update Form
+                    <span class="glyphicon glyphicon-tasks"></span>Driver Update Form
                 </div>
             </div>
 
-            <form action="{{route('customer.update', [request()->id])}}" method="post">
+            <form action="{{route('driver.update', [request()->id])}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
@@ -20,16 +20,8 @@
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">Name <span style="color: red">*</span></label>
-                            <input type="text" name="name" id="name" value="{{old('name', $customer->name)}}" class="form-control input-sm" placeholder="Name ...*" required>
+                            <input type="text" name="name" id="name" value="{{old('name', $driver->name)}}" class="form-control input-sm" placeholder="Name ...*" required>
                             {!! $errors->first('name', '<em for="name" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('phone')) has-error @endif">
-                            <label for="phone" class="control-label">Phone <span style="color: red">*</span></label>
-                            <input type="number" name="phone" id="phone" value="{{old('phone', $customer->phone)}}" class="form-control input-sm" placeholder="Phone ...*" required>
-                            {!! $errors->first('phone', '<em for="phone" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 

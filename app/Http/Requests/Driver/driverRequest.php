@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Customer;
+namespace App\Http\Requests\Driver;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class customerRequest extends FormRequest
+class driverRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,13 +26,11 @@ class customerRequest extends FormRequest
         if(request()->method == 'POST'){
             return [
                 'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
-                'phone'         => 'required|numeric',
             ];
         }
         else{
             return [
                 'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
-                'phone'         => 'required|numeric',
             ];
         }
     }

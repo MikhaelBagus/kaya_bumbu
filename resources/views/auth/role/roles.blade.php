@@ -201,6 +201,36 @@
             <td>&nbsp;</td>
         </tr>
 
+        <!-- Driver -->
+        <tr>
+            <td>Driver</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="driver_create" {{ old('driver_create') || array_key_exists('driver.create', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="driver_edit" {{ old('driver_edit') || array_key_exists('driver.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="driver_show" {{ old('driver_show') || array_key_exists('driver.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="driver_destroy" {{ old('driver_destroy') || array_key_exists('driver.destroy', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
         <!-- Product -->
         <tr>
             <td>Product</td>

@@ -7,7 +7,7 @@
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Customer Detail
+                    <span class="glyphicon glyphicon-tasks"></span>Driver Detail
                 </div>
             </div>
 
@@ -18,19 +18,13 @@
                             ID
                         </dt>
                         <dd>
-                            : {{$customer->id}}
+                            : {{$driver->id}}
                         </dd>
                         <dt class="text-left">
                             Name
                         </dt>
                         <dd>
-                            : {{$customer->name}}
-                        </dd>
-                        <dt class="text-left">
-                            Phone
-                        </dt>
-                        <dd>
-                            : {{$customer->phone}}
+                            : {{$driver->name}}
                         </dd>
                     </dl>
                 </div>
@@ -39,12 +33,12 @@
             </div>
 
             <div class="panel-footer">
-                <a href="{{route('customer.index')}}" class="btn btn-flat btn-default btn-sm">
+                <a href="{{route('driver.index')}}" class="btn btn-flat btn-default btn-sm">
                     <i class="fa fa-reply"></i> @lang('global.go_back')
                 </a>
 
                 <div class="pull-right">
-                    <a href="{{route('customer.edit', [$customer->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> @lang('global.update')</a>
+                    <a href="{{route('driver.edit', [$driver->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> @lang('global.update')</a>
                 </div>
                 <div class="clearfix"></div>
             </div>

@@ -7,20 +7,19 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Customer List
+                    <span class="glyphicon glyphicon-tasks"></span>Driver List
                 </div>
             </div>
 
             <div class="panel-menu">
-                <a href="{{route('customer.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
+                <a href="{{route('driver.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
             </div>
-            <table class="table table-striped table-bordered table-hover table-condensed" id="customer-table" width="100%">
+            <table class="table table-striped table-bordered table-hover table-condensed" id="driver-table" width="100%">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
                     <th>Name</th>
-                    <th>Phone</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -70,7 +69,7 @@
 <script>
     $(function () {
 
-        let table = $('#customer-table').DataTable({
+        let table = $('#driver-table').DataTable({
             aaSorting: [[0, 'desc']],
             aLengthMenu: [
                     [50, 100, 500, 1000, 5000, -1],
@@ -88,7 +87,7 @@
             "<'dt-panelfooter clearfix'<'row'<'col-sm-5'i><'col-sm-7'p>>>",
             pagingType: "full_numbers",
             ajax: {
-                url: '{!! route('customer.ajax.data') !!}',
+                url: '{!! route('driver.ajax.data') !!}',
                 dataType: 'json'
             },
             columns: [
@@ -98,7 +97,6 @@
                     checkboxes: true
                 },
                 {data: 'name', name: 'name'},
-                {data: 'phone', name: 'phone'},
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {

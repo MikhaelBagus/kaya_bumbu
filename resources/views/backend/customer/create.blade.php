@@ -30,32 +30,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('province_id')) has-error @endif">
-                            <label for="province_id" class="control-label">Province <span style="color: red">*</span></label>
-                            <select id="province_id" name="province_id" class="form-control" data-placeholder="Select Province" required>
-                            </select>
-                            {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('city_id')) has-error @endif">
-                            <label for="city_id" class="control-label">City <span style="color: red">*</span></label>
-                            <select id="city_id" name="city_id" class="form-control" data-placeholder="Select City" required>
-                            </select>
-                            {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('address')) has-error @endif">
-                            <label for="address" class="control-label">Address </label>
-                            <textarea name="address" id="address" class="form-control input-sm" placeholder="Address ...">{{old('address')}}</textarea>
-                            {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="panel-footer">
@@ -106,63 +80,6 @@
                 ]
             });
         })
-
-        $('#province_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('province.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
-
-        $('#city_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('city.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page,
-                        province_id: $('#province_id').val()
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
     </script>
     <script>
         //Disable Enter

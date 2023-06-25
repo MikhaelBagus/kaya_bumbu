@@ -35,6 +35,8 @@ use App\Services\Source\SourceService;
 use App\Services\Source\SourceServiceContract;
 use App\Services\Customer\CustomerService;
 use App\Services\Customer\CustomerServiceContract;
+use App\Services\Driver\DriverService;
+use App\Services\Driver\DriverServiceContract;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceContract;
 use App\Services\Transaction\TransactionService;
@@ -125,6 +127,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CustomerServiceContract::class,
             CustomerService::class
+        );
+
+        $this->app->bind(
+            DriverServiceContract::class,
+            DriverService::class
         );
 
         $this->app->bind(

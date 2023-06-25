@@ -6,21 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Models\Transaction;
-use App\Models\Province;
 
-class City extends Model
+class Driver extends Model
 {
     use SoftDeletes;
-    protected $table = 'city';
-
-    public function province(){
-        return $this->belongsTo(Province::class, 'province_id', 'id');
-    }
+    protected $table = 'driver';
 
     public function transaction(){
-        return $this->hasMany(Transaction::class, 'city_id', 'id');
+        return $this->hasMany(Transaction::class, 'driver_id', 'id');
     }
-    
+
     public function getCreatedAtAttribute($value)
     {
         if($value == null){
@@ -49,13 +44,5 @@ class City extends Model
         else{
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
-    }
-
-    public function scopeProvince($query, $province)
-    {
-        if ($province != null) {
-            return $query->where('province_id', $province);
-        }
-        return $query;
     }
 }

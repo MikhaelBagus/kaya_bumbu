@@ -20,6 +20,7 @@ class CreateTransactionTable extends Migration
             $table->foreignId('source_id')->references('id')->on('source')->onDelete('cascade');
             $table->foreignId('bank_id')->references('id')->on('bank')->onDelete('cascade');
             $table->foreignId('city_id')->references('id')->on('city')->onDelete('cascade');
+            $table->bigInteger('driver_id')->default(0);
             $table->string('code')->default('');
             $table->date('date')->nullable();
             $table->string('time')->default('00:00');

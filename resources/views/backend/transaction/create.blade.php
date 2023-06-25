@@ -30,7 +30,7 @@
                                 <select id="transaction_type" name="transaction_type" class="form-control" data-placeholder="Select Transaction Type" required>
                                     <option value=""></option>
                                     <option value="PO">PO</option>
-                                    <option value="Dadakan">Dadakan</option>
+                                    <option value="Pesanan Baru">Pesanan Baru</option>
                                 </select>
                                 {!! $errors->first('transaction_type', '<em for="transaction_type" class="text-danger">:message</em>') !!}
                             </div>
@@ -108,7 +108,7 @@
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('customer_id')) has-error @endif">
                                 <label for="customer_id" class="control-label">Customer Phone <span style="color: red">*</span></label>
-                                <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer Phone">
+                                <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Select Customer Phone" required>
                                 </select>
                                 <input type="hidden" name="customer_phone" id="customer_phone" value="" /> 
                                 {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
@@ -535,17 +535,6 @@
             if (select2Data[0].text == select2Data[0].id) {
                 $('#customer_phone').val('');
             } else {
-                $('#province_id').append($('<option>', {
-                    value: select2Data[0].province_id,
-                    text: select2Data[0].province_name
-                }));
-                $('#province_id').val(select2Data[0].province_id).change();
-                $('#city_id').append($('<option>', {
-                    value: select2Data[0].city_id,
-                    text: select2Data[0].city_name
-                }));
-                $('#city_id').val(select2Data[0].city_id).change();
-                $('#address').val(select2Data[0].address);
                 $('#customer_name').val(select2Data[0].name);
                 $('#customer_phone').val(select2Data[0].text);
                 $('#recipient_name').val(select2Data[0].name);

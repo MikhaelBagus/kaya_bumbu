@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DisclaimerController;
+use App\Http\Controllers\Backend\DriverController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\LogController;
 use App\Http\Controllers\Backend\MediaController;
@@ -628,6 +629,41 @@ Route::group([
 
     Route::get('/ajax/select2', [CustomerController::class, 'select2'])
         ->name('customer.ajax.select2');
+});
+
+// driver
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'driver',
+], function () {
+    Route::get('', [DriverController::class, 'index'])
+        ->name('driver.index')->middleware('sentinel.permission:driver.show');
+
+    Route::get('/create', [DriverController::class, 'create'])
+        ->name('driver.create')->middleware('sentinel.permission:driver.create');
+
+    Route::post('', [DriverController::class, 'store'])
+        ->name('driver.store')->middleware('sentinel.permission:driver.create');
+
+    Route::get('/{id}/show', [DriverController::class, 'show'])
+        ->name('driver.show')->middleware('sentinel.permission:driver.show');
+
+    Route::get('/{id}/edit', [DriverController::class, 'edit'])
+        ->name('driver.edit')->middleware('sentinel.permission:driver.edit');
+
+    Route::put('/{id}', [DriverController::class, 'update'])
+        ->name('driver.update')->middleware('sentinel.permission:driver.edit');
+
+    Route::delete('/{id}', [DriverController::class, 'destroy'])
+        ->name('driver.destroy')->middleware('sentinel.permission:driver.destroy');
+
+    Route::get('/ajax/data', [DriverController::class, 'datatable'])
+        ->name('driver.ajax.data')->middleware('sentinel.permission:driver.show');
+
+    Route::get('/ajax/select2', [DriverController::class, 'select2'])
+        ->name('driver.ajax.select2');
 });
 
 // product

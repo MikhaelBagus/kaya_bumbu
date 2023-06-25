@@ -25,6 +25,15 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('driver_id')) has-error @endif">
+                            <label for="driver_id" class="control-label">Driver </label>
+                            <select id="driver_id" name="driver_id" class="form-control" data-placeholder="Select Driver">
+                            </select>
+                            {!! $errors->first('driver_id', '<em for="driver_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="panel-footer">
@@ -78,6 +87,35 @@
                 ]
             });
         })
+
+        $('#driver_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            tags: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('driver.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
 
     </script>
     <script>

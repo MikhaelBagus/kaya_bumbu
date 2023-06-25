@@ -10,6 +10,7 @@ use App\Models\TransactionProduct;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\Log;
+use App\Models\Driver;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -54,9 +55,16 @@ class TransactionService implements TransactionServiceContract
                 $customerDb = new Customer();
                 $customerDb->name           = $request->customer_name;
                 $customerDb->phone          = $request->customer_id;
-                $customerDb->city_id        = $request->city_id;
                 $customerDb->created_by     = Sentinel::getUser()->email;
                 $customerDb->save();
+
+                $logDb = new Log();
+                $logDb->user_id     = Sentinel::getUser()->id;
+                $logDb->action      = 'Create '.$customerDb->name;
+                $logDb->menu        = 'Customer';
+                $logDb->item_id     = $customerDb->id;
+                $logDb->created_by  = Sentinel::getUser()->email;
+                $logDb->save();
             }
 
             $transactionDb = new Transaction();
@@ -70,6 +78,7 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->bank_id             = $request->bank_id;
             $transactionDb->source_id           = $request->source_id;
             $transactionDb->city_id             = $request->city_id;
+            $transactionDb->driver_id           = 0;
             $transactionDb->code                = $transaction_code_new;
             $transactionDb->date                = $request->date;
             $transactionDb->time                = $request->hour.':'.$request->minute;
@@ -137,7 +146,7 @@ class TransactionService implements TransactionServiceContract
             'transaction.*',
         ];
 
-        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->deliveryoption($request->delivery_option)->deliverytransport($request->delivery_transport)->deliverytype($request->delivery_type)->transactiontype($request->transaction_type)->source($request->source_id)->customer($request->customer_id)->user($request->user_id)->province($request->province_id)->city($request->city_id)->with('city','city.province','customer','bank','source','user');
+        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->deliveryoption($request->delivery_option)->deliverytransport($request->delivery_transport)->deliverytype($request->delivery_type)->transactiontype($request->transaction_type)->source($request->source_id)->customer($request->customer_id)->user($request->user_id)->province($request->province_id)->city($request->city_id)->driver($request->driver_id)->grandprice($request->grand_price_from, $request->grand_price_to)->with('city','city.province','customer','bank','source','user','driver');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
@@ -271,8 +280,35 @@ class TransactionService implements TransactionServiceContract
         DB::beginTransaction();
 
         try {
+            if($request->driver_id == null || $request->driver_id == 0){
+                $driver_id = 0;
+            }
+            else{
+                $driver = Driver::where('id',$request->driver_id)->first();
+                if($driver){
+                    $driver_id = $driver->id;
+                }
+                else{
+                    $driverDb = new Driver();
+                    $driverDb->name          = $request->driver_id;
+                    $driverDb->created_by    = Sentinel::getUser()->email;
+                    $driverDb->save();
+
+                    $logDb = new Log();
+                    $logDb->user_id     = Sentinel::getUser()->id;
+                    $logDb->action      = 'Create '.$driverDb->name;
+                    $logDb->menu        = 'Driver';
+                    $logDb->item_id     = $driverDb->id;
+                    $logDb->created_by  = Sentinel::getUser()->email;
+                    $logDb->save();
+
+                    $driver_id = $driverDb->id;
+                }
+            }
+
             $transactionDb = Transaction::find($id);
             $transactionDb->actual_ongkir_price = $request->actual_ongkir_price;
+            $transactionDb->driver_id           = $driver_id;
             $transactionDb->updated_by          = Sentinel::getUser()->email;
             $transactionDb->save();
 
@@ -372,6 +408,7 @@ class TransactionService implements TransactionServiceContract
             else{
                 $tanda_terima_url = '';
             }
+
             $transactionDb->tanda_terima_url = $tanda_terima_url;
             $transactionDb->status           = 3;
             $transactionDb->end_delivery_at  = date('y-m-d H:i:s');

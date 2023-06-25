@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Models\TransactionProduct;
 use App\Models\Customer;
+use App\Models\Driver;
 use App\Models\Bank;
 use App\Models\City;
 use App\Models\Source;
@@ -27,6 +28,10 @@ class Transaction extends Model
 
     public function customer(){
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
+
+    public function driver(){
+        return $this->belongsTo(Driver::class, 'driver_id', 'id');
     }
 
     public function bank(){
@@ -198,6 +203,14 @@ class Transaction extends Model
         return $query;
     }
 
+    public function scopeDriver($query, $driver)
+    {
+        if ($driver != null) {
+            return $query->where('driver_id', $driver);
+        }
+        return $query;
+    }
+
     public function scopeUser($query, $user)
     {
         if ($user != null) {
@@ -228,6 +241,14 @@ class Transaction extends Model
     {
         if ($transactiontype != null) {
             return $query->where('transaction_type', $transactiontype);
+        }
+        return $query;
+    }
+
+    public function scopeGrandprice($query, $grandpricefrom, $grandpriceto)
+    {
+        if ($grandpricefrom != null && $grandpriceto != null) {
+            return $query->whereBetween('grand_price', [$grandpricefrom, $grandpriceto]);
         }
         return $query;
     }

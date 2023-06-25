@@ -144,6 +144,7 @@
                     @include('backend.menus.source')
                     @include('backend.menus.bank')
                     @include('backend.menus.customer')
+                    @include('backend.menus.driver')
                     @include('backend.menus.product')
                     @include('backend.menus.transaction')
                     @include('backend.menus.others')
