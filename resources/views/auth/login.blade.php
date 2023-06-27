@@ -99,9 +99,6 @@
                 </div>
 
                 <div class="login-links" style="text-align: center">
-                    <p>
-                        <a href="{{route('auth.forgot.password.form')}}" class="active" title="Forgot Password">Forgot Password?</a>
-                    </p>
                 </div>
             </div>
         

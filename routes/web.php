@@ -59,28 +59,28 @@ Route::group(['prefix' => '/logout'], function () {
 });
 
 // forgot password
-Route::group(['prefix' => 'password'], function () {
-    Route::get('forgot', [ForgotPasswordController::class, "index"])
-    	->name('auth.forgot.password.form');
+// Route::group(['prefix' => 'password'], function () {
+//     Route::get('forgot', [ForgotPasswordController::class, "index"])
+//     	->name('auth.forgot.password.form');
 
-    Route::post('send-reset-link', [ForgotPasswordController::class, "sendResetLinkResponse"])
-    	->name('auth.forgot.password.send.reset.link');
-});
+//     Route::post('send-reset-link', [ForgotPasswordController::class, "sendResetLinkResponse"])
+//     	->name('auth.forgot.password.send.reset.link');
+// });
 
 // reset password
-Route::group(['prefix' => 'password'], function () {
-    Route::get('reset/{userId}/{code}', [ResetPasswordController::class, "showResetForm"])
-    	->name('auth.reset.password.form');
+// Route::group(['prefix' => 'password'], function () {
+//     Route::get('reset/{userId}/{code}', [ResetPasswordController::class, "showResetForm"])
+//     	->name('auth.reset.password.form');
 
-    Route::post('reset/{userId}/{code}', [ResetPasswordController::class, "reset"])
-    	->name('auth.reset.password');
-});
+//     Route::post('reset/{userId}/{code}', [ResetPasswordController::class, "reset"])
+//     	->name('auth.reset.password');
+// });
 
 // activation
-Route::group(['prefix' => 'activation'], function () {
-    Route::get('/{userId}/{code}', [ActivationController::class, "activation"])
-    	->name('auth.activation');
-});
+// Route::group(['prefix' => 'activation'], function () {
+//     Route::get('/{userId}/{code}', [ActivationController::class, "activation"])
+//     	->name('auth.activation');
+// });
 
 // change password
 Route::group( [

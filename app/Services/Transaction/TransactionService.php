@@ -74,7 +74,15 @@ class TransactionService implements TransactionServiceContract
             else{
                 $transactionDb->customer_id     = $request->customer_id;
             }
-            $transactionDb->user_id             = $request->user_id;
+
+            if($request->user_id == null){
+                $user_id = Sentinel::getUser()->id;
+            }
+            else{
+                $user_id = $request->user_id;
+            }
+
+            $transactionDb->user_id             = $user_id;
             $transactionDb->bank_id             = $request->bank_id;
             $transactionDb->source_id           = $request->source_id;
             $transactionDb->city_id             = $request->city_id;

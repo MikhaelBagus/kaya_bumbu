@@ -25,7 +25,6 @@ class transactionRequest extends FormRequest
     {
         if(request()->method == 'POST'){
             return [
-                'user_id'        => 'required|numeric',
                 'customer_id'    => 'required|numeric',
                 'bank_id'        => 'required|numeric',
                 'city_id'        => 'required|numeric',
