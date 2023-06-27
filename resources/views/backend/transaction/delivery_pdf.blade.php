@@ -47,7 +47,7 @@
             <td>No Kontak: {{$transaction->recipient_phone}}</td>
         </tr>
         <tr>
-            <td>Alamat Kirim: {{$transaction->address}}, {{$transaction->city->name}}, {{$transaction->city->province->name}}</td>
+            <td>Alamat Kirim: {{$transaction->address}}</td>
         </tr>
     </table>
     <br>
