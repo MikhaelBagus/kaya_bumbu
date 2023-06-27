@@ -162,7 +162,7 @@ class TransactionService implements TransactionServiceContract
                 function ($dataDb) {
                     $updateButton = '';
                     if($dataDb->status == 0){
-                        $updateButton = '<a href="#" data-message="Mulai Masak '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Masak '.$dataDb->code.' ?" data-title-modal="Mulai Masak '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Masak '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Masak</span></a>';
+                        $updateButton = '<a href="#" data-message="Mulai Packing '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Packing '.$dataDb->code.' ?" data-title-modal="Mulai Packing '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Packing '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Packing</span></a>';
                     }
                     else if($dataDb->status == 1){
                         $updateButton = '<a href="#" data-message="Mulai Pengiriman '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_delivery', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Pengiriman '.$dataDb->code.' ?" data-title-modal="Mulai Pengiriman '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Pengiriman '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Pengiriman</span></a>';

@@ -170,13 +170,13 @@
                             : @if($transaction->tanda_terima_url != '')<a href="{{asset($transaction->tanda_terima_url)}}">{{asset($transaction->tanda_terima_url)}}</a>@endif
                         </dd>
                         <dt class="text-left">
-                            Mulai Masak
+                            Mulai Packing
                         </dt>
                         <dd>
                             : {{$transaction->start_cooking_at}}
                         </dd>
                         <dt class="text-left">
-                            Mulai Masak Oleh
+                            Mulai Packing Oleh
                         </dt>
                         <dd>
                             : {{$transaction->start_cooking_by}}
@@ -282,7 +282,7 @@
 
                 <div class="pull-right">
                     @if($transaction->status == 0)
-                    <a href="#" data-message="Mulai Masak {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Masak {{$transaction->code}} ?" data-title-modal="Mulai Masak {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Masak {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Masak</a>
+                    <a href="#" data-message="Mulai Packing {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Packing {{$transaction->code}} ?" data-title-modal="Mulai Packing {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Packing {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Packing</a>
                     @elseif($transaction->status == 1)
                     <a href="#" data-message="Mulai Pengiriman {{$transaction->code}} ?" data-href="{{route('transaction.update_start_delivery', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Pengiriman {{$transaction->code}} ?" data-title-modal="Mulai Pengiriman {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Pengiriman {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Pengiriman</a>
                     @elseif($transaction->status == 2)
