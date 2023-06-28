@@ -43,11 +43,8 @@ class ChangePasswordController extends Controller
         $fullname = explode(" ", $user->name);
         $re = "/^(?=.*[a-z])(?=.*\\d).{8,}$/i";
 
-        if(!preg_match($re, $request->password) || !ctype_alnum($request->password) || strpos(strtolower($request->password), strtolower($fullname[0]))){
-            return $this->redirectFailed(route('auth.change.password.form'), 'New Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum and not contain private content')->withInput($request->all());
-        }
-        else if(strpos(strtolower($request->password), strtolower($fullname[0])) === 0){
-            return $this->redirectFailed(route('auth.change.password.form'), 'New Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum and not contain private content')->withInput($request->all());
+        if(!preg_match($re, $request->password) || !ctype_alnum($request->password)){
+            return $this->redirectFailed(route('auth.change.password.form'), 'New Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum')->withInput($request->all());
         }
 
         #Password Is Valid For This User

@@ -27,7 +27,7 @@ class createRequest extends FormRequest {
 			return [
 	            'name'     => 'required|regex:/(^[A-Za-z0-9_-_ ]+$)+/', //|unique:users
 	            'phone'    => 'required|numeric',
-	            'email'    => 'required|unique:users|email',
+	            'email'    => 'required|unique:users',
 	            'role'     => 'required',
 	            'password' => 'required|confirmed|min:8',
 			];
@@ -38,7 +38,7 @@ class createRequest extends FormRequest {
 				return [
 		            'name'     => 'required|regex:/(^[A-Za-z0-9_-_ ]+$)+/', //|unique:users
 		            'phone'    => 'required|numeric',
-		            'email'    => 'required|unique:users|email',
+		            'email'    => 'required|unique:users',
 		            'role'     => 'required',
 		            'password' => 'required|confirmed|min:8',
 				];
@@ -47,7 +47,7 @@ class createRequest extends FormRequest {
 				return [
 		            'name'     => 'required|regex:/(^[A-Za-z0-9_-_ ]+$)+/', //|unique:users
 		            'phone'    => 'required|numeric',
-		            'email'    => 'required|unique:users|email',
+		            'email'    => 'required|unique:users',
 		            'role'     => 'required',
 		            'password' => 'required|confirmed|min:8',
 				];

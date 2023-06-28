@@ -71,15 +71,10 @@ class UserController extends Controller {
 			$fullname = explode(" ", $request->name);
 	        $re = "/^(?=.*[a-z])(?=.*\\d).{8,}$/i";
 
-	        if(!preg_match($re, $request->password) || !ctype_alnum($request->password) || strpos(strtolower($request->password), strtolower($fullname[0]))){
+	        if(!preg_match($re, $request->password) || !ctype_alnum($request->password)){
 	        	Session::flash('failed', 'Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum and not contain private content');
 
 	        	return redirect()->back()->withInput($request->all());
-	        }
-	        else if(strpos(strtolower($request->password), strtolower($fullname[0])) === 0){
-	            Session::flash('failed', 'Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum and not contain private content');
-
-	            return redirect()->back()->withInput($request->all());
 	        }
 
 			//Create a new user
@@ -203,15 +198,10 @@ class UserController extends Controller {
 				$fullname = explode(" ", $request->name);
 	        	$re = "/^(?=.*[a-z])(?=.*\\d).{8,}$/i";
 
-				if(!preg_match($re, $request->password) || !ctype_alnum($request->password) || strpos(strtolower($request->password), strtolower($fullname[0]))){
-		        	Session::flash('failed', 'Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum and not contain private content');
+				if(!preg_match($re, $request->password) || !ctype_alnum($request->password)){
+		        	Session::flash('failed', 'Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum');
 
 		        	return redirect()->back()->withInput($request->all());
-		        }
-		        else if(strpos(strtolower($request->password), strtolower($fullname[0])) === 0){
-		            Session::flash('failed', 'Password must contain at least 1 number and letter, must an alphanumeric, 8 character minimum and not contain private content');
-
-		            return redirect()->back()->withInput($request->all());
 		        }
 
 				$credentials['password'] = $request->password;
