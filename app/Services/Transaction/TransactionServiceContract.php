@@ -21,4 +21,6 @@ interface TransactionServiceContract
     public function updateStartDelivery(int $id);
 
     public function updateEndDelivery(int $id, $request);
+
+    public function updateSuspend(int $id);
 }

@@ -307,7 +307,7 @@
                 </div>
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_cooking" {{ old('transaction_edit_start_cooking') || array_key_exists('transaction.edit_start_cooking', $permissions) ? 'checked' : ''}}>
-                    <label>Start Cooking</label>
+                    <label>Start Packing</label>
                 </div>
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_start_delivery" {{ old('transaction_edit_start_delivery') || array_key_exists('transaction.edit_start_delivery', $permissions) ? 'checked' : ''}}>
@@ -316,6 +316,10 @@
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_end_delivery" {{ old('transaction_edit_end_delivery') || array_key_exists('transaction.edit_end_delivery', $permissions) ? 'checked' : ''}}>
                     <label>End Delivery</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit_suspend" {{ old('transaction_edit_suspend') || array_key_exists('transaction.edit_suspend', $permissions) ? 'checked' : ''}}>
+                    <label>Suspend</label>
                 </div>
             </td>
         </tr>

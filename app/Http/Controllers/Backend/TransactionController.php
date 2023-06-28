@@ -174,4 +174,18 @@ class TransactionController extends Controller
 
         return $pdf->download('Delivery '.$transaction->code.'.pdf');
     }
+
+    public function updateSuspend($id, TransactionServiceContract $transactionServiceContract)
+    {
+        #Save Transaction Data
+        if (is_object($transactionServiceContract->updateSuspend($id))) {
+
+            #Bump....
+            return $this->redirectSuccessUpdate(route('transaction.index'), 'Transaction');
+        } else {
+
+            #Bump....
+            return $this->redirectFailed(route('transaction.index'), 'Failed To Save Transaction');
+        }
+    }
 }

@@ -154,7 +154,7 @@ class TransactionService implements TransactionServiceContract
             'transaction.*',
         ];
 
-        $dataDb = Transaction::select($select)->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->deliveryoption($request->delivery_option)->deliverytransport($request->delivery_transport)->deliverytype($request->delivery_type)->transactiontype($request->transaction_type)->source($request->source_id)->customer($request->customer_id)->user($request->user_id)->province($request->province_id)->city($request->city_id)->driver($request->driver_id)->grandprice($request->grand_price_from, $request->grand_price_to)->with('city','city.province','customer','bank','source','user','driver');
+        $dataDb = Transaction::select($select)->whereNull('suspend_at')->date($request->order_date_from, $request->order_date_to)->paymentstatus($request->payment_status)->status($request->status)->bank($request->bank_id)->deliveryoption($request->delivery_option)->deliverytransport($request->delivery_transport)->deliverytype($request->delivery_type)->transactiontype($request->transaction_type)->source($request->source_id)->customer($request->customer_id)->user($request->user_id)->province($request->province_id)->city($request->city_id)->driver($request->driver_id)->grandprice($request->grand_price_from, $request->grand_price_to)->with('city','city.province','customer','bank','source','user','driver');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
@@ -180,6 +180,7 @@ class TransactionService implements TransactionServiceContract
                         '.$updateButton.'
                         '.$updatePaymentButton.'
                         <a href="'.route('transaction.edit_actual_ongkir_price', [$dataDb->id]).'" id="tooltip" title="Actual Ongkir"><span class="label label-warning label-sm">Actual Ongkir Driver</span></a>
+                        <a href="#" data-message="Suspend '.$dataDb->code.' ?" data-href="' . route('transaction.update_suspend', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Suspend '.$dataDb->code.' ?" data-title-modal="Suspend '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Suspend '.$dataDb->code.' ?"><span class="label label-danger label-sm">Suspend</span></a>
                         <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->code]).'" data-href="'.route('transaction.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
                 }
             )
@@ -363,7 +364,7 @@ class TransactionService implements TransactionServiceContract
 
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Update Start Cooking '.$transactionDb->code;
+            $logDb->action      = 'Update Start Packing '.$transactionDb->code;
             $logDb->menu        = 'Transaction';
             $logDb->item_id     = $transactionDb->id;
             $logDb->created_by  = Sentinel::getUser()->email;
@@ -438,6 +439,35 @@ class TransactionService implements TransactionServiceContract
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
             $logDb->action      = 'Update End Delivery '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function updateSuspend(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $transactionDb = Transaction::find($id);
+            $transactionDb->suspend_at  = date('y-m-d H:i:s');
+            $transactionDb->suspend_by  = Sentinel::getUser()->email;
+            $transactionDb->updated_by  = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update Suspend '.$transactionDb->code;
             $logDb->menu        = 'Transaction';
             $logDb->item_id     = $transactionDb->id;
             $logDb->created_by  = Sentinel::getUser()->email;

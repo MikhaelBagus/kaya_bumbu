@@ -288,10 +288,9 @@
                     @elseif($transaction->status == 2)
                     <a href="{{route('transaction.edit_end_delivery', [$dataDb->id])}}" class="btn btn-success btn-sm">Selesai Pengiriman</a>
                     @endif
-                    @if($transaction->payment_status == 0)
                     <a href="{{route('transaction.edit_actual_ongkir_price', [$transaction->id])}}" class="btn btn-warning btn-sm">Actual Ongkir Driver</a>
-                    @endif
                     <a href="{{route('transaction.edit_payment_status', [$transaction->id])}}" class="btn btn-warning btn-sm">Status Pembayaran</a>
+                    <a href="#" data-message="Suspend {{$transaction->code}} ?" data-href="{{route('transaction.update_suspend', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Suspend {{$transaction->code}} ?" data-title-modal="Suspend {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Suspend {{$transaction->code}} ?" class="btn btn-danger btn-sm">Suspend</a>
                 </div>
                 <div class="clearfix"></div>
             </div>

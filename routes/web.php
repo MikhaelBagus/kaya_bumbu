@@ -758,6 +758,9 @@ Route::group([
 
     Route::get('/{id}/delivery-pdf', [TransactionController::class, 'deliveryPdf'])
         ->name('transaction.delivery_pdf')->middleware('sentinel.permission:transaction.delivery_pdf');
+
+    Route::put('/{id}/update-suspend', [TransactionController::class, 'updateSuspend'])
+        ->name('transaction.update_suspend')->middleware('sentinel.permission:transaction.edit_suspend');
 });
 
 // log
