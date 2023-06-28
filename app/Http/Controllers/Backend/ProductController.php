@@ -8,6 +8,8 @@ use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use App\Http\Requests\Product\productRequest;
 use App\Services\Product\ProductServiceContract;
 use App\Traits\redirectTo;
+use App\Models\Product;
+use App\Models\Log;
 
 class ProductController extends Controller
 {
@@ -98,5 +100,27 @@ class ProductController extends Controller
         else{
             abort('404', 'uups');
         }
+    }
+
+    public function copy($id, ProductServiceContract $productServiceContract)
+    {
+        $product = $productServiceContract->get($id);
+
+        $productDb = new Product();
+        $productDb->name          = $product->name;
+        $productDb->price         = $product->price;
+        $productDb->unit          = $product->unit;
+        $productDb->created_by    = Sentinel::getUser()->email;
+        $productDb->save();
+
+        $logDb = new Log();
+        $logDb->user_id     = Sentinel::getUser()->id;
+        $logDb->action      = 'Create '.$productDb->name;
+        $logDb->menu        = 'Product';
+        $logDb->item_id     = $productDb->id;
+        $logDb->created_by  = Sentinel::getUser()->email;
+        $logDb->save();
+
+        return $this->redirectSuccessCreate(route('product.index'), 'Product');
     }
 }

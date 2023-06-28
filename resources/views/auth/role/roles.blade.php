@@ -258,7 +258,12 @@
                     <label></label>
                 </div>
             </td>
-            <td>&nbsp;</td>
+            <td>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="product_copy" {{ old('product_copy') || array_key_exists('product.copy', $permissions) ? 'checked' : ''}}>
+                    <label>Copy</label>
+                </div>
+            </td>
         </tr>
 
         <!-- Transaction -->

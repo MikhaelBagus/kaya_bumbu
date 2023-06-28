@@ -144,9 +144,9 @@ class RoleController extends Controller {
 
 		$logDb = new Log();
         $logDb->user_id     = Sentinel::getUser()->id;
-        $logDb->action      = 'Update '.$data->name;
+        $logDb->action      = 'Update '.$dataDb->name;
         $logDb->menu        = 'Role';
-        $logDb->item_id     = $data->id;
+        $logDb->item_id     = $dataDb->id;
         $logDb->created_by  = Sentinel::getUser()->email;
         $logDb->save();
 		
@@ -186,9 +186,9 @@ class RoleController extends Controller {
 
 			$logDb = new Log();
 	        $logDb->user_id     = Sentinel::getUser()->id;
-	        $logDb->action      = 'Delete '.$data->name;
+	        $logDb->action      = 'Delete '.$dataDb->name;
 	        $logDb->menu        = 'Role';
-	        $logDb->item_id     = $data->id;
+	        $logDb->item_id     = $dataDb->id;
 	        $logDb->created_by  = Sentinel::getUser()->email;
 	        $logDb->save();
 			

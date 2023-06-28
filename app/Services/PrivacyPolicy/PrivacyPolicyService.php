@@ -10,7 +10,6 @@ use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Purifier;
 
 class PrivacyPolicyService implements PrivacyPolicyServiceContract
 {
@@ -25,7 +24,7 @@ class PrivacyPolicyService implements PrivacyPolicyServiceContract
 
         try {
             $privacyPolicyDb = new PrivacyPolicy();
-            $privacyPolicyDb->content     = Purifier::clean($request->content);
+            $privacyPolicyDb->content     = $request->content;
             $privacyPolicyDb->created_by  = Sentinel::getUser()->email;
             $privacyPolicyDb->save();
 
@@ -45,7 +44,7 @@ class PrivacyPolicyService implements PrivacyPolicyServiceContract
 
         try {
             $privacyPolicyDb = PrivacyPolicy::find($id);
-            $privacyPolicyDb->content     = Purifier::clean($request->content);
+            $privacyPolicyDb->content     = $request->content;
             $privacyPolicyDb->updated_by  = Sentinel::getUser()->email;
             $privacyPolicyDb->save();
 

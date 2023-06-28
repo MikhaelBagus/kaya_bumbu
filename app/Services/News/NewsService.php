@@ -10,7 +10,6 @@ use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Purifier;
 
 class NewsService implements NewsServiceContract
 {
@@ -39,7 +38,7 @@ class NewsService implements NewsServiceContract
 
             $newsDb = new News();
             $newsDb->title        = $request->title;
-            $newsDb->content      = Purifier::clean($request->content);
+            $newsDb->content      = $request->content;
             $newsDb->image        = $filename;
             $newsDb->publish      = $request->publish;
             $newsDb->created_by   = Sentinel::getUser()->email;
@@ -75,7 +74,7 @@ class NewsService implements NewsServiceContract
 
             $newsDb = News::find($id);
             $newsDb->title        = $request->title;
-            $newsDb->content      = Purifier::clean($request->content);
+            $newsDb->content      = $request->content;
             $newsDb->publish      = $request->publish;
 
             if($filename != ''){

@@ -699,6 +699,9 @@ Route::group([
 
     Route::get('/ajax/select2', [ProductController::class, 'select2'])
         ->name('product.ajax.select2');
+
+    Route::get('/{id}/copy', [ProductController::class, 'copy'])
+        ->name('product.copy')->middleware('sentinel.permission:product.copy');
 });
 
 // transaction

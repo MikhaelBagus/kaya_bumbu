@@ -10,7 +10,6 @@ use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Purifier;
 
 class ContactUsService implements ContactUsServiceContract
 {
@@ -25,7 +24,7 @@ class ContactUsService implements ContactUsServiceContract
 
         try {
             $contactUsDb = new ContactUs();
-            $contactUsDb->content     = Purifier::clean($request->content);
+            $contactUsDb->content     = $request->content;
             $contactUsDb->created_by  = Sentinel::getUser()->email;
             $contactUsDb->save();
 
@@ -45,7 +44,7 @@ class ContactUsService implements ContactUsServiceContract
 
         try {
             $contactUsDb = ContactUs::find($id);
-            $contactUsDb->content     = Purifier::clean($request->content);
+            $contactUsDb->content     = $request->content;
             $contactUsDb->updated_by  = Sentinel::getUser()->email;
             $contactUsDb->save();
 

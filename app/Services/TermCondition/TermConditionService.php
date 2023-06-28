@@ -10,7 +10,6 @@ use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Purifier;
 
 class TermConditionService implements TermConditionServiceContract
 {
@@ -25,7 +24,7 @@ class TermConditionService implements TermConditionServiceContract
 
         try {
             $termConditionDb = new TermCondition();
-            $termConditionDb->content     = Purifier::clean($request->content);
+            $termConditionDb->content     = $request->content;
             $termConditionDb->created_by  = Sentinel::getUser()->email;
             $termConditionDb->save();
 
@@ -45,7 +44,7 @@ class TermConditionService implements TermConditionServiceContract
 
         try {
             $termConditionDb = TermCondition::find($id);
-            $termConditionDb->content     = Purifier::clean($request->content);
+            $termConditionDb->content     = $request->content;
             $termConditionDb->updated_by  = Sentinel::getUser()->email;
             $termConditionDb->save();
 

@@ -10,7 +10,6 @@ use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Purifier;
 
 class DisclaimerService implements DisclaimerServiceContract
 {
@@ -25,7 +24,7 @@ class DisclaimerService implements DisclaimerServiceContract
 
         try {
             $disclaimerDb = new Disclaimer();
-            $disclaimerDb->content     = Purifier::clean($request->content);
+            $disclaimerDb->content     = $request->content;
             $disclaimerDb->publish     = 1;
             $disclaimerDb->created_by  = Sentinel::getUser()->email;
             $disclaimerDb->save();
@@ -46,7 +45,7 @@ class DisclaimerService implements DisclaimerServiceContract
 
         try {
             $disclaimerDb = Disclaimer::find($id);
-            $disclaimerDb->content     = Purifier::clean($request->content);
+            $disclaimerDb->content     = $request->content;
             $disclaimerDb->publish     = 1;
             $disclaimerDb->updated_by  = Sentinel::getUser()->email;
             $disclaimerDb->save();
