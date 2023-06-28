@@ -46,56 +46,6 @@ class Transaction extends Model
         return $this->belongsTo(Source::class, 'source_id', 'id');
     }
 
-    public function getDateAttribute($value)
-    {
-        if($value == null){
-            return '';
-        }
-        else{
-            return $value;
-        }
-    }
-
-    public function getStartCookingAtAttribute($value)
-    {
-        if($value == null){
-            return '';
-        }
-        else{
-            return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
-        }
-    }
-
-    public function getEndCookingAtAttribute($value)
-    {
-        if($value == null){
-            return '';
-        }
-        else{
-            return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
-        }
-    }
-
-    public function getStartDeliveryAtAttribute($value)
-    {
-        if($value == null){
-            return '';
-        }
-        else{
-            return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
-        }
-    }
-
-    public function getEndDeliveryAtAttribute($value)
-    {
-        if($value == null){
-            return '';
-        }
-        else{
-            return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
-        }
-    }
-
     public function getCreatedAtAttribute($value)
     {
         if($value == null){
