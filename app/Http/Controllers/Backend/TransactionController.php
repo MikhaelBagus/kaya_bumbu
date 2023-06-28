@@ -16,7 +16,12 @@ class TransactionController extends Controller
 
     public function index()
     {
-        return view('backend.transaction.index');
+        if(Sentinel::inRole('root')){
+            return view('backend.transaction.index_root');
+        }
+        else{
+            return view('backend.transaction.index');
+        }
     }
 
     public function show($id, TransactionServiceContract $transactionServiceContract)

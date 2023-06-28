@@ -55,7 +55,7 @@
                 <th>#</th>
                 <th>Roles</th>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Username</th>
                 <th>Phone</th>
                 <th>@lang('auth.index_last_login')</th>
                 <th>@lang('auth.index_status_th')</th>
