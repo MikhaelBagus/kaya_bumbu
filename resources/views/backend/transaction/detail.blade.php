@@ -206,6 +206,18 @@
                             : {{$transaction->end_delivery_by}}
                         </dd>
                         <dt class="text-left">
+                            Suspend
+                        </dt>
+                        <dd>
+                            : {{$transaction->suspend_at}}
+                        </dd>
+                        <dt class="text-left">
+                            Suspend Oleh
+                        </dt>
+                        <dd>
+                            : {{$transaction->suspend_by}}
+                        </dd>
+                        <dt class="text-left">
                             Driver
                         </dt>
                         <dd>

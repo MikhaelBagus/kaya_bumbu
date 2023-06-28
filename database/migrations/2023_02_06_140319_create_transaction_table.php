@@ -47,6 +47,8 @@ class CreateTransactionTable extends Migration
             $table->string('start_delivery_by')->default('');
             $table->datetime('end_delivery_at')->nullable();
             $table->string('end_delivery_by')->default('');
+            $table->datetime('suspend_at')->nullable();
+            $table->string('suspend_by')->default('');
             $table->text('notes')->nullable();
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
