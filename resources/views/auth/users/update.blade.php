@@ -17,6 +17,7 @@
                     {!! csrf_field() !!}
 
                      <div class="col-md-6">
+                        <input type="hidden" value="{{$data->id}}" name="id">
                         <div class="form-group @if($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">@lang('auth.index_name_th') <span style="color: red">*</span></label>
                             <input type="text" name="name" class="form-control input-sm" placeholder="@lang('auth.index_name_th')" value="{{ old('name') ?? $data->name }}" tabindex="1" required>

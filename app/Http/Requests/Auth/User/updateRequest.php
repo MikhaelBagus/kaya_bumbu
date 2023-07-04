@@ -27,9 +27,9 @@ class updateRequest extends FormRequest {
 			return [
 	            'name'     => 'required|regex:/(^[A-Za-z0-9_-_ ]+$)+/', //|unique:users
 	            'phone'    => 'required|numeric',
-	            'email'    => 'required|unique:users',
+	            'email'    => 'required|unique:users,email,'.request()->id.',id',
 	            'role'     => 'required',
-	            'password' => 'confirmed|min:8',
+	            'password' => 'nullable|confirmed|min:8',
 			];
 		}
 		else{
@@ -38,18 +38,18 @@ class updateRequest extends FormRequest {
 				return [
 		            'name'     => 'required|regex:/(^[A-Za-z0-9_-_ ]+$)+/', //|unique:users
 		            'phone'    => 'required|numeric',
-		            'email'    => 'required|unique:users',
+		            'email'    => 'required|unique:users,email,'.request()->id.',id',
 		            'role'     => 'required',
-		            'password' => 'confirmed|min:8',
+		            'password' => 'nullable|confirmed|min:8',
 				];
 			}
 			else{
 				return [
 		            'name'     => 'required|regex:/(^[A-Za-z0-9_-_ ]+$)+/', //|unique:users
 		            'phone'    => 'required|numeric',
-		            'email'    => 'required|unique:users',
+		            'email'    => 'required|unique:users,email,'.request()->id.',id',
 		            'role'     => 'required',
-		            'password' => 'confirmed|min:8',
+		            'password' => 'nullable|confirmed|min:8',
 				];
 			}
 		}

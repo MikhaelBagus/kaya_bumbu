@@ -25,7 +25,7 @@ class registerRequest extends FormRequest
     {
         return [
             'name'      => 'required|regex:/^(?:[^"\'\<>])+$/i',
-            'email'     => 'required|email|unique:users,email',
+            'email'     => 'required|unique:users,email',
             'phone'     => 'required|numeric|min:6',
             'password'  => 'required|min:8'
         ];
