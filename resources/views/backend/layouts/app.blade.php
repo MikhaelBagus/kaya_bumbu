@@ -37,7 +37,7 @@
 @stack('css')
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('logo_kaya_bumbu_web_putih.png')}}">
+    <link rel="shortcut icon" href="{{asset('logo_kaya_bumbu_web.png')}}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -53,7 +53,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Embed browser icon -->
-    <link rel="icon" href="{!! asset('logo_kaya_bumbu_web_putih.png') !!}"/>
+    <link rel="icon" href="{!! asset('logo_kaya_bumbu_web.png') !!}"/>
 
     <style>
         .form-group {

@@ -8,7 +8,7 @@
 <body>
     <table width="100%">
         <tr class="align-top">
-            <td width="70%">
+            <td width="40%">
                 <span style="font-size: 20px">PT. KAYA BUMBU INDONESIA</span><br>
                 <table style="table-layout: fixed; width: 100%; border-spacing: -2px">
                     <tr>
@@ -27,6 +27,9 @@
                         <td>Instagram: @kayabumbujakarta</td>
                     </tr>
                 </table>
+            </td>
+            <td width="30%">
+                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="75%">
             </td>
             <td width="30%" style="text-align: right;">
                 <span style="font-size: 32px">DELIVERY ORDER</span><br>
