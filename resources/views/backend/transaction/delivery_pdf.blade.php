@@ -7,6 +7,9 @@
 </head>
 <body>
     <table width="100%">
+        <tr style="text-align: right;">
+            <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="20%">
+        </tr>
         <tr class="align-top">
             <td width="40%">
                 <span style="font-size: 20px">PT. KAYA BUMBU INDONESIA</span><br>
@@ -28,16 +31,13 @@
                     </tr>
                 </table>
             </td>
-            <td width="30%" style="text-align: right;">
+            <td width="40%" style="text-align: right;">
                 <span style="font-size: 32px">DELIVERY ORDER</span><br>
                 Delivery Date:
                 {{date('d F Y', strtotime($transaction->date))}}
                 <br>
                 Delivery Time:
                 ___________
-            </td>
-            <td width="30%">
-                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="75%">
             </td>
         </tr>
     </table>

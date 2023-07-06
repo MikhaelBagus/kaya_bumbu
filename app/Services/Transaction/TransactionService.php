@@ -51,10 +51,19 @@ class TransactionService implements TransactionServiceContract
                 $total_price = $total_price + ($item['qty'] * $item['price']);
             }
 
+            if($request->customer_city_id == null){
+                $customer_city_id = 0;
+            }
+            else{
+                $customer_city_id = $request->customer_city_id;
+            }
+
             if($request->customer_phone == null){
                 $customerDb = new Customer();
                 $customerDb->name           = $request->customer_name;
                 $customerDb->phone          = $request->customer_id;
+                $customerDb->city_id        = $customer_city_id;
+                $customerDb->address        = $request->customer_address;
                 $customerDb->created_by     = Sentinel::getUser()->email;
                 $customerDb->save();
 
@@ -80,13 +89,6 @@ class TransactionService implements TransactionServiceContract
             }
             else{
                 $user_id = $request->user_id;
-            }
-
-            if($request->customer_city_id == null){
-                $customer_city_id = 0;
-            }
-            else{
-                $customer_city_id = $request->customer_city_id;
             }
 
             $transactionDb->user_id             = $user_id;

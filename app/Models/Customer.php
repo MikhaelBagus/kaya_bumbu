@@ -50,4 +50,42 @@ class Customer extends Model
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
+
+    public function getCityNameAttribute()
+    {
+        $city = City::where('id', $this->city_id)->first();
+
+        if($city){
+            return $city->name;
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function getProvinceIdAttribute()
+    {
+        $city = City::where('id', $this->city_id)->first();
+
+        if($city){
+            return $city->province->id;
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function getProvinceNameAttribute()
+    {
+        $city = City::where('id', $this->city_id)->first();
+
+        if($city){
+            return $city->province->name;
+        }
+        else{
+            return '';
+        }
+    }
+
+    protected $appends = ['city_name', 'province_id', 'province_name'];
 }

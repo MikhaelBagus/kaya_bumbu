@@ -567,8 +567,15 @@
             } else {
                 $('#customer_name').val(select2Data[0].name);
                 $('#customer_phone').val(select2Data[0].text);
-                $('#recipient_name').val(select2Data[0].name);
-                $('#recipient_phone').val(select2Data[0].text);
+                $('#customer_province_id').append($('<option>', {
+                    value: select2Data[0].province_id,
+                    text: select2Data[0].province_name
+                }));
+                $('#customer_city_id').append($('<option>', {
+                    value: select2Data[0].city_id,
+                    text: select2Data[0].city_name
+                }));
+                $('#customer_address').val(select2Data[0].address);
             }
         });
 
@@ -605,6 +612,67 @@
         });
 
         $('#city_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('city.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page,
+                        province_id: $('#province_id').val()
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#customer_province_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('province.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#customer_province_id').on("select2:select", function() {
+            $('#customer_city_id').empty();
+        });
+
+        $('#customer_city_id').select2({
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
