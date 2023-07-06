@@ -28,9 +28,6 @@
                     </tr>
                 </table>
             </td>
-            <td width="30%">
-                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="75%">
-            </td>
             <td width="30%" style="text-align: right;">
                 <span style="font-size: 32px">DELIVERY ORDER</span><br>
                 Delivery Date:
@@ -38,6 +35,9 @@
                 <br>
                 Delivery Time:
                 ___________
+            </td>
+            <td width="30%">
+                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="75%">
             </td>
         </tr>
     </table>

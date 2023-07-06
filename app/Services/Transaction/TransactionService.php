@@ -82,10 +82,18 @@ class TransactionService implements TransactionServiceContract
                 $user_id = $request->user_id;
             }
 
+            if($request->customer_city_id == null){
+                $customer_city_id = 0;
+            }
+            else{
+                $customer_city_id = $request->customer_city_id;
+            }
+
             $transactionDb->user_id             = $user_id;
             $transactionDb->bank_id             = $request->bank_id;
             $transactionDb->source_id           = $request->source_id;
             $transactionDb->city_id             = $request->city_id;
+            $transactionDb->customer_city_id    = $customer_city_id;
             $transactionDb->driver_id           = 0;
             $transactionDb->code                = $transaction_code_new;
             $transactionDb->date                = $request->date;
@@ -96,6 +104,7 @@ class TransactionService implements TransactionServiceContract
             $transactionDb->actual_ongkir_price = $request->actual_ongkir_price;
             $transactionDb->grand_price         = $total_price - $request->discount_price + $request->ongkir_price;
             $transactionDb->address             = $request->address;
+            $transactionDb->customer_address    = $request->customer_address;
             $transactionDb->recipient_phone     = $request->recipient_phone;
             $transactionDb->recipient_name      = $request->recipient_name;
             if($request->customer_phone == null){

@@ -122,6 +122,28 @@
                             : {{$transaction->customer_name}}
                         </dd>
                         <dt class="text-left">
+                            Provinsi Pemesan
+                        </dt>
+                        <dd>
+                            : @if($transaction->customer_city)
+                            {{$transaction->customer_city->province->name}}
+                            @endif
+                        </dd>
+                        <dt class="text-left">
+                            Kota Pemesan
+                        </dt>
+                        <dd>
+                            : @if($transaction->customer_city)
+                            {{$transaction->customer_city->name}}
+                            @endif
+                        </dd>
+                        <dt class="text-left">
+                            Alamat Pemesan
+                        </dt>
+                        <dd>
+                            : {{$transaction->customer_address}}
+                        </dd>
+                        <dt class="text-left">
                             Phone Penerima
                         </dt>
                         <dd>
@@ -134,19 +156,19 @@
                             : {{$transaction->recipient_name}}
                         </dd>
                         <dt class="text-left">
-                            Provinsi
+                            Provinsi Penerima
                         </dt>
                         <dd>
                             : {{$transaction->city->province->name}}
                         </dd>
                         <dt class="text-left">
-                            Kota
+                            Kota Penerima
                         </dt>
                         <dd>
                             : {{$transaction->city->name}}
                         </dd>
                         <dt class="text-left">
-                            Alamat
+                            Alamat Penerima
                         </dt>
                         <dd>
                             : {{$transaction->address}}

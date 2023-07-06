@@ -30,6 +30,36 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group @if($errors->has('province_id')) has-error @endif">
+                                <label for="province_id" class="control-label">Provinsi </label>
+                                <select id="province_id" name="province_id" class="form-control" data-placeholder="Pilih Provinsi">
+                                </select>
+                                {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group @if($errors->has('city_id')) has-error @endif">
+                                <label for="city_id" class="control-label">Kota </label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Pilih Kota">
+                                </select>
+                                {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group @if($errors->has('address')) has-error @endif">
+                                <label for="address" class="control-label">Alamat </label>
+                                <textarea name="address" id="address" class="form-control input-sm" placeholder="Alamat ...">{{old('address')}}</textarea>
+                                {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="panel-footer">

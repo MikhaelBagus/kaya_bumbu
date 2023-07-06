@@ -17,6 +17,8 @@ class CreateCustomerTable extends Migration
             $table->id();
             $table->string('name')->default('');
             $table->string('phone')->default('');
+            $table->bigInteger('city_id')->default(0);
+            $table->text('address')->nullable();
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');

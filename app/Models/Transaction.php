@@ -42,6 +42,10 @@ class Transaction extends Model
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
+    public function customer_city(){
+        return $this->belongsTo(City::class, 'customer_city_id', 'id');
+    }
+
     public function source(){
         return $this->belongsTo(Source::class, 'source_id', 'id');
     }

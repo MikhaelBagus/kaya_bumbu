@@ -23,9 +23,18 @@ class CustomerService implements CustomerServiceContract
         DB::beginTransaction();
 
         try {
+            if($request->city_id == null){
+                $city_id = 0;
+            }
+            else{
+                $city_id = $request->city_id;
+            }
+
             $customerDb = new Customer();
             $customerDb->name           = $request->name;
             $customerDb->phone          = $request->phone;
+            $customerDb->city_id        = $city_id;
+            $customerDb->address        = $request->address;
             $customerDb->created_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
@@ -52,9 +61,18 @@ class CustomerService implements CustomerServiceContract
         DB::beginTransaction();
 
         try {
+            if($request->city_id == null){
+                $city_id = 0;
+            }
+            else{
+                $city_id = $request->city_id;
+            }
+
             $customerDb = Customer::find($id);
             $customerDb->name           = $request->name;
             $customerDb->phone          = $request->phone;
+            $customerDb->city_id        = $city_id;
+            $customerDb->address        = $request->address;
             $customerDb->updated_by     = Sentinel::getUser()->email;
             $customerDb->save();
 
@@ -94,11 +112,34 @@ class CustomerService implements CustomerServiceContract
                 }
             )
             ->addColumn(
+                'city_name',
+                function ($dataDb) {
+                    if($dataDb->city){
+                        return $dataDb->city->name;
+                    }
+                    else{
+                        return '';
+                    }
+                }
+            )
+            ->addColumn(
+                'province_name',
+                function ($dataDb) {
+                    if($dataDb->city){
+                        return $dataDb->city->province->name;
+                    }
+                    else{
+                        return '';
+                    }
+                }
+            )
+            ->addColumn(
                 'checkbox',
                 function ($dataDb) {
                     return $dataDb->id;
                 }
             )
+            ->rawColumns(array('city_name', 'province_name', 'action'))
             ->make(true);
     }
 
@@ -143,7 +184,7 @@ class CustomerService implements CustomerServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Customer::select('id', 'phone as text', 'name')->where('phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Customer::select('id', 'phone as text', 'name', 'city_id', 'address')->where('phone', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

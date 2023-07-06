@@ -32,6 +32,28 @@
                         <dd>
                             : {{$customer->phone}}
                         </dd>
+                        <dt class="text-left">
+                            Province
+                        </dt>
+                        <dd>
+                            : @if($customer->city)
+                            {{$customer->city->province->name}}
+                            @endif
+                        </dd>
+                        <dt class="text-left">
+                            City
+                        </dt>
+                        <dd>
+                            : @if($customer->city)
+                            {{$customer->city->name}}
+                            @endif
+                        </dd>
+                        <dt class="text-left">
+                            Address
+                        </dt>
+                        <dd>
+                            : {{$customer->address}}
+                        </dd>
                     </dl>
                 </div>
 

@@ -126,6 +126,36 @@
 
                     <div class="col-md-12">
                         <div class="col-md-6">
+                            <div class="form-group @if($errors->has('customer_province_id')) has-error @endif">
+                                <label for="customer_province_id" class="control-label">Provinsi Pemesan </label>
+                                <select id="customer_province_id" name="customer_province_id" class="form-control" data-placeholder="Pilih Provinsi Pemesan">
+                                </select>
+                                {!! $errors->first('customer_province_id', '<em for="customer_province_id" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group @if($errors->has('customer_city_id')) has-error @endif">
+                                <label for="customer_city_id" class="control-label">Kota Pemesan </label>
+                                <select id="customer_city_id" name="customer_city_id" class="form-control" data-placeholder="Pilih Kota Pemesan">
+                                </select>
+                                {!! $errors->first('customer_city_id', '<em for="customer_city_id" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group @if($errors->has('customer_address')) has-error @endif">
+                                <label for="customer_address" class="control-label">Alamat Pemesan </label>
+                                <textarea name="customer_address" id="customer_address" class="form-control input-sm" placeholder="Alamat Pemesan ...">{{old('customer_address')}}</textarea>
+                                {!! $errors->first('customer_address', '<em for="customer_address" class="text-danger">:message</em>') !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group @if($errors->has('recipient_phone')) has-error @endif">
                                 <label for="recipient_phone" class="control-label">Phone Penerima <span style="color: red">*</span></label>
                                 <input type="number" name="recipient_phone" id="recipient_phone" value="{{old('recipient_phone')}}" class="form-control input-sm" placeholder="Phone Penerima...*" required>
@@ -145,8 +175,8 @@
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('province_id')) has-error @endif">
-                                <label for="province_id" class="control-label">Provinsi <span style="color: red">*</span></label>
-                                <select id="province_id" name="province_id" class="form-control" data-placeholder="Pilih Provinsi" required>
+                                <label for="province_id" class="control-label">Provinsi Penerima <span style="color: red">*</span></label>
+                                <select id="province_id" name="province_id" class="form-control" data-placeholder="Pilih Provinsi Penerima" required>
                                 </select>
                                 {!! $errors->first('province_id', '<em for="province_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -154,8 +184,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('city_id')) has-error @endif">
-                                <label for="city_id" class="control-label">Kota <span style="color: red">*</span></label>
-                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Pilih Kota" required>
+                                <label for="city_id" class="control-label">Kota Penerima <span style="color: red">*</span></label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Pilih Kota Penerima" required>
                                 </select>
                                 {!! $errors->first('city_id', '<em for="city_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -165,8 +195,8 @@
                     <div class="col-md-12">
                         <div class="col-md-12">
                             <div class="form-group @if($errors->has('address')) has-error @endif">
-                                <label for="address" class="control-label">Alamat <span style="color: red">*</span></label>
-                                <textarea name="address" id="address" class="form-control input-sm" placeholder="Alamat ...*" required>{{old('address')}}</textarea>
+                                <label for="address" class="control-label">Alamat Penerima <span style="color: red">*</span></label>
+                                <textarea name="address" id="address" class="form-control input-sm" placeholder="Alamat Penerima ...*" required>{{old('address')}}</textarea>
                                 {!! $errors->first('address', '<em for="address" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
