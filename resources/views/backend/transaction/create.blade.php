@@ -685,7 +685,7 @@
                     return {
                         term: params.term,
                         page: params.page,
-                        province_id: $('#province_id').val()
+                        province_id: $('#customer_province_id').val()
                     };
                 },
                 processResults: function(data, params) {

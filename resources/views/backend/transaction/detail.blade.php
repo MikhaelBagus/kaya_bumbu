@@ -315,6 +315,7 @@
                 </a>
 
                 <div class="pull-right">
+                    <a href="{{route('transaction.edit', [$transaction->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> @lang('global.update')</a>
                     @if($transaction->status == 0)
                     <a href="#" data-message="Mulai Packing {{$transaction->code}} ?" data-href="{{route('transaction.update_start_cooking', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Packing {{$transaction->code}} ?" data-title-modal="Mulai Packing {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Packing {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Packing</a>
                     @elseif($transaction->status == 1)

@@ -299,27 +299,27 @@ class TransactionService implements TransactionServiceContract
                 function ($dataDb) {
                     $updateButton = '';
                     if($dataDb->status == 0){
-                        $updateButton = '<a href="#" data-message="Mulai Packing '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Packing '.$dataDb->code.' ?" data-title-modal="Mulai Packing '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Packing '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Packing</span></a>';
+                        $updateButton = '<a style="font-size: 24px;" href="#" data-message="Mulai Packing '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_cooking', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Packing '.$dataDb->code.' ?" data-title-modal="Mulai Packing '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Packing '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Packing</span></a>';
                     }
                     else if($dataDb->status == 1){
-                        $updateButton = '<a href="#" data-message="Mulai Pengiriman '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_delivery', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Pengiriman '.$dataDb->code.' ?" data-title-modal="Mulai Pengiriman '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Pengiriman '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Pengiriman</span></a>';
+                        $updateButton = '<a style="font-size: 24px;" href="#" data-message="Mulai Pengiriman '.$dataDb->code.' ?" data-href="' . route('transaction.update_start_delivery', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Mulai Pengiriman '.$dataDb->code.' ?" data-title-modal="Mulai Pengiriman '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Mulai Pengiriman '.$dataDb->code.' ?"><span class="label label-success label-sm">Mulai Pengiriman</span></a>';
                     }
                     else if($dataDb->status == 2){
-                        $updateButton = '<a href="'.route('transaction.edit_end_delivery', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-success label-sm">Selesai Pengiriman</span></a>';
+                        $updateButton = '<a style="font-size: 24px;" href="'.route('transaction.edit_end_delivery', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-success label-sm">Selesai Pengiriman</span></a>';
                     }
 
-                    $updatePaymentButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
+                    $updatePaymentButton = '<a style="font-size: 24px;" href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
 
-                    return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
-                        <a href="'.route('transaction.edit', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-warning label-sm"><i class="fa fa-edit"></i></span></a>
-                        <a href="'.route('transaction.pdf', [$dataDb->id]).'" id="tooltip" title="PDF"><span class="label label-warning label-sm">PDF</span></a>
-                        <a href="'.route('transaction.invoice', [$dataDb->id]).'" id="tooltip" title="Invoice"><span class="label label-warning label-sm">Invoice</span></a>
-                        <a href="'.route('transaction.delivery_pdf', [$dataDb->id]).'" id="tooltip" title="Delivery PDF"><span class="label label-warning label-sm">Delivery PDF</span></a>
+                    return '<a style="font-size: 24px;" href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
+                        <a style="font-size: 24px;" href="'.route('transaction.edit', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-warning label-sm"><i class="fa fa-edit"></i></span></a>
+                        <a style="font-size: 24px;" href="'.route('transaction.pdf', [$dataDb->id]).'" id="tooltip" title="PDF"><span class="label label-warning label-sm">PDF</span></a>
+                        <a style="font-size: 24px;" href="'.route('transaction.invoice', [$dataDb->id]).'" id="tooltip" title="Invoice"><span class="label label-warning label-sm">Invoice</span></a>
+                        <a style="font-size: 24px;" href="'.route('transaction.delivery_pdf', [$dataDb->id]).'" id="tooltip" title="Delivery PDF"><span class="label label-warning label-sm">Delivery PDF</span></a>
                         '.$updateButton.'
                         '.$updatePaymentButton.'
-                        <a href="'.route('transaction.edit_actual_ongkir_price', [$dataDb->id]).'" id="tooltip" title="Actual Ongkir"><span class="label label-warning label-sm">Actual Ongkir Driver</span></a>
-                        <a href="#" data-message="Suspend '.$dataDb->code.' ?" data-href="' . route('transaction.update_suspend', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Suspend '.$dataDb->code.' ?" data-title-modal="Suspend '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Suspend '.$dataDb->code.' ?"><span class="label label-danger label-sm">Suspend</span></a>
-                        <a href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->code]).'" data-href="'.route('transaction.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
+                        <a style="font-size: 24px;" href="'.route('transaction.edit_actual_ongkir_price', [$dataDb->id]).'" id="tooltip" title="Actual Ongkir"><span class="label label-warning label-sm">Actual Ongkir Driver</span></a>
+                        <a style="font-size: 24px;" href="#" data-message="Suspend '.$dataDb->code.' ?" data-href="' . route('transaction.update_suspend', $dataDb->id) . '" id="tooltip" data-method="PUT" data-title="Suspend '.$dataDb->code.' ?" data-title-modal="Suspend '.$dataDb->code.' ?" data-toggle="modal" data-target="#delete" title="Suspend '.$dataDb->code.' ?"><span class="label label-danger label-sm">Suspend</span></a>
+                        <a style="font-size: 24px;" href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->code]).'" data-href="'.route('transaction.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
                 }
             )
             ->addColumn(
