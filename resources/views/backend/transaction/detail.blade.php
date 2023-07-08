@@ -285,7 +285,7 @@
                             <th colspan="6" class="text-right">
                                 Harga Total :
                             </th>
-                            <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->grand_price + $transaction->discount,0,',','.')}}</strong></span></th>
+                            <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->grand_price + $transaction->discount - $transaction->ongkir_price,0,',','.')}}</strong></span></th>
                         </tr>
                         <tr>
                             <th colspan="6" class="text-right">

@@ -56,9 +56,9 @@
                                     <option value=""></option>
                                     <?php for ($i=0; $i < 24; $i++) { ?>
                                         @if($i < 10)
-                                        <option value="0{{$i}}">0{{$i}}</option>
+                                        <option value="0{{$i}}" @if(substr($transaction->time, 0, 2) == '0'.$i) selected @endif>0{{$i}}</option>
                                         @else
-                                        <option value="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" @if(substr($transaction->time, 0, 2) == $i) selected @endif>{{$i}}</option>
                                         @endif
                                     <?php } ?>
                                 </select>
@@ -72,10 +72,11 @@
                                 <select id="minute" name="minute" class="form-control" data-placeholder="Pilih Menit" required>
                                     <option value=""></option>
                                     <?php for ($i=0; $i < 60; $i++) { ?>
+                                        
                                         @if($i < 10)
-                                        <option value="0{{$i}}">0{{$i}}</option>
+                                        <option value="0{{$i}}" @if(substr($transaction->time, -2) == '0'.$i) selected @endif>0{{$i}}</option>
                                         @else
-                                        <option value="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" @if(substr($transaction->time, -2) == $i) selected @endif>{{$i}}</option>
                                         @endif
                                     <?php } ?>
                                 </select>
@@ -101,7 +102,7 @@
                             <div class="form-group @if($errors->has('bank_id')) has-error @endif">
                                 <label for="bank_id" class="control-label">Bank <span style="color: red">*</span></label>
                                 <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Pilih Bank" required>
-                                    <option value="{{$transaction->bank_id}}" selected>{{$transaction->bank->name}}</option>
+                                    <option value="{{$transaction->bank_id}}" selected>{{$transaction->bank->bank_name}} {{$transaction->bank->account_number}} a\n {{$transaction->bank->account_name}}</option>
                                 </select>
                                 {!! $errors->first('bank_id', '<em for="bank_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -249,6 +250,9 @@
                                     <option value="-" @if($transaction->delivery_transport == '-') selected @endif>-</option>
                                     <option value="Mobil" @if($transaction->delivery_transport == 'Mobil') selected @endif>Mobil</option>
                                     <option value="Motor" @if($transaction->delivery_transport == 'Motor') selected @endif>Motor</option>
+                                    @if(!($transaction->delivery_transport == '' || $transaction->delivery_transport == '-' || $transaction->delivery_transport == 'Mobil' || $transaction->delivery_transport == 'Motor'))
+                                    <option value="{{$transaction->delivery_transport}}" selected>{{$transaction->delivery_transport}}</option>
+                                    @endif
                                 </select>
                                 {!! $errors->first('delivery_transport', '<em for="delivery_transport" class="text-danger">:message</em>') !!}
                             </div>
@@ -321,7 +325,7 @@
                                     <th colspan="5" class="text-right">
                                         Harga Total :
                                     </th>
-                                    <th colspan="1" class="text-left"><span id="totalPrice"><strong>0</strong></span></th>
+                                    <th colspan="1" class="text-left"><span id="totalPrice"><strong>{{number_format($transaction->grand_price + $transaction->discount - $transaction->ongkir_price,0,'.',',')}}</strong></span></th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
@@ -329,7 +333,7 @@
                                         Harga Discount :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="discount_price" id="discount_price" value="0" class="form-control input-sm" placeholder="Harga Discount ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        <input type="number" name="discount_price" id="discount_price" value="{{$transaction->discount_price}}" class="form-control input-sm" placeholder="Harga Discount ...*" min="0" onchange="grandPriceCalculate()" required>
                                         {!! $errors->first('discount_price', '<em for="discount_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
@@ -339,7 +343,7 @@
                                         Harga Ongkir Customer :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="ongkir_price" id="ongkir_price" value="0" class="form-control input-sm" placeholder="Harga Ongkir Customer ...*" min="0" onchange="grandPriceCalculate()" required>
+                                        <input type="number" name="ongkir_price" id="ongkir_price" value="{{$transaction->ongkir_price}}" class="form-control input-sm" placeholder="Harga Ongkir Customer ...*" min="0" onchange="grandPriceCalculate()" required>
                                         {!! $errors->first('ongkir_price', '<em for="ongkir_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
@@ -348,7 +352,7 @@
                                     <th colspan="5" class="text-right">
                                         Harga Grand Total :
                                     </th>
-                                    <th colspan="1" class="text-left"><span id="grandPrice"><strong>0</strong></span></th>
+                                    <th colspan="1" class="text-left"><span id="grandPrice"><strong>{{number_format($transaction->grand_price,0,'.',',')}}</strong></span></th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 <tr>
@@ -356,7 +360,7 @@
                                         Harga Ongkir Driver :
                                     </th>
                                     <th colspan="1" class="text-left">
-                                        <input type="number" name="actual_ongkir_price" id="actual_ongkir_price" value="0" class="form-control input-sm" placeholder="Harga Ongkir Driver ...*" min="0" required>
+                                        <input type="number" name="actual_ongkir_price" id="actual_ongkir_price" value="{{$transaction->actual_ongkir_price}}" class="form-control input-sm" placeholder="Harga Ongkir Driver ...*" min="0" required>
                                         {!! $errors->first('actual_ongkir_price', '<em for="actual_ongkir_price" class="text-danger">:message</em>') !!}
                                     </th>
                                     <th>&nbsp;</th>
