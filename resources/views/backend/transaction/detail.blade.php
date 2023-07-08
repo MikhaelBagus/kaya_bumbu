@@ -320,7 +320,7 @@
                     @elseif($transaction->status == 1)
                     <a href="#" data-message="Mulai Pengiriman {{$transaction->code}} ?" data-href="{{route('transaction.update_start_delivery', [$transaction->id])}}" id="tooltip" data-method="PUT" data-title="Mulai Pengiriman {{$transaction->code}} ?" data-title-modal="Mulai Pengiriman {{$transaction->code}} ?" data-toggle="modal" data-target="#delete" title="Mulai Pengiriman {{$transaction->code}} ?" class="btn btn-success btn-sm">Mulai Pengiriman</a>
                     @elseif($transaction->status == 2)
-                    <a href="{{route('transaction.edit_end_delivery', [$dataDb->id])}}" class="btn btn-success btn-sm">Selesai Pengiriman</a>
+                    <a href="{{route('transaction.edit_end_delivery', [$transaction->id])}}" class="btn btn-success btn-sm">Selesai Pengiriman</a>
                     @endif
                     <a href="{{route('transaction.edit_actual_ongkir_price', [$transaction->id])}}" class="btn btn-warning btn-sm">Actual Ongkir Driver</a>
                     <a href="{{route('transaction.edit_payment_status', [$transaction->id])}}" class="btn btn-warning btn-sm">Status Pembayaran</a>
