@@ -8,7 +8,7 @@
 <body>
     <table width="100%">
         <tr class="align-top">
-            <td width="40%">
+            <td width="75%">
                 <span style="font-size: 20px">PT. KAYA BUMBU INDONESIA</span><br>
                 <table style="table-layout: fixed; width: 100%; border-spacing: -2px">
                     <tr>
@@ -28,9 +28,9 @@
                     </tr>
                 </table>
             </td>
-            <td width="40%" style="text-align: right;">
-                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="30%">
-                <span style="font-size: 32px">INVOICE</span><br>
+            <td width="25%" style="text-align: right;">
+                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="50%"><br>
+                <span style="font-size: 28px">INVOICE</span><br>
                 Tanggal Pengiriman:
                 {{date('d F Y', strtotime($transaction->date))}}
                 <br>
@@ -102,14 +102,11 @@
             <td style="text-align: right;"><b>{{number_format($transaction->grand_price,0,',','.')}}</b></td>
         </tr>
     </table>
-    <br>
     <br>Syarat & Ketentuan :                            
     <br>-   Pembayaran dilakukan pada saat pemesanan sudah dikonfirmasi dengan jelas oleh Pihak Kaya Bumbu.
     <br><b>-   Pembayaran dapat dilakukan dengan cara TRANSFER Ke BCA a/n DANIEL SIDARTA  012 043 1293</b>
     <br>-   Tidak ada pengembalian uang apabila ada pembatalan sepihak oleh Customer.
     <br>-   Harap memberi kabar kepada kami setelah melakukan Pembayaran.
-    <br>
-    <br>
     <table width="100%">
         <tr class="align-top">
             <td width="34%">

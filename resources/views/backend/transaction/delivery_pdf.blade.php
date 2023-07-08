@@ -8,7 +8,7 @@
 <body>
     <table width="100%">
         <tr class="align-top">
-            <td width="40%">
+            <td width="75%">
                 <span style="font-size: 20px">PT. KAYA BUMBU INDONESIA</span><br>
                 <table style="table-layout: fixed; width: 100%; border-spacing: -2px">
                     <tr>
@@ -28,9 +28,9 @@
                     </tr>
                 </table>
             </td>
-            <td width="40%" style="text-align: right;">
-                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="30%">
-                <span style="font-size: 32px">DELIVERY ORDER</span><br>
+            <td width="25%" style="text-align: right;">
+                <img src="{{asset('logo_kayabumbu_web.png')}}" alt="image" width="50%"><br>
+                <span style="font-size: 28px">DELIVERY ORDER</span><br>
                 Delivery Date:
                 {{date('d F Y', strtotime($transaction->date))}}
                 <br>
@@ -105,10 +105,7 @@
             </td>
         </tr>
     </table>
-    <br>                          
     <br>* Barang sudah diterima dalam keadaan baik & jumlah yang benar
     <br>* Apabila barang sudah diterima, kerusakan / kehilangan bukan tanggung jawab kami
-    <br>
-    <br>
 </body>
 </html>

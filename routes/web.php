@@ -730,28 +730,28 @@ Route::group([
         ->name('transaction.ajax.data')->middleware('sentinel.permission:transaction.show');
 
     Route::get('/{id}/update-actual-ongkir-price', [TransactionController::class, 'editActualOngkirPrice'])
-        ->name('transaction.edit_actual_ongkir_price')->middleware('sentinel.permission:transaction.edit_actual_ongkir_price');
+        ->name('transaction.edit_actual_ongkir_price')->middleware('sentinel.permission:transaction.actualongkirprice');
 
     Route::put('/{id}/update-actual-ongkir-price', [TransactionController::class, 'updateActualOngkirPrice'])
-        ->name('transaction.update_actual_ongkir_price')->middleware('sentinel.permission:transaction.edit_actual_ongkir_price');
+        ->name('transaction.update_actual_ongkir_price')->middleware('sentinel.permission:transaction.actualongkirprice');
 
     Route::get('/{id}/update-payment-status', [TransactionController::class, 'editPaymentStatus'])
-        ->name('transaction.edit_payment_status')->middleware('sentinel.permission:transaction.edit_payment_status');
+        ->name('transaction.edit_payment_status')->middleware('sentinel.permission:transaction.paymentstatus');
 
     Route::put('/{id}/update-payment-status', [TransactionController::class, 'updatePaymentStatus'])
-        ->name('transaction.update_payment_status')->middleware('sentinel.permission:transaction.edit_payment_status');
+        ->name('transaction.update_payment_status')->middleware('sentinel.permission:transaction.paymentstatus');
 
     Route::put('/{id}/update-start-cooking', [TransactionController::class, 'updateStartCooking'])
-        ->name('transaction.update_start_cooking')->middleware('sentinel.permission:transaction.edit_start_cooking');
+        ->name('transaction.update_start_cooking')->middleware('sentinel.permission:transaction.startcooking');
 
     Route::put('/{id}/update-start-delivery', [TransactionController::class, 'updateStartDelivery'])
-        ->name('transaction.update_start_delivery')->middleware('sentinel.permission:transaction.edit_start_delivery');
+        ->name('transaction.update_start_delivery')->middleware('sentinel.permission:transaction.startdelivery');
 
     Route::get('/{id}/update-end-delivery', [TransactionController::class, 'editEndDelivery'])
-        ->name('transaction.edit_end_delivery')->middleware('sentinel.permission:transaction.edit_end_delivery');
+        ->name('transaction.edit_end_delivery')->middleware('sentinel.permission:transaction.enddelivery');
 
     Route::put('/{id}/update-end-delivery', [TransactionController::class, 'updateEndDelivery'])
-        ->name('transaction.update_end_delivery')->middleware('sentinel.permission:transaction.edit_end_delivery');
+        ->name('transaction.update_end_delivery')->middleware('sentinel.permission:transaction.enddelivery');
 
     Route::get('/{id}/pdf', [TransactionController::class, 'pdf'])
         ->name('transaction.pdf')->middleware('sentinel.permission:transaction.pdf');
@@ -760,10 +760,10 @@ Route::group([
         ->name('transaction.invoice')->middleware('sentinel.permission:transaction.invoice');
 
     Route::get('/{id}/delivery-pdf', [TransactionController::class, 'deliveryPdf'])
-        ->name('transaction.delivery_pdf')->middleware('sentinel.permission:transaction.delivery_pdf');
+        ->name('transaction.delivery_pdf')->middleware('sentinel.permission:transaction.deliverypdf');
 
     Route::put('/{id}/update-suspend', [TransactionController::class, 'updateSuspend'])
-        ->name('transaction.update_suspend')->middleware('sentinel.permission:transaction.edit_suspend');
+        ->name('transaction.update_suspend')->middleware('sentinel.permission:transaction.suspend');
 });
 
 // log
