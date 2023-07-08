@@ -275,18 +275,10 @@
                     <label></label>
                 </div>
             </td>
-            <td>
-                <!-- <div class="checkbox checkbox-success">
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_edit" {{ old('transaction_edit') || array_key_exists('transaction.edit', $permissions) ? 'checked' : ''}}>
                     <label></label>
-                </div> -->
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="transaction_paymentstatus" {{ old('transaction_paymentstatus') || array_key_exists('transaction.paymentstatus', $permissions) ? 'checked' : ''}}>
-                    <label>Payment Status</label>
-                </div>
-                <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="transaction_actualongkirprice" {{ old('transaction_actualongkirprice') || array_key_exists('transaction.actualongkirprice', $permissions) ? 'checked' : ''}}>
-                    <label>Actual Ongkir Price</label>
                 </div>
             </td>
             <td class="text-center">
@@ -302,6 +294,14 @@
                 </div>
             </td>
             <td>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_paymentstatus" {{ old('transaction_paymentstatus') || array_key_exists('transaction.paymentstatus', $permissions) ? 'checked' : ''}}>
+                    <label>Payment Status</label>
+                </div>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_actualongkirprice" {{ old('transaction_actualongkirprice') || array_key_exists('transaction.actualongkirprice', $permissions) ? 'checked' : ''}}>
+                    <label>Actual Ongkir Price</label>
+                </div>
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_pdf" {{ old('transaction_pdf') || array_key_exists('transaction.pdf', $permissions) ? 'checked' : ''}}>
                     <label>PDF</label>

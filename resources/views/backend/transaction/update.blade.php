@@ -22,7 +22,7 @@
                             <div class="form-group @if($errors->has('user_id')) has-error @endif">
                                 <label for="user_id" class="control-label">Admin <span style="color: red">*</span></label>
                                 <select id="user_id" name="user_id" class="form-control" data-placeholder="Pilih Admin" required @if(Sentinel::inRole('root')) @else disabled @endif>
-                                    <option value="{{Sentinel::getUser()->id}}">{{Sentinel::getUser()->name}}</option>
+                                    <option value="{{$transaction->user_id}}" selected>{{$transaction->user->email}}</option>
                                 </select>
                                 {!! $errors->first('user_id', '<em for="user_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -116,7 +116,7 @@
                                 <select id="customer_id" name="customer_id" class="form-control" data-placeholder="Pilih Phone Pemesan" required>
                                     <option value="{{$transaction->customer_id}}" selected>{{$transaction->customer->phone}}</option>
                                 </select>
-                                <input type="hidden" name="customer_phone" id="customer_phone" value="" /> 
+                                <input type="hidden" name="customer_phone" id="customer_phone" value="{{$transaction->customer->phone}}" /> 
                                 {!! $errors->first('customer_id', '<em for="customer_id" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
@@ -314,11 +314,42 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse($transaction->transaction_product as $detail)
+                                <tr class="product-row-{{$detail->product_id}}">
+                                    <input type="hidden" name="item[{{$detail->product_id}}][product_id]" value="{{$detail->product_id}}">
+                                    <input type="hidden" name="item[{{$detail->product_id}}][name]" value="{{$detail->name}}">
+                                    <input type="hidden" name="item[{{$detail->product_id}}][price]" value="{{$detail->price}}">
+                                    <input type="hidden" name="item[{{$detail->product_id}}][unit]" value="{{$detail->unit}}">
+                                    <input type="hidden" name="item[{{$detail->product_id}}][total_price]" id="total_price_hidden{{$detail->product_id}}" value="{{$detail->price * $detail->qty}}" class="total_price">
+                                    <td>
+                                        {{$detail->name}}
+                                    </td>
+                                    <td>
+                                        <input type="number" onchange="qty({{$detail->product_id}})" name="item[{{$detail->product_id}}][price]" value="{{$detail->price}}" min="0" class="form-control input-sm" id="price{{$detail->product_id}}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="number" onchange="qty({{$detail->product_id}})" name="item[{{$detail->product_id}}][qty]" value="{{$detail->qty}}" min="0" class="form-control input-sm" id="qty{{$detail->product_id}}">
+                                    </td>
+                                    <td>
+                                        {{$detail->unit}}
+                                    </td>
+                                    <td>
+                                        <textarea name="item[{{$detail->product_id}}][notes]" class="form-control input-sm" id="notes{{$detail->product_id}}"></textarea>
+                                    </td>
+                                    <td id="total_price{{$detail->product_id}}">
+                                        {{number_format($detail->price * $detail->qty,0,'.',',')}}
+                                    </td>
+                                    <td class="text-center">
+                                        <i class="fa fa-times" onclick="removeProductList({{$detail->product_id}})"></i>
+                                    </td>
+                                </tr>
+                                @empty
                                 <tr class="info" id="hidden-tr-po">
                                     <td colspan="6">
                                         Tolong pilih product
                                     </td>
                                 </tr>
+                                @endforelse
                             </tbody>
                             <tfoot>
                                 <tr>

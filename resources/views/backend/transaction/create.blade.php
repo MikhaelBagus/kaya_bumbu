@@ -19,7 +19,7 @@
                             <div class="form-group @if($errors->has('user_id')) has-error @endif">
                                 <label for="user_id" class="control-label">Admin <span style="color: red">*</span></label>
                                 <select id="user_id" name="user_id" class="form-control" data-placeholder="Pilih Admin" required @if(Sentinel::inRole('root')) @else disabled @endif>
-                                    <option value="{{Sentinel::getUser()->id}}">{{Sentinel::getUser()->name}}</option>
+                                    <option value="{{Sentinel::getUser()->id}}">{{Sentinel::getUser()->email}}</option>
                                 </select>
                                 {!! $errors->first('user_id', '<em for="user_id" class="text-danger">:message</em>') !!}
                             </div>
