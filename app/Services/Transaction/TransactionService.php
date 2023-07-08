@@ -159,6 +159,130 @@ class TransactionService implements TransactionServiceContract
         }
     }
 
+    public function update(int $id, $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $total_price = 0;
+            foreach($request->item as $item){
+                $total_price = $total_price + ($item['qty'] * $item['price']);
+            }
+
+            if($request->customer_city_id == null){
+                $customer_city_id = 0;
+            }
+            else{
+                $customer_city_id = $request->customer_city_id;
+            }
+
+            if($request->customer_phone == null){
+                $customerDb = new Customer();
+                $customerDb->name           = $request->customer_name;
+                $customerDb->phone          = $request->customer_id;
+                $customerDb->city_id        = $customer_city_id;
+                $customerDb->address        = $request->customer_address;
+                $customerDb->created_by     = Sentinel::getUser()->email;
+                $customerDb->save();
+
+                $logDb = new Log();
+                $logDb->user_id     = Sentinel::getUser()->id;
+                $logDb->action      = 'Create '.$customerDb->name;
+                $logDb->menu        = 'Customer';
+                $logDb->item_id     = $customerDb->id;
+                $logDb->created_by  = Sentinel::getUser()->email;
+                $logDb->save();
+            }
+
+            $transactionDb = Transaction::find($id);
+            if($request->customer_phone == null){
+                $transactionDb->customer_id     = $customerDb->id;
+            }
+            else{
+                $transactionDb->customer_id     = $request->customer_id;
+            }
+
+            if($request->user_id == null){
+                $user_id = Sentinel::getUser()->id;
+            }
+            else{
+                $user_id = $request->user_id;
+            }
+
+            $transactionDb->user_id             = $user_id;
+            $transactionDb->bank_id             = $request->bank_id;
+            $transactionDb->source_id           = $request->source_id;
+            $transactionDb->city_id             = $request->city_id;
+            $transactionDb->customer_city_id    = $customer_city_id;
+            $transactionDb->driver_id           = 0;
+            $transactionDb->code                = $transaction_code_new;
+            $transactionDb->date                = $request->date;
+            $transactionDb->time                = $request->hour.':'.$request->minute;
+            $transactionDb->payment_status      = $request->payment_status;
+            $transactionDb->discount_price      = $request->discount_price;
+            $transactionDb->ongkir_price        = $request->ongkir_price;
+            $transactionDb->actual_ongkir_price = $request->actual_ongkir_price;
+            $transactionDb->grand_price         = $total_price - $request->discount_price + $request->ongkir_price;
+            $transactionDb->address             = $request->address;
+            $transactionDb->customer_address    = $request->customer_address;
+            $transactionDb->recipient_phone     = $request->recipient_phone;
+            $transactionDb->recipient_name      = $request->recipient_name;
+            if($request->customer_phone == null){
+                $transactionDb->customer_phone  = $request->customer_id;
+            }
+            else{
+                $transactionDb->customer_phone  = $request->customer_phone;
+            }
+            $transactionDb->customer_name       = $request->customer_name;
+            $transactionDb->delivery_option     = $request->delivery_option;
+            $transactionDb->delivery_transport  = $request->delivery_transport;
+            $transactionDb->delivery_type       = $request->delivery_type;
+            $transactionDb->transaction_type    = $request->transaction_type;
+            $transactionDb->notes               = $request->notes;
+            $transactionDb->status              = 0;
+            $transactionDb->created_by          = Sentinel::getUser()->email;
+            $transactionDb->save();
+
+            if(!$transactionDb->transaction_product->isEmpty()){
+                foreach($transactionDb->transaction_product as $detail){
+                    $detail->forceDelete();
+                }
+            }
+
+            foreach($request->item as $item){
+                $productDb = Product::where('id',$item['product_id'])->first();
+                if($productDb){
+                    $transactionProductDb = new TransactionProduct();
+                    $transactionProductDb->product_id     = $item['product_id'];
+                    $transactionProductDb->transaction_id = $transactionDb->id;
+                    $transactionProductDb->name           = $item['name'];
+                    $transactionProductDb->qty            = $item['qty'];
+                    $transactionProductDb->price          = $item['price'];
+                    $transactionProductDb->unit           = $item['unit'];
+                    $transactionProductDb->notes          = $item['notes'];
+                    $transactionProductDb->created_by     = Sentinel::getUser()->email;
+                    $transactionProductDb->save();
+                }
+            }
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$transactionDb->code;
+            $logDb->menu        = 'Transaction';
+            $logDb->item_id     = $transactionDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            DB::commit();
+
+            return $transactionDb;
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
     public function datatable($request)
     {
         $select = [
@@ -189,7 +313,11 @@ class TransactionService implements TransactionServiceContract
 
                     $updatePaymentButton = '<a href="'.route('transaction.edit_payment_status', [$dataDb->id]).'" id="tooltip" title="Payment Status"><span class="label label-warning label-sm">Payment Status</span></a>';
 
+                    $updateTransactionButton = '';
+                    // $updateTransactionButton = '<a href="'.route('transaction.edit', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-warning label-sm"><i class="fa fa-edit"></i></span></a>';
+
                     return '<a href="' . route('transaction.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
+                        '.$updateTransactionButton.'
                         <a href="'.route('transaction.pdf', [$dataDb->id]).'" id="tooltip" title="PDF"><span class="label label-warning label-sm">PDF</span></a>
                         <a href="'.route('transaction.invoice', [$dataDb->id]).'" id="tooltip" title="Invoice"><span class="label label-warning label-sm">Invoice</span></a>
                         <a href="'.route('transaction.delivery_pdf', [$dataDb->id]).'" id="tooltip" title="Delivery PDF"><span class="label label-warning label-sm">Delivery PDF</span></a>

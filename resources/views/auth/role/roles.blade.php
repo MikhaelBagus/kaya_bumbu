@@ -276,6 +276,10 @@
                 </div>
             </td>
             <td>
+                <!-- <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_edit" {{ old('transaction_edit') || array_key_exists('transaction.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div> -->
                 <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="transaction_paymentstatus" {{ old('transaction_paymentstatus') || array_key_exists('transaction.paymentstatus', $permissions) ? 'checked' : ''}}>
                     <label>Payment Status</label>

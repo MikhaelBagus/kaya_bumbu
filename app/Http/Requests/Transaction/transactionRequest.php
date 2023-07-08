@@ -37,5 +37,19 @@ class transactionRequest extends FormRequest
                 'item'           => 'required'
             ];
         }
+        else{
+            return [
+                'customer_id'    => 'required|numeric',
+                'bank_id'        => 'required|numeric',
+                'city_id'        => 'required|numeric',
+                'source_id'      => 'required|numeric',
+                'date'           => 'required',
+                'payment_status' => 'required|numeric',
+                'address'        => 'required|regex:/^(?:[^"\'\<>])+$/i',
+                'discount_price' => 'required|numeric',
+                'ongkir_price'   => 'required|numeric',
+                'item'           => 'required'
+            ];
+        }
     }
 }

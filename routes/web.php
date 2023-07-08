@@ -723,6 +723,12 @@ Route::group([
     Route::get('/{id}/show', [TransactionController::class, 'show'])
         ->name('transaction.show')->middleware('sentinel.permission:transaction.show');
 
+    Route::get('/{id}/edit', [TransactionController::class, 'edit'])
+        ->name('transaction.edit')->middleware('sentinel.permission:transaction.edit');
+
+    Route::put('/{id}', [TransactionController::class, 'update'])
+        ->name('transaction.update')->middleware('sentinel.permission:transaction.edit');
+
     Route::delete('/{id}', [TransactionController::class, 'destroy'])
         ->name('transaction.destroy')->middleware('sentinel.permission:transaction.destroy');
 
