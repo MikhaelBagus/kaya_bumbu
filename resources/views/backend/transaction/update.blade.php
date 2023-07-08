@@ -134,7 +134,9 @@
                             <div class="form-group @if($errors->has('customer_province_id')) has-error @endif">
                                 <label for="customer_province_id" class="control-label">Provinsi Pemesan </label>
                                 <select id="customer_province_id" name="customer_province_id" class="form-control" data-placeholder="Pilih Provinsi Pemesan">
+                                    @if($transaction->customer_city)
                                     <option value="{{$transaction->customer_city->province_id}}" selected>{{$transaction->customer_city->province->name}}</option>
+                                    @endif
                                 </select>
                                 {!! $errors->first('customer_province_id', '<em for="customer_province_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -144,7 +146,9 @@
                             <div class="form-group @if($errors->has('customer_city_id')) has-error @endif">
                                 <label for="customer_city_id" class="control-label">Kota Pemesan </label>
                                 <select id="customer_city_id" name="customer_city_id" class="form-control" data-placeholder="Pilih Kota Pemesan">
+                                    @if($transaction->customer_city)
                                     <option value="{{$transaction->customer_city_id}}" selected>{{$transaction->customer_city->name}}</option>
+                                    @endif
                                 </select>
                                 {!! $errors->first('customer_city_id', '<em for="customer_city_id" class="text-danger">:message</em>') !!}
                             </div>
@@ -155,7 +159,7 @@
                         <div class="col-md-12">
                             <div class="form-group @if($errors->has('customer_address')) has-error @endif">
                                 <label for="customer_address" class="control-label">Alamat Pemesan </label>
-                                <textarea name="customer_address" id="customer_address" class="form-control input-sm" placeholder="Alamat Pemesan ...">{{old('customer_address', $transaction->customer_addresss)}}</textarea>
+                                <textarea name="customer_address" id="customer_address" class="form-control input-sm" placeholder="Alamat Pemesan ...">{{old('customer_address', $transaction->customer_address)}}</textarea>
                                 {!! $errors->first('customer_address', '<em for="customer_address" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
