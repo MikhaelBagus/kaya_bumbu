@@ -16,16 +16,16 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label" for="order_date">Date Range</label>
+                            <label class="control-label" for="order_date">Date Range <span style="color: red">*</span></label>
                             <div class="input-group input-group-sm date">
-                                <input type="text" name="order_date_from" id="order_date_from" value="{{ old('order_date_from', request()->orderDateFrom) }}" class="form-control input-sm" readonly>
+                                <input type="text" name="order_date_from" id="order_date_from" value="{{ old('order_date_from', request()->orderDateFrom) }}" class="form-control input-sm" readonly required>
                                 <label class="input-group-addon input-sm" for="order_date_from">
                                     <i class="fa fa-calendar"></i>
                                 </label>
                                 <label class="input-group-addon input-sm tip" id="clearOrderDateFrom" title="Clear Date From" for="order_date_from">
                                     <i class="fa fa-eraser"></i>
                                 </label>
-                                <input type="text" name="order_date_to" id="order_date_to" value="{{ old('order_date_to', request()->orderDateTo) }}" class="form-control input-sm" readonly>
+                                <input type="text" name="order_date_to" id="order_date_to" value="{{ old('order_date_to', request()->orderDateTo) }}" class="form-control input-sm" readonly required>
                                 <label class="input-group-addon input-sm" for="order_date_to">
                                     <i class="fa fa-calendar"></i>
                                 </label>
@@ -33,6 +33,8 @@
                                     <i class="fa fa-eraser"></i>
                                 </label>
                             </div>
+                            {!! $errors->first('order_date_from', '<em for="order_date_from" class="text-danger">:message</em>') !!}
+                            {!! $errors->first('order_date_to', '<em for="order_date_to" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
@@ -196,73 +198,105 @@
             </form>
         </div>
     </section>
-@endsection
+@stop
 
 @push('css')
-    <!-- Select 2 -->
-    <link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
-    <link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
-    <link rel="stylesheet" href="{{url('theme/app/vendor/plugins/summernote/summernote.css')}}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+
+<link rel="stylesheet" href="{{url('theme/app/vendor/plugins/datatables/media/css/dataTables.bootstrap.css')}}">
+<link rel="stylesheet" href="{{url('theme/app/vendor/plugins/datatables/media/css/dataTables.plugins.css')}}">
+<link rel="stylesheet" href="{{url('plugins/datatables/extensions/FixedHeader/css/fixedHeader.bootstrap.css')}}">
+<link rel="stylesheet" href="{{url('plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css')}}">
+
+<link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
+<link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
 @endpush
 
 @push('scripts')
-    <script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
-    <script src="{{url('theme/app/vendor/plugins/summernote/summernote.min.js')}}"></script>
-    
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#summernote').summernote({
-                placeholder: 'Content ...*',
-                tabsize: 2,
-                height: 150,
-                fontSizes: ['8', '9', '10', '11', '12', '13','14', '18', '24', '36', '48' , '64', '82', '150'],
-                toolbar: [
-                    ["style", ["style"]],
-                    ["font", ["bold", "underline", "clear"]],
-                    ["fontname", ["fontname"]],
-                    ['fontsize', ['fontsize']],
-                    ["color", ["color"]],
-                    ["para", ["ul", "ol", "paragraph"]],
-                    ["table", ["table"]],
-                    ["insert", ["link", "hr", "video","picture"]],
-                    ["view", ["fullscreen", "codeview", "help"]]
-                ]
-            });
-        })
+<!-- DataTables -->
 
-        $('#date').datepicker({
-            dateFormat: 'yy-mm-dd',
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+<script src="{{url('plugins/jquery-number/jquery.number.min.js')}}"></script>
+<script src="{{url('plugins/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Responsive/js/dataTables.responsive.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Buttons/js/buttons.bootstrap.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Checkboxes/dataTables.checkboxes.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Pagination/full_numbers_no_ellipses.js')}}"></script>
+
+<script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
+
+<script>
+    $(function () {
+        $('#order_date_from').datepicker({
+            dateFormat : 'yy-mm-dd',
             changeMonth: true,
-            changeYear: true,
-            yearRange: "-100:+0"
+            changeYear : true,
+            yearRange  : "-100:+0"
+        });
+
+        $('#order_date_to').datepicker({
+            dateFormat : 'yy-mm-dd',
+            changeMonth: true,
+            changeYear : true,
+            yearRange  : "-100:+0"
+        });
+
+        $('#order_date_from').on('change',function(){
+           if($('#order_date_to').val() == ''){
+              $('#order_date_to').val($('#order_date_from').val());
+           }
+        });
+
+        $('#order_date_to').on('change',function(){
+           if($('#order_date_from').val() == ''){
+              $('#order_date_from').val($('#order_date_to').val());
+           }
+        });
+
+        $('#clearOrderDateFrom').on('click', function () {
+            $('#order_date_from').val('');
+        });
+
+        $('#clearOrderDateTo').on('click', function () {
+            $('#order_date_to').val('');
+        });
+
+        $('#grand_price_from').on('change',function(){
+            console.log($('#grand_price_to').val());
+           if($('#grand_price_to').val() == ''){
+              $('#grand_price_to').val($('#order_date_from').val());
+           }
+        });
+
+        $('#grand_price_to').on('change',function(){
+           if($('#grand_price_from').val() == ''){
+              $('#grand_price_from').val($('#order_date_to').val());
+           }
+        });
+
+        $('#clearGrandPriceFrom').on('click', function () {
+            $('#grand_price_from').val('');
+        });
+
+        $('#clearGrandPriceTo').on('click', function () {
+            $('#grand_price_to').val('');
         });
 
         $('#payment_status').select2({
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
-            containerCssClass: ':all:',
-        });
-
-        $('#delivery_option').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-        });
-
-        $('#delivery_transport').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            tags: true,
-            width: '100%',
-            containerCssClass: ':all:',
-        });
-
-        $('#delivery_type').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
+            allowClear: true,
             containerCssClass: ':all:',
         });
 
@@ -270,6 +304,39 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#delivery_transport').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#delivery_option').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#delivery_type').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#status').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
             containerCssClass: ':all:',
         });
 
@@ -277,37 +344,10 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
+            allowClear: true,
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('users.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
-
-        $('#bank_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('bank.ajax.select2')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -333,9 +373,39 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
+            allowClear: true,
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('source.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#bank_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('bank.ajax.select2')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -361,7 +431,7 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
-            tags: true,
+            allowClear: true,
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('customer.ajax.select2')}}',
@@ -386,22 +456,32 @@
             }
         });
 
-        $('#customer_id').on("select2:select", function() {
-            const select2Data = $(this).select2("data");
-            if (select2Data[0].text == select2Data[0].id) {
-                $('#customer_phone').val('');
-            } else {
-                $('#customer_name').val(select2Data[0].name);
-                $('#customer_phone').val(select2Data[0].text);
-                $('#customer_province_id').append($('<option>', {
-                    value: select2Data[0].province_id,
-                    text: select2Data[0].province_name
-                }));
-                $('#customer_city_id').append($('<option>', {
-                    value: select2Data[0].city_id,
-                    text: select2Data[0].city_name
-                }));
-                $('#customer_address').val(select2Data[0].address);
+        $('#driver_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('driver.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
             }
         });
 
@@ -409,6 +489,7 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
+            allowClear: true,
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('province.ajax.select2')}}',
@@ -441,6 +522,7 @@
             theme: "bootstrap",
             placeholder: "Select",
             width: '100%',
+            allowClear: true,
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('city.ajax.select2')}}',
@@ -465,210 +547,6 @@
                 cache: true,
             }
         });
-
-        $('#customer_province_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('province.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
-
-        $('#customer_province_id').on("select2:select", function() {
-            $('#customer_city_id').empty();
-        });
-
-        $('#customer_city_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('city.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page,
-                        province_id: $('#customer_province_id').val()
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
-
-        $('#product').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('product.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
-        });
-
-        $('#hour').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-        });
-
-        $('#minute').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            containerCssClass: ':all:',
-        });
-
-        //For Place To Check Item Same Or Not
-        let productData = [];
-
-        //Ready For Append Html Form
-        function htmlProduct(data) {
-            let productHtml = '<tr class="product-row-' + data.id + '">';
-            productHtml += '<input type="hidden" name="item[' + data.id + '][product_id]" value="' + data.id + '">';
-            productHtml += '<input type="hidden" name="item[' + data.id + '][name]" value="' + data.text + '">';
-            productHtml += '<input type="hidden" name="item[' + data.id + '][price]" value="' + data.price + '">';
-            productHtml += '<input type="hidden" name="item[' + data.id + '][unit]" value="' + data.unit + '">';
-            productHtml += '<input type="hidden" name="item[' + data.id + '][total_price]" id="total_price_hidden' + data.id + '" value="' + addCommas(data.price) + '" class="total_price">';
-            productHtml += '<td>' + data.text + '</td>';
-            productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][price]" value="' + data.price + '" min="0" class="form-control input-sm" id="price' + data.id + '" readonly></td>';
-            productHtml += '<td><input type="number" onchange="qty(' + data.id + ')" name="item[' + data.id + '][qty]" value="1" min="0" class="form-control input-sm" id="qty' + data.id + '"></td>';
-            productHtml += '<td>' + data.unit + '</td>';
-            productHtml += '<td><textarea name="item[' + data.id + '][notes]" class="form-control input-sm" id="notes' + data.id + '"></textarea></td>';
-            productHtml += '<td id="total_price' + data.id + '">' + addCommas(data.price) + '</td>';
-            productHtml += '<td class="text-center"><i class="fa fa-times" onclick="removeProductList(' + data.id + ')"></i></td>';
-            productHtml += '</tr>';
-
-            $('#product-container tbody').append(productHtml);
-        }
-
-        //To Remove Product Row
-        function removeProductList(productId) {
-            $('.product-row-' + productId).remove();
-
-            qty(productId);
-
-            //Remove item in jquery array data
-            productData.splice(productData.indexOf(productId.toString()), 1);
-        }
-
-        function addCommas(nStr) {
-            nStr += '';
-            x = nStr.split('.');
-            x1 = x[0];
-            x2 = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-            while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + ',' + '$2');
-            }
-            return x1 + x2;
-        }
-
-        //Add The Product Data And Clear Product Search Data
-        $('#product').on("select2:select", function() {
-            //Set Product Data
-            const select2Data = $(this).select2("data");
-
-            if ($.inArray(select2Data[0].id, productData) == -1) {
-                //Add Item Id To Array
-                productData.push(select2Data[0].id);
-
-                //Remove Hidden Tr SO
-                $('#hidden-tr-po').remove();
-
-                //Appent Item Html
-                htmlProduct(select2Data[0]);
-
-                qty(select2Data[0].id);
-            }
-
-            //Remove Hidden Tr SO
-            $('#hidden-tr-po').remove();
-
-            $('#product').val(null).trigger("change");
-        });
-
-        function qty(rowIndex) {
-            let price = $('#price' + rowIndex).val();
-            let qty = $('#qty' + rowIndex).val();
-
-            let total_price = parseFloat(price) * parseFloat(qty);
-
-            $('#total_price' + rowIndex).text(addCommas(total_price));
-            $('#total_price_hidden' + rowIndex).val(total_price);
-
-            grandPriceCalculate();
-        }
-
-        function grandPriceCalculate() {
-            let total_price = 0;
-            $('.total_price').each(function() {
-                total_price += parseInt($(this).val());
-            });
-            
-            let discount = parseInt($('#discount_price').val());
-            let ongkir = parseInt($('#ongkir_price').val());
-
-            $('#totalPrice').text(addCommas(total_price));
-            $('#grandPrice').text(addCommas(total_price - discount + ongkir));
-        }
-    </script>
-    <script>
-        //Disable Enter
-        $(document).keypress(function (event) {
-            if (event.which == '13') {
-                event.preventDefault();
-            }
-        });
-    </script>
+    });
+</script>
 @endpush
