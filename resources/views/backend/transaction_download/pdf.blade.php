@@ -18,9 +18,9 @@
         <br>Nama penerima: {{$transactionEach->recipient_name}}
         <br>No.HP penerima: {{$transactionEach->recipient_phone}}
         <br>
-        <br>Alamat Lengkap: {{$transactionEach->address}}
+        <br>Alamat lengkap: {{$transactionEach->address}}
         <br>Jenis kendaraan: {{$transactionEach->delivery_transport}}
-        <br>Harga Ongkir Driver: Rp {{number_format($transactionEach->actual_ongkir_price,0,',','.')}}
+        <br>Harga ongkir driver: Rp {{number_format($transactionEach->actual_ongkir_price,0,',','.')}}
         <br>Jenis pengiriman: {{$transactionEach->delivery_type}}
         <br>
         <br>Pesanan: 
