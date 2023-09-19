@@ -23,33 +23,9 @@ class transactionDownloadRequest extends FormRequest
      */
     public function rules()
     {
-        if(request()->method == 'POST'){
-            return [
-                'customer_id'    => 'required|numeric',
-                'bank_id'        => 'required|numeric',
-                'city_id'        => 'required|numeric',
-                'source_id'      => 'required|numeric',
-                'date'           => 'required',
-                'payment_status' => 'required|numeric',
-                'address'        => 'required|regex:/^(?:[^"\'\<>])+$/i',
-                'discount_price' => 'required|numeric',
-                'ongkir_price'   => 'required|numeric',
-                'item'           => 'required'
-            ];
-        }
-        else{
-            return [
-                'customer_id'    => 'required|numeric',
-                'bank_id'        => 'required|numeric',
-                'city_id'        => 'required|numeric',
-                'source_id'      => 'required|numeric',
-                'date'           => 'required',
-                'payment_status' => 'required|numeric',
-                'address'        => 'required|regex:/^(?:[^"\'\<>])+$/i',
-                'discount_price' => 'required|numeric',
-                'ongkir_price'   => 'required|numeric',
-                'item'           => 'required'
-            ];
-        }
+        return [
+            'order_date_from'    => 'required',
+            'order_date_to'      => 'required',
+        ];
     }
 }
