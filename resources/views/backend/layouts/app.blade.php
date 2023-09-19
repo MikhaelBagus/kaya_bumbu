@@ -147,6 +147,7 @@
                     @include('backend.menus.driver')
                     @include('backend.menus.product')
                     @include('backend.menus.transaction')
+                    @include('backend.menus.transaction_download')
                     @include('backend.menus.others')
                 @endif
             </ul>

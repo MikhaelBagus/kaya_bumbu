@@ -41,6 +41,8 @@ use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceContract;
 use App\Services\Transaction\TransactionService;
 use App\Services\Transaction\TransactionServiceContract;
+use App\Services\TransactionDownload\TransactionDownloadService;
+use App\Services\TransactionDownload\TransactionDownloadServiceContract;
 use App\Services\Log\LogService;
 use App\Services\Log\LogServiceContract;
 
@@ -142,6 +144,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             TransactionServiceContract::class,
             TransactionService::class
+        );
+
+        $this->app->bind(
+            TransactionDownloadServiceContract::class,
+            TransactionDownloadService::class
         );
 
         $this->app->bind(

@@ -27,6 +27,7 @@ use App\Http\Controllers\Backend\ProvinceController;
 use App\Http\Controllers\Backend\SourceController;
 use App\Http\Controllers\Backend\TermConditionController;
 use App\Http\Controllers\Backend\TransactionController;
+use App\Http\Controllers\Backend\TransactionDownloadController;
 use \Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\SentinelPermission;
@@ -770,6 +771,20 @@ Route::group([
 
     Route::put('/{id}/update-suspend', [TransactionController::class, 'updateSuspend'])
         ->name('transaction.update_suspend')->middleware('sentinel.permission:transaction.suspend');
+});
+
+// download-transaction
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'download-transaction',
+], function () {
+    Route::get('', [TransactionDownloadController::class, 'index'])
+        ->name('transaction_download.index')->middleware('sentinel.permission:transaction_download.download');
+
+    Route::post('', [TransactionDownloadController::class, 'download'])
+        ->name('transaction_download.download')->middleware('sentinel.permission:transaction_download.download');
 });
 
 // log

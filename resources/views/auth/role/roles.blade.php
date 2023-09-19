@@ -333,6 +333,21 @@
             </td>
         </tr>
 
+        <!-- Download Transaction -->
+        <tr>
+            <td>Download Transaction</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="transaction_download_download" {{ old('transaction_download_download') || array_key_exists('transaction_download.download', $permissions) ? 'checked' : ''}}>
+                    <label>Download</label>
+                </div>
+            </td>
+        </tr>
+
     </tbody>
 </table>
 
