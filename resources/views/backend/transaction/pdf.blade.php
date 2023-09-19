@@ -6,8 +6,8 @@
     <title>Transaction {{$transaction->code}}</title>
 </head>
 <body>
-    Admin: {{$transaction->user->name}}
-    <br>Tanggal pengiriman: {{date('d/m/Y', strtotime($transaction->date))}}
+    <br>Admin: {{$transaction->user->name}}
+    <br>Tanggal pengiriman: {{date('d M Y', strtotime($transaction->date))}}
     <br>Jam pengiriman: {{$transaction->time}}
     <br>
     <br>Nama pemesan: {{$transaction->customer->name}}
@@ -16,8 +16,8 @@
     <br>No.HP penerima: {{$transaction->recipient_phone}}
     <br>
     <br>Alamat Lengkap: {{$transaction->address}}
-    <br>Pengiriman menggunakan: {{$transaction->delivery_option}}
     <br>Jenis kendaraan: {{$transaction->delivery_transport}}
+    <br>Harga Ongkir Driver: Rp {{number_format($transaction->actual_ongkir_price,0,',','.')}}
     <br>Jenis pengiriman: {{$transaction->delivery_type}}
     <br>
     <br>Pesanan: 
@@ -31,5 +31,8 @@
     @else
     {{$transaction->notes}}
     @endif
+    <br>
+    <br>
+    <hr>
 </body>
 </html>

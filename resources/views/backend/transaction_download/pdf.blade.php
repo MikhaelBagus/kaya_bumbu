@@ -9,10 +9,8 @@
     <?php $no = 0; ?>
     @forelse($transaction as $transactionEach)
         <?php $no = $no + 1; ?>
-        <br>No: {{$no}}
-        <br>Transaction Code: {{$transactionEach->code}}
         <br>Admin: {{$transactionEach->user->name}}
-        <br>Tanggal pengiriman: {{date('d/m/Y', strtotime($transactionEach->date))}}
+        <br>Tanggal pengiriman: {{date('d M Y', strtotime($transactionEach->date))}}
         <br>Jam pengiriman: {{$transactionEach->time}}
         <br>
         <br>Nama pemesan: {{$transactionEach->customer->name}}
@@ -21,8 +19,8 @@
         <br>No.HP penerima: {{$transactionEach->recipient_phone}}
         <br>
         <br>Alamat Lengkap: {{$transactionEach->address}}
-        <br>Pengiriman menggunakan: {{$transactionEach->delivery_option}}
         <br>Jenis kendaraan: {{$transactionEach->delivery_transport}}
+        <br>Harga Ongkir Driver: Rp {{number_format($transactionEach->actual_ongkir_price,0,',','.')}}
         <br>Jenis pengiriman: {{$transactionEach->delivery_type}}
         <br>
         <br>Pesanan: 
