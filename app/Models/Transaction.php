@@ -88,6 +88,14 @@ class Transaction extends Model
         return $query;
     }
 
+    public function scopeTime($query, $orderTimeFrom, $orderTimeTo)
+    {
+        if ($orderTimeFrom != null && $orderTimeTo != null) {
+            return $query->whereBetween('time', [$orderTimeFrom, $orderTimeTo]);
+        }
+        return $query;
+    }
+
     public function scopeStatus($query, $status)
     {
         if ($status != null) {

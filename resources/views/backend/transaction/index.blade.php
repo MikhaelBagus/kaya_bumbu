@@ -43,6 +43,42 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label class="control-label" for="order_time">Time Range</label>
+                                    <div class="input-group input-group-sm date">
+                                        <select name="order_time_from" id="order_time_from" class="input-sm form-control select_2" style="width:50%">
+                                            <option value=""></option>
+                                            @for($h = 0; $h < 24; $h++)
+                                                @for($m = 0; $m < 60; $m++)
+                                                    @if($h < 10 && $m < 10)
+                                                    <option value="0{{$h}}:0{{$m}}">0{{$h}}:0{{$m}}</option>
+                                                    @elseif($h < 10)
+                                                    <option value="0{{$h}}:{{$m}}">0{{$h}}:{{$m}}</option>
+                                                    @elseif($m < 10)
+                                                    <option value="{{$h}}:0{{$m}}">{{$h}}:0{{$m}}</option>
+                                                    @endif
+                                                @endfor
+                                            @endfor
+                                        </select>
+                                        <select name="order_time_to" id="order_time_to" class="input-sm form-control select_2" style="width:50%">
+                                            <option value=""></option>
+                                            @for($h = 0; $h < 24; $h++)
+                                                @for($m = 0; $m < 60; $m++)
+                                                    @if($h < 10 && $m < 10)
+                                                    <option value="0{{$h}}:0{{$m}}">0{{$h}}:0{{$m}}</option>
+                                                    @elseif($h < 10)
+                                                    <option value="0{{$h}}:{{$m}}">0{{$h}}:{{$m}}</option>
+                                                    @elseif($m < 10)
+                                                    <option value="{{$h}}:0{{$m}}">{{$h}}:0{{$m}}</option>
+                                                    @endif
+                                                @endfor
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label class="control-label" for="order_date">Grand Price Range</label>
                                     <div class="input-group input-group-sm date">
                                         <input type="number" name="grand_price_from" id="grand_price_from" value="{{ old('grand_price_from', request()->grandPriceFrom) }}" class="form-control input-sm">
@@ -285,6 +321,8 @@
                 data: function (d) {
                     d.order_date_from    = $('#order_date_from').val();
                     d.order_date_to      = $('#order_date_to').val();
+                    d.order_time_from    = $('#order_time_from').val();
+                    d.order_time_to      = $('#order_time_to').val();
                     d.grand_price_from   = $('#grand_price_from').val();
                     d.grand_price_to     = $('#grand_price_to').val();
                     d.status             = $('#status').val();
@@ -685,6 +723,22 @@
                 },
                 cache: true,
             }
+        });
+
+        $('#order_time_from').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+        });
+
+        $('#order_time_to').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
         });
     });
 </script>
