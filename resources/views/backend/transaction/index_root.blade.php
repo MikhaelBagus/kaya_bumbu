@@ -420,14 +420,14 @@
             dateFormat : 'yy-mm-dd',
             changeMonth: true,
             changeYear : true,
-            yearRange  : "-100:+0"
+            yearRange  : "-100:+2"
         });
 
         $('#order_date_to').datepicker({
             dateFormat : 'yy-mm-dd',
             changeMonth: true,
             changeYear : true,
-            yearRange  : "-100:+0"
+            yearRange  : "-100:+2"
         });
 
         $('#order_date_from').on('change',function(){
