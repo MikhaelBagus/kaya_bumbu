@@ -334,7 +334,7 @@
                                         {{$detail->unit}}
                                     </td>
                                     <td>
-                                        <textarea name="item[{{$detail->product_id}}][notes]" class="form-control input-sm" id="notes{{$detail->product_id}}"></textarea>
+                                        <textarea name="item[{{$detail->product_id}}][notes]" class="form-control input-sm" id="notes{{$detail->product_id}}">{{$detail->notes}}</textarea>
                                     </td>
                                     <td id="total_price{{$detail->product_id}}">
                                         {{number_format($detail->price * $detail->qty,0,'.',',')}}
