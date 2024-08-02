@@ -25,14 +25,14 @@
         <br>
         <br>Pesanan: 
         <br>@forelse($transactionEach->transaction_product as $detail)
-        - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}} @if($detail->notes != null) ({{$detail->notes}}) @endif<br>
+        - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}} @if($detail->notes != null) <p style="background-color:yellow;">({{$detail->notes}})</p> @endif<br>
         @empty
         -
         @endforelse
         <br>Notes: @if($transactionEach->notes == null)
         -
         @else
-        {{$transactionEach->notes}}
+        <p style="background-color:yellow;">{{$transactionEach->notes}}</p>
         @endif
         <br>
         <br>
