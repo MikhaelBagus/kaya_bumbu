@@ -38,6 +38,12 @@
                         <dd>
                             : {{$product->unit}}
                         </dd>
+                        <dt class="text-left">
+                            Value
+                        </dt>
+                        <dd>
+                            : {{number_format($product->value,0,',','.')}}
+                        </dd>
                     </dl>
                 </div>
 

@@ -9,23 +9,21 @@
     <?php $no = 0; ?>
     @forelse($transaction as $transactionEach)
         <?php $no = $no + 1; ?>
-        <br>Admin: {{$transactionEach->user->name}}
-        <br>Tanggal pengiriman: {{date('d M Y', strtotime($transactionEach->date))}}
-        <br>Jam pengiriman: {{$transactionEach->time}}
+        <br>Tanggal: {{date('d M Y', strtotime($transactionEach->date))}}
+        <br>Jam: {{$transactionEach->time}} ({{$transactionEach->user->name}})
         <br>
-        <br>Nama pemesan: {{$transactionEach->customer->name}}
-        <br>No.HP pemesan: {{$transactionEach->customer->phone}}
-        <br>Nama penerima: {{$transactionEach->recipient_name}}
-        <br>No.HP penerima: {{$transactionEach->recipient_phone}}
+        <br>Pemesan: {{$transactionEach->customer->name}} ({{$transactionEach->customer->phone}})
+        <br>Penerima: {{$transactionEach->recipient_name}} ({{$transactionEach->recipient_phone}})
         <br>
-        <br>Alamat lengkap: {{$transactionEach->address}}
-        <br>Jenis kendaraan: {{$transactionEach->delivery_transport}}
-        <br>Harga ongkir driver: Rp {{number_format($transactionEach->actual_ongkir_price,0,',','.')}}
-        <br>Jenis pengiriman: {{$transactionEach->delivery_type}}
+        @if($transactionEach->actual_ongkir_price == 0)
+        <br>({{$transactionEach->delivery_transport}}) {{$transactionEach->address}}
+        @else
+        <br>({{$transactionEach->delivery_transport}} + Rp {{number_format($transactionEach->actual_ongkir_price,0,',','.')}}) {{$transactionEach->address}}
+        @endif
         <br>
         <br>Pesanan: 
         <br>@forelse($transactionEach->transaction_product as $detail)
-        - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}} @if($detail->notes != null) <p style="background-color:yellow;">({{$detail->notes}})</p> @endif<br>
+        - {{$detail->qty}} {{$detail->unit}} {{$detail->name}} | @if($detail->notes != null) <p style="background-color:yellow;">({{$detail->notes}})</p> @endif<br>
         @empty
         -
         @endforelse

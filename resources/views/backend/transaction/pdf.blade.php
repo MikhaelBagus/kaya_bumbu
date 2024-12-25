@@ -6,30 +6,28 @@
     <title>Transaction {{$transaction->code}}</title>
 </head>
 <body>
-    <br>Admin: {{$transaction->user->name}}
-    <br>Tanggal pengiriman: {{date('d M Y', strtotime($transaction->date))}}
-    <br>Jam pengiriman: {{$transaction->time}}
+    <br>Tanggal: {{date('d M Y', strtotime($transaction->date))}}
+    <br>Jam: {{$transaction->time}} ({{$transaction->user->name}})
     <br>
-    <br>Nama pemesan: {{$transaction->customer->name}}
-    <br>No.HP pemesan: {{$transaction->customer->phone}}
-    <br>Nama penerima: {{$transaction->recipient_name}}
-    <br>No.HP penerima: {{$transaction->recipient_phone}}
+    <br>Pemesan: {{$transaction->customer->name}} ({{$transaction->customer->phone}})
+    <br>Penerima: {{$transaction->recipient_name}} ({{$transaction->recipient_phone}})
     <br>
-    <br>Alamat lengkap: {{$transaction->address}}
-    <br>Jenis kendaraan: {{$transaction->delivery_transport}}
-    <br>Harga ongkir driver: Rp {{number_format($transaction->actual_ongkir_price,0,',','.')}}
-    <br>Jenis pengiriman: {{$transaction->delivery_type}}
+    @if($transaction->actual_ongkir_price == 0)
+    <br>({{$transaction->delivery_transport}}) {{$transaction->address}}
+    @else
+    <br>({{$transaction->delivery_transport}} + Rp {{number_format($transaction->actual_ongkir_price,0,',','.')}}) {{$transaction->address}}
+    @endif
     <br>
     <br>Pesanan: 
     <br>@forelse($transaction->transaction_product as $detail)
-    - {{$detail->name}} | {{$detail->qty}} {{$detail->unit}} @if($detail->notes != null) ({{$detail->notes}}) @endif<br>
+    - {{$detail->qty}} {{$detail->unit}} {{$detail->name}} | @if($detail->notes != null) <p style="background-color:yellow;">({{$detail->notes}})</p> @endif<br>
     @empty
     -
     @endforelse
     <br>Notes: @if($transaction->notes == null)
     -
     @else
-    {{$transaction->notes}}
+    <p style="background-color:yellow;">{{$transaction->notes}}</p>
     @endif
     <br>
     <br>

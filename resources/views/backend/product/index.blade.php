@@ -22,6 +22,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Unit</th>
+                    <th>Value</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -106,6 +107,12 @@
                     }
                 },
                 {data: 'unit', name: 'unit'},
+                {
+                    data: 'value', name: 'value',
+                    render: function (data, type, oObj) {
+                        return $.number(data);
+                    }
+                },
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {

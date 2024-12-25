@@ -43,6 +43,10 @@ use App\Services\Transaction\TransactionService;
 use App\Services\Transaction\TransactionServiceContract;
 use App\Services\TransactionDownload\TransactionDownloadService;
 use App\Services\TransactionDownload\TransactionDownloadServiceContract;
+use App\Services\Calendar\CalendarService;
+use App\Services\Calendar\CalendarServiceContract;
+use App\Services\ProductRanking\ProductRankingService;
+use App\Services\ProductRanking\ProductRankingServiceContract;
 use App\Services\Log\LogService;
 use App\Services\Log\LogServiceContract;
 
@@ -149,6 +153,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             TransactionDownloadServiceContract::class,
             TransactionDownloadService::class
+        );
+
+        $this->app->bind(
+            CalendarServiceContract::class,
+            CalendarService::class
+        );
+
+        $this->app->bind(
+            ProductRankingServiceContract::class,
+            ProductRankingService::class
         );
 
         $this->app->bind(

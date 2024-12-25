@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\StatusController;
 use App\Http\Controllers\Backend\AboutUsController;
 use App\Http\Controllers\Backend\BankController;
+use App\Http\Controllers\Backend\CalendarController;
 use App\Http\Controllers\Backend\CityController;
 use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\CustomerController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductRankingController;
 use App\Http\Controllers\Backend\ProvinceController;
 use App\Http\Controllers\Backend\SourceController;
 use App\Http\Controllers\Backend\TermConditionController;
@@ -525,6 +527,37 @@ Route::group([
 
     Route::get('/ajax/select2', [CityController::class, 'select2'])
         ->name('city.ajax.select2');
+});
+
+// calendar
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'calendar',
+], function () {
+    Route::get('', [CalendarController::class, 'index'])
+        ->name('calendar.index')->middleware('sentinel.permission:calendar.show');
+
+    Route::get('/show/{month}/{year}', [CalendarController::class, 'show'])
+        ->name('calendar.show')->middleware('sentinel.permission:calendar.show');
+
+    Route::get('/detail-show/{month}/{year}/{date}/{hour}', [CalendarController::class, 'showDetail'])
+        ->name('calendar.show_detail')->middleware('sentinel.permission:calendar.show');
+});
+
+// product_ranking
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'ranking-product',
+], function () {
+    Route::get('', [ProductRankingController::class, 'index'])
+        ->name('product_ranking.index')->middleware('sentinel.permission:product_ranking.show');
+
+    Route::get('/show/{month}/{year}', [ProductRankingController::class, 'show'])
+        ->name('product_ranking.show')->middleware('sentinel.permission:product_ranking.show');
 });
 
 // bank

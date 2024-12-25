@@ -38,6 +38,14 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('value')) has-error @endif">
+                            <label for="value" class="control-label">Value <span style="color: red">*</span></label>
+                            <input type="number" name="value" id="value" value="{{old('value')}}" class="form-control input-sm" placeholder="Value ...*" min="0" required>
+                            {!! $errors->first('value', '<em for="value" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="panel-footer">

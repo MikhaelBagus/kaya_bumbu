@@ -7,6 +7,10 @@
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
                     <span class="glyphicon glyphicon-tasks"></span>Transaction Create Form
+
+                    <div class="pull-right">
+                        <a href="{{route('calendar.show', [$currentMonthText, $currentYearText])}}" target="_blank" class="btn btn-warning btn-sm"></i> Calendar</a>
+                    </div>
                 </div>
             </div>
             

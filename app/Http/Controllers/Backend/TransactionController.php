@@ -9,6 +9,7 @@ use App\Http\Requests\Transaction\transactionRequest;
 use App\Services\Transaction\TransactionServiceContract;
 use App\Traits\redirectTo;
 use PDF;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
@@ -31,7 +32,17 @@ class TransactionController extends Controller
 
     public function create()
     {
-        return view('backend.transaction.create');
+        $date = Carbon::now();
+        $currentMonthText = $date->month;
+        if($currentMonthText < 10){
+            $currentMonthText = '0'.$currentMonthText;
+        }
+        else{
+            $currentMonthText = ''.$currentMonthText;
+        }
+        $currentYearText  = $date->year;
+
+        return view('backend.transaction.create', compact('currentMonthText','currentYearText'));
     }
 
     public function store(transactionRequest $request, TransactionServiceContract $transactionServiceContract)
@@ -179,7 +190,7 @@ class TransactionController extends Controller
     public function pdf($id, TransactionServiceContract $transactionServiceContract)
     {
         $transaction = $transactionServiceContract->get($id);
-        $pdf = PDF::loadView('backend.transaction.pdf', compact('transaction'))->setPaper('a4', 'landscape');
+        $pdf = PDF::loadView('backend.transaction.pdf', compact('transaction'))->setPaper('a4', 'potrait');
 
         return $pdf->download('Transaction '.$transaction->code.'.pdf');
     }

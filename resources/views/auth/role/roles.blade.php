@@ -111,6 +111,36 @@
             <td>&nbsp;</td>
         </tr>
 
+        <!-- Calendar -->
+        <tr>
+            <td>Calendar</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="calendar_show" {{ old('calendar_show') || array_key_exists('calendar.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <!-- Product Ranking -->
+        <tr>
+            <td>Product Ranking</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="product_ranking_show" {{ old('product_ranking_show') || array_key_exists('calendar.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
         <!-- Bank -->
         <tr>
             <td>Bank</td>

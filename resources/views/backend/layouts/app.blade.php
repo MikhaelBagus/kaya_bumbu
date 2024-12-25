@@ -146,6 +146,8 @@
                     @include('backend.menus.customer')
                     @include('backend.menus.driver')
                     @include('backend.menus.product')
+                    @include('backend.menus.product_ranking')
+                    @include('backend.menus.calendar')
                     @include('backend.menus.transaction')
                     @include('backend.menus.transaction_download')
                     @include('backend.menus.others')
