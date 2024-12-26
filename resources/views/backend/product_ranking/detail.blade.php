@@ -14,6 +14,8 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="month" id="month" value="{{$month}}">
+            <input type="hidden" name="year" id="year" value="{{$year}}">
 
             <div class="panel-body">
                 <div class="col-md-12">
@@ -27,7 +29,7 @@
                     </dl>
                 </div>
 
-                <table class="table table-striped table-bordered table-hover table-condensed" id="transaction-product-table" width="100%">
+                <table class="table table-striped table-bordered table-hover table-condensed" id="product-ranking-table" width="100%">
                     <thead>
                         <tr>
                             <th>Rank</th>
@@ -37,24 +39,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $count = 0; ?>
-                        @foreach($product_ranking as $productRankingEach)
-                        <?php $count = $count + 1; ?>
-                        <tr>
-                            <td>
-                                {{$count}}
-                            </td>
-                            <td>
-                                {{$productRankingEach->product_name}}
-                            </td>
-                            <td>
-                                {{$productRankingEach->total_qty}}
-                            </td>
-                            <td>
-                                Rp {{number_format($productRankingEach->total_price,0,',','.')}}
-                            </td>
-                        </tr>
-                        @endforeach
                     </tbody>
                 </table>
 
@@ -70,4 +54,124 @@
             </div>
         </div>
     </section>
-@endsection
+@stop
+
+@push('css')
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+
+<link rel="stylesheet" href="{{url('theme/app/vendor/plugins/datatables/media/css/dataTables.bootstrap.css')}}">
+<link rel="stylesheet" href="{{url('theme/app/vendor/plugins/datatables/media/css/dataTables.plugins.css')}}">
+<link rel="stylesheet" href="{{url('plugins/datatables/extensions/FixedHeader/css/fixedHeader.bootstrap.css')}}">
+<link rel="stylesheet" href="{{url('plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css')}}">
+
+<link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
+<link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
+@endpush
+
+@push('scripts')
+<!-- DataTables -->
+
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+<script src="{{url('plugins/jquery-number/jquery.number.min.js')}}"></script>
+<script src="{{url('plugins/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Responsive/js/dataTables.responsive.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Buttons/js/buttons.bootstrap.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Checkboxes/dataTables.checkboxes.min.js')}}"></script>
+<script src="{{url('plugins/datatables/extensions/Pagination/full_numbers_no_ellipses.js')}}"></script>
+
+<script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
+
+<script>
+    $(function () {
+
+        let table = $('#product-ranking-table').DataTable({
+            aaSorting: [[0, 'desc']],
+            searching: false,
+            ordering: false,
+            aLengthMenu: [
+                    [50, 100, 500, 1000, 5000, -1],
+                    [50, 100, 500, 1000, 5000, "All"]
+                ],
+            iDisplayLength: 100,
+            //stateSave: true,
+            // responsive: true,
+            // fixedHeader: true,
+            processing: true,
+            serverSide: true,
+            scrollX: true,
+            dom: "<'dt-panelmenu clearfix'<'row'<'col-sm-2'B><'col-sm-4'l><'col-sm-6'f>>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'dt-panelfooter clearfix'<'row'<'col-sm-5'i><'col-sm-7'p>>>",
+            pagingType: "full_numbers",
+            ajax: {
+                url: '{!! route('product_ranking.ajax.data') !!}',
+                dataType: 'json',
+                data: function (d) {
+                    d.month    = $('#month').val();
+                    d.year     = $('#year').val();
+                },
+            },
+            columns: [
+                {
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {data: 'name', name: 'name'},
+                {
+                    data: 'total_qty',
+                    render: function (data, type, oObj) {
+                        return $.number(data);
+                    }
+                },
+                {
+                    data: 'total_price',
+                    render: function (data, type, oObj) {
+                        return 'Rp. ' + $.number(data);
+                    }
+                },
+            ],
+            buttons: [
+                {
+                    extend: 'colvis',
+                    text: '<i class="fa fa-columns"></i> @lang('auth.index_column')',
+                    columns: '2, 3, 4'
+                }
+            ],
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all',
+                            search: 'none' 
+                        }
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all',
+                            search: 'none' 
+                        }
+                    }
+                }
+            ],
+            select: {
+                style: 'multi'
+            },
+        });
+    });
+</script>
+@endpush

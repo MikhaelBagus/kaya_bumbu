@@ -193,4 +193,15 @@ class ProductRankingController extends Controller
         }
         return view('backend.product_ranking.detail', compact('product_ranking','month','monthText','year','prevMonthText','prevYearText','nextMonthText','nextYearText'));
     }
+
+    public function datatable(Request $request, ProductRankingServiceContract $productRankingServiceContract)
+    {
+
+        if ($request->ajax()) {
+            # Return The JSON datatables Data
+            return $productRankingServiceContract->datatable($request);
+        }
+
+        abort('404', 'uups');
+    }
 }

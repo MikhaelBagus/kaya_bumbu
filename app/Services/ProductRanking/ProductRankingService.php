@@ -17,13 +17,24 @@ class ProductRankingService implements ProductRankingServiceContract
 {
     public function get($month, $year)
     {
-        $data = TransactionProduct::select(DB::raw('MAX(name) AS product_name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
+        $data = TransactionProduct::select(DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
                 ->whereHas('transaction', function($q) use($month, $year) {
                     $q->whereMonth('date', $month)->whereYear('date', $year);
                 })->groupBy('product_id')->orderBy('total_qty','desc')->get();
 
-        // dd($data);
-
         return $data;
+    }
+
+    public function datatable($request)
+    {
+        $month = $request->month;
+        $year  = $request->year;
+        $dataDb = TransactionProduct::select(DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
+                ->whereHas('transaction', function($q) use($month, $year) {
+                    $q->whereMonth('date', $month)->whereYear('date', $year);
+                })->groupBy('product_id')->orderBy('total_qty','desc');
+
+        return DataTables::eloquent($dataDb)
+            ->make(true);
     }
 }

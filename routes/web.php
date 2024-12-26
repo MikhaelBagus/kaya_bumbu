@@ -558,6 +558,9 @@ Route::group([
 
     Route::get('/show/{month}/{year}', [ProductRankingController::class, 'show'])
         ->name('product_ranking.show')->middleware('sentinel.permission:product_ranking.show');
+
+    Route::get('/ajax/data', [ProductRankingController::class, 'datatable'])
+        ->name('product_ranking.ajax.data')->middleware('sentinel.permission:product_ranking.show');
 });
 
 // bank
