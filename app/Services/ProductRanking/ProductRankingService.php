@@ -20,7 +20,7 @@ class ProductRankingService implements ProductRankingServiceContract
         $data = TransactionProduct::select(DB::raw('MAX(name) AS product_name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
                 ->whereHas('transaction', function($q) use($month, $year) {
                     $q->whereMonth('date', $month)->whereYear('date', $year);
-                })->groupBy('product_id')->get();
+                })->groupBy('product_id')->orderBy('total_qty','desc')->get();
 
         // dd($data);
 
