@@ -26,7 +26,12 @@
                         <dd>
                             : {{$monthText}} {{$year}}
                         </dd>
-
+                        <dt class="text-left">
+                            Total Item
+                        </dt>
+                        <dd>
+                            : {{number_format($total_item,0,',','.')}}
+                        </dd>
                         <dt class="text-left">
                             Total Cost
                         </dt>

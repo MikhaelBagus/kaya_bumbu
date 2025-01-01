@@ -195,8 +195,9 @@ class ProductRankingController extends Controller
         }
 
         $total_price = $product_ranking->sum('total_price');
+        $total_item  = $product_ranking->sum('total_qty');
 
-        return view('backend.product_ranking.detail', compact('product_ranking','month','monthText','year','prevMonthText','prevYearText','nextMonthText','nextYearText','total_price'));
+        return view('backend.product_ranking.detail', compact('product_ranking','month','monthText','year','prevMonthText','prevYearText','nextMonthText','nextYearText','total_price','total_item'));
     }
 
     public function datatable(Request $request, ProductRankingServiceContract $productRankingServiceContract)
