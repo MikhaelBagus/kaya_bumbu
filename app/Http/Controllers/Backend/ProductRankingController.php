@@ -10,6 +10,8 @@ use App\Traits\redirectTo;
 use App\Models\Log;
 use Carbon\Carbon;
 use App\Models\Transaction;
+use App\Models\TransactionProduct;
+use Illuminate\Support\Facades\DB;
 
 class ProductRankingController extends Controller
 {
@@ -191,7 +193,10 @@ class ProductRankingController extends Controller
         } else if($month == '12'){
             $monthText = 'Desember';
         }
-        return view('backend.product_ranking.detail', compact('product_ranking','month','monthText','year','prevMonthText','prevYearText','nextMonthText','nextYearText'));
+
+        $total_price = $product_ranking->sum('total_price');
+
+        return view('backend.product_ranking.detail', compact('product_ranking','month','monthText','year','prevMonthText','prevYearText','nextMonthText','nextYearText','total_price'));
     }
 
     public function datatable(Request $request, ProductRankingServiceContract $productRankingServiceContract)
