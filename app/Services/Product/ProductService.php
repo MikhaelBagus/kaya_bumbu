@@ -27,6 +27,7 @@ class ProductService implements ProductServiceContract
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->unit          = $request->unit;
+            $productDb->value         = $request->value;
             $productDb->created_by    = Sentinel::getUser()->email;
             $productDb->save();
 
@@ -57,6 +58,7 @@ class ProductService implements ProductServiceContract
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->unit          = $request->unit;
+            $productDb->value         = $request->value;
             $productDb->updated_by    = Sentinel::getUser()->email;
             $productDb->save();
 
@@ -146,7 +148,7 @@ class ProductService implements ProductServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Product::select('id', 'name as text', 'price', 'unit')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = Product::select('id', 'name as text', 'price', 'unit', 'value')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }
