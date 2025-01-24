@@ -7,23 +7,19 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Product List
+                    <span class="glyphicon glyphicon-tasks"></span>Product Category List
                 </div>
             </div>
 
             <div class="panel-menu">
-                <a href="{{route('product.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
+                <a href="{{route('product_category.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
             </div>
-            <table class="table table-striped table-bordered table-hover table-condensed" id="product-table" width="100%">
+            <table class="table table-striped table-bordered table-hover table-condensed" id="product-category-table" width="100%">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Product Category</th>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Unit</th>
-                    <th>Value</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -73,7 +69,7 @@
 <script>
     $(function () {
 
-        let table = $('#product-table').DataTable({
+        let table = $('#product-category-table').DataTable({
             aaSorting: [[0, 'desc']],
             aLengthMenu: [
                     [50, 100, 500, 1000, 5000, -1],
@@ -91,7 +87,7 @@
             "<'dt-panelfooter clearfix'<'row'<'col-sm-5'i><'col-sm-7'p>>>",
             pagingType: "full_numbers",
             ajax: {
-                url: '{!! route('product.ajax.data') !!}',
+                url: '{!! route('product_category.ajax.data') !!}',
                 dataType: 'json'
             },
             columns: [
@@ -100,21 +96,7 @@
                     data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
                     checkboxes: true
                 },
-                {data: 'product_category.name', name: 'product_category.name'},
                 {data: 'name', name: 'name'},
-                {
-                    data: 'price', name: 'price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
-                {data: 'unit', name: 'unit'},
-                {
-                    data: 'value', name: 'value',
-                    render: function (data, type, oObj) {
-                        return $.number(data);
-                    }
-                },
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {

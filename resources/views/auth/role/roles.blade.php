@@ -296,6 +296,36 @@
             </td>
         </tr>
 
+        <!-- Product Category -->
+        <tr>
+            <td>Product Category</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="product_category_create" {{ old('product_category_create') || array_key_exists('product_category.create', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="product_category_edit" {{ old('product_category_edit') || array_key_exists('product_category.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="product_category_show" {{ old('product_category_show') || array_key_exists('product_category.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="product_category_destroy" {{ old('product_category_destroy') || array_key_exists('product_category.destroy', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
         <!-- Transaction -->
         <tr>
             <td>Transaction</td>

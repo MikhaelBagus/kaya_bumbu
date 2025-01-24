@@ -16,6 +16,16 @@
                     {!! csrf_field() !!}
 
                     {{method_field('PUT')}}
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('product_category_id')) has-error @endif">
+                            <label for="product_category_id" class="control-label">Product Category <span style="color: red">*</span></label>
+                            <select id="product_category_id" name="product_category_id" class="form-control" data-placeholder="Select Product Category" required>
+                                <option value="{{$product->product_category_id}}">{{$product->product_category->name}}</option>
+                            </select>
+                            {!! $errors->first('product_category_id', '<em for="product_category_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
                     
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('name')) has-error @endif">
@@ -100,6 +110,34 @@
                     ["insert", ["link", "hr", "video","picture"]],
                     ["view", ["fullscreen", "codeview", "help"]]
                 ]
+            });
+
+            $('#product_category_id').select2({
+                theme: "bootstrap",
+                placeholder: "Select",
+                width: '100%',
+                containerCssClass: ':all:',
+                ajax: {
+                    url: '{{route('product_category.ajax.select2')}}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term,
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: (params.page * data.per_page) < data.total
+                            }
+                        };
+                    },
+                    cache: true,
+                }
             });
         })
 

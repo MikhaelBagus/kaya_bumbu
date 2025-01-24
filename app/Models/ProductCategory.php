@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-use App\Models\TransactionProduct;
-use App\Models\ProductCategory;
+use App\Models\Product;
 
-class Product extends Model
+class ProductCategory extends Model
 {
     use SoftDeletes;
-    protected $table = 'product';
+    protected $table = 'product_category';
 
-    public function transaction_product(){
-        return $this->hasMany(TransactionProduct::class, 'product_id', 'id');
-    }
-
-    public function product_category(){
-        return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
+    public function product(){
+        return $this->hasMany(Product::class, 'product_category_id', 'id');
     }
 
     public function getCreatedAtAttribute($value)

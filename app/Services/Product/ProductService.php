@@ -24,6 +24,7 @@ class ProductService implements ProductServiceContract
 
         try {
             $productDb = new Product();
+            $productDb->product_category_id = $request->product_category_id;
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->unit          = $request->unit;
@@ -55,6 +56,7 @@ class ProductService implements ProductServiceContract
 
         try {
             $productDb = Product::find($id);
+            $productDb->product_category_id = $request->product_category_id;
             $productDb->name          = $request->name;
             $productDb->price         = $request->price;
             $productDb->unit          = $request->unit;
@@ -86,7 +88,7 @@ class ProductService implements ProductServiceContract
             'product.*',
         ];
 
-        $dataDb = Product::select($select);
+        $dataDb = Product::select($select)->with('product_category');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(

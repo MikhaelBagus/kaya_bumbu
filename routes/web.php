@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductCategoryController;
 use App\Http\Controllers\Backend\ProductRankingController;
 use App\Http\Controllers\Backend\ProvinceController;
 use App\Http\Controllers\Backend\SourceController;
@@ -701,6 +702,44 @@ Route::group([
 
     Route::get('/ajax/select2', [DriverController::class, 'select2'])
         ->name('driver.ajax.select2');
+});
+
+// category-product
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'category-product',
+], function () {
+    Route::get('', [ProductCategoryController::class, 'index'])
+        ->name('product_category.index')->middleware('sentinel.permission:product_category.show');
+
+    Route::get('/create', [ProductCategoryController::class, 'create'])
+        ->name('product_category.create')->middleware('sentinel.permission:product_category.create');
+
+    Route::post('', [ProductCategoryController::class, 'store'])
+        ->name('product_category.store')->middleware('sentinel.permission:product_category.create');
+
+    Route::get('/{id}/show', [ProductCategoryController::class, 'show'])
+        ->name('product_category.show')->middleware('sentinel.permission:product_category.show');
+
+    Route::get('/{id}/edit', [ProductCategoryController::class, 'edit'])
+        ->name('product_category.edit')->middleware('sentinel.permission:product_category.edit');
+
+    Route::put('/{id}', [ProductCategoryController::class, 'update'])
+        ->name('product_category.update')->middleware('sentinel.permission:product_category.edit');
+
+    Route::delete('/{id}', [ProductCategoryController::class, 'destroy'])
+        ->name('product_category.destroy')->middleware('sentinel.permission:product_category.destroy');
+
+    Route::get('/ajax/data', [ProductCategoryController::class, 'datatable'])
+        ->name('product_category.ajax.data')->middleware('sentinel.permission:product_category.show');
+
+    Route::get('/ajax/select2', [ProductCategoryController::class, 'select2'])
+        ->name('product_category.ajax.select2');
+
+    Route::get('/{id}/copy', [ProductCategoryController::class, 'copy'])
+        ->name('product_category.copy')->middleware('sentinel.permission:product_category.copy');
 });
 
 // product

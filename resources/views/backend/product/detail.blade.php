@@ -21,6 +21,12 @@
                             : {{$product->id}}
                         </dd>
                         <dt class="text-left">
+                            Product Category Name
+                        </dt>
+                        <dd>
+                            : {{$product->product_category->name}}
+                        </dd>
+                        <dt class="text-left">
                             Name
                         </dt>
                         <dd>

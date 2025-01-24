@@ -47,6 +47,8 @@ use App\Services\Calendar\CalendarService;
 use App\Services\Calendar\CalendarServiceContract;
 use App\Services\ProductRanking\ProductRankingService;
 use App\Services\ProductRanking\ProductRankingServiceContract;
+use App\Services\ProductCategory\ProductCategoryService;
+use App\Services\ProductCategory\ProductCategoryServiceContract;
 use App\Services\Log\LogService;
 use App\Services\Log\LogServiceContract;
 
@@ -143,6 +145,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductServiceContract::class,
             ProductService::class
+        );
+
+        $this->app->bind(
+            ProductCategoryServiceContract::class,
+            ProductCategoryService::class
         );
 
         $this->app->bind(
