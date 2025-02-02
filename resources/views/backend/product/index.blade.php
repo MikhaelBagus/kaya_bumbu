@@ -11,6 +11,30 @@
                 </div>
             </div>
 
+            <div class="panel panel-default" style="margin-bottom:0px">
+                <div class="panel-heading">
+                    Filter
+                </div>
+                <div class="panel-body">
+                    <form action="" method="POST">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Product Category</label>
+                                    <select id="product_category_id" class="input-sm form-control select_2" style="width:100%" name="product_category_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="panel-menu">
                 <a href="{{route('product.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
             </div>
@@ -92,7 +116,10 @@
             pagingType: "full_numbers",
             ajax: {
                 url: '{!! route('product.ajax.data') !!}',
-                dataType: 'json'
+                dataType: 'json',
+                data: function (d) {
+                    d.product_category_id = $('#product_category_id').val();
+                },
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},
@@ -154,6 +181,40 @@
             select: {
                 style: 'multi'
             },
+        });
+
+        $('#choose').on('click', function (e) {
+            e.preventDefault();
+            table.draw();
+        });
+
+        $('#product_category_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('product_category.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
         });
     });
 </script>

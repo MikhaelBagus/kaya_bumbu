@@ -562,6 +562,9 @@ Route::group([
 
     Route::get('/ajax/data', [ProductRankingController::class, 'datatable'])
         ->name('product_ranking.ajax.data')->middleware('sentinel.permission:product_ranking.show');
+
+    Route::get('/total/data', [ProductRankingController::class, 'total'])
+        ->name('product_ranking.total_data')->middleware('sentinel.permission:product_ranking.show');
 });
 
 // bank

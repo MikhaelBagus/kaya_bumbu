@@ -210,4 +210,23 @@ class ProductRankingController extends Controller
 
         abort('404', 'uups');
     }
+
+    public function total(Request $request, ProductRankingServiceContract $productRankingServiceContract)
+    {
+
+        if ($request->ajax()) {
+            # Return The JSON datatables Data
+            $product_ranking = $productRankingServiceContract->total($request);
+
+            $total_price = $product_ranking->sum('total_price');
+            $total_item  = $product_ranking->sum('total_qty');
+
+            return response()->json([
+                'total_price' => $total_price,
+                'total_item'  => $total_item
+            ]);
+        }
+
+        abort('404', 'uups');
+    }
 }

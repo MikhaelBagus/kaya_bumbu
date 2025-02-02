@@ -29,12 +29,24 @@ class ProductRankingService implements ProductRankingServiceContract
     {
         $month = $request->month;
         $year  = $request->year;
-        $dataDb = TransactionProduct::select(DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
+        $dataDb = TransactionProduct::select(DB::raw('MAX(product_id) AS product_id'), DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
                 ->whereHas('transaction', function($q) use($month, $year) {
                     $q->whereMonth('date', $month)->whereYear('date', $year);
                 })->category($request->product_category_id)->groupBy('product_id')->with('product','product.product_category')->orderBy('total_qty','desc');
 
         return DataTables::eloquent($dataDb)
             ->make(true);
+    }
+
+    public function total($request)
+    {
+        $month = $request->month;
+        $year  = $request->year;
+        $data = TransactionProduct::select(DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
+                ->whereHas('transaction', function($q) use($month, $year) {
+                    $q->whereMonth('date', $month)->whereYear('date', $year);
+                })->category($request->product_category_id)->groupBy('product_id')->orderBy('total_qty','desc')->get();
+
+        return $data;
     }
 }

@@ -53,13 +53,13 @@
                         <dt class="text-left">
                             Total Item
                         </dt>
-                        <dd>
+                        <dd id="total_item">
                             : {{number_format($total_item,0,',','.')}}
                         </dd>
                         <dt class="text-left">
                             Total Cost
                         </dt>
-                        <dd>
+                        <dd id="total_price">
                             : Rp {{number_format($total_price,0,',','.')}}
                         </dd>
                     </dl>
@@ -69,6 +69,7 @@
                     <thead>
                         <tr>
                             <th>Rank</th>
+                            <th>Category</th>
                             <th>Item</th>
                             <th>Total Item</th>
                             <th>Total Cost</th>
@@ -164,6 +165,7 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
+                {data: 'product.product_category.name', name: 'product.product_category.name'},
                 {data: 'name', name: 'name'},
                 {
                     data: 'total_qty',
@@ -210,9 +212,35 @@
             },
         });
 
+        function addCommas(nStr){
+            nStr += '';
+            x = nStr.split(',');
+            x1 = x[0];
+            x2 = x.length > 1 ? ',' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
+
         $('#choose').on('click', function (e) {
             e.preventDefault();
             table.draw();
+
+            $.ajax({
+                type: "GET",
+                url: '{!! route('product_ranking.total_data') !!}',
+                data: {
+                    "month": $('#month').val(),
+                    "year": $('#year').val(),
+                    "product_category_id": $('#product_category_id').val()
+                },
+                success: function(data){
+                    $("#total_item").text(": "+addCommas(data.total_item));
+                    $("#total_price").text(": Rp "+addCommas(data.total_price));
+                }
+            });
         });
 
         $('#product_category_id').select2({

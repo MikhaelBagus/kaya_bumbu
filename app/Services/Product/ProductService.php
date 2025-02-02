@@ -88,7 +88,7 @@ class ProductService implements ProductServiceContract
             'product.*',
         ];
 
-        $dataDb = Product::select($select)->with('product_category');
+        $dataDb = Product::select($select)->category($request->product_category_id)->with('product_category');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(
