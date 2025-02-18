@@ -9,7 +9,7 @@
     <br>Tanggal: {{date('d M Y', strtotime($transaction->date))}}
     <br>Jam: {{$transaction->time}} ({{$transaction->user->name}})
     <br>
-    <br>Pemesan: {{$transaction->customer->name}} ({{$transaction->customer->phone}})
+    <br>Pemesan: {{$transaction->customer_name}} ({{$transaction->customer->phone}})
     <br>Penerima: {{$transaction->recipient_name}} ({{$transaction->recipient_phone}})
     <br>
     @if($transaction->actual_ongkir_price == 0)

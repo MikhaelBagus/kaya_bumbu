@@ -75,6 +75,30 @@ class TransactionService implements TransactionServiceContract
                 $logDb->created_by  = Sentinel::getUser()->email;
                 $logDb->save();
             }
+            else{
+                $customerDb = Customer::where('phone',$request->customer_id)->first();
+                if($customerDb){
+                    $customerDb->name = $request->customer_name;
+                    $customerDb->save();
+                }
+                else{
+                    $customerDb = new Customer();
+                    $customerDb->name           = $request->customer_name;
+                    $customerDb->phone          = $request->customer_id;
+                    $customerDb->city_id        = $customer_city_id;
+                    $customerDb->address        = $request->customer_address;
+                    $customerDb->created_by     = Sentinel::getUser()->email;
+                    $customerDb->save();
+
+                    $logDb = new Log();
+                    $logDb->user_id     = Sentinel::getUser()->id;
+                    $logDb->action      = 'Create '.$customerDb->name;
+                    $logDb->menu        = 'Customer';
+                    $logDb->item_id     = $customerDb->id;
+                    $logDb->created_by  = Sentinel::getUser()->email;
+                    $logDb->save();
+                }
+            }
 
             $transactionDb = new Transaction();
             if($request->customer_phone == null){

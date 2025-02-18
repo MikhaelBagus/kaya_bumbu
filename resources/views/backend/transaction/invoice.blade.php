@@ -44,7 +44,7 @@
             <td style="color: white;"><b>Kepada</b></td>
         </tr>
         <tr>
-            <td><b>{{$transaction->customer->name}}</b></td>
+            <td><b>{{$transaction->customer_name}}</b></td>
         </tr>
     </table>
     <br>
