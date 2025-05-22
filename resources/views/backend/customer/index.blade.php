@@ -24,6 +24,7 @@
                     <th>Province</th>
                     <th>City</th>
                     <th>Address</th>
+                    <th>Last Transaction</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -105,6 +106,7 @@
                 {data: 'province_name', name: 'province_name'},
                 {data: 'city_name', name: 'city_name'},
                 {data: 'address', name: 'address'},
+                {data: 'last_transaction', name: 'last_transaction', orderable: false, searchable: false},
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {
