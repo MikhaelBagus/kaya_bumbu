@@ -21,12 +21,10 @@
                     <th style="text-align: center">&nbsp;</th>
                     <th>Name</th>
                     <th>Phone</th>
+                    <th>Last Transaction</th>
                     <th>Province</th>
                     <th>City</th>
                     <th>Address</th>
-                    <th>Last Transaction</th>
-                    <th>@lang('auth.index_created_at')</th>
-                    <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
                 </tr>
                 </thead>
@@ -103,12 +101,10 @@
                 },
                 {data: 'name', name: 'name'},
                 {data: 'phone', name: 'phone'},
+                {data: 'last_transaction', name: 'last_transaction'},
                 {data: 'province_name', name: 'province_name'},
                 {data: 'city_name', name: 'city_name'},
                 {data: 'address', name: 'address'},
-                {data: 'last_transaction', name: 'last_transaction', orderable: false, searchable: false},
-                {data: 'created_at', name: 'created_at', visible: false},
-                {data: 'updated_at', name: 'updated_at', visible: false},
                 {
                     data: 'action', name: 'action', orderable: false, searchable: false,
                     fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {

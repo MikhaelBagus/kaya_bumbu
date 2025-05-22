@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Auth\User;
 use App\Models\Customer;
 use App\Models\Log;
+use App\Models\Transaction;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -133,6 +134,20 @@ class CustomerService implements CustomerServiceContract
                     }
                 }
             )
+            ->addColumn('last_transaction', function ($dataDb) {
+                $transaction = $dataDb->transaction->sortByDesc('date')->first();
+                return $transaction ? $transaction->date : null;
+            })
+            ->orderColumn('last_transaction', function ($query, $order) {
+                $query->orderBy(
+                    \DB::table('transaction')
+                        ->select('date')
+                        ->whereColumn('transaction.customer_id', 'customer.id')
+                        ->orderBy('date', 'desc')
+                        ->limit(1),
+                    $order
+                );
+            })
             ->addColumn(
                 'checkbox',
                 function ($dataDb) {
