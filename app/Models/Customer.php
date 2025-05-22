@@ -87,5 +87,17 @@ class Customer extends Model
         }
     }
 
-    protected $appends = ['city_name', 'province_id', 'province_name'];
+    public function getLastTransactionAttribute()
+    {
+        $transaction = Transaction::where('customer_id', $this->id)->orderBy('date','desc')->first();
+
+        if($transaction){
+            return $transaction->date;
+        }
+        else{
+            return '';
+        }
+    }
+
+    protected $appends = ['city_name', 'province_id', 'province_name', 'last_transaction'];
 }
