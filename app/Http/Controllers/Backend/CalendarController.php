@@ -146,23 +146,11 @@ class CalendarController extends Controller
         $date = new Carbon($year.'-'.$month.'-01');
         $nextMonth = $date->addMonth();
         $nextMonthText = $nextMonth->month;
-        if($nextMonthText < 10){
-            $nextMonthText = '0'.$nextMonthText;
-        }
-        else{
-            $nextMonthText = ''.$nextMonthText;
-        }
         $nextYearText  = $nextMonth->year;
 
         $date = new Carbon($year.'-'.$month.'-01');
         $prevMonth = $date->subMonth();
         $prevMonthText = $prevMonth->month;
-        if($prevMonthText < 10){
-            $prevMonthText = '0'.$prevMonthText;
-        }
-        else{
-            $prevMonthText = ''.$prevMonthText;
-        }
         $prevYearText  = $prevMonth->year;
 
         $calendar = $calendarServiceContract->get($month, $year);

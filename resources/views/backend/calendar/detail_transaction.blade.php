@@ -13,10 +13,39 @@
                 </div>
             </div>
 
-            @foreach($calendar as $transaction)
             <div class="panel-body">
-                <div class="col-md-12">
-                    <dl class="dl-horizontal">
+                @foreach($calendar as $transaction)
+                <div class="col-md-12" style="padding: 0;">
+                    <div class="transaction-wrapper">
+                        <!-- Collapsible Header -->
+                        <div class="transaction-header" style="cursor: pointer;" data-toggle="collapse" data-target="#transaction-{{$transaction->id}}" aria-expanded="false" aria-controls="transaction-{{$transaction->id}}">
+                            <h4>
+                                <a  href="#transaction-{{$transaction->id}}" aria-expanded="false" aria-controls="transaction-{{$transaction->id}}" class="collapsed">
+                                    <i class="fa fa-chevron-right transaction-icon"></i> 
+                                    <strong>Transaction #{{$transaction->code}}</strong> - {{$transaction->customer_name}} 
+                                    <small>({{$transaction->date}} {{$transaction->time}})</small>
+                                    <span class="pull-right">
+                                        <span class="label label-{{$transaction->status == 3 ? 'success' : ($transaction->status == 0 ? 'warning' : 'info')}}">
+                                            @if($transaction->status == 0)
+                                                New Order
+                                            @elseif($transaction->status == 1)
+                                                Start Cooking
+                                            @elseif($transaction->status == 2)
+                                                Start Delivery
+                                            @elseif($transaction->status == 3)
+                                                Done
+                                            @endif
+                                        </span>
+                                    </span>
+                                </a>
+                            </h4>
+                        </div>
+
+                        <!-- Collapsible Content (Additional Details) -->
+                        <div class="collapse collapse-content" id="transaction-{{$transaction->id}}">
+                            <div class="transaction-details">
+                                <h5><i class="fa fa-info-circle"></i> Transaction Details</h5>
+                                <dl class="dl-horizontal">
                         <dt class="text-left">
                             ID
                         </dt>
@@ -245,71 +274,84 @@
                             {{$transaction->driver->name}}
                             @endif
                         </dd>
-                    </dl>
+                                </dl>
+                            </div>
+
+
+                        </div> <!-- End collapse content -->
+
+                        <!-- Always Visible Product Table -->
+                        <div class="transaction-products">
+                            <h5><i class="fa fa-shopping-cart"></i> Products</h5>
+                            <table class="table table-striped table-bordered table-hover table-condensed" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
+                                        <th>Qty</th>
+                                        <th>Unit</th>
+                                        <th>Notes</th>
+                                        <th>Total Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 0; ?>
+                                    @forelse($transaction->transaction_product as $transactionProduct)
+                                    <?php $no = $no + 1; ?>
+                                    <tr>
+                                        <td>{{$no}}</td>
+                                        <td>{{$transactionProduct->name}}</td>
+                                        <td>Rp {{number_format($transactionProduct->price,0,',','.')}}</td>
+                                        <td>{{number_format($transactionProduct->qty,0,',','.')}}</td>
+                                        <td>{{$transactionProduct->unit}}</td>
+                                        <td>{{$transactionProduct->notes}}</td>
+                                        <td>Rp {{number_format($transactionProduct->price * $transactionProduct->qty,0,',','.')}}</td>
+                                    </tr>
+                                    @empty
+                                    @endforelse
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            Harga Total :
+                                        </th>
+                                        <th colspan="1" class="text-left"><span><strong>Rp {{number_format($transaction->grand_price + $transaction->discount - $transaction->ongkir_price,0,',','.')}}</strong></span></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            Harga Discount :
+                                        </th>
+                                        <th colspan="1" class="text-left"><span><strong>Rp {{number_format($transaction->discount_price,0,',','.')}}</strong></span></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            Harga Ongkir :
+                                        </th>
+                                        <th colspan="1" class="text-left"><span><strong>Rp {{number_format($transaction->ongkir_price,0,',','.')}}</strong></span></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            Harga Grand Total :
+                                        </th>
+                                        <th colspan="1" class="text-left"><span><strong>Rp {{number_format($transaction->grand_price,0,',','.')}}</strong></span></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div> <!-- End transaction wrapper -->
+                    
                 </div>
-
-                <div class="clearfix"></div>
-
-                <table class="table table-striped table-bordered table-hover table-condensed" id="transaction-product-table" width="100%">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nama</th>
-                            <th>Harga</th>
-                            <th>Qty</th>
-                            <th>Unit</th>
-                            <th>Notes</th>
-                            <th>Total Harga</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no = 0; ?>
-                        @forelse($transaction->transaction_product as $transactionProduct)
-                        <?php $no = $no + 1; ?>
-                        <tr>
-                            <td>{{$no}}</td>
-                            <td>{{$transactionProduct->name}}</td>
-                            <td>Rp {{number_format($transactionProduct->price,0,',','.')}}</td>
-                            <td>{{number_format($transactionProduct->qty,0,',','.')}}</td>
-                            <td>{{$transactionProduct->unit}}</td>
-                            <td>{{$transactionProduct->notes}}</td>
-                            <td>Rp {{number_format($transactionProduct->price * $transactionProduct->qty,0,',','.')}}</td>
-                        </tr>
-                        @empty
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="6" class="text-right">
-                                Harga Total :
-                            </th>
-                            <th colspan="1" class="text-left"><span id="totalPrice"><strong>Rp {{number_format($transaction->grand_price + $transaction->discount - $transaction->ongkir_price,0,',','.')}}</strong></span></th>
-                        </tr>
-                        <tr>
-                            <th colspan="6" class="text-right">
-                                Harga Discount :
-                            </th>
-                            <th colspan="1" class="text-left"><span id="discountPrice"><strong>Rp {{number_format($transaction->discount_price,0,',','.')}}</strong></span></th>
-                        </tr>
-                        <tr>
-                            <th colspan="6" class="text-right">
-                                Harga Ongkir :
-                            </th>
-                            <th colspan="1" class="text-left"><span id="ongkirPrice"><strong>Rp {{number_format($transaction->ongkir_price,0,',','.')}}</strong></span></th>
-                        </tr>
-                        <tr>
-                            <th colspan="6" class="text-right">
-                                Harga Grand Total :
-                            </th>
-                            <th colspan="1" class="text-left"><span id="grandPrice"><strong>Rp {{number_format($transaction->grand_price,0,',','.')}}</strong></span></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                
+                @if(!$loop->last)
+                <div class="col-md-12" style="padding: 0; margin-top: 20px; margin-bottom: 20px;">
+                    <div class="transaction-separator">
+                        <hr style="border: 2px solid #e0e0e0ff; margin: 0; width: 100%;">
+                    </div>
+                </div>
+                @endif
+                @endforeach
             </div>
-            <br>
-            <hr>
-            <br>
-            @endforeach
 
             <div class="panel-footer">
                 <a href="{{route('calendar.show', [$month, $year])}}" class="btn btn-flat btn-default btn-sm">
@@ -322,4 +364,137 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('styles')
+<style>
+.transaction-wrapper {
+    margin: 40px 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: relative;
+    background-color: #ffffff;
+}
+
+.transaction-separator {
+    margin: 50px 20px !important;
+    padding: 20px 0 !important;
+    border-top: 4px solid #667eea !important;
+    border-bottom: 2px solid #e0e0e0 !important;
+    width: calc(100% - 40px) !important;
+    background-color: #f8f9fa !important;
+    display: block !important;
+    height: auto !important;
+    clear: both !important;
+}
+
+.transaction-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 20px;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.transaction-header:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.transaction-header a {
+    text-decoration: none;
+    color: white !important;
+    display: block;
+    width: 100%;
+}
+
+.transaction-header a:hover {
+    text-decoration: none;
+    color: white !important;
+}
+
+.transaction-header h4 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.transaction-header .label {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-left: 10px;
+}
+
+.collapse-content {
+    border: none;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.transaction-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.transaction-products {
+    padding: 0 20px 20px 20px;
+    background-color: #ffffff;
+}
+
+.transaction-products .table {
+    margin-bottom: 0;
+    border: 1px solid #ddd;
+}
+
+.dl-horizontal dt {
+    width: 180px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+}
+
+.dl-horizontal dd {
+    margin-left: 200px;
+    color: #666;
+}
+
+.transaction-icon {
+    transition: transform 0.3s ease;
+}
+
+.collapsed .transaction-icon {
+    transform: rotate(0deg);
+}
+
+.transaction-icon {
+    transform: rotate(90deg);
+}
+</style>
+@endsection
+
+@section('scripts')
+<script>
+$(document).ready(function() {
+    // Handle collapse icon changes and animations
+    $('.collapse').on('show.bs.collapse', function () {
+        var $header = $(this).prev('.transaction-header');
+        $header.find('.transaction-icon').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+        $header.find('a').removeClass('collapsed');
+    });
+    
+    $('.collapse').on('hide.bs.collapse', function () {
+        var $header = $(this).prev('.transaction-header');
+        $header.find('.transaction-icon').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+        $header.find('a').addClass('collapsed');
+    });
+    
+    // Optional: Expand first transaction by default
+    var firstTransaction = $('.collapse').first();
+    if (firstTransaction.length > 0) {
+        firstTransaction.collapse('show');
+    }
+});
+</script>
 @endsection
