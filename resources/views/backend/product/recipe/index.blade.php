@@ -7,47 +7,17 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Product List
+                    <span class="glyphicon glyphicon-tasks"></span>Product Recipes
                 </div>
             </div>
 
-            <div class="panel panel-default" style="margin-bottom:0px">
-                <div class="panel-heading">
-                    Filter
-                </div>
-                <div class="panel-body">
-                    <form action="" method="POST">
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Product Category</label>
-                                    <select id="product_category_id" class="input-sm form-control select_2" style="width:100%" name="product_category_id">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="panel-menu">
-                <a href="{{route('product.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
-            </div>
             <table class="table table-striped table-bordered table-hover table-condensed" id="product-table" width="100%">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Product Category</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Unit</th>
-                    <th>Value</th>
+                    <th>Product Name</th>
+                    <th>Ingredients Count</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -57,6 +27,27 @@
             </table>
         </div>
     </section>
+
+    <!-- Recipe Delete Modal -->
+    <div class="modal fade" id="deleteRecipeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this recipe?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteRecipe">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @push('css')
@@ -71,6 +62,31 @@
 
 <link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
 <link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
+
+<style>
+    .expand-icon {
+        color: #337ab7;
+        transition: all 0.3s ease;
+    }
+    .expand-icon:hover {
+        color: #23527c;
+    }
+    .child-row-content {
+        background-color: #f9f9f9 !important;
+        border-left: 4px solid #337ab7;
+    }
+    .child-row-content .table {
+        background-color: white;
+        margin-bottom: 0;
+    }
+    .child-row-content .table th {
+        background-color: #f5f5f5;
+        font-weight: 600;
+    }
+    tr.shown td {
+        border-bottom: none;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -104,22 +120,16 @@
                     [50, 100, 500, 1000, 5000, "All"]
                 ],
             iDisplayLength: 100,
-            //stateSave: true,
-            // responsive: true,
-            // fixedHeader: true,
             processing: true,
-            serverSide: true,
+            serverSide: false,
             scrollX: true,
             dom: "<'dt-panelmenu clearfix'<'row'<'col-sm-2'B><'col-sm-4'l><'col-sm-6'f>>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'dt-panelfooter clearfix'<'row'<'col-sm-5'i><'col-sm-7'p>>>",
             pagingType: "full_numbers",
             ajax: {
-                url: '{!! route('product.ajax.data') !!}',
-                dataType: 'json',
-                data: function (d) {
-                    d.product_category_id = $('#product_category_id').val();
-                },
+                url: '{!! route('product.recipe.ajax.data') !!}',
+                dataType: 'json'
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},
@@ -127,19 +137,19 @@
                     data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
                     checkboxes: true
                 },
-                {data: 'product_category.name', name: 'product_category.name'},
-                {data: 'name', name: 'name'},
                 {
-                    data: 'price', name: 'price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
+                    data: 'name', 
+                    name: 'name',
+                    render: function(data, type, row) {
+                        let expandIcon = '<i class="fa fa-plus-square-o expand-icon" style="cursor: pointer; margin-right: 5px;"></i>';
+                        return expandIcon + data;
                     }
                 },
-                {data: 'unit', name: 'unit'},
                 {
-                    data: 'value', name: 'value',
-                    render: function (data, type, oObj) {
-                        return $.number(data);
+                    data: 'ingredients_count', 
+                    name: 'ingredients_count',
+                    render: function(data, type, row) {
+                        return data + ' ingredients';
                     }
                 },
                 {data: 'created_at', name: 'created_at', visible: false},
@@ -154,28 +164,8 @@
             buttons: [
                 {
                     extend: 'colvis',
-                    text: '<i class="fa fa-columns"></i> @lang('auth.index_column')',
-                    columns: '2, 3, 4'
-                }
-            ],
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        modifier: {
-                            page: 'all',
-                            search: 'none' 
-                        }
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        modifier: {
-                            page: 'all',
-                            search: 'none' 
-                        }
-                    }
+                    text: '<i class="fa fa-columns"></i> Columns',
+                    columns: '2, 3'
                 }
             ],
             select: {
@@ -183,39 +173,52 @@
             },
         });
 
-        $('#choose').on('click', function (e) {
-            e.preventDefault();
-            table.draw();
-        });
-
-        $('#product_category_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            allowClear: true,
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('product_category.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
+        // Add collapsible functionality
+        $('#product-table tbody').on('click', '.expand-icon', function() {
+            let tr = $(this).closest('tr');
+            let row = table.row(tr);
+            let icon = $(this);
+            
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+                icon.removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+            } else {
+                // Open this row
+                let rowData = row.data();
+                let childContent = formatChildRow(rowData.ingredients);
+                row.child(childContent).show();
+                tr.addClass('shown');
+                icon.removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
             }
         });
+
+        // Format child row content
+        function formatChildRow(ingredients) {
+            if (!ingredients || ingredients.length === 0) {
+                return '<div class="alert alert-info">No ingredients found for this product.</div>';
+            }
+
+            let html = '<div class="child-row-content" style="background-color: #f9f9f9; padding: 15px;">';
+            html += '<h5><i class="fa fa-list"></i> Ingredients:</h5>';
+            html += '<div class="table-responsive">';
+            html += '<table class="table table-sm table-bordered">';
+            html += '<thead><tr><th>Ingredient Name</th><th>Unit</th><th>Quantity</th></tr></thead>';
+            html += '<tbody>';
+            
+            ingredients.forEach(function(ingredient) {
+                html += '<tr>';
+                html += '<td>' + ingredient.ingredient_name + '</td>';
+                html += '<td>' + ingredient.ingredient_unit + '</td>';
+                html += '<td>' + $.number(ingredient.qty) + '</td>';
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table></div></div>';
+            return html;
+        }
+
     });
 </script>
 @endpush

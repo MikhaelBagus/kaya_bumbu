@@ -4,150 +4,373 @@
     <section id="content" class="animated fadeIn">
         @include('flash')
 
+        <!-- Product Info Panel (Read-only) -->
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Product Update Form
+                    <span class="glyphicon glyphicon-cutlery"></span>Product Recipe Management
                 </div>
             </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4><i class="fa fa-cube"></i> Product Information</h4>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Product Name:</strong></td>
+                                <td>{{ $product->name }}</td>
+                            </tr>
+                            @if($product->product_category)
+                            <tr>
+                                <td><strong>Category:</strong></td>
+                                <td>{{ $product->product_category->name }}</td>
+                            </tr>
+                            @endif
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h4><i class="fa fa-info-circle"></i> Recipe Summary</h4>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Total Ingredients:</strong></td>
+                                <td><span class="badge badge-primary">{{ $product->product_recipes->count() }}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <form action="{{route('product.update', [request()->id])}}" method="post">
-                <div class="panel-body">
+        <!-- Add New Ingredient Panel -->
+        <div class="panel panel-visible">
+            <div class="panel-heading">
+                <div class="panel-title hidden-xs">
+                    <span class="glyphicon glyphicon-plus"></span>Add New Ingredient
+                </div>
+            </div>
+            <div class="panel-body">
+                <form id="addIngredientForm" class="form-horizontal">
                     {!! csrf_field() !!}
-
-                    {{method_field('PUT')}}
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('product_category_id')) has-error @endif">
-                            <label for="product_category_id" class="control-label">Product Category <span style="color: red">*</span></label>
-                            <select id="product_category_id" name="product_category_id" class="form-control" data-placeholder="Select Product Category" required>
-                                <option value="{{$product->product_category_id}}">{{$product->product_category->name}}</option>
-                            </select>
-                            {!! $errors->first('product_category_id', '<em for="product_category_id" class="text-danger">:message</em>') !!}
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label">Select Ingredient <span style="color: red">*</span></label>
+                                <select id="ingredient_master_id" name="ingredient_master_id" class="form-control select2" required>
+                                    <option value="">Select Ingredient...</option>
+                                    @foreach($ingredientMasters as $ingredient)
+                                        <option value="{{ $ingredient->id }}">{{ $ingredient->name }} ({{ $ingredient->unit }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Quantity <span style="color: red">*</span></label>
+                                <input type="number" step="0.01" min="0" id="qty" name="qty" class="form-control" placeholder="0.00" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label><br>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-plus"></i> Add Ingredient
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('name')) has-error @endif">
-                            <label for="name" class="control-label">Name <span style="color: red">*</span></label>
-                            <input type="text" name="name" id="name" value="{{old('name', $product->name)}}" class="form-control input-sm" placeholder="Name ...*" required>
-                            {!! $errors->first('name', '<em for="name" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
+                </form>
+            </div>
+        </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('price')) has-error @endif">
-                            <label for="price" class="control-label">Price <span style="color: red">*</span></label>
-                            <input type="number" name="price" id="price" value="{{old('price', $product->price)}}" class="form-control input-sm" placeholder="Price ...*" required>
-                            {!! $errors->first('price', '<em for="price" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('unit')) has-error @endif">
-                            <label for="unit" class="control-label">Unit <span style="color: red">*</span></label>
-                            <input type="text" name="unit" id="unit" value="{{old('unit', $product->unit)}}" class="form-control input-sm" placeholder="Unit ...*" required>
-                            {!! $errors->first('unit', '<em for="unit" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('value')) has-error @endif">
-                            <label for="value" class="control-label">Value <span style="color: red">*</span></label>
-                            <input type="number" name="value" id="value" value="{{old('value', $product->value)}}" class="form-control input-sm" placeholder="Value ...*" required>
-                            {!! $errors->first('value', '<em for="value" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
+        <!-- Current Ingredients List -->
+        <div class="panel panel-visible">
+            <div class="panel-heading">
+                <div class="panel-title hidden-xs">
+                    <span class="glyphicon glyphicon-list"></span>Current Recipe Ingredients
                 </div>
-
-                <div class="panel-footer">
-                    <input type="hidden" value="{{old('previousUrl', url()->previous())}}" name="previousUrl">
-                    <a href="{{old('previousUrl', url()->previous())}}" class="btn btn-flat btn-default btn-sm"><i class="fa fa-reply"></i> @lang('global.cancel')
-                    </a>
-
-                    <div class="pull-right">
-                        <button type="submit" class="btn ladda-button btn-success btn-sm" data-style="zoom-in">
-                            <span class="ladda-label"><i class="fa fa-save"></i> {{__('global.save')}}</span>
-                            <span class="ladda-spinner"><div class="ladda-progress" style="width: 0px;"></div></span>
-                        </button>
+            </div>
+            <div class="panel-body">
+                @if($product->product_recipes->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th width="35%">Ingredient Name</th>
+                                    <th width="15%">Unit</th>
+                                    <th width="20%">Quantity</th>
+                                    <th width="25%">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ingredientsList">
+                                @foreach($product->product_recipes as $index => $recipe)
+                                <tr id="ingredient-row-{{ $recipe->id }}" 
+                                    data-ingredient-id="{{ $recipe->ingredient_master_id }}"
+                                    data-product-id="{{ $recipe->product_id }}">
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $recipe->ingredientMaster->name }}</td>
+                                    <td>{{ $recipe->ingredientMaster->unit }}</td>
+                                    <td>
+                                        <div class="qty-display" id="qty-display-{{ $recipe->id }}">
+                                            {{ number_format($recipe->qty, 2) }}
+                                        </div>
+                                        <div class="qty-edit" id="qty-edit-{{ $recipe->id }}" style="display: none;">
+                                            <input type="number" step="0.01" min="0" class="form-control input-sm" 
+                                                   value="{{ $recipe->qty }}" id="qty-input-{{ $recipe->id }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-xs btn-warning edit-qty" 
+                                                    data-id="{{ $recipe->id }}" title="Edit Quantity">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-xs btn-success save-qty" 
+                                                    data-id="{{ $recipe->id }}" title="Save" style="display: none;">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-xs btn-default cancel-edit" 
+                                                    data-id="{{ $recipe->id }}" title="Cancel" style="display: none;">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-xs btn-danger delete-ingredient" 
+                                                    data-id="{{ $recipe->id }}" title="Delete Ingredient">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
-
-            </form>
+                @else
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i> No ingredients added to this product yet. Use the form above to add ingredients.
+                    </div>
+                @endif
+            </div>
+            <div class="panel-footer">
+                <a href="{{ route('product.recipe.index') }}" class="btn btn-flat btn-default btn-sm">
+                    <i class="fa fa-reply"></i> Back to Recipe List
+                </a>
+            </div>
         </div>
     </section>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this ingredient from the recipe?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('css')
-    <!-- Select 2 -->
-    <link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
-    <link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
-    <link rel="stylesheet" href="{{url('theme/app/vendor/plugins/summernote/summernote.css')}}">
-
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-theme@0.1.0-beta.10/dist/select2-bootstrap.min.css" rel="stylesheet" />
+    
+    <style>
+        .panel-visible {
+            margin-bottom: 20px;
+        }
+        .qty-display, .qty-edit {
+            transition: all 0.3s ease;
+        }
+        .table-responsive {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn-group .btn {
+            margin-right: 2px;
+        }
+        .alert-info {
+            border-left: 4px solid #5bc0de;
+        }
+        .badge-primary {
+            background-color: #337ab7;
+        }
+        
+        /* Select2 custom styling */
+        .select2-container {
+            width: 100% !important;
+        }
+        .select2-container--bootstrap .select2-selection--single {
+            height: 34px;
+            line-height: 1.42857143;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
+            color: #555;
+            padding: 0;
+        }
+        .select2-container--bootstrap .select2-selection--single .select2-selection__arrow {
+            height: 32px;
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            width: 20px;
+        }
+    </style>
 @endpush
 
 @push('scripts')
-    <script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
-    <script src="{{url('theme/app/vendor/plugins/summernote/summernote.min.js')}}"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#summernote').summernote({
-                placeholder: 'Content ...*',
-                tabsize: 2,
-                height: 150,
-                fontSizes: ['8', '9', '10', '11', '12', '13','14', '18', '24', '36', '48' , '64', '82', '150'],
-                toolbar: [
-                    ["style", ["style"]],
-                    ["font", ["bold", "underline", "clear"]],
-                    ["fontname", ["fontname"]],
-                    ['fontsize', ['fontsize']],
-                    ["color", ["color"]],
-                    ["para", ["ul", "ol", "paragraph"]],
-                    ["table", ["table"]],
-                    ["insert", ["link", "hr", "video","picture"]],
-                    ["view", ["fullscreen", "codeview", "help"]]
-                ]
+    <script>
+        $(document).ready(function() {
+            let deleteIngredientId = null;
+
+            $('#ingredient_master_id').select2({
+                theme: 'bootstrap',
+                placeholder: 'Search and select ingredient...',
+                allowClear: true,
+                width: '100%'
             });
 
-            $('#product_category_id').select2({
-                theme: "bootstrap",
-                placeholder: "Select",
-                width: '100%',
-                containerCssClass: ':all:',
-                ajax: {
-                    url: '{{route('product_category.ajax.select2')}}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            term: params.term,
-                            page: params.page
-                        };
+            $('#addIngredientForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                let formData = {
+                    product_id: {{ $product->id }},
+                    ingredient_master_id: $('#ingredient_master_id').val(),
+                    qty: $('#qty').val(),
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                };
+
+                if (!formData.ingredient_master_id || !formData.qty) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route("product.recipe.store") }}',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        $('#ingredient_master_id').val(null).trigger('change');
+                        $('#qty').val('');
+                        location.reload();
                     },
-                    processResults: function(data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.data,
-                            pagination: {
-                                more: (params.page * data.per_page) < data.total
-                            }
-                        };
+                    error: function(xhr) {
+                        console.log(xhr.responseJSON);
+                        let message = 'Error adding ingredient';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            message = xhr.responseJSON.message;
+                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            message = Object.values(xhr.responseJSON.errors)[0][0];
+                        }
+                        alert(message);
+                    }
+                });
+            });
+
+            // Edit quantity button
+            $('.edit-qty').on('click', function() {
+                let id = $(this).data('id');
+                $('#qty-display-' + id).hide();
+                $('#qty-edit-' + id).show();
+                $(this).hide();
+                $('.save-qty[data-id="' + id + '"]').show();
+                $('.cancel-edit[data-id="' + id + '"]').show();
+            });
+
+
+            $('.save-qty').on('click', function() {
+                let id = $(this).data('id');
+                let newQty = $('#qty-input-' + id).val();
+                let row = $('#ingredient-row-' + id);
+                let productId = row.data('product-id');
+                let ingredientId = row.data('ingredient-id');
+
+                if (!newQty || newQty < 0) {
+                    alert('Please enter a valid quantity');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/product/recipe/' + id,
+                    type: 'PUT',
+                    data: {
+                        qty: newQty,
+                        _token: $('meta[name="csrf-token"]').attr('content')
                     },
-                    cache: true,
+                    success: function(response) {
+                        $('#qty-display-' + id).text(parseFloat(newQty).toFixed(2));
+                        $('#qty-display-' + id).show();
+                        $('#qty-edit-' + id).hide();
+                        $('.edit-qty[data-id="' + id + '"]').show();
+                        $('.save-qty[data-id="' + id + '"]').hide();
+                        $('.cancel-edit[data-id="' + id + '"]').hide();
+                    },
+                    error: function(xhr) {
+                        alert('Error updating quantity');
+                    }
+                });
+            });
+
+            $('.cancel-edit').on('click', function() {
+                let id = $(this).data('id');
+                $('#qty-display-' + id).show();
+                $('#qty-edit-' + id).hide();
+                $('.edit-qty[data-id="' + id + '"]').show();
+                $('.save-qty[data-id="' + id + '"]').hide();
+                $(this).hide();
+            });
+
+            $('.delete-ingredient').on('click', function() {
+                deleteIngredientId = $(this).data('id');
+                $('#deleteModal').modal('show');
+            });
+
+            $('#confirmDelete').on('click', function() {
+                if (deleteIngredientId) {
+                    $.ajax({
+                        url: '/product/recipe/' + deleteIngredientId,
+                        type: 'DELETE',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            $('#ingredient-row-' + deleteIngredientId).fadeOut(function() {
+                                $(this).remove();
+                                // Reindex rows
+                                $('#ingredientsList tr').each(function(index) {
+                                    $(this).find('td:first').text(index + 1);
+                                });
+                            });
+                            $('#deleteModal').modal('hide');
+                            deleteIngredientId = null;
+                        },
+                        error: function(xhr) {
+                            alert('Error deleting ingredient');
+                            $('#deleteModal').modal('hide');
+                        }
+                    });
                 }
             });
-        })
 
-    </script>
-    <script>
-        //Disable Enter
-        $(document).keypress(function (event) {
-            if (event.which == '13') {
-                event.preventDefault();
-            }
+            $('#deleteModal').on('hidden.bs.modal', function() {
+                deleteIngredientId = null;
+            });
         });
     </script>
 @endpush
