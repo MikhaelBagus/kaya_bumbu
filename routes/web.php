@@ -781,6 +781,20 @@ Route::group([
 
     Route::get('/{id}/copy', [ProductController::class, 'copy'])
         ->name('product.copy')->middleware('sentinel.permission:product.copy');
+
+    Route::group([
+        'prefix' => 'recipe',
+    ], function () {
+        Route::get('', [ProductController::class, 'index'])
+        ->name('product.recipe.index')->middleware('sentinel.permission:product.show');
+    });
+
+    Route::group([
+        'prefix' => 'ingredient',
+    ], function () {
+        Route::get('', [ProductController::class, 'index'])
+        ->name('product.ingredient.index')->middleware('sentinel.permission:product.show');
+    });
 });
 
 // transaction
