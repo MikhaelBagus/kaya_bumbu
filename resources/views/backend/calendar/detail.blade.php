@@ -69,11 +69,11 @@
                             @if($hourEach['count'] == 0)
                             <td style="text-align: center;">
                             </td>
-                            @elseif($hourEach['count'] <= 80)
+                            @elseif($hourEach['count'] <= 180)
                             <td style="text-align: center; background-color: lightgreen;">
                                 <a href="{{route('calendar.show_detail', [$month, $year, $day, $hourEach['hour']])}}">{{$hourEach['count']}}</a>
                             </td>
-                            @elseif($hourEach['count'] <= 150)
+                            @elseif($hourEach['count'] <= 250)
                             <td style="text-align: center; background-color: yellow;">
                                 <a href="{{route('calendar.show_detail', [$month, $year, $day, $hourEach['hour']])}}">{{$hourEach['count']}}</a>
                             </td>
