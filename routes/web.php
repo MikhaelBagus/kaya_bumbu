@@ -838,6 +838,12 @@ Route::group([
 
         Route::delete('/{ingredient_id}', [IngredientMasterController::class, 'destroy'])
             ->name('product.ingredient.destroy')->middleware('sentinel.permission:product.destroy');
+
+        Route::get('/ajax/data', [IngredientMasterController::class, 'datatable'])
+            ->name('product.ingredient.ajax.data')->middleware('sentinel.permission:product.show');
+
+        Route::get('/ajax/select2', [IngredientMasterController::class, 'select2'])
+            ->name('product.ingredient.ajax.select2');
         });
 });
 

@@ -7,47 +7,20 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Product List
-                </div>
-            </div>
-
-            <div class="panel panel-default" style="margin-bottom:0px">
-                <div class="panel-heading">
-                    Filter
-                </div>
-                <div class="panel-body">
-                    <form action="" method="POST">
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Product Category</label>
-                                    <select id="product_category_id" class="input-sm form-control select_2" style="width:100%" name="product_category_id">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
-                            </div>
-                        </div>
-                    </form>
+                    <span class="glyphicon glyphicon-tasks"></span>Ingredient Master List
                 </div>
             </div>
 
             <div class="panel-menu">
-                <a href="{{route('product.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
+                <a href="{{route('product.ingredient.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
             </div>
-            <table class="table table-striped table-bordered table-hover table-condensed" id="product-table" width="100%">
+            <table class="table table-striped table-bordered table-hover table-condensed" id="ingredient-table" width="100%">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Product Category</th>
                     <th>Name</th>
-                    <th>Price</th>
                     <th>Unit</th>
-                    <th>Value</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -68,9 +41,6 @@
 <link rel="stylesheet" href="{{url('theme/app/vendor/plugins/datatables/media/css/dataTables.plugins.css')}}">
 <link rel="stylesheet" href="{{url('plugins/datatables/extensions/FixedHeader/css/fixedHeader.bootstrap.css')}}">
 <link rel="stylesheet" href="{{url('plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css')}}">
-
-<link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
-<link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
 @endpush
 
 @push('scripts')
@@ -82,7 +52,6 @@
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
 
-<script src="{{url('plugins/jquery-number/jquery.number.min.js')}}"></script>
 <script src="{{url('plugins/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/Responsive/js/dataTables.responsive.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.js')}}"></script>
@@ -92,21 +61,16 @@
 <script src="{{url('plugins/datatables/extensions/Checkboxes/dataTables.checkboxes.min.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/Pagination/full_numbers_no_ellipses.js')}}"></script>
 
-<script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
-
 <script>
     $(function () {
 
-        let table = $('#product-table').DataTable({
+        let table = $('#ingredient-table').DataTable({
             aaSorting: [[0, 'desc']],
             aLengthMenu: [
                     [50, 100, 500, 1000, 5000, -1],
                     [50, 100, 500, 1000, 5000, "All"]
                 ],
             iDisplayLength: 100,
-            //stateSave: true,
-            // responsive: true,
-            // fixedHeader: true,
             processing: true,
             serverSide: true,
             scrollX: true,
@@ -115,11 +79,8 @@
             "<'dt-panelfooter clearfix'<'row'<'col-sm-5'i><'col-sm-7'p>>>",
             pagingType: "full_numbers",
             ajax: {
-                url: '{!! route('product.ajax.data') !!}',
-                dataType: 'json',
-                data: function (d) {
-                    d.product_category_id = $('#product_category_id').val();
-                },
+                url: '{!! route('product.ingredient.ajax.data') !!}',
+                dataType: 'json'
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},
@@ -127,21 +88,8 @@
                     data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
                     checkboxes: true
                 },
-                {data: 'product_category.name', name: 'product_category.name'},
                 {data: 'name', name: 'name'},
-                {
-                    data: 'price', name: 'price',
-                    render: function (data, type, oObj) {
-                        return 'Rp. ' + $.number(data);
-                    }
-                },
                 {data: 'unit', name: 'unit'},
-                {
-                    data: 'value', name: 'value',
-                    render: function (data, type, oObj) {
-                        return $.number(data);
-                    }
-                },
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {
@@ -154,8 +102,8 @@
             buttons: [
                 {
                     extend: 'colvis',
-                    text: '<i class="fa fa-columns"></i> @lang('auth.index_column')',
-                    columns: '2, 3, 4'
+                    text: '<i class="fa fa-columns"></i> @lang("auth.index_column")',
+                    columns: '2, 3'
                 }
             ],
             buttons: [
@@ -181,40 +129,6 @@
             select: {
                 style: 'multi'
             },
-        });
-
-        $('#choose').on('click', function (e) {
-            e.preventDefault();
-            table.draw();
-        });
-
-        $('#product_category_id').select2({
-            theme: "bootstrap",
-            placeholder: "Select",
-            width: '100%',
-            allowClear: true,
-            containerCssClass: ':all:',
-            ajax: {
-                url: '{{route('product_category.ajax.select2')}}',
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term,
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * data.per_page) < data.total
-                        }
-                    };
-                },
-                cache: true,
-            }
         });
     });
 </script>

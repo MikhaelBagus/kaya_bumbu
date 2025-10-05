@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class IngredientMasterController extends Controller
 {
@@ -16,9 +17,7 @@ class IngredientMasterController extends Controller
      */
     public function index(): View
     {
-        $ingredientMasters = IngredientMaster::paginate(15);
-        
-        return view('ingredient-masters.index', compact('ingredientMasters'));
+        return view('backend.product.ingredient.index');
     }
 
     /**
@@ -26,7 +25,7 @@ class IngredientMasterController extends Controller
      */
     public function create(): View
     {
-        return view('ingredient-masters.create');
+        return view('backend.product.ingredient.create');
     }
 
     /**
@@ -41,141 +40,136 @@ class IngredientMasterController extends Controller
 
         $ingredientMaster = IngredientMaster::create($validated);
 
-        return redirect()->route('ingredient-masters.index')
+        $redirectUrl = $request->get('previousUrl', route('product.ingredient.index'));
+        
+        return redirect($redirectUrl)
                         ->with('success', 'Ingredient Master created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(IngredientMaster $ingredientMaster): View
+    public function show($ingredient_id): View
     {
-        $ingredientMaster->load('productRecipes.product');
+        $ingredient = IngredientMaster::with('productRecipes.product')->findOrFail($ingredient_id);
         
-        return view('ingredient-masters.show', compact('ingredientMaster'));
+        return view('backend.product.ingredient.detail', compact('ingredient'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(IngredientMaster $ingredientMaster): View
+    public function edit($ingredient_id): View
     {
-        return view('ingredient-masters.edit', compact('ingredientMaster'));
+        $ingredient = IngredientMaster::findOrFail($ingredient_id);
+        
+        return view('backend.product.ingredient.update', compact('ingredient'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, IngredientMaster $ingredientMaster): RedirectResponse
+    public function update(Request $request, $ingredient_id): RedirectResponse
     {
+        $ingredient = IngredientMaster::findOrFail($ingredient_id);
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
         ]);
 
-        $ingredientMaster->update($validated);
+        $ingredient->update($validated);
 
-        return redirect()->route('ingredient-masters.index')
+        $redirectUrl = $request->get('previousUrl', route('product.ingredient.index'));
+
+        return redirect($redirectUrl)
                         ->with('success', 'Ingredient Master updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(IngredientMaster $ingredientMaster): RedirectResponse
+    public function destroy($ingredient_id): RedirectResponse
     {
+        $ingredient = IngredientMaster::findOrFail($ingredient_id);
+        
         try {
-            $ingredientMaster->delete();
+            $ingredient->delete();
             
-            return redirect()->route('ingredient-masters.index')
+            return redirect()->route('product.ingredient.index')
                             ->with('success', 'Ingredient Master deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('ingredient-masters.index')
+            return redirect()->route('product.ingredient.index')
                             ->with('error', 'Cannot delete ingredient master. It may be used in product recipes.');
         }
     }
 
     /**
-     * API: Get all ingredient masters
+     * DataTable for AJAX requests
      */
-    public function apiIndex(): JsonResponse
+    public function datatable(Request $request): JsonResponse
     {
-        $ingredientMasters = IngredientMaster::all();
+        $query = IngredientMaster::query();
+
+        return DataTables::of($query)
+            ->addColumn('checkbox', function ($ingredient) {
+                return '<input type="checkbox" name="selected[]" value="' . $ingredient->id . '">';
+            })
+            ->addColumn('action', function ($ingredient) {
+                $actions = '';
+                
+                $actions .= '<a href="' . route('product.ingredient.show', $ingredient->id) . '" 
+                           class="btn btn-xs btn-primary" title="View">
+                           <i class="fa fa-eye"></i></a> ';
+                
+                $actions .= '<a href="' . route('product.ingredient.edit', $ingredient->id) . '" 
+                           class="btn btn-xs btn-warning" title="Edit">
+                           <i class="fa fa-edit"></i></a> ';
+                
+                $actions .= '<form method="POST" action="' . route('product.ingredient.destroy', $ingredient->id) . '" 
+                           style="display:inline;" onsubmit="return confirm(\'Are you sure?\')">
+                           ' . csrf_field() . method_field('DELETE') . '
+                           <button type="submit" class="btn btn-xs btn-danger" title="Delete">
+                           <i class="fa fa-trash"></i></button></form>';
+                
+                return $actions;
+            })
+            ->rawColumns(['checkbox', 'action'])
+            ->make(true);
+    }
+
+    /**
+     * Select2 AJAX endpoint
+     */
+    public function select2(Request $request): JsonResponse
+    {
+        $term = $request->get('term');
+        $page = $request->get('page', 1);
+        $perPage = 10;
+
+        $query = IngredientMaster::query();
         
-        return response()->json([
-            'success' => true,
-            'data' => $ingredientMasters
-        ]);
-    }
-
-    /**
-     * API: Get specific ingredient master
-     */
-    public function apiShow(IngredientMaster $ingredientMaster): JsonResponse
-    {
-        $ingredientMaster->load('productRecipes.product');
-        
-        return response()->json([
-            'success' => true,
-            'data' => $ingredientMaster
-        ]);
-    }
-
-    /**
-     * API: Store new ingredient master
-     */
-    public function apiStore(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
-        ]);
-
-        $ingredientMaster = IngredientMaster::create($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Ingredient Master created successfully',
-            'data' => $ingredientMaster
-        ], 201);
-    }
-
-    /**
-     * API: Update ingredient master
-     */
-    public function apiUpdate(Request $request, IngredientMaster $ingredientMaster): JsonResponse
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
-        ]);
-
-        $ingredientMaster->update($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Ingredient Master updated successfully',
-            'data' => $ingredientMaster
-        ]);
-    }
-
-    /**
-     * API: Delete ingredient master
-     */
-    public function apiDestroy(IngredientMaster $ingredientMaster): JsonResponse
-    {
-        try {
-            $ingredientMaster->delete();
-            
-            return response()->json([
-                'success' => true,
-                'message' => 'Ingredient Master deleted successfully'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete ingredient master. It may be used in product recipes.'
-            ], 400);
+        if ($term) {
+            $query->where('name', 'like', "%{$term}%");
         }
+
+        $ingredients = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $data = [];
+        foreach ($ingredients as $ingredient) {
+            $data[] = [
+                'id' => $ingredient->id,
+                'text' => $ingredient->name . ' (' . $ingredient->unit . ')'
+            ];
+        }
+
+        return response()->json([
+            'data' => $data,
+            'pagination' => [
+                'more' => $ingredients->hasMorePages()
+            ],
+            'total' => $ingredients->total(),
+            'per_page' => $ingredients->perPage()
+        ]);
     }
 }
