@@ -49,10 +49,10 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form id="addIngredientForm" class="form-horizontal">
+                <form id="addIngredientForm" class="form-horizontal" style="padding: 10px;">
                     {!! csrf_field() !!}
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label">Select Ingredient <span style="color: red">*</span></label>
                                 <select id="ingredient_master_id" name="ingredient_master_id" class="form-control select2" required>
@@ -63,16 +63,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label">Quantity <span style="color: red">*</span></label>
                                 <input type="number" step="0.01" min="0" id="qty" name="qty" class="form-control" placeholder="0.00" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label class="control-label">&nbsp;</label><br>
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-success btn-block">
                                     <i class="fa fa-plus"></i> Add Ingredient
                                 </button>
                             </div>
@@ -227,6 +231,16 @@
             top: 1px;
             right: 1px;
             width: 20px;
+        }
+        
+        /* Form spacing */
+        #addIngredientForm .col-md-4 {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        #addIngredientForm .form-group {
+            margin-bottom: 0;
         }
     </style>
 @endpush
