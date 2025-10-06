@@ -927,6 +927,9 @@ Route::group([
 
     Route::post('', [TransactionDownloadController::class, 'download'])
         ->name('transaction_download.download')->middleware('sentinel.permission:transaction_download.download');
+
+    Route::post('/recipe', [TransactionDownloadController::class, 'downloadRecipe'])
+        ->name('transaction_download.download_recipe')->middleware('sentinel.permission:transaction_download.download');
 });
 
 // log

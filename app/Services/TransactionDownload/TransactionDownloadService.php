@@ -22,4 +22,87 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
 
         return $dataDb;
     }
+
+    public function downloadRecipe($request)
+    {
+        $transactions = Transaction::whereNull('suspend_at')
+            ->date($request->order_date_from, $request->order_date_to)
+            ->time($request->order_time_from, $request->order_time_to)
+            ->paymentstatus($request->payment_status)
+            ->status($request->status)
+            ->bank($request->bank_id)
+            ->deliveryoption($request->delivery_option)
+            ->deliverytransport($request->delivery_transport)
+            ->deliverytype($request->delivery_type)
+            ->transactiontype($request->transaction_type)
+            ->source($request->source_id)
+            ->customer($request->customer_id)
+            ->user($request->user_id)
+            ->province($request->province_id)
+            ->city($request->city_id)
+            ->driver($request->driver_id)
+            ->grandprice($request->grand_price_from, $request->grand_price_to)
+            ->with([
+                'city', 
+                'city.province', 
+                'customer', 
+                'bank', 
+                'source', 
+                'user', 
+                'driver',
+                'transaction_product',
+                'transaction_product.product',
+                'transaction_product.product.ingredients'
+            ])
+            ->orderBy('date', 'ASC')
+            ->orderBy('time', 'ASC')
+            ->get();
+
+        $productIngredients = [];
+        $totalIngredientsMap = [];
+
+        foreach ($transactions as $transaction) {
+            foreach ($transaction->transaction_product as $transactionProduct) {
+                $product = $transactionProduct->product;
+                $productQty = (float) $transactionProduct->qty;
+
+                foreach ($product->ingredients as $ingredient) {
+                    $ingredientQtyPerProduct = (float) $ingredient->pivot->qty;
+                    $requiredQty = $productQty * $ingredientQtyPerProduct;
+                    
+                    $productIngredients[] = [
+                        'transaction_id' => $transaction->id,
+                        'transaction_date' => $transaction->date,
+                        'product_name' => $product->name,
+                        'product_qty' => $productQty,
+                        'ingredient_name' => $ingredient->name,
+                        'ingredient_unit' => $ingredient->unit,
+                        'ingredient_qty_per_product' => $ingredientQtyPerProduct,
+                        'total_ingredient_qty' => $requiredQty
+                    ];
+
+                    $ingredientKey = $ingredient->name . '|' . $ingredient->unit;
+                    if (isset($totalIngredientsMap[$ingredientKey])) {
+                        $totalIngredientsMap[$ingredientKey]['total_qty'] += $requiredQty;
+                    } else {
+                        $totalIngredientsMap[$ingredientKey] = [
+                            'ingredient_name' => $ingredient->name,
+                            'ingredient_unit' => $ingredient->unit,
+                            'total_qty' => $requiredQty
+                        ];
+                    }
+                }
+            }
+        }
+
+        $totalIngredients = collect(array_values($totalIngredientsMap))
+            ->sortBy('ingredient_name')
+            ->values();
+
+        return [
+            'transactions' => $transactions,
+            'product_ingredients' => collect($productIngredients),
+            'total_ingredients' => $totalIngredients
+        ];
+    }
 }

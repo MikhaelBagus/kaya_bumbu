@@ -10,7 +10,7 @@
                 </div>
             </div>
             
-            <form action="{{route('transaction_download.download')}}" method="post">
+            <form id="downloadForm" action="{{route('transaction_download.download')}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
@@ -225,6 +225,12 @@
                     <div class="pull-right">
                         <button type="submit" class="btn ladda-button btn-success btn-sm" data-style="zoom-in">
                             <span class="ladda-label"><i class="fa fa-save"></i> Download</span>
+                            <span class="ladda-spinner"><div class="ladda-progress" style="width: 0px;"></div></span></button>
+                    </div>
+
+                    <div class="pull-right" style="margin-right: 10px;">
+                        <button type="button" id="downloadRecipeBtn" class="btn ladda-button btn-success btn-sm" data-style="zoom-in">
+                            <span class="ladda-label"><i class="fa fa-save"></i> Download Resep </span>
                             <span class="ladda-spinner"><div class="ladda-progress" style="width: 0px;"></div></span></button>
                     </div>
                     
@@ -597,6 +603,12 @@
             width: '100%',
             allowClear: true,
             containerCssClass: ':all:',
+        });
+
+        $('#downloadRecipeBtn').on('click', function() {
+            var recipeUrl = '{!! route("transaction_download.download_recipe") !!}';
+            $('#downloadForm').attr('action', recipeUrl);
+            $('#downloadForm').submit();
         });
     });
 </script>
