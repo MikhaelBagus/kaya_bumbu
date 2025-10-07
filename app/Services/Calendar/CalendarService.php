@@ -2,14 +2,8 @@
 
 namespace App\Services\Calendar;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Auth\User;
 use App\Models\Transaction;
-use App\Models\Log;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Pagination\Paginator;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class CalendarService implements CalendarServiceContract
 {
@@ -18,114 +12,64 @@ class CalendarService implements CalendarServiceContract
         $firstDate = $year.'-'.$month.'-01';
         $lastDay = date("t", strtotime($firstDate));
 
+        $formattedMonth = $month < 10 ? '0'.$month : ''.$month;
+        $startDate = $year.'-'.$formattedMonth.'-01';
+        $endDate = $year.'-'.$formattedMonth.'-'.($lastDay < 10 ? '0'.$lastDay : ''.$lastDay);
+
+        $transactions = Transaction::with(['transaction_product.product'])
+            ->whereBetween('date', [$startDate, $endDate])
+            ->get()
+            ->groupBy(function($transaction) {
+                return $transaction->date . '_' . substr($transaction->time, 0, 2);
+            });
+
         $data = [];
         for ($date = 1; $date <= $lastDay; $date++) {
             $hourData = [];
             $countPerDay = 0;
-            for ($hour = 0; $hour <= 23 ; $hour++) {
-                if($date < 10){
-                    if($hour < 10){
-                        $dataTransaction = Transaction::where('date', $year.'-'.$month.'-0'.$date)->where(\DB::raw('substr(time, 1, 2)'), '=' , '0'.$hour)->get();
-                        $countValue = 0;
-
-                        if($dataTransaction->count() > 0){
-                            foreach ($dataTransaction as $dataTransactionEach) {
-                                foreach($dataTransactionEach->transaction_product as $transactionProductEach){
-                                    $countValue = $countValue + ($transactionProductEach->qty * $transactionProductEach->product->value);
-                                }
-                            }
+            
+            $formattedDate = $date < 10 ? 
+                $year.'-'.$month.'-0'.$date : 
+                $year.'-'.$month.'-'.$date;
+            
+            for ($hour = 0; $hour <= 23; $hour++) {
+                $formattedHour = $hour < 10 ? '0'.$hour : ''.$hour;
+                
+                $lookupDate = $date < 10 ? 
+                    $year.'-'.$formattedMonth.'-0'.$date : 
+                    $year.'-'.$formattedMonth.'-'.$date;
+                $lookupHour = $hour < 10 ? '0'.$hour : ''.$hour;
+                $key = $lookupDate . '_' . $lookupHour;
+                
+                $countValue = 0;
+                if (isset($transactions[$key])) {
+                    foreach ($transactions[$key] as $dataTransactionEach) {
+                        foreach($dataTransactionEach->transaction_product as $transactionProductEach){
+                            $countValue = $countValue + ($transactionProductEach->qty * $transactionProductEach->product->value);
                         }
-
-                        $countPerDay = $countPerDay + $countValue;
-
-                        $hourData[] = [
-                            'hour'  => '0'.$hour,
-                            'count' => $countValue
-                        ];
-                    }
-                    else{
-                        $dataTransaction = Transaction::where('date', $year.'-'.$month.'-0'.$date)->where(\DB::raw('substr(time, 1, 2)'), '=' , ''.$hour)->get();
-                        $countValue = 0;
-
-                        if($dataTransaction->count() > 0){
-                            foreach ($dataTransaction as $dataTransactionEach) {
-                                foreach($dataTransactionEach->transaction_product as $transactionProductEach){
-                                    $countValue = $countValue + ($transactionProductEach->qty * $transactionProductEach->product->value);
-                                }
-                            }
-                        }
-
-                        $countPerDay = $countPerDay + $countValue;
-
-                        $hourData[] = [
-                            'hour'  => ''.$hour,
-                            'count' => $countValue
-                        ];
                     }
                 }
-                else{
-                    if($hour < 10){
-                        $dataTransaction = Transaction::where('date', $year.'-'.$month.'-'.$date)->where(\DB::raw('substr(time, 1, 2)'), '=' , '0'.$hour)->get();
-                        $countValue = 0;
 
-                        if($dataTransaction->count() > 0){
-                            foreach ($dataTransaction as $dataTransactionEach) {
-                                foreach($dataTransactionEach->transaction_product as $transactionProductEach){
-                                    $countValue = $countValue + ($transactionProductEach->qty * $transactionProductEach->product->value);
-                                }
-                            }
-                        }
+                $countPerDay = $countPerDay + $countValue;
 
-                        $countPerDay = $countPerDay + $countValue;
-
-                        $hourData[] = [
-                            'hour'  => '0'.$hour,
-                            'count' => $countValue
-                        ];
-                    }
-                    else{
-                        $dataTransaction = Transaction::where('date', $year.'-'.$month.'-'.$date)->where(\DB::raw('substr(time, 1, 2)'), '=' , ''.$hour)->get();
-                        $countValue = 0;
-
-                        if($dataTransaction->count() > 0){
-                            foreach ($dataTransaction as $dataTransactionEach) {
-                                foreach($dataTransactionEach->transaction_product as $transactionProductEach){
-                                    $countValue = $countValue + ($transactionProductEach->qty * $transactionProductEach->product->value);
-                                }
-                            }
-                        }
-
-                        $countPerDay = $countPerDay + $countValue;
-
-                        $hourData[] = [
-                            'hour'  => ''.$hour,
-                            'count' => $countValue
-                        ];
-                    }
-                }
-            }
-
-            if($date < 10){
-                $data[] = [
-                    'date' => $year.'-'.$month.'-0'.$date,
-                    'hour' => $hourData,
-                    'total'=> $countPerDay
+                $hourData[] = [
+                    'hour'  => $formattedHour,
+                    'count' => $countValue
                 ];
             }
-            else{
-                $data[] = [
-                    'date' => $year.'-'.$month.'-'.$date,
-                    'hour' => $hourData,
-                    'total'=> $countPerDay
-                ];
-            }
+
+            $data[] = [
+                'date' => $formattedDate,
+                'hour' => $hourData,
+                'total'=> $countPerDay
+            ];
         }
         return $data;
     }
 
     public function getDetail($month, $year, $date, $hour)
     {
-        $data = Transaction::where('date', $year.'-'.$month.'-'.$date)->where(\DB::raw('substr(time, 1, 2)'), '=' , $hour)->get();
+        $data = Transaction::where('date', $year.'-'.$month.'-'.$date)->where(DB::raw('substr(time, 1, 2)'), '=' , $hour)->get();
         return $data;
     }
 }
