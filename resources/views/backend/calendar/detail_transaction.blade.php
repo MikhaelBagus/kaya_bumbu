@@ -25,7 +25,8 @@
                                     <strong>Transaction #{{$transaction->code}}</strong> - {{$transaction->customer_name}} 
                                     <small>({{$transaction->date}} {{$transaction->time}})</small>
                                     <span class="pull-right">
-                                        <span class="label label-{{$transaction->status == 3 ? 'success' : ($transaction->status == 0 ? 'warning' : 'info')}}">
+                                        <span class="status-badge status-{{$transaction->status == 3 ? 'success' : ($transaction->status == 0 ? 'warning' : 'info')}}">
+                                            <i class="fa fa-{{$transaction->status == 0 ? 'clock-o' : ($transaction->status == 1 ? 'cutlery' : ($transaction->status == 2 ? 'truck' : 'check-circle'))}}"></i>
                                             @if($transaction->status == 0)
                                                 New Order
                                             @elseif($transaction->status == 1)
@@ -421,10 +422,43 @@
     font-weight: 500;
 }
 
-.transaction-header .label {
+.transaction-header .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 12px;
-    padding: 4px 8px;
+    font-weight: 500;
+    padding: 6px 12px;
     margin-left: 10px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.transaction-header .status-badge.status-success {
+    background-color: rgba(40, 167, 69, 0.9);
+    border-color: rgba(40, 167, 69, 0.5);
+}
+
+.transaction-header .status-badge.status-warning {
+    background-color: rgba(255, 193, 7, 0.9);
+    border-color: rgba(255, 193, 7, 0.5);
+    color: #333;
+    text-shadow: none;
+}
+
+.transaction-header .status-badge.status-info {
+    background-color: rgba(23, 162, 184, 0.9);
+    border-color: rgba(23, 162, 184, 0.5);
+}
+
+.transaction-header .status-badge i {
+    font-size: 11px;
 }
 
 .collapse-content {
