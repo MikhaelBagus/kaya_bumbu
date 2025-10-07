@@ -153,13 +153,13 @@
         <table>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Product</th>
-                    <th>Qty Ordered</th>
-                    <th>Ingredient</th>
-                    <th>Qty per Product</th>
-                    <th>Total Ingredient Needed</th>
-                    <th>Unit</th>
+                    <th style="text-align: center;">Date</th>
+                    <th style="text-align: center;">Product</th>
+                    <th style="text-align: center;">Qty Ordered</th>
+                    <th style="text-align: center;">Ingredient</th>
+                    <th style="text-align: center;">Qty per Product</th>
+                    <th style="text-align: center;">Total Ingredient Needed</th>
+                    <th style="text-align: center;">Unit</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,7 +175,7 @@
                         $keyParts = explode('|', $groupKey);
                         $date = $keyParts[0];
                         $productName = $keyParts[1];
-                        $totalProductQty = $productItems->sum('product_qty');
+                        $totalProductQty = $productItems->first()['product_qty'];
                     @endphp
                     
                     @foreach($productItems as $index => $item)
@@ -187,11 +187,11 @@
                                 {{ $index === 0 ? $productName : '' }}
                             </td>
                             <td style="background-color: {{ $index === 0 ? '#f0f0f0' : '#f9f9f9' }}; font-weight: {{ $index === 0 ? 'bold' : 'normal' }}; text-align: center; border-right: 2px solid #ddd;">
-                                {{ $index === 0 ? number_format($totalProductQty, 1) : '' }}
+                                {{ $index === 0 ? number_format($totalProductQty, 0) : '' }}
                             </td>
                             <td style="font-weight: bold;">{{ $item['ingredient_name'] }}</td>
-                            <td style="text-align: right;">{{ number_format($item['ingredient_qty_per_product'], 2) }}</td>
-                            <td style="text-align: right; font-weight: bold; color: #333;">{{ number_format($item['total_ingredient_qty'], 2) }}</td>
+                            <td style="text-align: center;">{{ $item['ingredient_qty_per_product'] }}</td>
+                            <td style="text-align: right; font-weight: bold; color: #333;">{{ $item['total_ingredient_qty'] }}</td>
                             <td style="text-align: center;">{{ $item['ingredient_unit'] }}</td>
                         </tr>
                     @endforeach
@@ -231,7 +231,7 @@
                     <tr class="ingredient-total">
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
                         <td><strong>{{ $ingredient['ingredient_name'] }}</strong></td>
-                        <td style="text-align: center;"><strong>{{ number_format($ingredient['total_qty'], 2) }}</strong></td>
+                        <td style="text-align: center;"><strong>{{ $ingredient['total_qty'] }}</strong></td>
                         <td style="text-align: center;">{{ $ingredient['ingredient_unit'] }}</td>
                     </tr>
                 @empty

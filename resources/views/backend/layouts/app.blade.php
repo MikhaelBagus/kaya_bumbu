@@ -57,8 +57,7 @@
 
     <style>
         .form-group {
-            margin-bottom: 2px;
-        !important;
+            margin-bottom: 2px !important;
         }
         .modalLoading {
             display:    none;

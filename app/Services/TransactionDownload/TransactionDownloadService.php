@@ -74,11 +74,11 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
                         'transaction_id' => $transaction->id,
                         'transaction_date' => $transaction->date,
                         'product_name' => $product->name,
-                        'product_qty' => $productQty,
+                        'product_qty' => $this->formatNumber($productQty),
                         'ingredient_name' => $ingredient->name,
                         'ingredient_unit' => $ingredient->unit,
-                        'ingredient_qty_per_product' => $ingredientQtyPerProduct,
-                        'total_ingredient_qty' => $requiredQty
+                        'ingredient_qty_per_product' => $this->formatNumber($ingredientQtyPerProduct),
+                        'total_ingredient_qty' => $this->formatNumber($requiredQty)
                     ];
 
                     $ingredientKey = $ingredient->name . '|' . $ingredient->unit;
@@ -94,15 +94,30 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
                 }
             }
         }
-
+        
         $totalIngredients = collect(array_values($totalIngredientsMap))
-            ->sortBy('ingredient_name')
-            ->values();
+        ->map(function ($ingredient) {
+            $ingredient['total_qty'] = $this->formatNumber($ingredient['total_qty']);
+            return $ingredient;
+        })
+        ->sortBy('ingredient_name')
+        ->values();
 
         return [
             'transactions' => $transactions,
             'product_ingredients' => collect($productIngredients),
             'total_ingredients' => $totalIngredients
         ];
+    }
+
+    private function formatNumber($number, $maxDecimals = 2)
+    {
+        $hasDecimals = ($number - floor($number)) > 0;
+        
+        if (!$hasDecimals) {
+            return number_format($number, 0, ',', '.');
+        } else {
+            return number_format($number, $maxDecimals, ',', '.');
+        }
     }
 }
