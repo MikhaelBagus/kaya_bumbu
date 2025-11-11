@@ -2,39 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-use App\Models\IngredientMasterCategory;
-use App\Models\Product;
-use App\Models\ProductRecipe;
+use App\Models\IngredientMaster;
 
-class IngredientMaster extends Model
+class IngredientMasterCategory extends Model
 {
-    use HasFactory;
+    use SoftDeletes;
+    protected $table = 'ingredient_master_categories';
 
-    protected $table = 'ingredient_masters';
-    
-    protected $fillable = [
-        'name',
-        'unit',
-    ];
-
-    public function ingredientMasterCategory(){
-        return $this->belongsTo(IngredientMasterCategory::class, 'ingredient_master_category_id', 'id');
-    }
-
-    public function productRecipes()
-    {
-        return $this->hasMany(ProductRecipe::class);
-    }
-
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'product_recipes')
-                    ->withPivot('qty')
-                    ->withTimestamps();
+    public function ingredientMaster(){
+        return $this->hasMany(IngredientMaster::class, 'ingredient_master_category_id', 'id');
     }
 
     public function getCreatedAtAttribute($value)

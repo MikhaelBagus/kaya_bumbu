@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ingredient_masters', function (Blueprint $table) {
+        Schema::create('ingredient_master_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ingredient_master_category_id')->constrained('ingredient_master_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
-            $table->string('unit');
             $table->string('created_by')->default('');
             $table->string('updated_by')->default('');
             $table->string('deleted_by')->default('');
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingredient_masters');
+        Schema::dropIfExists('ingredient_master_categories');
     }
 };

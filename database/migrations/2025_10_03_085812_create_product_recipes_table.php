@@ -18,7 +18,11 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('product')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('ingredient_master_id')->constrained('ingredient_masters')->onUpdate('cascade')->onDelete('cascade');
             $table->decimal('qty', 10, 2);
+            $table->string('created_by')->default('');
+            $table->string('updated_by')->default('');
+            $table->string('deleted_by')->default('');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
