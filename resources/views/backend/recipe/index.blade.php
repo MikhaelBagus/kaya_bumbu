@@ -7,11 +7,11 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Product Recipes
+                    <span class="glyphicon glyphicon-tasks"></span>Recipes
                 </div>
             </div>
 
-            <table class="table table-striped table-bordered table-hover table-condensed" id="product-table" width="100%">
+            <table class="table table-striped table-bordered table-hover table-condensed" id="recipe-table" width="100%">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -113,7 +113,7 @@
 <script>
     $(function () {
 
-        let table = $('#product-table').DataTable({
+        let table = $('#recipe-table').DataTable({
             aaSorting: [[0, 'desc']],
             aLengthMenu: [
                     [50, 100, 500, 1000, 5000, -1],
@@ -128,7 +128,7 @@
             "<'dt-panelfooter clearfix'<'row'<'col-sm-5'i><'col-sm-7'p>>>",
             pagingType: "full_numbers",
             ajax: {
-                url: '{!! route('product.recipe.ajax.data') !!}',
+                url: '{!! route('recipe.ajax.data') !!}',
                 dataType: 'json'
             },
             columns: [
@@ -174,7 +174,7 @@
         });
 
         // Add collapsible functionality
-        $('#product-table tbody').on('click', '.expand-icon', function() {
+        $('#recipe-table tbody').on('click', '.expand-icon', function() {
             let tr = $(this).closest('tr');
             let row = table.row(tr);
             let icon = $(this);

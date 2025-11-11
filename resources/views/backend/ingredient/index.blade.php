@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <!-- <div class="panel panel-default" style="margin-bottom:0px">
+            <div class="panel panel-default" style="margin-bottom:0px">
                 <div class="panel-heading">
                     Filter
                 </div>
@@ -33,7 +33,7 @@
                         </div>
                     </form>
                 </div>
-            </div> -->
+            </div>
 
             <div class="panel-menu">
                 <a href="{{route('ingredient.create')}}" class="btn btn-flat btn-success btn-sm">@lang('auth.index_create_link')</a>
@@ -66,6 +66,9 @@
 <link rel="stylesheet" href="{{url('theme/app/vendor/plugins/datatables/media/css/dataTables.plugins.css')}}">
 <link rel="stylesheet" href="{{url('plugins/datatables/extensions/FixedHeader/css/fixedHeader.bootstrap.css')}}">
 <link rel="stylesheet" href="{{url('plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css')}}">
+
+<link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
+<link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
 @endpush
 
 @push('scripts')
@@ -77,6 +80,7 @@
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
 
+<script src="{{url('plugins/jquery-number/jquery.number.min.js')}}"></script>
 <script src="{{url('plugins/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/Responsive/js/dataTables.responsive.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/FixedHeader/js/dataTables.fixedHeader.js')}}"></script>
@@ -85,6 +89,8 @@
 <script src="{{url('plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/Checkboxes/dataTables.checkboxes.min.js')}}"></script>
 <script src="{{url('plugins/datatables/extensions/Pagination/full_numbers_no_ellipses.js')}}"></script>
+
+<script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
 
 <script>
     $(function () {
@@ -105,7 +111,10 @@
             pagingType: "full_numbers",
             ajax: {
                 url: '{!! route('ingredient.ajax.data') !!}',
-                dataType: 'json'
+                dataType: 'json',
+                data: function (d) {
+                    d.ingredient_category_id = $('#ingredient_category_id').val();
+                },
             },
             columns: [
                 {data: 'id', name: 'id', visible: false},

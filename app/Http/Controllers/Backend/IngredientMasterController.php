@@ -9,6 +9,8 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Pagination\Paginator;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class IngredientMasterController extends Controller
 {
@@ -111,32 +113,27 @@ class IngredientMasterController extends Controller
      */
     public function datatable(Request $request): JsonResponse
     {
-        $query = IngredientMaster::query();
+        $select = [
+            'ingredient_masters.*',
+        ];
 
-        return DataTables::of($query)
-            ->addColumn('checkbox', function ($ingredient) {
-                return '<input type="checkbox" name="selected[]" value="' . $ingredient->id . '">';
-            })
-            ->addColumn('action', function ($ingredient) {
-                $actions = '';
-                
-                $actions .= '<a href="' . route('ingredient.show', $ingredient->id) . '" 
-                           class="btn btn-xs btn-primary" title="View">
-                           <i class="fa fa-eye"></i></a> ';
-                
-                $actions .= '<a href="' . route('ingredient.edit', $ingredient->id) . '" 
-                           class="btn btn-xs btn-warning" title="Edit">
-                           <i class="fa fa-edit"></i></a> ';
-                
-                $actions .= '<form method="POST" action="' . route('ingredient.destroy', $ingredient->id) . '" 
-                           style="display:inline;" onsubmit="return confirm(\'Are you sure?\')">
-                           ' . csrf_field() . method_field('DELETE') . '
-                           <button type="submit" class="btn btn-xs btn-danger" title="Delete">
-                           <i class="fa fa-trash"></i></button></form>';
-                
-                return $actions;
-            })
-            ->rawColumns(['checkbox', 'action'])
+        $dataDb = IngredientMaster::select($select)->category($request->ingredient_category_id)->with('ingredient_category');
+
+        return DataTables::eloquent($dataDb)
+            ->addColumn(
+                'action',
+                function ($dataDb) {
+                    return '<a style="font-size: 24px;" href="' . route('ingredient.show', $dataDb->id) . '" id="tooltip" title="' . trans('global.show') . '"><span class="label label-primary label-sm"><i class="fa fa-arrows-alt"></i></span></a>
+                        <a style="font-size: 24px;" href="'.route('ingredient.edit', [$dataDb->id]).'" id="tooltip" title="'.trans('global.update').'"><span class="label label-warning label-sm"><i class="fa fa-edit"></i></span></a>
+                        <a style="font-size: 24px;" href="#" data-message="'.trans('auth.delete_confirmation', ['name' => $dataDb->name]).'" data-href="'.route('ingredient.destroy', [$dataDb->id]).'" id="tooltip" data-method="DELETE" data-title="'.trans('global.delete').'" data-toggle="modal" data-target="#delete"><span class="label label-danger label-sm"><i class="fa fa-trash-o"></i></span></a>';
+                }
+            )
+            ->addColumn(
+                'checkbox',
+                function ($dataDb) {
+                    return $dataDb->id;
+                }
+            )
             ->make(true);
     }
 
@@ -145,33 +142,59 @@ class IngredientMasterController extends Controller
      */
     public function select2(Request $request): JsonResponse
     {
-        $term = $request->get('term');
-        $page = $request->get('page', 1);
-        $perPage = 10;
+        try {
+            $perPage = 10;
+            $page    = $request->page ?? 1;
+            $term = $request->term;
 
-        $query = IngredientMaster::query();
+            Paginator::currentPageResolver(
+                function () use ($page) {
+                    return $page;
+                }
+            );
+
+            $count = IngredientMaster::count();
+
+            if($count > $perPage){
+                $perPage = $count;
+            }
+
+            $dataDb = IngredientMaster::select('id', 'name as text', 'unit')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+
+            return $dataDb;
+        }
+        catch (\Exception $exception) {
+            // dd($exception->getMessage());
+            return $exception->getCode();
+        }
+
+        // $term = $request->get('term');
+        // $page = $request->get('page', 1);
+        // $perPage = 10;
+
+        // $query = IngredientMaster::query();
         
-        if ($term) {
-            $query->where('name', 'like', "%{$term}%");
-        }
+        // if ($term) {
+        //     $query->where('name', 'like', "%{$term}%");
+        // }
 
-        $ingredients = $query->paginate($perPage, ['*'], 'page', $page);
+        // $ingredients = $query->paginate($perPage, ['*'], 'page', $page);
 
-        $data = [];
-        foreach ($ingredients as $ingredient) {
-            $data[] = [
-                'id' => $ingredient->id,
-                'text' => $ingredient->name . ' (' . $ingredient->unit . ')'
-            ];
-        }
+        // $data = [];
+        // foreach ($ingredients as $ingredient) {
+        //     $data[] = [
+        //         'id' => $ingredient->id,
+        //         'text' => $ingredient->name . ' (' . $ingredient->unit . ')'
+        //     ];
+        // }
 
-        return response()->json([
-            'data' => $data,
-            'pagination' => [
-                'more' => $ingredients->hasMorePages()
-            ],
-            'total' => $ingredients->total(),
-            'per_page' => $ingredients->perPage()
-        ]);
+        // return response()->json([
+        //     'data' => $data,
+        //     'pagination' => [
+        //         'more' => $ingredients->hasMorePages()
+        //     ],
+        //     'total' => $ingredients->total(),
+        //     'per_page' => $ingredients->perPage()
+        // ]);
     }
 }

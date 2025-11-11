@@ -67,4 +67,12 @@ class IngredientMaster extends Model
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
+
+    public function scopeCategory($query, $category)
+    {
+        if ($category != null) {
+            return $query->where('ingredient_master_category_id', $category);
+        }
+        return $query;
+    }
 }

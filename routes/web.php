@@ -756,7 +756,7 @@ Route::group([
     'prefix'     => 'category-ingredient',
 ], function () {
     Route::get('', [IngredientCategoryController::class, 'index'])
-        ->name('product_ingredient.index')->middleware('sentinel.permission:ingredient_category.show');
+        ->name('ingredient_category.index')->middleware('sentinel.permission:ingredient_category.show');
 
     Route::get('/create', [IngredientCategoryController::class, 'create'])
         ->name('ingredient_category.create')->middleware('sentinel.permission:ingredient_category.create');
