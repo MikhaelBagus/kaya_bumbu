@@ -34,6 +34,7 @@ use App\Http\Controllers\Backend\TransactionDownloadController;
 use \Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use App\Http\Controllers\Backend\ProductRecipeController;
 use App\Http\Controllers\Backend\IngredientMasterController;
+use App\Http\Controllers\Backend\IngredientCategoryController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\SentinelPermission;
 
@@ -747,6 +748,112 @@ Route::group([
         ->name('product_category.copy')->middleware('sentinel.permission:product_category.copy');
 });
 
+// category-ingredient
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'category-ingredient',
+], function () {
+    Route::get('', [IngredientCategoryController::class, 'index'])
+        ->name('product_ingredient.index')->middleware('sentinel.permission:ingredient_category.show');
+
+    Route::get('/create', [IngredientCategoryController::class, 'create'])
+        ->name('ingredient_category.create')->middleware('sentinel.permission:ingredient_category.create');
+
+    Route::post('', [IngredientCategoryController::class, 'store'])
+        ->name('ingredient_category.store')->middleware('sentinel.permission:ingredient_category.create');
+
+    Route::get('/{id}/show', [IngredientCategoryController::class, 'show'])
+        ->name('ingredient_category.show')->middleware('sentinel.permission:ingredient_category.show');
+
+    Route::get('/{id}/edit', [IngredientCategoryController::class, 'edit'])
+        ->name('ingredient_category.edit')->middleware('sentinel.permission:ingredient_category.edit');
+
+    Route::put('/{id}', [IngredientCategoryController::class, 'update'])
+        ->name('ingredient_category.update')->middleware('sentinel.permission:ingredient_category.edit');
+
+    Route::delete('/{id}', [IngredientCategoryController::class, 'destroy'])
+        ->name('ingredient_category.destroy')->middleware('sentinel.permission:ingredient_category.destroy');
+
+    Route::get('/ajax/data', [IngredientCategoryController::class, 'datatable'])
+        ->name('ingredient_category.ajax.data')->middleware('sentinel.permission:ingredient_category.show');
+
+    Route::get('/ajax/select2', [IngredientCategoryController::class, 'select2'])
+        ->name('ingredient_category.ajax.select2');
+
+    Route::get('/{id}/copy', [IngredientCategoryController::class, 'copy'])
+        ->name('ingredient_category.copy')->middleware('sentinel.permission:ingredient_category.copy');
+});
+
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix' => 'ingredient',
+], function () {
+    Route::get('', [IngredientMasterController::class, 'index'])
+        ->name('ingredient.index')->middleware('sentinel.permission:ingredient.show');
+
+    Route::get('/create', [IngredientMasterController::class, 'create'])
+        ->name('ingredient.create')->middleware('sentinel.permission:ingredient.create');
+
+    Route::post('', [IngredientMasterController::class, 'store'])
+        ->name('ingredient.store')->middleware('sentinel.permission:ingredient.create');
+
+    Route::get('/{ingredient_id}/show', [IngredientMasterController::class, 'show'])
+        ->name('ingredient.show')->middleware('sentinel.permission:ingredient.show');
+
+    Route::get('/{ingredient_id}/edit', [IngredientMasterController::class, 'edit'])
+        ->name('ingredient.edit')->middleware('sentinel.permission:ingredient.edit');
+
+    Route::put('/{ingredient_id}', [IngredientMasterController::class, 'update'])
+        ->name('ingredient.update')->middleware('sentinel.permission:ingredient.edit');
+
+    Route::delete('/{ingredient_id}', [IngredientMasterController::class, 'destroy'])
+        ->name('ingredient.destroy')->middleware('sentinel.permission:ingredient.destroy');
+
+    Route::get('/ajax/data', [IngredientMasterController::class, 'datatable'])
+        ->name('ingredient.ajax.data')->middleware('sentinel.permission:ingredient.show');
+
+    Route::get('/ajax/select2', [IngredientMasterController::class, 'select2'])
+        ->name('ingredient.ajax.select2');
+});
+
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix' => 'recipe',
+], function () {
+    Route::get('', [ProductRecipeController::class, 'index'])
+        ->name('recipe.index')->middleware('sentinel.permission:recipe.show');
+
+    Route::get('/create', [ProductRecipeController::class, 'create'])
+        ->name('recipe.create')->middleware('sentinel.permission:recipe.create');
+
+    Route::post('', [ProductRecipeController::class, 'store'])
+        ->name('recipe.store')->middleware('sentinel.permission:recipe.create');
+
+    Route::get('/{recipe_id}/show', [ProductRecipeController::class, 'show'])
+        ->name('recipe.show')->middleware('sentinel.permission:recipe.show');
+
+    Route::get('/{recipe_id}/edit', [ProductRecipeController::class, 'edit'])
+        ->name('recipe.edit')->middleware('sentinel.permission:recipe.edit');
+
+    Route::put('/{recipe_id}', [ProductRecipeController::class, 'update'])
+        ->name('recipe.update')->middleware('sentinel.permission:recipe.edit');
+
+    Route::delete('/{recipe_id}', [ProductRecipeController::class, 'destroy'])
+        ->name('recipe.destroy')->middleware('sentinel.permission:recipe.destroy');
+
+    Route::get('/product/{product}', [ProductRecipeController::class, 'getByProduct'])
+        ->name('recipe.by-product')->middleware('sentinel.permission:recipe.show');
+
+    Route::get('/ajax/data', [ProductRecipeController::class, 'datatable'])
+        ->name('recipe.ajax.data')->middleware('sentinel.permission:recipe.show');
+});
+
 // product
 Route::group([
     'middleware' => [
@@ -783,68 +890,6 @@ Route::group([
 
     Route::get('/{id}/copy', [ProductController::class, 'copy'])
         ->name('product.copy')->middleware('sentinel.permission:product.copy');
-
-    Route::group([
-        'prefix' => 'recipe',
-    ], function () {
-        Route::get('', [ProductRecipeController::class, 'index'])
-            ->name('product.recipe.index')->middleware('sentinel.permission:product.show');
-
-        Route::get('/create', [ProductRecipeController::class, 'create'])
-            ->name('product.recipe.create')->middleware('sentinel.permission:product.create');
-
-        Route::post('', [ProductRecipeController::class, 'store'])
-            ->name('product.recipe.store')->middleware('sentinel.permission:product.create');
-
-        Route::get('/{recipe_id}/show', [ProductRecipeController::class, 'show'])
-            ->name('product.recipe.show')->middleware('sentinel.permission:product.show');
-
-        Route::get('/{product_id}/edit', [ProductRecipeController::class, 'edit'])
-            ->name('product.recipe.edit')->middleware('sentinel.permission:product.edit');
-
-        Route::put('/{recipe_id}', [ProductRecipeController::class, 'update'])
-            ->name('product.recipe.update')->middleware('sentinel.permission:product.edit');
-
-        Route::delete('/{recipe_id}', [ProductRecipeController::class, 'destroy'])
-            ->name('product.recipe.destroy')->middleware('sentinel.permission:product.destroy');
-
-        Route::get('/product/{product}', [ProductRecipeController::class, 'getByProduct'])
-            ->name('product.recipe.by-product')->middleware('sentinel.permission:product.show');
-
-        Route::get('/ajax/data', [ProductRecipeController::class, 'datatable'])
-            ->name('product.recipe.ajax.data')->middleware('sentinel.permission:product.show');
-    });
-
-    Route::group([
-        'prefix' => 'ingredient',
-    ], function () {
-        Route::get('', [IngredientMasterController::class, 'index'])
-        ->name('product.ingredient.index')->middleware('sentinel.permission:product.show');
-
-        Route::get('/create', [IngredientMasterController::class, 'create'])
-            ->name('product.ingredient.create')->middleware('sentinel.permission:product.create');
-
-        Route::post('', [IngredientMasterController::class, 'store'])
-            ->name('product.ingredient.store')->middleware('sentinel.permission:product.create');
-
-        Route::get('/{ingredient_id}/show', [IngredientMasterController::class, 'show'])
-            ->name('product.ingredient.show')->middleware('sentinel.permission:product.show');
-
-        Route::get('/{ingredient_id}/edit', [IngredientMasterController::class, 'edit'])
-            ->name('product.ingredient.edit')->middleware('sentinel.permission:product.edit');
-
-        Route::put('/{ingredient_id}', [IngredientMasterController::class, 'update'])
-            ->name('product.ingredient.update')->middleware('sentinel.permission:product.edit');
-
-        Route::delete('/{ingredient_id}', [IngredientMasterController::class, 'destroy'])
-            ->name('product.ingredient.destroy')->middleware('sentinel.permission:product.destroy');
-
-        Route::get('/ajax/data', [IngredientMasterController::class, 'datatable'])
-            ->name('product.ingredient.ajax.data')->middleware('sentinel.permission:product.show');
-
-        Route::get('/ajax/select2', [IngredientMasterController::class, 'select2'])
-            ->name('product.ingredient.ajax.select2');
-        });
 });
 
 // transaction

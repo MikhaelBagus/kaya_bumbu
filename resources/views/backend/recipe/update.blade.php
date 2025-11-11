@@ -155,7 +155,7 @@
                 @endif
             </div>
             <div class="panel-footer">
-                <a href="{{ route('product.recipe.index') }}" class="btn btn-flat btn-default btn-sm">
+                <a href="{{ route('recipe.index') }}" class="btn btn-flat btn-default btn-sm">
                     <i class="fa fa-reply"></i> Back to Recipe List
                 </a>
             </div>
@@ -276,7 +276,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ route("product.recipe.store") }}',
+                    url: '{{ route("recipe.store") }}',
                     type: 'POST',
                     data: formData,
                     success: function(response) {

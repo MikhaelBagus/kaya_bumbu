@@ -17,7 +17,7 @@ class IngredientMasterController extends Controller
      */
     public function index(): View
     {
-        return view('backend.product.ingredient.index');
+        return view('backend.ingredient.index');
     }
 
     /**
@@ -25,7 +25,7 @@ class IngredientMasterController extends Controller
      */
     public function create(): View
     {
-        return view('backend.product.ingredient.create');
+        return view('backend.ingredient.create');
     }
 
     /**
@@ -34,13 +34,14 @@ class IngredientMasterController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'ingredient_master_category_id' => 'required|exists:ingredient_master_categories,id',
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
         ]);
 
         $ingredientMaster = IngredientMaster::create($validated);
 
-        $redirectUrl = $request->get('previousUrl', route('product.ingredient.index'));
+        $redirectUrl = $request->get('previousUrl', route('ingredient.index'));
         
         return redirect($redirectUrl)
                         ->with('success', 'Ingredient Master created successfully.');
@@ -53,7 +54,7 @@ class IngredientMasterController extends Controller
     {
         $ingredient = IngredientMaster::with('productRecipes.product')->findOrFail($ingredient_id);
         
-        return view('backend.product.ingredient.detail', compact('ingredient'));
+        return view('backend.ingredient.detail', compact('ingredient'));
     }
 
     /**
@@ -63,7 +64,7 @@ class IngredientMasterController extends Controller
     {
         $ingredient = IngredientMaster::findOrFail($ingredient_id);
         
-        return view('backend.product.ingredient.update', compact('ingredient'));
+        return view('backend.ingredient.update', compact('ingredient'));
     }
 
     /**
@@ -74,13 +75,14 @@ class IngredientMasterController extends Controller
         $ingredient = IngredientMaster::findOrFail($ingredient_id);
         
         $validated = $request->validate([
+            'ingredient_master_category_id' => 'required|exists:ingredient_master_categories,id',
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
         ]);
 
         $ingredient->update($validated);
 
-        $redirectUrl = $request->get('previousUrl', route('product.ingredient.index'));
+        $redirectUrl = $request->get('previousUrl', route('ingredient.index'));
 
         return redirect($redirectUrl)
                         ->with('success', 'Ingredient Master updated successfully.');
@@ -96,10 +98,10 @@ class IngredientMasterController extends Controller
         try {
             $ingredient->delete();
             
-            return redirect()->route('product.ingredient.index')
+            return redirect()->route('ingredient.index')
                             ->with('success', 'Ingredient Master deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('product.ingredient.index')
+            return redirect()->route('ingredient.index')
                             ->with('error', 'Cannot delete ingredient master. It may be used in product recipes.');
         }
     }
@@ -118,15 +120,15 @@ class IngredientMasterController extends Controller
             ->addColumn('action', function ($ingredient) {
                 $actions = '';
                 
-                $actions .= '<a href="' . route('product.ingredient.show', $ingredient->id) . '" 
+                $actions .= '<a href="' . route('ingredient.show', $ingredient->id) . '" 
                            class="btn btn-xs btn-primary" title="View">
                            <i class="fa fa-eye"></i></a> ';
                 
-                $actions .= '<a href="' . route('product.ingredient.edit', $ingredient->id) . '" 
+                $actions .= '<a href="' . route('ingredient.edit', $ingredient->id) . '" 
                            class="btn btn-xs btn-warning" title="Edit">
                            <i class="fa fa-edit"></i></a> ';
                 
-                $actions .= '<form method="POST" action="' . route('product.ingredient.destroy', $ingredient->id) . '" 
+                $actions .= '<form method="POST" action="' . route('ingredient.destroy', $ingredient->id) . '" 
                            style="display:inline;" onsubmit="return confirm(\'Are you sure?\')">
                            ' . csrf_field() . method_field('DELETE') . '
                            <button type="submit" class="btn btn-xs btn-danger" title="Delete">

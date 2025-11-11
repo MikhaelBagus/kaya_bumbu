@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Models\IngredientMaster;
 
-class IngredientMasterCategory extends Model
+class IngredientCategory extends Model
 {
     use SoftDeletes;
     protected $table = 'ingredient_master_categories';
 
-    public function ingredientMaster(){
+    public function ingredient(){
         return $this->hasMany(IngredientMaster::class, 'ingredient_master_category_id', 'id');
     }
 

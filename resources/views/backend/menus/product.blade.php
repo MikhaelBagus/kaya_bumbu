@@ -12,16 +12,6 @@
                     <a href="{{route('product.index')}}"><i class="fa fa-dot-circle-o"></i> Data Product</a>
                 </li>
             @endif
-            @if(Sentinel::inRole('root') || Sentinel::getUser()->roles[0]->hasAccess(['product.show']))
-                <li class="{{request()->is('product/recipe*') == true  ? 'active' : '' }}">
-                    <a href="{{route('product.recipe.index')}}"><i class="fa fa-dot-circle-o"></i> Data Resep</a>
-                </li>
-            @endif
-            @if(Sentinel::inRole('root') || Sentinel::getUser()->roles[0]->hasAccess(['product.show']))
-                <li class="{{request()->is('product/ingredient*') == true  ? 'active' : '' }}">
-                    <a href="{{route('product.ingredient.index')}}"><i class="fa fa-dot-circle-o"></i> Data Master Bahan</a>
-                </li>
-            @endif
         </ul>
     </li>
 @endif

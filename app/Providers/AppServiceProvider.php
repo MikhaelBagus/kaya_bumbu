@@ -49,6 +49,8 @@ use App\Services\ProductRanking\ProductRankingService;
 use App\Services\ProductRanking\ProductRankingServiceContract;
 use App\Services\ProductCategory\ProductCategoryService;
 use App\Services\ProductCategory\ProductCategoryServiceContract;
+use App\Services\IngredientCategory\IngredientCategoryService;
+use App\Services\IngredientCategory\IngredientCategoryServiceContract;
 use App\Services\Log\LogService;
 use App\Services\Log\LogServiceContract;
 
@@ -150,6 +152,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductCategoryServiceContract::class,
             ProductCategoryService::class
+        );
+
+        $this->app->bind(
+            IngredientCategoryServiceContract::class,
+            IngredientCategoryService::class
         );
 
         $this->app->bind(

@@ -7,29 +7,21 @@
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Ingredient Master Update Form
+                    <span class="glyphicon glyphicon-tasks"></span>Ingredient Category Update Form
                 </div>
             </div>
 
-            <form action="{{route('product.ingredient.update', [$ingredient->id])}}" method="post">
+            <form action="{{route('ingredient_category.update', [request()->id])}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
                     {{method_field('PUT')}}
-
+                    
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">Name <span style="color: red">*</span></label>
-                            <input type="text" name="name" id="name" value="{{old('name', $ingredient->name)}}" class="form-control input-sm" placeholder="Ingredient Name ...*" required>
+                            <input type="text" name="name" id="name" value="{{old('name', $ingredient_category->name)}}" class="form-control input-sm" placeholder="Name ...*" required>
                             {!! $errors->first('name', '<em for="name" class="text-danger">:message</em>') !!}
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group @if($errors->has('unit')) has-error @endif">
-                            <label for="unit" class="control-label">Unit <span style="color: red">*</span></label>
-                            <input type="text" name="unit" id="unit" value="{{old('unit', $ingredient->unit)}}" class="form-control input-sm" placeholder="Unit (e.g., kg, gram, liter) ...*" required>
-                            {!! $errors->first('unit', '<em for="unit" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
@@ -55,9 +47,39 @@
 @endsection
 
 @push('css')
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="{{url('plugins/select2/css/select2.css')}}">
+    <link rel="stylesheet" href="{{url('plugins/select2/css/select2-bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url('theme/app/vendor/plugins/summernote/summernote.css')}}">
+
 @endpush
 
 @push('scripts')
+    <script src="{{url('plugins/select2/js/select2.full.js')}}"></script>
+    <script src="{{url('theme/app/vendor/plugins/summernote/summernote.min.js')}}"></script>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: 'Content ...*',
+                tabsize: 2,
+                height: 150,
+                fontSizes: ['8', '9', '10', '11', '12', '13','14', '18', '24', '36', '48' , '64', '82', '150'],
+                toolbar: [
+                    ["style", ["style"]],
+                    ["font", ["bold", "underline", "clear"]],
+                    ["fontname", ["fontname"]],
+                    ['fontsize', ['fontsize']],
+                    ["color", ["color"]],
+                    ["para", ["ul", "ol", "paragraph"]],
+                    ["table", ["table"]],
+                    ["insert", ["link", "hr", "video","picture"]],
+                    ["view", ["fullscreen", "codeview", "help"]]
+                ]
+            });
+        })
+
+    </script>
     <script>
         //Disable Enter
         $(document).keypress(function (event) {

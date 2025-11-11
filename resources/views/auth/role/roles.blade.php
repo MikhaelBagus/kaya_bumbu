@@ -326,6 +326,96 @@
             <td>&nbsp;</td>
         </tr>
 
+        <!-- Ingredient -->
+        <tr>
+            <td>Ingredient</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_create" {{ old('ingredient_create') || array_key_exists('ingredient.create', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_edit" {{ old('ingredient_edit') || array_key_exists('ingredient.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_show" {{ old('ingredient_show') || array_key_exists('ingredient.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_destroy" {{ old('ingredient_destroy') || array_key_exists('ingredient.destroy', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <!-- Ingredient Category -->
+        <tr>
+            <td>Ingredient Category</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_category_create" {{ old('ingredient_category_create') || array_key_exists('ingredient_category.create', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_category_edit" {{ old('ingredient_category_edit') || array_key_exists('ingredient_category.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_category_show" {{ old('ingredient_category_show') || array_key_exists('ingredient_category.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_category_destroy" {{ old('ingredient_category_destroy') || array_key_exists('ingredient_category.destroy', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <!-- Recipe -->
+        <tr>
+            <td>Recipe</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="recipe_create" {{ old('recipe_create') || array_key_exists('recipe.create', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="recipe_edit" {{ old('recipe_edit') || array_key_exists('recipe.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="recipe_show" {{ old('recipe_show') || array_key_exists('recipe.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="recipe_destroy" {{ old('recipe_destroy') || array_key_exists('recipe.destroy', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
         <!-- Transaction -->
         <tr>
             <td>Transaction</td>

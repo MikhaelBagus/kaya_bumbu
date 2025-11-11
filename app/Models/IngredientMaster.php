@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-use App\Models\IngredientMasterCategory;
+use App\Models\IngredientCategory;
 use App\Models\Product;
 use App\Models\ProductRecipe;
 
@@ -17,12 +17,13 @@ class IngredientMaster extends Model
     protected $table = 'ingredient_masters';
     
     protected $fillable = [
+        'ingredient_master_category_id',
         'name',
         'unit',
     ];
 
-    public function ingredientMasterCategory(){
-        return $this->belongsTo(IngredientMasterCategory::class, 'ingredient_master_category_id', 'id');
+    public function ingredient_category(){
+        return $this->belongsTo(IngredientCategory::class, 'ingredient_master_category_id', 'id');
     }
 
     public function productRecipes()

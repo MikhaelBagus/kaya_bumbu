@@ -16,7 +16,7 @@ class ProductRecipeController extends Controller
 {
     public function index(): View
     {
-        return view('backend.product.recipe.index');
+        return view('backend.recipe.index');
     }
 
     public function create(): View
@@ -24,7 +24,7 @@ class ProductRecipeController extends Controller
         $products = Product::all();
         $ingredientMasters = IngredientMaster::all();
 
-        return view('backend.product.recipe.create', compact('products', 'ingredientMasters'));
+        return view('backend.recipe.create', compact('products', 'ingredientMasters'));
     }
 
     public function store(Request $request): RedirectResponse | JsonResponse
@@ -63,11 +63,11 @@ class ProductRecipeController extends Controller
         }
 
         if ($request->has('from_edit')) {
-            return redirect()->route('product.recipe.edit', $validated['product_id'])
+            return redirect()->route('recipe.edit', $validated['product_id'])
                             ->with('success', 'Ingredient added successfully.');
         }
 
-        return redirect()->route('product.recipe.index')
+        return redirect()->route('recipe.index')
                         ->with('success', 'Product Recipe created successfully.');
     }
 
@@ -83,7 +83,7 @@ class ProductRecipeController extends Controller
         $product = Product::with(['product_recipes.ingredientMaster'])->findOrFail($product_id);
         $ingredientMasters = IngredientMaster::all();
 
-        return view('backend.product.recipe.update', compact('product', 'ingredientMasters'));
+        return view('backend.recipe.update', compact('product', 'ingredientMasters'));
     }
 
     public function update(Request $request, $recipe_id): RedirectResponse | JsonResponse
@@ -139,7 +139,7 @@ class ProductRecipeController extends Controller
             ]);
         }
 
-        return redirect()->route('product.recipe.edit', $productRecipe->product_id)
+        return redirect()->route('recipe.edit', $productRecipe->product_id)
                         ->with('success', 'Product Recipe updated successfully.');
     }
 
@@ -156,7 +156,7 @@ class ProductRecipeController extends Controller
             ]);
         }
         
-        return redirect()->route('product.recipe.edit', $product_id)
+        return redirect()->route('recipe.edit', $product_id)
                         ->with('success', 'Product Recipe deleted successfully.');
     }
 
@@ -210,7 +210,7 @@ class ProductRecipeController extends Controller
     {
         $buttons = '';
         
-        $buttons .= '<a href="' . route('product.recipe.edit', ['product_id' => $product->id]) . '" 
+        $buttons .= '<a href="' . route('recipe.edit', ['product_id' => $product->id]) . '" 
                         class="btn btn-xs btn-success" title="Edit Recipe">
                         <i class="fa fa-edit"></i>
                     </a> ';

@@ -10,7 +10,7 @@
                 </div>
             </div>
             
-            <form action="{{route('product.recipe.store')}}" method="post">
+            <form action="{{route('recipe.store')}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
 
@@ -45,7 +45,7 @@
 
                 <div class="panel-footer">
                     <input type="hidden" value="{{old('previousUrl') ? old('previousUrl') : url()->previous()}}" name="previousUrl">
-                    <a href="{{route('product.recipe.index')}}" class="btn btn-flat btn-default btn-sm"><i class="fa fa-reply"></i> Back to Recipe List</a>
+                    <a href="{{route('recipe.index')}}" class="btn btn-flat btn-default btn-sm"><i class="fa fa-reply"></i> Back to Recipe List</a>
                     
                     <div class="pull-right">
                         <button type="submit" class="btn ladda-button btn-success btn-sm" data-style="zoom-in">
