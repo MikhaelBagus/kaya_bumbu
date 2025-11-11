@@ -358,7 +358,7 @@
             $('#confirmDelete').on('click', function() {
                 if (deleteIngredientId) {
                     $.ajax({
-                        url: '/product/recipe/' + deleteIngredientId,
+                        url: '{{ route("recipe.destroy", ":id") }}'.replace(':id', deleteIngredientId),
                         type: 'DELETE',
                         data: {
                             _token: $('meta[name="csrf-token"]').attr('content')

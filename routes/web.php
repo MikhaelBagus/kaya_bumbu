@@ -838,7 +838,7 @@ Route::group([
     Route::get('/{recipe_id}/show', [ProductRecipeController::class, 'show'])
         ->name('recipe.show')->middleware('sentinel.permission:recipe.show');
 
-    Route::get('/{recipe_id}/edit', [ProductRecipeController::class, 'edit'])
+    Route::get('/{product_id}/edit', [ProductRecipeController::class, 'edit'])
         ->name('recipe.edit')->middleware('sentinel.permission:recipe.edit');
 
     Route::put('/{recipe_id}', [ProductRecipeController::class, 'update'])
