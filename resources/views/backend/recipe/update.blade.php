@@ -116,7 +116,7 @@
                                     <td>{{ $recipe->ingredientMaster->unit }}</td>
                                     <td>
                                         <div class="qty-display" id="qty-display-{{ $recipe->id }}">
-                                            {{ number_format($recipe->qty, 2) }}
+                                            {{ number_format($recipe->qty, 3) }}
                                         </div>
                                         <div class="qty-edit" id="qty-edit-{{ $recipe->id }}" style="display: none;">
                                             <input type="number" step="0.01" min="0" class="form-control input-sm" 
@@ -321,14 +321,14 @@
                 }
 
                 $.ajax({
-                    url: '/product/recipe/' + id,
+                    url: '{{ route("recipe.update", ":id") }}'.replace(':id', id),
                     type: 'PUT',
                     data: {
                         qty: newQty,
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
-                        $('#qty-display-' + id).text(parseFloat(newQty).toFixed(2));
+                        $('#qty-display-' + id).text(parseFloat(newQty).toFixed(3));
                         $('#qty-display-' + id).show();
                         $('#qty-edit-' + id).hide();
                         $('.edit-qty[data-id="' + id + '"]').show();

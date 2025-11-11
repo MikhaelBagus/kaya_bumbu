@@ -125,7 +125,7 @@
                 width: '100%',
                 containerCssClass: ':all:',
                 ajax: {
-                    url: '/api/ingredient-masters',
+                    url: '{{route('ingredient.ajax.select2')}}',
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
@@ -136,17 +136,10 @@
                     },
                     processResults: function(data, params) {
                         params.page = params.page || 1;
-                        // Transform the API response to Select2 format
-                        let results = data.data.map(function(item) {
-                            return {
-                                id: item.id,
-                                text: item.name + ' (' + item.unit + ')'
-                            };
-                        });
                         return {
-                            results: results,
+                            results: data.data,
                             pagination: {
-                                more: false // Simple pagination for now
+                                more: (params.page * data.per_page) < data.total
                             }
                         };
                     },

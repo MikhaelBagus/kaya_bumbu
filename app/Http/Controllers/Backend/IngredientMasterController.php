@@ -140,7 +140,7 @@ class IngredientMasterController extends Controller
     /**
      * Select2 AJAX endpoint
      */
-    public function select2(Request $request): JsonResponse
+    public function select2(Request $request)
     {
         try {
             $perPage = 10;
@@ -167,34 +167,5 @@ class IngredientMasterController extends Controller
             // dd($exception->getMessage());
             return $exception->getCode();
         }
-
-        // $term = $request->get('term');
-        // $page = $request->get('page', 1);
-        // $perPage = 10;
-
-        // $query = IngredientMaster::query();
-        
-        // if ($term) {
-        //     $query->where('name', 'like', "%{$term}%");
-        // }
-
-        // $ingredients = $query->paginate($perPage, ['*'], 'page', $page);
-
-        // $data = [];
-        // foreach ($ingredients as $ingredient) {
-        //     $data[] = [
-        //         'id' => $ingredient->id,
-        //         'text' => $ingredient->name . ' (' . $ingredient->unit . ')'
-        //     ];
-        // }
-
-        // return response()->json([
-        //     'data' => $data,
-        //     'pagination' => [
-        //         'more' => $ingredients->hasMorePages()
-        //     ],
-        //     'total' => $ingredients->total(),
-        //     'per_page' => $ingredients->perPage()
-        // ]);
     }
 }
