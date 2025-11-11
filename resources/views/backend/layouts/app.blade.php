@@ -57,8 +57,7 @@
 
     <style>
         .form-group {
-            margin-bottom: 2px;
-        !important;
+            margin-bottom: 2px !important;
         }
         .modalLoading {
             display:    none;
@@ -82,6 +81,73 @@
 
         body {
             background-color: #6666FF;
+        }
+
+        /* Sticky Sidebar with Scrollable Content */
+        #sidebar_left {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            height: 100vh !important;
+            width: 240px;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-left-content {
+            height: 100vh !important;
+            overflow-y: auto !important;
+            overflow-x: hidden;
+        }
+
+        .sidebar-left-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-left-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .sidebar-left-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .sidebar-left-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Adjust main content to account for fixed sidebar */
+        #content_wrapper {
+            margin-left: 240px !important;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #sidebar_left {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            #sidebar_left.active {
+                transform: translateX(0);
+            }
+            
+            #content_wrapper {
+                margin-left: 0 !important;
+            }
+        }
+
+        /* Ensure sidebar menu items are properly spaced */
+        .sidebar-menu {
+            padding-bottom: 20px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 2px;
         }
 
     </style>
@@ -319,6 +385,29 @@
         }
 
         $('#remove-form').attr('action', removedLinkFull);
+    });
+
+    // Handle mobile sidebar toggle
+    $('#toggle_sidemenu_l').on('click', function() {
+        if ($(window).width() <= 768) {
+            $('#sidebar_left').toggleClass('active');
+        }
+    });
+
+    // Close sidebar when clicking outside on mobile
+    $(document).on('click', function(e) {
+        if ($(window).width() <= 768) {
+            if (!$(e.target).closest('#sidebar_left, #toggle_sidemenu_l').length) {
+                $('#sidebar_left').removeClass('active');
+            }
+        }
+    });
+
+    // Handle window resize
+    $(window).on('resize', function() {
+        if ($(window).width() > 768) {
+            $('#sidebar_left').removeClass('active');
+        }
     });
 
 </script>

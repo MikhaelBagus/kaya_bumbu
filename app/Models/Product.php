@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Models\TransactionProduct;
 use App\Models\ProductCategory;
+use App\Models\ProductRecipe;
+use App\Models\IngredientMaster;
 
 class Product extends Model
 {
@@ -19,6 +21,16 @@ class Product extends Model
 
     public function product_category(){
         return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
+    }
+
+    public function product_recipes(){
+        return $this->hasMany(ProductRecipe::class, 'product_id', 'id');
+    }
+
+    public function ingredients(){
+        return $this->belongsToMany(IngredientMaster::class, 'product_recipes')
+                    ->withPivot('qty')
+                    ->withTimestamps();
     }
 
     public function getCreatedAtAttribute($value)

@@ -32,6 +32,8 @@ use App\Http\Controllers\Backend\TermConditionController;
 use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Backend\TransactionDownloadController;
 use \Rap2hpoutre\LaravelLogViewer\LogViewerController;
+use App\Http\Controllers\Backend\ProductRecipeController;
+use App\Http\Controllers\Backend\IngredientMasterController;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\SentinelPermission;
 
@@ -781,6 +783,68 @@ Route::group([
 
     Route::get('/{id}/copy', [ProductController::class, 'copy'])
         ->name('product.copy')->middleware('sentinel.permission:product.copy');
+
+    Route::group([
+        'prefix' => 'recipe',
+    ], function () {
+        Route::get('', [ProductRecipeController::class, 'index'])
+            ->name('product.recipe.index')->middleware('sentinel.permission:product.show');
+
+        Route::get('/create', [ProductRecipeController::class, 'create'])
+            ->name('product.recipe.create')->middleware('sentinel.permission:product.create');
+
+        Route::post('', [ProductRecipeController::class, 'store'])
+            ->name('product.recipe.store')->middleware('sentinel.permission:product.create');
+
+        Route::get('/{recipe_id}/show', [ProductRecipeController::class, 'show'])
+            ->name('product.recipe.show')->middleware('sentinel.permission:product.show');
+
+        Route::get('/{product_id}/edit', [ProductRecipeController::class, 'edit'])
+            ->name('product.recipe.edit')->middleware('sentinel.permission:product.edit');
+
+        Route::put('/{recipe_id}', [ProductRecipeController::class, 'update'])
+            ->name('product.recipe.update')->middleware('sentinel.permission:product.edit');
+
+        Route::delete('/{recipe_id}', [ProductRecipeController::class, 'destroy'])
+            ->name('product.recipe.destroy')->middleware('sentinel.permission:product.destroy');
+
+        Route::get('/product/{product}', [ProductRecipeController::class, 'getByProduct'])
+            ->name('product.recipe.by-product')->middleware('sentinel.permission:product.show');
+
+        Route::get('/ajax/data', [ProductRecipeController::class, 'datatable'])
+            ->name('product.recipe.ajax.data')->middleware('sentinel.permission:product.show');
+    });
+
+    Route::group([
+        'prefix' => 'ingredient',
+    ], function () {
+        Route::get('', [IngredientMasterController::class, 'index'])
+        ->name('product.ingredient.index')->middleware('sentinel.permission:product.show');
+
+        Route::get('/create', [IngredientMasterController::class, 'create'])
+            ->name('product.ingredient.create')->middleware('sentinel.permission:product.create');
+
+        Route::post('', [IngredientMasterController::class, 'store'])
+            ->name('product.ingredient.store')->middleware('sentinel.permission:product.create');
+
+        Route::get('/{ingredient_id}/show', [IngredientMasterController::class, 'show'])
+            ->name('product.ingredient.show')->middleware('sentinel.permission:product.show');
+
+        Route::get('/{ingredient_id}/edit', [IngredientMasterController::class, 'edit'])
+            ->name('product.ingredient.edit')->middleware('sentinel.permission:product.edit');
+
+        Route::put('/{ingredient_id}', [IngredientMasterController::class, 'update'])
+            ->name('product.ingredient.update')->middleware('sentinel.permission:product.edit');
+
+        Route::delete('/{ingredient_id}', [IngredientMasterController::class, 'destroy'])
+            ->name('product.ingredient.destroy')->middleware('sentinel.permission:product.destroy');
+
+        Route::get('/ajax/data', [IngredientMasterController::class, 'datatable'])
+            ->name('product.ingredient.ajax.data')->middleware('sentinel.permission:product.show');
+
+        Route::get('/ajax/select2', [IngredientMasterController::class, 'select2'])
+            ->name('product.ingredient.ajax.select2');
+        });
 });
 
 // transaction
@@ -863,6 +927,9 @@ Route::group([
 
     Route::post('', [TransactionDownloadController::class, 'download'])
         ->name('transaction_download.download')->middleware('sentinel.permission:transaction_download.download');
+
+    Route::post('/recipe', [TransactionDownloadController::class, 'downloadRecipe'])
+        ->name('transaction_download.download_recipe')->middleware('sentinel.permission:transaction_download.download');
 });
 
 // log
