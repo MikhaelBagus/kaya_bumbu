@@ -21,11 +21,46 @@ class ProductIngredientImport implements ToCollection
         //
         DB::beginTransaction();
         try {
-            
-
             foreach ($rows as $row) {
-                
+                $product = Product::where('name',$row[1])->first();
 
+                if($product){
+                    $ingredientCategory = IngredientCategory::where('name',$row[5])->first();
+                    if($ingredientCategory){
+
+                    }
+                    else{
+                        $ingredientCategory = new IngredientCategory();
+                        $ingredientCategory->name = $row[5];
+                        $ingredientCategory->save();
+                    }
+
+                    $ingredientMaster = IngredientMaster::where('name',$row[2])->first();
+                    if($ingredientMaster){
+                        if($ingredientMaster->unit == $row[4]){
+
+                        }
+                        else{
+                            dd($row);
+                        }
+                    }
+                    else{
+                        $ingredientMaster = new IngredientMaster();
+                        $ingredientMaster->ingredient_master_category_id = $ingredientCategory->id;
+                        $ingredientMaster->name                          = $row[2];
+                        $ingredientMaster->unit                          = $row[4];
+                        $ingredientMaster->save();
+                    }
+
+                    $productRecipe = new ProductRecipe();
+                    $productRecipe->product_id           = $product->id;
+                    $productRecipe->ingredient_master_id = $ingredientMaster->id;
+                    $productRecipe->qty                  = $row[3];
+                    $productRecipe->save();
+                }
+                else{
+                    dd($row);
+                }
                 DB::commit();
             }
         }
