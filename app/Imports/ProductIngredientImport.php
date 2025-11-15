@@ -21,8 +21,15 @@ class ProductIngredientImport implements ToCollection
         //
         DB::beginTransaction();
         try {
+            $productNamePrev = "";
             foreach ($rows as $row) {
-                $product = Product::where('name',$row[1])->first();
+                if($row[1] == null){
+                    $nameProduct = $productNamePrev;
+                }
+                else{
+                    $nameProduct = $row[1];
+                }
+                $product = Product::where('name',$nameProduct)->first();
 
                 if($product){
                     $ingredientCategory = IngredientCategory::where('name',$row[5])->first();
@@ -41,7 +48,7 @@ class ProductIngredientImport implements ToCollection
 
                         }
                         else{
-                            dd($row);
+                            dd($row, "Unit beda");
                         }
                     }
                     else{
@@ -59,8 +66,11 @@ class ProductIngredientImport implements ToCollection
                     $productRecipe->save();
                 }
                 else{
-                    dd($row);
+                    dd($row, "Product tidak ada");
                 }
+
+                $productNamePrev = $nameProduct;
+
                 DB::commit();
             }
         }
