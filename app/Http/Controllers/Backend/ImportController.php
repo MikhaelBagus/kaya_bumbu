@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
 {
-	public function import1() 
+	public function index() 
     {
         Excel::import(new ProductIngredientImport, 'ImportIngredient.xlsx');
         
