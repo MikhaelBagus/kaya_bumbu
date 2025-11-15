@@ -30,6 +30,7 @@ use App\Http\Controllers\Backend\ProvinceController;
 use App\Http\Controllers\Backend\SourceController;
 use App\Http\Controllers\Backend\TermConditionController;
 use App\Http\Controllers\Backend\TransactionController;
+use App\Http\Controllers\Backend\ImportController;
 use App\Http\Controllers\Backend\TransactionDownloadController;
 use \Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use App\Http\Controllers\Backend\ProductRecipeController;
@@ -985,4 +986,15 @@ Route::group([
     'prefix'     => 'laravel-log',
 ], function () {
     Route::get('', [LogViewerController::class, "index"])->middleware('sentinel.permission:log.show');
+});
+
+// import
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'import',
+], function () {
+    Route::get('', [ImportController::class, 'index'])
+        ->name('import.index')->middleware('sentinel.permission:import.show');
 });
