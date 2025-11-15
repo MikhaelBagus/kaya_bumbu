@@ -989,12 +989,12 @@ Route::group([
 });
 
 // import
-Route::group([
-    'middleware' => [
-        'prevent.back.history'
-    ],
-    'prefix'     => 'import',
-], function () {
-    Route::get('', [ImportController::class, 'index'])
-        ->name('import.index')->middleware('sentinel.permission:import.show');
-});
+// Route::group([
+//     'middleware' => [
+//         'prevent.back.history'
+//     ],
+//     'prefix'     => 'import',
+// ], function () {
+//     Route::get('', [ImportController::class, 'index'])
+//         ->name('import.index')->middleware('sentinel.permission:import.show');
+// });
