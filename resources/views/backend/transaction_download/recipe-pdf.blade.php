@@ -221,15 +221,17 @@
             <thead>
                 <tr>
                     <th style="width: 10%;text-align: center;">#</th>
-                    <th style="width: 50%;text-align: center;">Ingredient Name</th>
+                    <th style="width: 20%;text-align: center;">Category Name</th>
+                    <th style="width: 40%;text-align: center;">Ingredient Name</th>
                     <th style="width: 20%;text-align: center;">Total Quantity</th>
-                    <th style="width: 20%;text-align: center;">Unit</th>
+                    <th style="width: 10%;text-align: center;">Unit</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($data['total_ingredients'] as $ingredient)
+                @forelse($data['total_ingredients']->sortBy('ingredient_category_name') as $ingredient)
                     <tr class="ingredient-total">
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td><strong>{{ $ingredient['ingredient_category_name'] }}</strong></td>
                         <td><strong>{{ $ingredient['ingredient_name'] }}</strong></td>
                         <td style="text-align: center;"><strong>{{ $ingredient['total_qty'] }}</strong></td>
                         <td style="text-align: center;">{{ $ingredient['ingredient_unit'] }}</td>
