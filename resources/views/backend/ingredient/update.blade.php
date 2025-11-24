@@ -18,12 +18,12 @@
                     {{method_field('PUT')}}
 
                     <div class="col-md-12">
-                        <div class="form-group @if($errors->has('ingredient_category_id')) has-error @endif">
-                            <label for="ingredient_category_id" class="control-label">Ingredient Category <span style="color: red">*</span></label>
-                            <select id="ingredient_category_id" name="ingredient_category_id" class="form-control" data-placeholder="Select Ingredient Category" required>
-                                <option value="{{$ingredient->ingredient_category_id}}">{{$ingredient->ingredient_category->name}}</option>
+                        <div class="form-group @if($errors->has('ingredient_master_category_id')) has-error @endif">
+                            <label for="ingredient_master_category_id" class="control-label">Ingredient Category <span style="color: red">*</span></label>
+                            <select id="ingredient_master_category_id" name="ingredient_master_category_id" class="form-control" data-placeholder="Select Ingredient Category" required>
+                                <option value="{{$ingredient->ingredient_master_category_id}}">{{$ingredient->ingredient_category->name}}</option>
                             </select>
-                            {!! $errors->first('ingredient_category_id', '<em for="ingredient_category_id" class="text-danger">:message</em>') !!}
+                            {!! $errors->first('ingredient_master_category_id', '<em for="ingredient_master_category_id" class="text-danger">:message</em>') !!}
                         </div>
                     </div>
 
@@ -96,7 +96,7 @@
                 ]
             });
 
-            $('#ingredient_category_id').select2({
+            $('#ingredient_master_category_id').select2({
                 theme: "bootstrap",
                 placeholder: "Select",
                 width: '100%',
