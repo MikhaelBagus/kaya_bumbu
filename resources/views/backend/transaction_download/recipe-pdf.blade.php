@@ -278,6 +278,7 @@
             <thead>
                 <tr>
                     <th style="width: 10%;text-align: center;">#</th>
+                    <th style="width: 20%;text-align: center;">Div</th>
                     <th style="width: 20%;text-align: center;">Category Name</th>
                     <th style="width: 40%;text-align: center;">Ingredient Name</th>
                     <th style="width: 20%;text-align: center;">Total Quantity</th>
@@ -285,14 +286,54 @@
                 </tr>
             </thead>
             <tbody>
+                <?php $countProduksi = 0; ?>
                 @forelse($data['total_ingredients']->sortBy('ingredient_category_name') as $ingredient)
+                    @if($ingredient['ingredient_category_name'] == 'Packaging')
+                    @else
+                    <?php $countProduksi = $countProduksi + 1; ?>
                     <tr class="ingredient-total">
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{ $countProduksi }}</td>
+                        <td><strong>PRODUKSI</strong></td>
                         <td><strong>{{ $ingredient['ingredient_category_name'] }}</strong></td>
                         <td><strong>{{ $ingredient['ingredient_name'] }}</strong></td>
                         <td style="text-align: center;"><strong>{{ $ingredient['total_qty'] }}</strong></td>
                         <td style="text-align: center;">{{ $ingredient['ingredient_unit'] }}</td>
                     </tr>
+                    @endif
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align: center;">No ingredients summary available.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+
+        <table style="margin-top: 50px;">
+            <thead>
+                <tr>
+                    <th style="width: 10%;text-align: center;">#</th>
+                    <th style="width: 20%;text-align: center;">Div</th>
+                    <th style="width: 20%;text-align: center;">Category Name</th>
+                    <th style="width: 40%;text-align: center;">Ingredient Name</th>
+                    <th style="width: 20%;text-align: center;">Total Quantity</th>
+                    <th style="width: 10%;text-align: center;">Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $countPackaging = 0; ?>
+                @forelse($data['total_ingredients']->sortBy('ingredient_category_name') as $ingredient)
+                    @if($ingredient['ingredient_category_name'] == 'Packaging')
+                    <?php $countPackaging = $countPackaging + 1; ?>
+                    <tr class="ingredient-total">
+                        <td style="text-align: center;">{{ $countPackaging }}</td>
+                        <td><strong>PACKAGING</strong></td>
+                        <td><strong>{{ $ingredient['ingredient_category_name'] }}</strong></td>
+                        <td><strong>{{ $ingredient['ingredient_name'] }}</strong></td>
+                        <td style="text-align: center;"><strong>{{ $ingredient['total_qty'] }}</strong></td>
+                        <td style="text-align: center;">{{ $ingredient['ingredient_unit'] }}</td>
+                    </tr>
+                    @else
+                    @endif
                 @empty
                     <tr>
                         <td colspan="4" style="text-align: center;">No ingredients summary available.</td>
