@@ -38,10 +38,12 @@ class TransactionDownloadController extends Controller
     {
         try {
             $data = $transactionDownloadServiceContract->downloadRecipe($request);
+            ini_set('memory_limit', '1G');
             $pdf = PDF::loadView('backend.transaction_download.recipe-pdf', compact('data','request'))->setPaper('a4', 'potrait');
 
             return $pdf->download('Recipe Report from '.$request->order_date_from.' to '.$request->order_date_to.'.pdf');
         } catch (\Exception $e) {
+            dd($e);
             return $this->redirectFailed(route('transaction_download.index'), 'An error occurred: ' . $e->getMessage());
         }
     }

@@ -69,7 +69,7 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
                 foreach ($product->ingredients as $ingredient) {
                     $ingredientQtyPerProduct = (float) $ingredient->pivot->qty;
                     $requiredQty = $productQty * $ingredientQtyPerProduct;
-                    
+
                     $productIngredients[] = [
                         'transaction_id' => $transaction->id,
                         'transaction_date' => $transaction->date,
@@ -80,6 +80,8 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
                         'ingredient_qty_per_product' => $this->formatNumber($ingredientQtyPerProduct),
                         'total_ingredient_qty' => $this->formatNumber($requiredQty)
                     ];
+
+                    $transaction['product_ingredients'] = $productIngredients;
 
                     $ingredientKey = $ingredient->name . '|' . $ingredient->unit;
                     if (isset($totalIngredientsMap[$ingredientKey])) {

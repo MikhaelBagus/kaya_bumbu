@@ -100,7 +100,6 @@
     <!-- SECTION 1: ALL TRANSACTIONS -->
     <div class="section">
         <div class="section-title">SECTION 1: ALL TRANSACTIONS</div>
-        
         @forelse($data['transactions'] as $transaction)
             <div class="transaction-item">
                 <div class="transaction-header">
@@ -137,6 +136,64 @@
                         <strong>Transaction Notes:</strong> <span class="notes">{{ $transaction->notes }}</span>
                     </div>
                 @endif
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">No</th>
+                            <th style="text-align: center;">Product</th>
+                            <th style="text-align: center;">Qty Ordered</th>
+                            <th style="text-align: center;">Ingredient</th>
+                            <th style="text-align: center;">Qty per Product</th>
+                            <th style="text-align: center;">Total Ingredient Needed</th>
+                            <th style="text-align: center;">Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $product_name = '';
+                            $index = 0;
+                            $no = 0;
+                        @endphp
+                        @if($transaction->product_ingredients == null)
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No product ingredients data found.</td>
+                            </tr>
+                        @else
+                            @forelse($transaction->product_ingredients as $item)
+                                <?php
+                                    if($product_name == $item['product_name']){
+                                        $index = 1;
+                                    }
+                                    else{
+                                        $index = 0;
+                                        $no = $no+1;
+                                    }
+                                ?>
+                                <tr style="{{ $index === 0 ? 'border-top: 3px solid #666;' : '' }}">
+                                    <td style="background-color: {{ $index === 0 ? '#f0f0f0' : '#f9f9f9' }}; font-weight: {{ $index === 0 ? 'bold' : 'normal' }}; border-right: 2px solid #ddd;">
+                                        {{ $index === 0 ? $no : '' }}
+                                    </td>
+                                    <td style="background-color: {{ $index === 0 ? '#f0f0f0' : '#f9f9f9' }}; font-weight: {{ $index === 0 ? 'bold' : 'normal' }}; border-right: 2px solid #ddd;">
+                                        {{ $index === 0 ? $item['product_name'] : '' }}
+                                    </td>
+                                    <td style="background-color: {{ $index === 0 ? '#f0f0f0' : '#f9f9f9' }}; font-weight: {{ $index === 0 ? 'bold' : 'normal' }}; text-align: center; border-right: 2px solid #ddd;">
+                                        {{ $index === 0 ? $item['product_qty'] : '' }}
+                                    </td>
+                                    <td style="font-weight: bold;">{{ $item['ingredient_name'] }}</td>
+                                    <td style="text-align: center;">{{ $item['ingredient_qty_per_product'] }}</td>
+                                    <td style="text-align: right; font-weight: bold; color: #333;">{{ $item['total_ingredient_qty'] }}</td>
+                                    <td style="text-align: center;">{{ $item['ingredient_unit'] }}</td>
+                                </tr>
+                                <?php $product_name = $item['product_name']; ?>
+                            @empty
+                                <tr>
+                                    <td colspan="7" style="text-align: center;">No product ingredients data found.</td>
+                                </tr>
+                            @endforelse
+                        @endif
+                    </tbody>
+                </table>
             </div>
         @empty
             <p>No transactions found for the selected period.</p>
@@ -169,7 +226,7 @@
                     });
                     $currentGroup = null;
                 @endphp
-                
+
                 @forelse($groupedData as $groupKey => $productItems)
                     @php
                         $keyParts = explode('|', $groupKey);
