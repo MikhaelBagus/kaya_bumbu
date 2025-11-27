@@ -62,6 +62,7 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
         $totalIngredientsMap = [];
 
         foreach ($transactions as $transaction) {
+            $transactionProductIngredients = [];
             foreach ($transaction->transaction_product as $transactionProduct) {
                 $product = $transactionProduct->product;
                 $productQty = (float) $transactionProduct->qty;
@@ -81,7 +82,18 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
                         'total_ingredient_qty' => $this->formatNumber($requiredQty)
                     ];
 
-                    $transaction['product_ingredients'] = $productIngredients;
+                    $transactionProductIngredients[] = [
+                        'transaction_id' => $transaction->id,
+                        'transaction_date' => $transaction->date,
+                        'product_name' => $product->name,
+                        'product_qty' => $this->formatNumber($productQty),
+                        'ingredient_name' => $ingredient->name,
+                        'ingredient_unit' => $ingredient->unit,
+                        'ingredient_qty_per_product' => $this->formatNumber($ingredientQtyPerProduct),
+                        'total_ingredient_qty' => $this->formatNumber($requiredQty)
+                    ];
+
+                    $transaction['product_ingredients'] = $transactionProductIngredients;
 
                     $ingredientKey = $ingredient->name . '|' . $ingredient->unit;
                     if (isset($totalIngredientsMap[$ingredientKey])) {
