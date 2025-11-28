@@ -288,8 +288,7 @@
             <tbody>
                 <?php $countProduksi = 0; ?>
                 @forelse($data['total_ingredients']->sortBy('ingredient_category_name') as $ingredient)
-                    @if($ingredient['ingredient_category_name'] == 'Packaging')
-                    @else
+                    @if($ingredient['ingredient_category_name'] == 'Nasi' || $ingredient['ingredient_category_name'] == 'Lauk Utama' || $ingredient['ingredient_category_name'] == 'Lauk Pendamping' || $ingredient['ingredient_category_name'] == 'Pudding' || $ingredient['ingredient_category_name'] == 'Sambal' || $ingredient['ingredient_category_name'] == 'Buah')
                     <?php $countProduksi = $countProduksi + 1; ?>
                     <tr class="ingredient-total">
                         <td style="text-align: center;">{{ $countProduksi }}</td>
@@ -299,6 +298,7 @@
                         <td style="text-align: center;"><strong>{{ $ingredient['total_qty'] }}</strong></td>
                         <td style="text-align: center;">{{ $ingredient['ingredient_unit'] }}</td>
                     </tr>
+                    @else
                     @endif
                 @empty
                     <tr>
@@ -322,11 +322,11 @@
             <tbody>
                 <?php $countPackaging = 0; ?>
                 @forelse($data['total_ingredients']->sortBy('ingredient_category_name') as $ingredient)
-                    @if($ingredient['ingredient_category_name'] == 'Packaging')
+                    @if($ingredient['ingredient_category_name'] == 'Packaging' || $ingredient['ingredient_category_name'] == 'Kerupuk' || $ingredient['ingredient_category_name'] == 'Jajanan Pasar' || $ingredient['ingredient_category_name'] == 'Minuman' || $ingredient['ingredient_category_name'] == 'Pudding' || $ingredient['ingredient_category_name'] == 'Sambal' || $ingredient['ingredient_category_name'] == 'Buah' || $ingredient['ingredient_category_name'] == 'Lain-nya')
                     <?php $countPackaging = $countPackaging + 1; ?>
                     <tr class="ingredient-total">
                         <td style="text-align: center;">{{ $countPackaging }}</td>
-                        <td><strong>PACKAGING</strong></td>
+                        <td><strong>PACKING</strong></td>
                         <td><strong>{{ $ingredient['ingredient_category_name'] }}</strong></td>
                         <td><strong>{{ $ingredient['ingredient_name'] }}</strong></td>
                         <td style="text-align: center;"><strong>{{ $ingredient['total_qty'] }}</strong></td>
