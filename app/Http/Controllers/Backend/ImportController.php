@@ -11,7 +11,8 @@ class ImportController extends Controller
 {
 	public function index() 
     {
-        Excel::import(new ProductIngredientImport, 'ImportIngredient.xlsx');
+        // Excel::import(new ProductIngredientImport, 'ImportIngredient.xlsx');
+        Excel::import(new ProductIngredientImport, 'UpdateIngredient.xlsx');
         
         return view('backend.product.index');
     }

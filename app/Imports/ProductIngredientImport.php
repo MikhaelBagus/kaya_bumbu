@@ -32,6 +32,9 @@ class ProductIngredientImport implements ToCollection
                 $product = Product::where('name',$nameProduct)->first();
 
                 if($product){
+                    $loopRecipes = $product->product_recipes;
+                    $loopRecipes->each->forceDelete();
+
                     $ingredientCategory = IngredientCategory::where('name',$row[5])->first();
                     if($ingredientCategory){
 
