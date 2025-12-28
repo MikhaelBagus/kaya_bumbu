@@ -38,18 +38,6 @@
                         <dd>
                             : {{$ingredient->unit}}
                         </dd>
-                        <dt class="text-left">
-                            Created At
-                        </dt>
-                        <dd>
-                            : {{$ingredient->created_at->format('d/m/Y H:i:s')}}
-                        </dd>
-                        <dt class="text-left">
-                            Updated At
-                        </dt>
-                        <dd>
-                            : {{$ingredient->updated_at->format('d/m/Y H:i:s')}}
-                        </dd>
                     </dl>
                 </div>
 
