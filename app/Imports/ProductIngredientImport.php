@@ -69,7 +69,26 @@ class ProductIngredientImport implements ToCollection
                     $productRecipe->save();
                 }
                 else{
-                    dd($row, "Product tidak ada");
+                    // dd($row, "Product tidak ada");
+
+                    $product_category = ProductCategory::where('name',$row[6])->first();
+
+                    if($product_category){
+
+                    }
+                    else{
+                        $product_category = new ProductCategory();
+                        $product_category->name = $row[6];
+                        $product_category->save();
+                    }
+
+                    $productDb = new Product();
+                    $productDb->product_category_id = $product_category->id;
+                    $productDb->name          = $nameProduct;
+                    $productDb->price         = 0;
+                    $productDb->unit          = 'pcs';
+                    $productDb->value         = 0;
+                    $productDb->save();
                 }
 
                 $productNamePrev = $nameProduct;
