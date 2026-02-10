@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('ingredient_master_categories', function (Blueprint $table) {
             //
-            $table->bigInteger('ingredient_master_group_id')->default(0);
+            $table->bigInteger('ingredient_master_group_id')->default(1);
         });
     }
 

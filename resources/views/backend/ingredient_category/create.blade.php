@@ -15,6 +15,15 @@
                     {!! csrf_field() !!}
 
                     <div class="col-md-12">
+                        <div class="form-group @if($errors->has('ingredient_master_group_id')) has-error @endif">
+                            <label for="ingredient_master_group_id" class="control-label">Ingredient Group <span style="color: red">*</span></label>
+                            <select id="ingredient_master_group_id" name="ingredient_master_group_id" class="form-control" data-placeholder="Select Ingredient Group" required>
+                            </select>
+                            {!! $errors->first('ingredient_master_group_id', '<em for="ingredient_master_group_id" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
                         <div class="form-group @if($errors->has('name')) has-error @endif">
                             <label for="name" class="control-label">Name <span style="color: red">*</span></label>
                             <input type="text" name="name" id="name" value="{{old('name')}}" class="form-control input-sm" placeholder="Name ...*" required>
@@ -70,6 +79,34 @@
                     ["insert", ["link", "hr", "video","picture"]],
                     ["view", ["fullscreen", "codeview", "help"]]
                 ]
+            });
+
+            $('#ingredient_master_group_id').select2({
+                theme: "bootstrap",
+                placeholder: "Select",
+                width: '100%',
+                containerCssClass: ':all:',
+                ajax: {
+                    url: '{{route('ingredient_group.ajax.select2')}}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term,
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: (params.page * data.per_page) < data.total
+                            }
+                        };
+                    },
+                    cache: true,
+                }
             });
         })
     </script>

@@ -21,6 +21,12 @@
                             : {{$ingredient_category->id}}
                         </dd>
                         <dt class="text-left">
+                            Ingredient Group Name
+                        </dt>
+                        <dd>
+                            : {{$ingredient_category->ingredient_group->name}}
+                        </dd>
+                        <dt class="text-left">
                             Name
                         </dt>
                         <dd>
