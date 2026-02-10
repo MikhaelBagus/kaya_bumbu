@@ -133,7 +133,7 @@
             <td>&nbsp;</td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="product_ranking_show" {{ old('product_ranking_show') || array_key_exists('calendar.show', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="productranking_show" {{ old('productranking_show') || array_key_exists('productranking.show', $permissions) ? 'checked' : ''}}>
                     <label></label>
                 </div>
             </td>

@@ -559,16 +559,16 @@ Route::group([
     'prefix'     => 'ranking-product',
 ], function () {
     Route::get('', [ProductRankingController::class, 'index'])
-        ->name('product_ranking.index')->middleware('sentinel.permission:product_ranking.show');
+        ->name('product_ranking.index')->middleware('sentinel.permission:productranking.show');
 
     Route::get('/show/{month}/{year}', [ProductRankingController::class, 'show'])
-        ->name('product_ranking.show')->middleware('sentinel.permission:product_ranking.show');
+        ->name('product_ranking.show')->middleware('sentinel.permission:productranking.show');
 
     Route::get('/ajax/data', [ProductRankingController::class, 'datatable'])
-        ->name('product_ranking.ajax.data')->middleware('sentinel.permission:product_ranking.show');
+        ->name('product_ranking.ajax.data')->middleware('sentinel.permission:productranking.show');
 
     Route::get('/total/data', [ProductRankingController::class, 'total'])
-        ->name('product_ranking.total_data')->middleware('sentinel.permission:product_ranking.show');
+        ->name('product_ranking.total_data')->middleware('sentinel.permission:productranking.show');
 });
 
 // bank
