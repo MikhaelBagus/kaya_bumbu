@@ -27,6 +27,20 @@ use App\Services\Faq\FaqService;
 use App\Services\Faq\FaqServiceContract;
 use App\Services\Bank\BankService;
 use App\Services\Bank\BankServiceContract;
+use App\Services\PaymentMethod\PaymentMethodService;
+use App\Services\PaymentMethod\PaymentMethodServiceContract;
+use App\Services\Warehouse\WarehouseService;
+use App\Services\Warehouse\WarehouseServiceContract;
+use App\Services\ExpenditureType\ExpenditureTypeService;
+use App\Services\ExpenditureType\ExpenditureTypeServiceContract;
+use App\Services\IngredientGroup\IngredientGroupService;
+use App\Services\IngredientGroup\IngredientGroupServiceContract;
+use App\Services\Supplier\SupplierService;
+use App\Services\Supplier\SupplierServiceContract;
+use App\Services\SupplierAccount\SupplierAccountService;
+use App\Services\SupplierAccount\SupplierAccountServiceContract;
+use App\Services\Wallet\WalletService;
+use App\Services\Wallet\WalletServiceContract;
 use App\Services\Province\ProvinceService;
 use App\Services\Province\ProvinceServiceContract;
 use App\Services\City\CityService;
@@ -53,6 +67,8 @@ use App\Services\IngredientCategory\IngredientCategoryService;
 use App\Services\IngredientCategory\IngredientCategoryServiceContract;
 use App\Services\Log\LogService;
 use App\Services\Log\LogServiceContract;
+use App\Services\Purchase\PurchaseService;
+use App\Services\Purchase\PurchaseServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -120,6 +136,36 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            WalletServiceContract::class,
+            WalletService::class
+        );
+
+        $this->app->bind(
+            SupplierServiceContract::class,
+            SupplierService::class
+        );
+
+        $this->app->bind(
+            SupplierAccountServiceContract::class,
+            SupplierAccountService::class
+        );
+
+        $this->app->bind(
+            WarehouseServiceContract::class,
+            WarehouseService::class
+        );
+
+        $this->app->bind(
+            ExpenditureTypeServiceContract::class,
+            ExpenditureTypeService::class
+        );
+
+        $this->app->bind(
+            IngredientGroupServiceContract::class,
+            IngredientGroupService::class
+        );
+
+        $this->app->bind(
             ProvinceServiceContract::class,
             ProvinceService::class
         );
@@ -170,6 +216,11 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            PaymentMethodServiceContract::class,
+            PaymentMethodService::class
+        );
+
+        $this->app->bind(
             CalendarServiceContract::class,
             CalendarService::class
         );
@@ -182,6 +233,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             LogServiceContract::class,
             LogService::class
+        );
+
+        $this->app->bind(
+            PurchaseServiceContract::class,
+            PurchaseService::class
         );
     }
 

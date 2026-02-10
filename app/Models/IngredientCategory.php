@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Models\IngredientMaster;
+use App\Models\IngredientGroup;
 
 class IngredientCategory extends Model
 {
@@ -14,6 +15,10 @@ class IngredientCategory extends Model
 
     public function ingredient(){
         return $this->hasMany(IngredientMaster::class, 'ingredient_master_category_id', 'id');
+    }
+
+    public function ingredient_group(){
+        return $this->belongsTo(IngredientGroup::class, 'ingredient_master_group_id', 'id');
     }
 
     public function getCreatedAtAttribute($value)
@@ -44,5 +49,13 @@ class IngredientCategory extends Model
         else{
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
+    }
+
+    public function scopeGroup($query, $group)
+    {
+        if ($group != null) {
+            return $query->where('ingredient_master_group_id', $group);
+        }
+        return $query;
     }
 }

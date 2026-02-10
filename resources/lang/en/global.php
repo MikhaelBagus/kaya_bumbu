@@ -76,6 +76,7 @@ return [
 	'update'               => 'Update',
 	'view'                 => 'View',
 	'delete'               => 'Delete',
+	'approve'              => 'Approve',
     'import'               => 'Import',
 	'miscellaneous'        => 'Miscellaneous',
 

@@ -11,6 +11,17 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\StatusController;
 use App\Http\Controllers\Backend\AboutUsController;
 use App\Http\Controllers\Backend\BankController;
+use App\Http\Controllers\Backend\WalletController;
+use App\Http\Controllers\Backend\SupplierController;
+use App\Http\Controllers\Backend\SupplierAccountController;
+use App\Http\Controllers\Backend\WarehouseController;
+use App\Http\Controllers\Backend\PaymentMethodController;
+use App\Http\Controllers\Backend\ExpenditureTypeController;
+use App\Http\Controllers\Backend\IngredientGroupController;
+use App\Http\Controllers\Backend\PurchaseController;
+use App\Http\Controllers\Backend\CurrencyController;
+use App\Http\Controllers\Backend\CostCenterController;
+use App\Http\Controllers\Backend\ProjectController;
 use App\Http\Controllers\Backend\CalendarController;
 use App\Http\Controllers\Backend\CityController;
 use App\Http\Controllers\Backend\ContactUsController;
@@ -604,6 +615,289 @@ Route::group([
 
     Route::get('/ajax/select2', [BankController::class, 'select2'])
         ->name('bank.ajax.select2');
+});
+
+// warehouse
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'warehouse',
+], function () {
+    Route::get('', [WarehouseController::class, 'index'])
+        ->name('warehouse.index')->middleware('sentinel.permission:warehouse.show');
+
+    Route::get('/create', [WarehouseController::class, 'create'])
+        ->name('warehouse.create')->middleware('sentinel.permission:warehouse.create');
+
+    Route::post('', [WarehouseController::class, 'store'])
+        ->name('warehouse.store')->middleware('sentinel.permission:warehouse.create');
+
+    Route::get('/{id}/show', [WarehouseController::class, 'show'])
+        ->name('warehouse.show')->middleware('sentinel.permission:warehouse.show');
+
+    Route::get('/{id}/edit', [WarehouseController::class, 'edit'])
+        ->name('warehouse.edit')->middleware('sentinel.permission:warehouse.edit');
+
+    Route::put('/{id}', [WarehouseController::class, 'update'])
+        ->name('warehouse.update')->middleware('sentinel.permission:warehouse.edit');
+
+    Route::delete('/{id}', [WarehouseController::class, 'destroy'])
+        ->name('warehouse.destroy')->middleware('sentinel.permission:warehouse.destroy');
+
+    Route::get('/ajax/data', [WarehouseController::class, 'datatable'])
+        ->name('warehouse.ajax.data')->middleware('sentinel.permission:warehouse.show');
+
+    Route::get('/ajax/select2', [WarehouseController::class, 'select2'])
+        ->name('warehouse.ajax.select2');
+});
+
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'expenditure-type',
+], function () {
+    Route::get('', [ExpenditureTypeController::class, 'index'])
+        ->name('expenditure_type.index')->middleware('sentinel.permission:expenditure_type.show');
+
+    Route::get('/create', [ExpenditureTypeController::class, 'create'])
+        ->name('expenditure_type.create')->middleware('sentinel.permission:expenditure_type.create');
+
+    Route::post('', [ExpenditureTypeController::class, 'store'])
+        ->name('expenditure_type.store')->middleware('sentinel.permission:expenditure_type.create');
+
+    Route::get('/{id}/show', [ExpenditureTypeController::class, 'show'])
+        ->name('expenditure_type.show')->middleware('sentinel.permission:expenditure_type.show');
+
+    Route::get('/{id}/edit', [ExpenditureTypeController::class, 'edit'])
+        ->name('expenditure_type.edit')->middleware('sentinel.permission:expenditure_type.edit');
+
+    Route::put('/{id}', [ExpenditureTypeController::class, 'update'])
+        ->name('expenditure_type.update')->middleware('sentinel.permission:expenditure_type.edit');
+
+    Route::delete('/{id}', [ExpenditureTypeController::class, 'destroy'])
+        ->name('expenditure_type.destroy')->middleware('sentinel.permission:expenditure_type.destroy');
+
+    Route::get('/ajax/data', [ExpenditureTypeController::class, 'datatable'])
+        ->name('expenditure_type.ajax.data')->middleware('sentinel.permission:expenditure_type.show');
+
+    Route::get('/ajax/select2', [ExpenditureTypeController::class, 'select2'])
+        ->name('expenditure_type.ajax.select2');
+});
+
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'group-ingredient',
+], function () {
+    Route::get('', [IngredientGroupController::class, 'index'])
+        ->name('ingredient_group.index')->middleware('sentinel.permission:ingredient_group.show');
+
+    Route::get('/create', [IngredientGroupController::class, 'create'])
+        ->name('ingredient_group.create')->middleware('sentinel.permission:ingredient_group.create');
+
+    Route::post('', [IngredientGroupController::class, 'store'])
+        ->name('ingredient_group.store')->middleware('sentinel.permission:ingredient_group.create');
+
+    Route::get('/{id}/show', [IngredientGroupController::class, 'show'])
+        ->name('ingredient_group.show')->middleware('sentinel.permission:ingredient_group.show');
+
+    Route::get('/{id}/edit', [IngredientGroupController::class, 'edit'])
+        ->name('ingredient_group.edit')->middleware('sentinel.permission:ingredient_group.edit');
+
+    Route::put('/{id}', [IngredientGroupController::class, 'update'])
+        ->name('ingredient_group.update')->middleware('sentinel.permission:ingredient_group.edit');
+
+    Route::delete('/{id}', [IngredientGroupController::class, 'destroy'])
+        ->name('ingredient_group.destroy')->middleware('sentinel.permission:ingredient_group.destroy');
+
+    Route::get('/ajax/data', [IngredientGroupController::class, 'datatable'])
+        ->name('ingredient_group.ajax.data')->middleware('sentinel.permission:ingredient_group.show');
+
+    Route::get('/ajax/select2', [IngredientGroupController::class, 'select2'])
+        ->name('ingredient_group.ajax.select2');
+});
+
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'payment-method',
+], function () {
+    Route::get('', [PaymentMethodController::class, 'index'])
+        ->name('payment_method.index')->middleware('sentinel.permission:payment_method.show');
+
+    Route::get('/create', [PaymentMethodController::class, 'create'])
+        ->name('payment_method.create')->middleware('sentinel.permission:payment_method.create');
+
+    Route::post('', [PaymentMethodController::class, 'store'])
+        ->name('payment_method.store')->middleware('sentinel.permission:payment_method.create');
+
+    Route::get('/{id}/show', [PaymentMethodController::class, 'show'])
+        ->name('payment_method.show')->middleware('sentinel.permission:payment_method.show');
+
+    Route::get('/{id}/edit', [PaymentMethodController::class, 'edit'])
+        ->name('payment_method.edit')->middleware('sentinel.permission:payment_method.edit');
+
+    Route::put('/{id}', [PaymentMethodController::class, 'update'])
+        ->name('payment_method.update')->middleware('sentinel.permission:payment_method.edit');
+
+    Route::delete('/{id}', [PaymentMethodController::class, 'destroy'])
+        ->name('payment_method.destroy')->middleware('sentinel.permission:payment_method.destroy');
+
+    Route::get('/ajax/data', [PaymentMethodController::class, 'datatable'])
+        ->name('payment_method.ajax.data')->middleware('sentinel.permission:payment_method.show');
+
+    Route::get('/ajax/select2', [PaymentMethodController::class, 'select2'])
+        ->name('payment_method.ajax.select2');
+});
+
+// supplier
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'supplier',
+], function () {
+    Route::get('', [SupplierController::class, 'index'])
+        ->name('supplier.index')->middleware('sentinel.permission:supplier.show');
+
+    Route::get('/create', [SupplierController::class, 'create'])
+        ->name('supplier.create')->middleware('sentinel.permission:supplier.create');
+
+    Route::post('', [SupplierController::class, 'store'])
+        ->name('supplier.store')->middleware('sentinel.permission:supplier.create');
+
+    Route::get('/{id}/show', [SupplierController::class, 'show'])
+        ->name('supplier.show')->middleware('sentinel.permission:supplier.show');
+
+    Route::get('/{id}/edit', [SupplierController::class, 'edit'])
+        ->name('supplier.edit')->middleware('sentinel.permission:supplier.edit');
+
+    Route::put('/{id}', [SupplierController::class, 'update'])
+        ->name('supplier.update')->middleware('sentinel.permission:supplier.edit');
+
+    Route::delete('/{id}', [SupplierController::class, 'destroy'])
+        ->name('supplier.destroy')->middleware('sentinel.permission:supplier.destroy');
+
+    Route::get('/ajax/data', [SupplierController::class, 'datatable'])
+        ->name('supplier.ajax.data')->middleware('sentinel.permission:supplier.show');
+
+    Route::get('/ajax/select2', [SupplierController::class, 'select2'])
+        ->name('supplier.ajax.select2');
+});
+
+// supplier accounts
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'account-supplier',
+], function () {
+    Route::get('', [SupplierAccountController::class, 'index'])
+        ->name('supplier_account.index')->middleware('sentinel.permission:supplier_account.show');
+
+    Route::get('/create', [SupplierAccountController::class, 'create'])
+        ->name('supplier_account.create')->middleware('sentinel.permission:supplier_account.create');
+
+    Route::post('', [SupplierAccountController::class, 'store'])
+        ->name('supplier_account.store')->middleware('sentinel.permission:supplier_account.create');
+
+    Route::get('/{id}/show', [SupplierAccountController::class, 'show'])
+        ->name('supplier_account.show')->middleware('sentinel.permission:supplier_account.show');
+
+    Route::get('/{id}/edit', [SupplierAccountController::class, 'edit'])
+        ->name('supplier_account.edit')->middleware('sentinel.permission:supplier_account.edit');
+
+    Route::put('/{id}', [SupplierAccountController::class, 'update'])
+        ->name('supplier_account.update')->middleware('sentinel.permission:supplier_account.edit');
+
+    Route::delete('/{id}', [SupplierAccountController::class, 'destroy'])
+        ->name('supplier_account.destroy')->middleware('sentinel.permission:supplier_account.destroy');
+
+    Route::get('/ajax/data', [SupplierAccountController::class, 'datatable'])
+        ->name('supplier_account.ajax.data')->middleware('sentinel.permission:supplier_account.show');
+
+    Route::get('/ajax/select2', [SupplierAccountController::class, 'select2'])
+        ->name('supplier_account.ajax.select2');
+});
+
+// wallet accounts
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'wallet',
+], function () {
+    Route::get('', [WalletController::class, 'index'])
+        ->name('wallet.index')->middleware('sentinel.permission:wallet.show');
+
+    Route::get('/create', [WalletController::class, 'create'])
+        ->name('wallet.create')->middleware('sentinel.permission:wallet.create');
+
+    Route::post('', [WalletController::class, 'store'])
+        ->name('wallet.store')->middleware('sentinel.permission:wallet.create');
+
+    Route::get('/{id}/show', [WalletController::class, 'show'])
+        ->name('wallet.show')->middleware('sentinel.permission:wallet.show');
+
+    Route::get('/{id}/edit', [WalletController::class, 'edit'])
+        ->name('wallet.edit')->middleware('sentinel.permission:wallet.edit');
+
+    Route::put('/{id}', [WalletController::class, 'update'])
+        ->name('wallet.update')->middleware('sentinel.permission:wallet.edit');
+
+    Route::delete('/{id}', [WalletController::class, 'destroy'])
+        ->name('wallet.destroy')->middleware('sentinel.permission:wallet.destroy');
+
+    Route::get('/ajax/data', [WalletController::class, 'datatable'])
+        ->name('wallet.ajax.data')->middleware('sentinel.permission:wallet.show');
+
+    Route::get('/ajax/select2', [WalletController::class, 'select2'])
+        ->name('wallet.ajax.select2');
+});
+
+// purchase
+Route::group([
+    'middleware' => [
+        'prevent.back.history'
+    ],
+    'prefix'     => 'purchase',
+], function () {
+    Route::get('', [PurchaseController::class, 'index'])
+        ->name('purchase.index')->middleware('sentinel.permission:purchase.show');
+
+    Route::get('/create', [PurchaseController::class, 'create'])
+        ->name('purchase.create')->middleware('sentinel.permission:purchase.create');
+
+    Route::post('', [PurchaseController::class, 'store'])
+        ->name('purchase.store')->middleware('sentinel.permission:purchase.create');
+
+    Route::get('/{id}/show', [PurchaseController::class, 'show'])
+        ->name('purchase.show')->middleware('sentinel.permission:purchase.show');
+
+    Route::get('/{id}/edit', [PurchaseController::class, 'edit'])
+        ->name('purchase.edit')->middleware('sentinel.permission:purchase.edit');
+
+    Route::put('/{id}', [PurchaseController::class, 'update'])
+        ->name('purchase.update')->middleware('sentinel.permission:purchase.edit');
+
+    Route::delete('/{id}', [PurchaseController::class, 'destroy'])
+        ->name('purchase.destroy')->middleware('sentinel.permission:purchase.destroy');
+
+    Route::get('/ajax/data', [PurchaseController::class, 'datatable'])
+        ->name('purchase.ajax.data')->middleware('sentinel.permission:purchase.show');
+
+    Route::get('/ajax/select2', [PurchaseController::class, 'select2'])
+        ->name('purchase.ajax.select2');
+
+    Route::get('/download', [PurchaseController::class, 'download'])
+        ->name('purchase.download')->middleware('sentinel.permission:purchase.download');
+
+    Route::put('/approve/{id}', [PurchaseController::class, 'approve'])
+        ->name('purchase.approve')->middleware('sentinel.permission:purchase.approve');
 });
 
 // source

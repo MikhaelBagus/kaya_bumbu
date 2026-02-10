@@ -39,6 +39,8 @@ class IngredientMasterController extends Controller
             'ingredient_master_category_id' => 'required|exists:ingredient_master_categories,id',
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
+            'price' => 'nullable|numeric|min:0',
+            'stock' => 'nullable|numeric|min:0',
         ]);
 
         $ingredientMaster = IngredientMaster::create($validated);
@@ -80,6 +82,8 @@ class IngredientMasterController extends Controller
             'ingredient_master_category_id' => 'required|exists:ingredient_master_categories,id',
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
+            'price' => 'nullable|numeric|min:0',
+            'stock' => 'nullable|numeric|min:0',
         ]);
 
         $ingredient->update($validated);
@@ -159,7 +163,7 @@ class IngredientMasterController extends Controller
                 $perPage = $count;
             }
 
-            $dataDb = IngredientMaster::select('id', 'name as text', 'unit')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
+            $dataDb = IngredientMaster::select('id', 'name as text', 'unit', 'price', 'stock')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
             return $dataDb;
         }

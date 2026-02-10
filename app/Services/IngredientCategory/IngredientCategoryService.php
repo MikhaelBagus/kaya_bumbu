@@ -25,6 +25,7 @@ class IngredientCategoryService implements IngredientCategoryServiceContract
         try {
             $ingredientCategoryDb = new IngredientCategory();
             $ingredientCategoryDb->name          = $request->name;
+            $ingredientCategoryDb->ingredient_master_group_id = $request->ingredient_master_group_id;
             $ingredientCategoryDb->created_by    = Sentinel::getUser()->email;
             $ingredientCategoryDb->save();
 
@@ -53,6 +54,7 @@ class IngredientCategoryService implements IngredientCategoryServiceContract
         try {
             $ingredientCategoryDb = IngredientCategory::find($id);
             $ingredientCategoryDb->name          = $request->name;
+            $ingredientCategoryDb->ingredient_master_group_id = $request->ingredient_master_group_id;
             $ingredientCategoryDb->updated_by    = Sentinel::getUser()->email;
             $ingredientCategoryDb->save();
 
@@ -80,7 +82,7 @@ class IngredientCategoryService implements IngredientCategoryServiceContract
             'ingredient_master_categories.*',
         ];
 
-        $dataDb = IngredientCategory::select($select);
+        $dataDb = IngredientCategory::select($select)->group($request->ingredient_group_id)->with('ingredient_group');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(

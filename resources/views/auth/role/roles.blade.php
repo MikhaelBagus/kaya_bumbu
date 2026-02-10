@@ -386,6 +386,36 @@
             <td>&nbsp;</td>
         </tr>
 
+        <!-- Ingredient Group -->
+        <tr>
+            <td>Ingredient Group</td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_group_create" {{ old('ingredient_group_create') || array_key_exists('ingredient_group.create', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_group_edit" {{ old('ingredient_group_edit') || array_key_exists('ingredient_group.edit', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_group_show" {{ old('ingredient_group_show') || array_key_exists('ingredient_group.show', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" value="ok" class="styled acl" name="ingredient_group_destroy" {{ old('ingredient_group_destroy') || array_key_exists('ingredient_group.destroy', $permissions) ? 'checked' : ''}}>
+                    <label></label>
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
         <!-- Recipe -->
         <tr>
             <td>Recipe</td>
