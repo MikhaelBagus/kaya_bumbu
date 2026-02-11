@@ -5,6 +5,7 @@ namespace App\Services\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
+use App\Models\supplierAccount;
 use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
@@ -29,11 +30,28 @@ class SupplierService implements SupplierServiceContract
             $supplierDb->created_by         = Sentinel::getUser()->email;
             $supplierDb->save();
 
+            $supplierAccountDb = new SupplierAccount();
+            $supplierAccountDb->supplier_id    = $supplierDb->id;
+            $supplierAccountDb->account_number = $request->supplier_account_number;
+            $supplierAccountDb->account_name   = $request->supplier_account_name;
+            $supplierAccountDb->bank_name      = $request->supplier_account_bank_name;
+            $supplierAccountDb->description    = null;
+            $supplierAccountDb->created_by     = Sentinel::getUser()->email;
+            $supplierAccountDb->save();
+
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
             $logDb->action      = 'Create '.$supplierDb->supplier_name;
             $logDb->menu        = 'Supplier';
             $logDb->item_id     = $supplierDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Create '.$supplierAccountDb->account_name;
+            $logDb->menu        = 'Supplier Account';
+            $logDb->item_id     = $supplierAccountDb->id;
             $logDb->created_by  = Sentinel::getUser()->email;
             $logDb->save();
 
