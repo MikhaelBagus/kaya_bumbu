@@ -41,6 +41,38 @@
                         </div>
                     </div>
 
+
+                    <?php $count = 0; ?>
+                    @foreach($supplier->supplierAccounts as $account)
+                    <?php $count = $count + 1; ?>
+                    @if($count == 1)
+                    <div class="col-md-6">
+                        <div class="form-group @if($errors->has('supplier_account_number')) has-error @endif">
+                            <label for="supplier_account_number" class="control-label">Supplier Account Number <span style="color: red">*</span></label>
+                            <input type="text" name="supplier_account_number" id="supplier_account_number" value="{{old('supplier_account_number', $account->account_number)}}" class="form-control input-sm" placeholder="Supplier Account Number ...*" required>
+                            {!! $errors->first('supplier_account_number', '<em for="supplier_account_number" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group @if($errors->has('supplier_account_name')) has-error @endif">
+                            <label for="supplier_account_name" class="control-label">Supplier Account Name <span style="color: red">*</span></label>
+                            <input type="text" name="supplier_account_name" id="supplier_account_name" value="{{old('supplier_account_name', $account->account_name)}}" class="form-control input-sm" placeholder="Supplier Account Name ...*" required>
+                            {!! $errors->first('supplier_account_name', '<em for="supplier_account_name" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('supplier_account_bank_name')) has-error @endif">
+                            <label for="supplier_account_bank_name" class="control-label">Supplier Account Bank Name <span style="color: red">*</span></label>
+                            <input type="text" name="supplier_account_bank_name" id="supplier_account_bank_name" value="{{old('supplier_account_bank_name', $account->bank_name)}}" class="form-control input-sm" placeholder="Supplier Account Bank Name ...*" required>
+                            {!! $errors->first('supplier_account_bank_name', '<em for="supplier_account_bank_name" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+                    @else
+                    @endif
+                    @endforeach
+
                 </div>
 
                 <div class="panel-footer">

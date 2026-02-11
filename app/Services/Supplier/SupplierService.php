@@ -74,14 +74,29 @@ class SupplierService implements SupplierServiceContract
             $supplierDb->supplier_name        = $request->supplier_name;
             $supplierDb->supplier_phone       = $request->supplier_phone;
             $supplierDb->supplier_description = $request->supplier_description;
-            $supplierDb->updated_by         = Sentinel::getUser()->email;
+            $supplierDb->updated_by           = Sentinel::getUser()->email;
             $supplierDb->save();
+
+            $supplierAccountDb = $supplierDb->supplierAccounts->first();
+            $supplierAccountDb->account_number = $request->supplier_account_number;
+            $supplierAccountDb->account_name   = $request->supplier_account_name;
+            $supplierAccountDb->bank_name      = $request->supplier_account_bank_name;
+            $supplierAccountDb->updated_by     = Sentinel::getUser()->email;
+            $supplierAccountDb->save();
 
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
             $logDb->action      = 'Update '.$supplierDb->supplier_name;
             $logDb->menu        = 'Supplier';
             $logDb->item_id     = $supplierDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Update '.$supplierAccountDb->account_name;
+            $logDb->menu        = 'Supplier Account';
+            $logDb->item_id     = $supplierAccountDb->id;
             $logDb->created_by  = Sentinel::getUser()->email;
             $logDb->save();
 
@@ -124,11 +139,37 @@ class SupplierService implements SupplierServiceContract
     public function destroy(int $id)
     {
         $supplierDb = Supplier::where('id', $id)->first();
-        if(!$supplierDb->supplierAccounts->isEmpty()){
+        if(!$supplierDb->purchase->isEmpty()){
             return '';
         }
-        else if(!$supplierDb->purchase->isEmpty()){
-            return '';
+        else if(!$supplierDb->supplierAccounts->isEmpty()){
+            foreach ($supplierDb->supplierAccounts as $account) {
+                $account->deleted_by = Sentinel::getUser()->email;
+                $account->save();
+
+                $logDb = new Log();
+                $logDb->user_id     = Sentinel::getUser()->id;
+                $logDb->action      = 'Delete '.$account->account_name;
+                $logDb->menu        = 'Supplier Account';
+                $logDb->item_id     = $account->id;
+                $logDb->created_by  = Sentinel::getUser()->email;
+                $logDb->save();
+
+                SupplierAccount::where('id', $account->id)->delete(); 
+            }
+
+            $supplierDb->deleted_by = Sentinel::getUser()->email;
+            $supplierDb->save();
+
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Delete '.$supplierDb->supplier_name;
+            $logDb->menu        = 'Supplier';
+            $logDb->item_id     = $supplierDb->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            return Supplier::where('id', $id)->delete();
         }
         else{
             $supplierDb->deleted_by = Sentinel::getUser()->email;
