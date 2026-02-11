@@ -43,6 +43,22 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('price')) has-error @endif">
+                            <label for="price" class="control-label">Price <span style="color: red">*</span></label>
+                            <input type="number" name="price" id="price" value="{{old('price', $ingredient->price)}}" class="form-control input-sm" placeholder="Price ...*" required>
+                            {!! $errors->first('price', '<em for="price" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group @if($errors->has('stock')) has-error @endif">
+                            <label for="stock" class="control-label">Stock <span style="color: red">*</span></label>
+                            <input type="number" name="stock" id="stock" value="{{old('stock', $ingredient->stock)}}" class="form-control input-sm" placeholder="Stock ...*" required>
+                            {!! $errors->first('stock', '<em for="stock" class="text-danger">:message</em>') !!}
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="panel-footer">

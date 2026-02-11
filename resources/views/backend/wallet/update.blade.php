@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <form action="{{route('wallet.update', $branch_account->id)}}" method="post">
+            <form action="{{route('wallet.update', $wallet->id)}}" method="post">
                 <div class="panel-body">
                     {!! csrf_field() !!}
                     {!! method_field('PUT') !!}
@@ -80,32 +80,6 @@
         $(document).keypress(function (event) {
             if (event.which == '13') {
                 event.preventDefault();
-            }
-        });
-
-        // Select2 for Branch
-        $('#branch_id').select2({
-            placeholder: "-- Select Branch --",
-            allowClear: true,
-            ajax: {
-                url: "{{ route('branch.ajax.select2') }}",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        term: params.term,
-                        page: params.page || 1
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.results,
-                        pagination: {
-                            more: data.pagination.more
-                        }
-                    };
-                },
-                cache: true
             }
         });
     </script>

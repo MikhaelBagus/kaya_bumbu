@@ -38,6 +38,18 @@
                         <dd>
                             : {{$ingredient->unit}}
                         </dd>
+                        <dt class="text-left">
+                            Price
+                        </dt>
+                        <dd>
+                            : Rp {{ number_format($ingredient->price,0,',','.') }}
+                        </dd>
+                        <dt class="text-left">
+                            Stock
+                        </dt>
+                        <dd>
+                            : {{ number_format($ingredient->stock,0,',','.') }}
+                        </dd>
                     </dl>
                 </div>
 

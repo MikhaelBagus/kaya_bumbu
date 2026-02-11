@@ -15,6 +15,14 @@ class IngredientMaster extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'ingredient_masters';
 
+    protected $fillable = [
+        'ingredient_master_category_id',
+        'name',
+        'unit',
+        'price',
+        'stock'
+    ];
+
     public function ingredient_category(){
         return $this->belongsTo(IngredientCategory::class, 'ingredient_master_category_id', 'id');
     }
