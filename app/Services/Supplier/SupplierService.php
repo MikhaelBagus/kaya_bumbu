@@ -5,7 +5,7 @@ namespace App\Services\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Supplier;
-use App\Models\supplierAccount;
+use App\Models\SupplierAccount;
 use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
