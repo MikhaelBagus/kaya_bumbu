@@ -1041,8 +1041,8 @@
                               (existingInstalment ? existingInstalment.due_date : '');
                 let paymentDate = currentFormValues[i] && currentFormValues[i].paid_date ? currentFormValues[i].paid_date :
                                   (existingInstalment && existingInstalment.paid_date ? existingInstalment.paid_date : '');
-                let amount = currentFormValues[i] && currentFormValues[i].amount ? currentFormValues[i].amount :
-                             (existingInstalment && existingInstalment.amount ? existingInstalment.amount : instalmentAmount.toFixed(2));
+                let amount = currentFormValues[i] && currentFormValues[i].amount ? instalmentAmount.toFixed(0) :
+                             (existingInstalment && existingInstalment.amount ? existingInstalment.amount : instalmentAmount.toFixed(0));
 
                 let row = `
                     <tr>

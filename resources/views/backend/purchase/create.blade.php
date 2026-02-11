@@ -258,7 +258,7 @@
                             <div class="col-md-6">
                                 <div class="form-group @if($errors->has('instalment_count')) has-error @endif">
                                     <label for="instalment_count" class="control-label">Jumlah Cicilan</label>
-                                    <input type="number" name="instalment_count" id="instalment_count" value="{{old('instalment_count', 1)}}" class="form-control input-sm" min="1" placeholder="1">
+                                    <input type="number" name="instalment_count" id="instalment_count" value="{{old('instalment_count', 1)}}" class="form-control input-sm" min="1">
                                     {!! $errors->first('instalment_count', '<em for="instalment_count" class="text-danger">:message</em>') !!}
                                 </div>
                             </div>
@@ -905,9 +905,6 @@
             $('#cost-display').text('Rp ' + $.number(cost, 0, ',', '.'));
             $('#total-purchase-display').text('Rp ' + $.number(totalPurchase, 0, ',', '.'));
 
-            // Update hidden fields
-            $('#other_tax').val(otherTax);
-
             // Trigger instalment table update if Instalment is selected
             if ($('#payment_method_id option:selected').text() === 'Instalment') {
                 generateInstalmentTable();
@@ -970,7 +967,7 @@
             for (let i = 1; i <= instalmentCount; i++) {
                 // Use existing values if available, otherwise use calculated amount
                 let dueDate = existingValues[i] ? existingValues[i].due_date : '';
-                let amount = existingValues[i] && existingValues[i].amount ? existingValues[i].amount : instalmentAmount.toFixed(0);
+                let amount = instalmentAmount.toFixed(0);
                 let paymentDate = existingValues[i] ? existingValues[i].paid_date : '';
 
                 let row = `
