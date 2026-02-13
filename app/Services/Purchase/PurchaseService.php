@@ -304,20 +304,10 @@ class PurchaseService implements PurchaseServiceContract
     public function datatable($request)
     {
         $select = [
-            'purchases.id',
-            'purchases.code',
-            'purchases.purchase_date',
-            'warehouse.warehouse_name',
-            'supplier.supplier_name',
-            'purchases.total_purchase',
-            'purchases.status',
-            'purchases.created_at',
-            'purchases.updated_at',
+            'purchases.*'
         ];
 
-        $query = Purchase::leftJoin('warehouse', 'purchases.warehouse_id', '=', 'warehouse.id')
-            ->leftJoin('supplier', 'purchases.supplier_id', '=', 'supplier.id')
-            ->select($select);
+        $query = Purchase::select($select)->with('warehouse','supplier','supplierAccount','paymentMethod','wallet','expenditureType','purchaseInstalments');
 
         return DataTables::eloquent($query)
             ->addColumn('checkbox', function ($data) {

@@ -24,6 +24,8 @@
                         <th>Warehouse</th>
                         <th>Supplier</th>
                         <th>Total Purchase</th>
+                        <th>Payment Method</th>
+                        <th>Total Cicilan</th>
                         <th>Status</th>
                         <th>@lang('auth.index_created_at')</th>
                         <th>@lang('auth.index_updated_at')</th>
@@ -108,30 +110,38 @@
                     },
                     {
                         data: 'code',
-                        name: 'purchases.code'
+                        name: 'code'
                     },
                     {
                         data: 'purchase_date',
-                        name: 'purchases.purchase_date'
+                        name: 'purchase_date'
                     },
                     {
-                        data: 'warehouse_name',
+                        data: 'warehouse.warehouse_name',
                         name: 'warehouse.warehouse_name'
                     },
                     {
-                        data: 'supplier_name',
+                        data: 'supplier.supplier_name',
                         name: 'supplier.supplier_name'
                     },
                     {
                         data: 'total_purchase',
-                        name: 'purchases.total_purchase',
+                        name: 'total_purchase',
                         render: function(data) {
                             return 'Rp ' + $.number(data, 0, ',', '.');
                         }
                     },
                     {
+                        data: 'payment_method.name',
+                        name: 'payment_method.name'
+                    },
+                    {
+                        data: 'instalment_count',
+                        name: 'instalment_count'
+                    },
+                    {
                         data: 'status',
-                        name: 'purchases.status',
+                        name: 'status',
                         render: function(data) {
                             let badge = 'default';
                             if (data === 'draft') badge = 'warning';
@@ -144,12 +154,12 @@
                     },
                     {
                         data: 'created_at',
-                        name: 'purchases.created_at',
+                        name: 'created_at',
                         visible: false
                     },
                     {
                         data: 'updated_at',
-                        name: 'purchases.updated_at',
+                        name: 'updated_at',
                         visible: false
                     },
                     {
