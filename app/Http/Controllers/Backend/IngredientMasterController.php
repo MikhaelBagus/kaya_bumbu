@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Pagination\Paginator;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use App\Models\Log;
 
 class IngredientMasterController extends Controller
 {
@@ -99,13 +100,31 @@ class IngredientMasterController extends Controller
      */
     public function destroy($ingredient_id): RedirectResponse
     {
-        $ingredient = IngredientMaster::findOrFail($ingredient_id);
+        $ingredientDb = IngredientMaster::findOrFail($ingredient_id);
         
         try {
-            $ingredient->delete();
-            
-            return redirect()->route('ingredient.index')
+            if(!$ingredientDb->productRecipes->isEmpty()){
+
+                return redirect()->route('ingredient.index')
+                            ->with('failed', 'Failed To Delete Ingredient');
+            }
+            else{
+                $ingredientDb->deleted_by = Sentinel::getUser()->email;
+                $ingredientDb->save();
+
+                $logDb = new Log();
+                $logDb->user_id     = Sentinel::getUser()->id;
+                $logDb->action      = 'Delete '.$ingredientDb->name;
+                $logDb->menu        = 'Ingredient Group';
+                $logDb->item_id     = $ingredientDb->id;
+                $logDb->created_by  = Sentinel::getUser()->email;
+                $logDb->save();
+
+                IngredientGroup::where('id', $ingredient_id)->delete();
+
+                return redirect()->route('ingredient.index')
                             ->with('success', 'Ingredient Master deleted successfully.');
+            }
         } catch (\Exception $e) {
             return redirect()->route('ingredient.index')
                             ->with('error', 'Cannot delete ingredient master. It may be used in product recipes.');
