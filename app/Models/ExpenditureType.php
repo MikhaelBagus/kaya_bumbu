@@ -12,9 +12,9 @@ class ExpenditureType extends Model
 
     protected $table = 'expenditure_type';
 
-    public function purchase()
+    public function purchaseItem()
     {
-        return $this->hasMany(Purchase::class, 'expenditure_type_id');
+        return $this->hasMany(PurchaseItem::class, 'expenditure_type_id');
     }
 
     public function getCreatedAtAttribute($value)

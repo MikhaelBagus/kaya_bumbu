@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::table('ingredient_masters', function (Blueprint $table) {
             //
             $table->double('price')->default(0);
-            $table->double('stock')->default(0);
         });
     }
 

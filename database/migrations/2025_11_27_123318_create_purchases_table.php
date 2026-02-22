@@ -18,12 +18,10 @@ return new class extends Migration
             $table->string('code')->default(''); // Purchase order code/number
             $table->date('purchase_date')->nullable();
             $table->date('approve_date')->nullable();
-            $table->foreignId('warehouse_id')->nullable()->constrained('warehouse')->onDelete('cascade');
             $table->foreignId('supplier_id')->nullable()->constrained('supplier')->onDelete('cascade');
             $table->foreignId('supplier_account_id')->nullable()->constrained('supplier_accounts')->onDelete('cascade');
             $table->foreignId('payment_method_id')->nullable()->constrained('payment_method')->onDelete('cascade');
             $table->foreignId('wallet_id')->nullable()->constrained('wallet')->onDelete('cascade');
-            $table->foreignId('expenditure_type_id')->nullable()->constrained('expenditure_type')->onDelete('cascade');
             $table->double('subtotal')->default(0);
             $table->double('discount')->default(0);
             $table->double('cost')->default(0);

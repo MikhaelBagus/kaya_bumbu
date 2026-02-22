@@ -17,7 +17,7 @@ class PurchaseService implements PurchaseServiceContract
 {
     public function get(int $id)
     {
-        return Purchase::with(['supplier', 'paymentMethod', 'expenditureType', 'wallet', 'warehouse', 'purchaseItems', 'purchaseCosts', 'purchaseDiscounts', 'purchaseInstalments'])->find($id);
+        return Purchase::with(['supplier', 'paymentMethod', 'wallet', 'purchaseItems', 'purchaseCosts', 'purchaseDiscounts', 'purchaseInstalments'])->find($id);
     }
 
     public function generatePurchaseCode()
@@ -40,7 +40,6 @@ class PurchaseService implements PurchaseServiceContract
             // Create purchase
             $purchase = new Purchase();
             $purchase->code                 = $code;
-            $purchase->warehouse_id         = $request->warehouse_id;
             $purchase->purchase_date        = $request->purchase_date;
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->supplier_account_id  = $request->supplier_account_id;
@@ -49,7 +48,6 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->down_payment_date    = $request->down_payment_date ?? null;
             $purchase->instalment_count     = $request->instalment_count ?? 0;
             $purchase->wallet_id            = $request->wallet_id;
-            $purchase->expenditure_type_id  = $request->expenditure_type_id;
             $purchase->notes                = $request->notes;
             $purchase->status               = $request->status ?? 'draft';
             $purchase->created_by           = Sentinel::getUser()->email;
@@ -102,6 +100,8 @@ class PurchaseService implements PurchaseServiceContract
                     $purchaseItem->last_price   = $item['last_price'] ?? 0;
                     $purchaseItem->price        = $item['price'] ?? 0;
                     $purchaseItem->subtotal     = ($item['price'] * $item['po_qty']);
+                    $purchaseItem->warehouse_id         = $item['warehouse_id'];
+                    $purchaseItem->expenditure_type_id  = $item['expenditure_type_id'];
                     $purchaseItem->save();
 
                     $purchaseItem->ingredientMaster->price = $item['price'];
@@ -172,7 +172,6 @@ class PurchaseService implements PurchaseServiceContract
             $purchase = Purchase::find($id);
 
             // Update purchase
-            $purchase->warehouse_id         = $request->warehouse_id;
             $purchase->purchase_date        = $request->purchase_date;
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->payment_method_id    = $request->payment_method_id;
@@ -180,7 +179,6 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->down_payment_date    = $request->down_payment_date ?? null;
             $purchase->instalment_count     = $request->instalment_count ?? 0;
             $purchase->wallet_id            = $request->wallet_id;
-            $purchase->expenditure_type_id  = $request->expenditure_type_id;
             $purchase->notes                = $request->notes;
             $purchase->status               = $request->status ?? 'draft';
             $purchase->updated_by           = Sentinel::getUser()->email;
@@ -239,6 +237,8 @@ class PurchaseService implements PurchaseServiceContract
                     $purchaseItem->last_price   = $item['last_price'] ?? 0;
                     $purchaseItem->price        = $item['price'] ?? 0;
                     $purchaseItem->subtotal     = ($item['price'] * $item['po_qty']);
+                    $purchaseItem->warehouse_id         = $item['warehouse_id'];
+                    $purchaseItem->expenditure_type_id  = $item['expenditure_type_id'];
                     $purchaseItem->save();
 
                     $purchaseItem->ingredientMaster->price = $item['price'];
@@ -307,7 +307,7 @@ class PurchaseService implements PurchaseServiceContract
             'purchases.*'
         ];
 
-        $query = Purchase::select($select)->with('warehouse','supplier','supplierAccount','paymentMethod','wallet','expenditureType','purchaseInstalments');
+        $query = Purchase::select($select)->with('supplier','supplierAccount','paymentMethod','wallet','purchaseInstalments');
 
         return DataTables::eloquent($query)
             ->addColumn('checkbox', function ($data) {
@@ -380,12 +380,12 @@ class PurchaseService implements PurchaseServiceContract
     public function download($request)
     {
         $purchases = Purchase::with([
-            'warehouse',
             'wallet',
-            'expenditureType',
             'supplier',
             'supplierAccount',
-            'purchaseItems.ingredientMaster.ingredient_category.ingredient_group'
+            'purchaseItems.ingredientMaster.ingredient_category.ingredient_group',
+            'purchaseItems.expenditureType',
+            'purchaseItems.warehouse',
         ])
             ->orderBy('purchase_date', 'desc')
             ->get();

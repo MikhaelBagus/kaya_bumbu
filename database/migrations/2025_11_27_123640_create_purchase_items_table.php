@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_id')->constrained('purchases')->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained('ingredient_masters')->onDelete('cascade'); // Changed to ingredient_masters
+            $table->foreignId('warehouse_id')->nullable()->constrained('warehouse')->onDelete('cascade');
+            $table->foreignId('expenditure_type_id')->nullable()->constrained('expenditure_type')->onDelete('cascade');
             $table->string('product_name')->default('');
             $table->string('unit')->default('');
             $table->double('po_qty')->default(0); // Purchase Order Quantity

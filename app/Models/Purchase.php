@@ -13,11 +13,6 @@ class Purchase extends Model
     protected $table = 'purchases';
 
     // Relationships
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class, 'warehouse_id');
-    }
-
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
@@ -36,11 +31,6 @@ class Purchase extends Model
     public function wallet()
     {
         return $this->belongsTo(Wallet::class, 'wallet_id');
-    }
-
-    public function expenditureType()
-    {
-        return $this->belongsTo(ExpenditureType::class, 'expenditure_type_id');
     }
 
     public function purchaseItems()
@@ -110,26 +100,10 @@ class Purchase extends Model
         return $query;
     }
 
-    public function scopeWarehouse($query, $warehouse)
-    {
-        if ($warehouse != null) {
-            return $query->where('warehouse_id', $warehouse);
-        }
-        return $query;
-    }
-
     public function scopeSupplierAccount($query, $supplierAccount)
     {
         if ($supplierAccount != null) {
             return $query->where('supplier_account_id', $supplierAccount);
-        }
-        return $query;
-    }
-
-    public function scopeExpenditureType($query, $expenditureType)
-    {
-        if ($expenditureType != null) {
-            return $query->where('expenditure_type_id', $expenditureType);
         }
         return $query;
     }

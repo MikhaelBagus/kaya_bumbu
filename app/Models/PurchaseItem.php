@@ -19,4 +19,14 @@ class PurchaseItem extends Model
     {
         return $this->belongsTo(IngredientMaster::class, 'product_id');
     }
+
+    public function expenditureType()
+    {
+        return $this->belongsTo(ExpenditureType::class, 'expenditure_type_id');
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
 }

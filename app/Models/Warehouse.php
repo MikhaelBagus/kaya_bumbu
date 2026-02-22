@@ -11,9 +11,9 @@ class Warehouse extends Model
     use SoftDeletes;
     protected $table = 'warehouse';
 
-    public function purchase()
+    public function purchaseItem()
     {
-        return $this->hasMany(Purchase::class, 'warehouse_id');
+        return $this->hasMany(PurchaseItem::class, 'warehouse_id');
     }
 
     public function getCreatedAtAttribute($value)
