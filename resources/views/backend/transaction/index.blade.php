@@ -130,7 +130,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Bank</label>
+                                    <label class="control-label">Wallet</label>
                                     <select id="bank_id" class="input-sm form-control select_2" style="width:100%" name="bank_id">
                                     </select>
                                 </div>
@@ -582,7 +582,7 @@
             allowClear: true,
             containerCssClass: ':all:',
             ajax: {
-                url: '{{route('bank.ajax.select2')}}',
+                url: '{{route('wallet.ajax.select2.old')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

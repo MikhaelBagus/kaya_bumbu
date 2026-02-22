@@ -174,4 +174,33 @@ class WalletService implements WalletServiceContract
             return $exception->getCode();
         }
     }
+
+    public function select2Old($request)
+    {
+        try {
+            $perPage = 10;
+            $page    = $request->page ?? 1;
+            $term = $request->term;
+
+            Paginator::currentPageResolver(
+                function () use ($page) {
+                    return $page;
+                }
+            );
+
+            $count = Wallet::count();
+
+            if($count > $perPage){
+                $perPage = $count;
+            }
+
+            $dataDb = Wallet::select('id', DB::raw('concat(bank_name, " ", account_number, " a/n ", account_name) as text'))->where('bank_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_name', 'LIKE', '%'.$request->term.'%')->orWhere('account_number', 'LIKE', '%'.$request->term.'%')->orderBy('text')->paginate($perPage);
+
+            return $dataDb;
+        }
+        catch (\Exception $exception) {
+            // dd($exception->getMessage());
+            return $exception->getMessage();
+        }
+    }
 }

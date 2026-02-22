@@ -15,4 +15,6 @@ interface WalletServiceContract
     public function destroy(int $id);
 
     public function select2($request);
+
+    public function select2Old($request);
 }

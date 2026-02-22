@@ -94,4 +94,19 @@ class WalletController extends Controller
             abort('404', 'uups');
         }
     }
+
+    public function select2Old(Request $request, WalletServiceContract $walletServiceContract)
+    {
+        if(Sentinel::getUser()){
+            if ($request->ajax() === true) {
+
+                return $walletServiceContract->select2Old($request);
+            }
+
+            return abort('404', 'uups');
+        }
+        else{
+            abort('404', 'uups');
+        }
+    }
 }

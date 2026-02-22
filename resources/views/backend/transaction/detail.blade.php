@@ -74,7 +74,7 @@
                             : @if($transaction->payment_bukti_transfer_url != '')<a href="{{asset($transaction->payment_bukti_transfer_url)}}">{{asset($transaction->payment_bukti_transfer_url)}}</a>@endif
                         </dd>
                         <dt class="text-left">
-                            Bank
+                            Wallet
                         </dt>
                         <dd>
                             : {{$transaction->bank->bank_name}} {{$transaction->bank->account_number}} a\n {{$transaction->bank->account_name}}

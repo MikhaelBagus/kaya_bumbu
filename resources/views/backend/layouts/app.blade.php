@@ -208,7 +208,6 @@
                     @include('backend.menus.auth')
                     @include('backend.menus.log')
                     @include('backend.menus.source')
-                    @include('backend.menus.bank')
                     @include('backend.menus.wallet')
                     @include('backend.menus.warehouse')
                     @include('backend.menus.supplier')

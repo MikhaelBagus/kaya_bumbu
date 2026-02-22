@@ -857,6 +857,9 @@ Route::group([
 
     Route::get('/ajax/select2', [WalletController::class, 'select2'])
         ->name('wallet.ajax.select2');
+
+    Route::get('/ajax/select2Old', [WalletController::class, 'select2Old'])
+        ->name('wallet.ajax.select2.old');
 });
 
 // purchase

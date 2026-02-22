@@ -100,8 +100,8 @@
 
                         <div class="col-md-6">
                             <div class="form-group @if($errors->has('bank_id')) has-error @endif">
-                                <label for="bank_id" class="control-label">Bank <span style="color: red">*</span></label>
-                                <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Pilih Bank" required>
+                                <label for="bank_id" class="control-label">Wallet <span style="color: red">*</span></label>
+                                <select id="bank_id" name="bank_id" class="form-control" data-placeholder="Pilih Wallet" required>
                                     <option value="{{$transaction->bank_id}}" selected>{{$transaction->bank->bank_name}} {{$transaction->bank->account_number}} a\n {{$transaction->bank->account_name}}</option>
                                 </select>
                                 {!! $errors->first('bank_id', '<em for="bank_id" class="text-danger">:message</em>') !!}
@@ -533,7 +533,7 @@
             width: '100%',
             containerCssClass: ':all:',
             ajax: {
-                url: '{{route('bank.ajax.select2')}}',
+                url: '{{route('wallet.ajax.select2.old')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

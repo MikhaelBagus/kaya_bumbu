@@ -141,30 +141,30 @@
             <td>&nbsp;</td>
         </tr>
 
-        <!-- Bank -->
+        <!-- Wallet -->
         <tr>
-            <td>Bank</td>
+            <td>Wallet</td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="bank_create" {{ old('bank_create') || array_key_exists('bank.create', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="wallet_create" {{ old('wallet_create') || array_key_exists('wallet.create', $permissions) ? 'checked' : ''}}>
                     <label></label>
                 </div>
             </td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="bank_edit" {{ old('bank_edit') || array_key_exists('bank.edit', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="wallet_edit" {{ old('wallet_edit') || array_key_exists('wallet.edit', $permissions) ? 'checked' : ''}}>
                     <label></label>
                 </div>
             </td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="bank_show" {{ old('bank_show') || array_key_exists('bank.show', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="wallet_show" {{ old('wallet_show') || array_key_exists('wallet.show', $permissions) ? 'checked' : ''}}>
                     <label></label>
                 </div>
             </td>
             <td class="text-center">
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="bank_destroy" {{ old('bank_destroy') || array_key_exists('bank.destroy', $permissions) ? 'checked' : ''}}>
+                    <input type="checkbox" value="ok" class="styled acl" name="wallet_destroy" {{ old('wallet_destroy') || array_key_exists('wallet.destroy', $permissions) ? 'checked' : ''}}>
                     <label></label>
                 </div>
             </td>

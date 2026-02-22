@@ -11,6 +11,7 @@ use App\Models\Driver;
 use App\Models\Bank;
 use App\Models\City;
 use App\Models\Source;
+use App\Models\Wallet;
 use App\Models\Auth\User;
 
 class Transaction extends Model
@@ -35,7 +36,7 @@ class Transaction extends Model
     }
 
     public function bank(){
-        return $this->belongsTo(Bank::class, 'bank_id', 'id');
+        return $this->belongsTo(Wallet::class, 'bank_id', 'id');
     }
 
     public function city(){
