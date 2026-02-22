@@ -127,14 +127,7 @@ class ExpenditureTypeService implements ExpenditureTypeServiceContract
         try {
             $perPage = 10;
             $page    = $request->page ?? 1;
-
-            // Handle search term from either 'term' or 'search.term'
-            $term = '';
-            if ($request->has('term')) {
-                $term = $request->term;
-            } elseif ($request->has('search') && is_array($request->search) && isset($request->search['term'])) {
-                $term = $request->search['term'];
-            }
+            $term = $request->term;
 
             Paginator::currentPageResolver(
                 function () use ($page) {
@@ -148,21 +141,13 @@ class ExpenditureTypeService implements ExpenditureTypeServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = ExpenditureType::select('id', DB::raw('name as text'))
-                ->where('name', 'LIKE', '%'.$term.'%')
-                ->orderBy('text')
-                ->paginate($perPage);
+            $dataDb = ExpenditureType::select('id', 'name as text')->where('name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
-            // Convert to Select2 format
-            return response()->json([
-                'results' => $dataDb->items(),
-                'pagination' => [
-                    'more' => $dataDb->hasMorePages()
-                ]
-            ]);
+            return $dataDb;
         }
         catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
+            // dd($exception->getMessage());
+            return $exception->getMessage();
         }
     }
 }

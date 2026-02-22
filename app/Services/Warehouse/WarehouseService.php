@@ -124,14 +124,7 @@ class WarehouseService implements WarehouseServiceContract
         try {
             $perPage = 10;
             $page    = $request->page ?? 1;
-
-            // Handle search term from either 'term' or 'search.term'
-            $term = '';
-            if ($request->has('term')) {
-                $term = $request->term;
-            } elseif ($request->has('search') && is_array($request->search) && isset($request->search['term'])) {
-                $term = $request->search['term'];
-            }
+            $term = $request->term;
 
             Paginator::currentPageResolver(
                 function () use ($page) {
@@ -145,21 +138,13 @@ class WarehouseService implements WarehouseServiceContract
                 $perPage = $count;
             }
 
-            $dataDb = Warehouse::select('id', DB::raw('warehouse_name as text'))
-                ->where('warehouse_name', 'LIKE', '%'.$term.'%')
-                ->orderBy('text')
-                ->paginate($perPage);
+            $dataDb = Warehouse::select('id', 'warehouse_name as text')->where('warehouse_name', 'LIKE', '%'.$request->term.'%')->paginate($perPage);
 
-            // Convert to Select2 format
-            return response()->json([
-                'results' => $dataDb->items(),
-                'pagination' => [
-                    'more' => $dataDb->hasMorePages()
-                ]
-            ]);
+            return $dataDb;
         }
         catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
+            // dd($exception->getMessage());
+            return $exception->getMessage();
         }
     }
 }

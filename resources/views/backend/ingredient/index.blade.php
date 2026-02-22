@@ -47,7 +47,6 @@
                     <th>Name</th>
                     <th>Unit</th>
                     <th>Price</th>
-                    <th>Stock</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>
                     <th width="100">@lang('global.action')</th>
@@ -128,7 +127,6 @@
                 {data: 'name', name: 'name'},
                 {data: 'unit', name: 'unit'},
                 {data: 'price', name: 'price'},
-                {data: 'stock', name: 'stock'},
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {

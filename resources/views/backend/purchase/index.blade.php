@@ -21,7 +21,6 @@
                         <th style="text-align: center">&nbsp;</th>
                         <th>Purchase Code</th>
                         <th>Purchase Date</th>
-                        <th>Warehouse</th>
                         <th>Supplier</th>
                         <th>Total Purchase</th>
                         <th>Payment Method</th>
@@ -115,10 +114,6 @@
                     {
                         data: 'purchase_date',
                         name: 'purchase_date'
-                    },
-                    {
-                        data: 'warehouse.warehouse_name',
-                        name: 'warehouse.warehouse_name'
                     },
                     {
                         data: 'supplier.supplier_name',

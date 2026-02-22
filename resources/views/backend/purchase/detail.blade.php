@@ -28,12 +28,6 @@
                         <dt class="text-left">Purchase Date</dt>
                         <dd>: {{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y') }}</dd>
 
-                        <dt class="text-left">Warehouse</dt>
-                        <dd>: {{ $purchase->warehouse ? $purchase->warehouse->warehouse_name : '-' }}</dd>
-
-                        <dt class="text-left">Expenditure Type</dt>
-                        <dd>: {{ $purchase->expenditureType ? $purchase->expenditureType->name : '-' }}</dd>
-
                         <dt class="text-left">Status</dt>
                         <dd>:
                             @if ($purchase->status == 'draft')
@@ -85,6 +79,8 @@
                                     <tr class="bg-primary">
                                         <th>#</th>
                                         <th>Ingredient</th>
+                                        <th>Warehouse</th>
+                                        <th>Expenditure Type</th>
                                         <th>Unit</th>
                                         <th class="text-right">PO Qty</th>
                                         <th class="text-right">Last Price</th>
@@ -96,6 +92,8 @@
                                     @forelse($purchase->purchaseItems as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->warehouse->warehouse_name }}</td>
+                                            <td>{{ $item->expenditureType->name }}</td>
                                             <td>{{ $item->product_name }}</td>
                                             <td>{{ $item->unit }}</td>
                                             <td class="text-right">{{ number_format($item->po_qty, 0, ',', '.') }}</td>

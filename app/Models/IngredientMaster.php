@@ -19,8 +19,7 @@ class IngredientMaster extends Model
         'ingredient_master_category_id',
         'name',
         'unit',
-        'price',
-        'stock'
+        'price'
     ];
 
     public function ingredient_category(){

@@ -38,26 +38,6 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group @if($errors->has('warehouse_id')) has-error @endif">
-                                <label for="warehouse_id" class="control-label">Warehouse <span style="color: red">*</span></label>
-                                <select name="warehouse_id" id="warehouse_id" class="form-control select2" required>
-                                    <option value="">Select warehouse</option>
-                                </select>
-                                {!! $errors->first('warehouse_id', '<em for="warehouse_id" class="text-danger">:message</em>') !!}
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group @if($errors->has('purchase_date')) has-error @endif">
-                                <label for="purchase_date" class="control-label">Purchase Date <span style="color: red">*</span></label>
-                                <input type="date" name="purchase_date" id="purchase_date" value="{{old('purchase_date', date('Y-m-d'))}}" class="form-control input-sm" required>
-                                {!! $errors->first('purchase_date', '<em for="purchase_date" class="text-danger">:message</em>') !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
                             <div class="form-group @if($errors->has('wallet_id')) has-error @endif">
                                 <label for="wallet_id" class="control-label">Wallet <span style="color: red">*</span></label>
                                 <select name="wallet_id" id="wallet_id" class="form-control select2" required>
@@ -68,12 +48,10 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group @if($errors->has('expenditure_type_id')) has-error @endif">
-                                <label for="expenditure_type_id" class="control-label">Expenditure Type <span style="color: red">*</span></label>
-                                <select name="expenditure_type_id" id="expenditure_type_id" class="form-control select2" required>
-                                    <option value="">Select expenditure type</option>
-                                </select>
-                                {!! $errors->first('expenditure_type_id', '<em for="expenditure_type_id" class="text-danger">:message</em>') !!}
+                            <div class="form-group @if($errors->has('purchase_date')) has-error @endif">
+                                <label for="purchase_date" class="control-label">Purchase Date <span style="color: red">*</span></label>
+                                <input type="date" name="purchase_date" id="purchase_date" value="{{old('purchase_date', date('Y-m-d'))}}" class="form-control input-sm" required>
+                                {!! $errors->first('purchase_date', '<em for="purchase_date" class="text-danger">:message</em>') !!}
                             </div>
                         </div>
                     </div>
@@ -129,6 +107,8 @@
                                     <thead>
                                         <tr>
                                             <th width="200">Ingredient</th>
+                                            <th width="80">Warehouse</th>
+                                            <th width="80">Expenditure Type</th>
                                             <th width="80">Unit</th>
                                             <th width="80">PO Qty</th>
                                             <th width="100">Last Price</th>
@@ -379,62 +359,10 @@
             });
 
             // Initialize Select2
-            $('#warehouse_id').select2({
-                placeholder: 'Search or select warehouse',
-                ajax: {
-                    url: '{{ route("warehouse.ajax.select2") }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            search: {
-                                term: params.term
-                            },
-                            page: params.page || 1
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data.results,
-                            pagination: {
-                                more: data.pagination.more
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            });
-
             $('#wallet_id').select2({
                 placeholder: 'Search or select wallet',
                 ajax: {
                     url: '{{ route("wallet.ajax.select2") }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            search: {
-                                term: params.term
-                            },
-                            page: params.page || 1
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data.results,
-                            pagination: {
-                                more: data.pagination.more
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            });
-
-            $('#expenditure_type_id').select2({
-                placeholder: 'Search or select expenditure type',
-                ajax: {
-                    url: '{{ route("expenditure_type.ajax.select2") }}',
                     dataType: 'json',
                     delay: 250,
                     data: function (params) {
@@ -722,6 +650,18 @@
                         </select>
                     </td>
                     <td>
+                        <input type="hidden" name="items[${productRowIndex}][warehouse_id]" class="warehouse-id-${productRowIndex}">
+                        <select name="items[${productRowIndex}][warehouse_name]" class="form-control input-sm warehouse-select warehouse-select-${productRowIndex}" required style="width: 100%;">
+                            <option value="">Search warehouse</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="hidden" name="items[${productRowIndex}][expenditure_type_id]" class="expenditure-id-${productRowIndex}">
+                        <select name="items[${productRowIndex}][expenditure_type_name]" class="form-control input-sm expenditure-select expenditure-select-${productRowIndex}" required style="width: 100%;">
+                            <option value="">Search expenditure type</option>
+                        </select>
+                    </td>
+                    <td>
                         <input type="hidden" name="items[${productRowIndex}][unit]" class="product-unit-value-${productRowIndex}">
                         <input type="text" class="form-control input-sm product-unit product-unit-${productRowIndex}" placeholder="Unit" readonly disabled style="background-color: #f4f4f4;">
                     </td>
@@ -771,8 +711,7 @@
                                     text: item.text,
                                     ingredient_id: item.id,
                                     unit: item.unit,
-                                    price: item.price || 0,
-                                    stock: item.stock || 0
+                                    price: item.price || 0
                                 };
                             }),
                             pagination: {
@@ -798,6 +737,76 @@
                 $('.product-price-' + index).val(data.price);
 
                 calculateTotals();
+            });
+
+            $('.warehouse-select-' + index).select2({
+                placeholder: 'Search warehouse',
+                ajax: {
+                    url: '{{ route("warehouse.ajax.select2") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            term: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.data.map(function(item) {
+                                return {
+                                    id: item.text,
+                                    text: item.text,
+                                    warehouse_id: item.id
+                                };
+                            }),
+                            pagination: {
+                                more: data.next_page_url != null
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+
+                // Set hidden fields (for form submission)
+                $('.warehouse-id-' + index).val(data.warehouse_id);
+            });
+
+            $('.expenditure-select-' + index).select2({
+                placeholder: 'Search expenditure type',
+                ajax: {
+                    url: '{{ route("expenditure_type.ajax.select2") }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            term: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.data.map(function(item) {
+                                return {
+                                    id: item.text,
+                                    text: item.text,
+                                    expenditure_type_id: item.id
+                                };
+                            }),
+                            pagination: {
+                                more: data.next_page_url != null
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            }).on('select2:select', function(e) {
+                var data = e.params.data;
+
+                // Set hidden fields (for form submission)
+                $('.expenditure-id-' + index).val(data.expenditure_type_id);
             });
         }
 
