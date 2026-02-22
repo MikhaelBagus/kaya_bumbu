@@ -17,7 +17,7 @@ class PurchaseService implements PurchaseServiceContract
 {
     public function get(int $id)
     {
-        return Purchase::with(['supplier', 'paymentMethod', 'wallet', 'purchaseItems', 'purchaseCosts', 'purchaseDiscounts', 'purchaseInstalments'])->find($id);
+        return Purchase::with(['supplier', 'paymentMethod', 'wallet', 'purchaseItems', 'purchaseItems.expenditureType', 'purchaseItems.warehouse', 'purchaseCosts', 'purchaseDiscounts', 'purchaseInstalments'])->find($id);
     }
 
     public function generatePurchaseCode()

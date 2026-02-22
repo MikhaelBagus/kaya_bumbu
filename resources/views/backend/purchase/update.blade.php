@@ -237,7 +237,7 @@
                     </div>
 
                     {{-- Instalment Fields (hidden by default) --}}
-                    <div id="instalment-section" style="display: {{ $purchase->instalment_count > 0 ? 'block' : 'none' }};">
+                    <div id="instalment-section" style="display: {{ $purchase->paymentMethod->name == 'Instalment' ? 'block' : 'none' }};">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group @if($errors->has('down_payment')) has-error @endif">
@@ -576,15 +576,8 @@
                 }
 
                 // Validate required fields
-                var warehouse = $('#warehouse_id').val();
                 var supplier = $('#supplier_id').val();
                 var purchaseDate = $('#purchase_date').val();
-
-                if (!warehouse) {
-                    alert('Warehouse is required');
-                    $('#warehouse_id').focus();
-                    return false;
-                }
 
                 if (!purchaseDate) {
                     alert('Purchase date is required');
@@ -602,11 +595,25 @@
                 var isValid = true;
                 $('#product-rows tr').each(function(index) {
                     var productName = $(this).find('.product-select').val();
+                    var warehouseName = $(this).find('.warehouse-select').val();
+                    var expenditureName = $(this).find('.expenditure-select').val();
                     var poQty = parseFloat($(this).find('.product-qty').val()) || 0;
                     var price = parseFloat($(this).find('.product-price').val()) || 0;
 
                     if (!productName) {
                         alert('Ingredient is required in row ' + (index + 1));
+                        isValid = false;
+                        return false;
+                    }
+
+                    if (!warehouseName) {
+                        alert('Warehouse is required in row ' + (index + 1));
+                        isValid = false;
+                        return false;
+                    }
+
+                    if (!expenditureName) {
+                        alert('Expenditure Type is required in row ' + (index + 1));
                         isValid = false;
                         return false;
                     }
@@ -670,7 +677,6 @@
 
                 // Log form data for debugging
                 console.log('Form validation passed!');
-                console.log('Warehouse:', warehouse);
                 console.log('Supplier:', supplier);
                 console.log('Status:', $('#form-status').val());
                 console.log('Total rows:', $('#product-rows tr').length);
@@ -693,7 +699,7 @@
             let warehouseId = existingItem ? existingItem.warehouse_id : 0;
             let warehouseName = existingItem ? existingItem.warehouse.warehouse_name : '';
             let expenditureId = existingItem ? existingItem.expenditure_type_id : 0;
-            let expenditureName = existingItem ? existingItem.expenditureType.name : '';
+            let expenditureName = existingItem ? existingItem.expenditure_type.name : '';
 
             let row = `
                 <tr data-index="${productRowIndex}">
@@ -706,13 +712,13 @@
                     <td>
                         <input type="hidden" name="items[${productRowIndex}][warehouse_id]" class="warehouse-id-${productRowIndex}" value="${warehouseId}">
                         <select name="items[${productRowIndex}][warehouse_name]" class="form-control input-sm warehouse-select warehouse-select-${productRowIndex}" required style="width: 100%;">
-                            ${existingItem ? `<option value="${warehouseName}" selected>${warehouseName}</option>` : '<option value="">Search ingredient</option>'}
+                            ${existingItem ? `<option value="${warehouseName}" selected>${warehouseName}</option>` : '<option value="">Search warehouse</option>'}
                         </select>
                     </td>
                     <td>
                         <input type="hidden" name="items[${productRowIndex}][expenditure_type_id]" class="expenditure-id-${productRowIndex}" value="${expenditureId}">
                         <select name="items[${productRowIndex}][expenditure_type_name]" class="form-control input-sm expenditure-select expenditure-select-${productRowIndex}" required style="width: 100%;">
-                            ${existingItem ? `<option value="${expenditureName}" selected>${expenditureName}</option>` : '<option value="">Search ingredient</option>'}
+                            ${existingItem ? `<option value="${expenditureName}" selected>${expenditureName}</option>` : '<option value="">Search expenditure</option>'}
                         </select>
                     </td>
                     <td>
@@ -742,6 +748,7 @@
             initializeProductSelect(productRowIndex);
 
             updateProductCount();
+            calculateTotals();
         }
 
         function initializeProductSelect(index) {
@@ -826,6 +833,7 @@
 
                 // Set hidden fields (for form submission)
                 $('.warehouse-id-' + index).val(data.warehouse_id);
+                calculateTotals();
             });
 
             $('.expenditure-select-' + index).select2({
@@ -861,6 +869,7 @@
 
                 // Set hidden fields (for form submission)
                 $('.expenditure-id-' + index).val(data.expenditure_type_id);
+                calculateTotals();
             });
         }
 

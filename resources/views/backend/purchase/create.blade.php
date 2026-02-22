@@ -534,15 +534,8 @@
                 }
 
                 // Validate required fields
-                var warehouse = $('#warehouse_id').val();
                 var supplier = $('#supplier_id').val();
                 var purchaseDate = $('#purchase_date').val();
-
-                if (!warehouse) {
-                    alert('Warehouse is required');
-                    $('#warehouse_id').focus();
-                    return false;
-                }
 
                 if (!purchaseDate) {
                     alert('Purchase date is required');
@@ -560,11 +553,25 @@
                 var isValid = true;
                 $('#product-rows tr').each(function(index) {
                     var productName = $(this).find('.product-select').val();
+                    var warehouseName = $(this).find('.warehouse-select').val();
+                    var expenditureName = $(this).find('.expenditure-select').val();
                     var poQty = parseFloat($(this).find('.product-qty').val()) || 0;
                     var price = parseFloat($(this).find('.product-price').val()) || 0;
 
                     if (!productName) {
                         alert('Ingredient is required in row ' + (index + 1));
+                        isValid = false;
+                        return false;
+                    }
+
+                    if (!warehouseName) {
+                        alert('Warehouse is required in row ' + (index + 1));
+                        isValid = false;
+                        return false;
+                    }
+
+                    if (!expenditureName) {
+                        alert('Expenditure Type is required in row ' + (index + 1));
                         isValid = false;
                         return false;
                     }
@@ -628,7 +635,6 @@
 
                 // Log form data for debugging
                 console.log('Form validation passed!');
-                console.log('Warehouse:', warehouse);
                 console.log('Supplier:', supplier);
                 console.log('Status:', $('#form-status').val());
                 console.log('Total rows:', $('#product-rows tr').length);
