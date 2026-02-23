@@ -236,6 +236,18 @@
                         </div>
                     </div>
 
+                    <div id="fullpayment-section" style="display: {{ $purchase->paymentMethod->name == 'Full Payment' ? 'block' : 'none' }};">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group @if($errors->has('full_payment_date')) has-error @endif">
+                                    <label for="full_payment_date" class="control-label">Tanggal Full Payment</label>
+                                    <input type="date" name="full_payment_date" id="full_payment_date" value="{{old('full_payment_date', $purchase->full_payment_date)}}" class="form-control input-sm">
+                                    {!! $errors->first('full_payment_date', '<em for="full_payment_date" class="text-danger">:message</em>') !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- Instalment Fields (hidden by default) --}}
                     <div id="instalment-section" style="display: {{ $purchase->paymentMethod->name == 'Instalment' ? 'block' : 'none' }};">
                         <div class="row">
@@ -460,9 +472,11 @@
                 var selectedText = $('#payment_method_id option:selected').text();
                 if (selectedText === 'Instalment') {
                     $('#instalment-section').show();
+                    $('#fullpayment-section').hide();
                     generateInstalmentTable();
                 } else {
                     $('#instalment-section').hide();
+                    $('#fullpayment-section').show();
                 }
             });
 

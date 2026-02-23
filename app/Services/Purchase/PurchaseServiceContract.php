@@ -21,4 +21,6 @@ interface PurchaseServiceContract
     public function download($request);
 
     public function approve(int $id);
+
+    public function waitingForPayment(int $id);
 }

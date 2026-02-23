@@ -32,12 +32,12 @@
                         <dd>:
                             @if ($purchase->status == 'draft')
                                 <span class="label label-warning">DRAFT</span>
-                            @elseif($purchase->status == 'submitted')
-                                <span class="label label-info">SUBMITTED</span>
+                            @elseif($purchase->status == 'waiting_for_payment')
+                                <span class="label label-info">WAITING FOR PAYMENT</span>
                             @elseif($purchase->status == 'approved')
                                 <span class="label label-success">APPROVED</span>
-                            @elseif($purchase->status == 'rejected')
-                                <span class="label label-danger">REJECTED</span>
+                            @elseif($purchase->status == 'paid')
+                                <span class="label label-success">PAID</span>
                             @else
                                 <span class="label label-default">{{ strtoupper($purchase->status) }}</span>
                             @endif
@@ -55,6 +55,11 @@
 
                         <dt class="text-left">Payment Method</dt>
                         <dd>: {{ $purchase->paymentMethod ? $purchase->paymentMethod->name : '-' }}</dd>
+
+                        @if($purchase->full_payment_date != null)
+                        <dt class="text-left">Tanggal Full Payment</dt>
+                        <dd>: {{ \Carbon\Carbon::parse($purchase->full_payment_date)->format('d M Y') }}</dd>
+                        @endif
 
                         <dt class="text-left">Wallet</dt>
                         <dd>: {{ $purchase->wallet ? $purchase->wallet->account_number .' - '. $purchase->wallet->account_name .' - '. $purchase->wallet->bank_name : '-' }}</dd>

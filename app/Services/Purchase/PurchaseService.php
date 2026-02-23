@@ -9,6 +9,7 @@ use App\Models\PurchaseItem;
 use App\Models\PurchaseCost;
 use App\Models\PurchaseDiscount;
 use App\Models\PurchaseInstalment;
+use App\Models\PaymentMethod;
 use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
@@ -44,12 +45,24 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->supplier_account_id  = $request->supplier_account_id;
             $purchase->payment_method_id    = $request->payment_method_id;
-            $purchase->down_payment         = $request->down_payment ?? 0;
-            $purchase->down_payment_date    = $request->down_payment_date ?? null;
-            $purchase->instalment_count     = $request->instalment_count ?? 0;
+
+            $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
+            if($paymentMethod->name == 'Instalment'){
+                $purchase->down_payment         = $request->down_payment;
+                $purchase->down_payment_date    = $request->down_payment_date;
+                $purchase->full_payment_date    = null;
+                $purchase->instalment_count     = $request->instalment_count;
+            }
+            else{
+                $purchase->down_payment         = 0;
+                $purchase->down_payment_date    = null;
+                $purchase->full_payment_date    = $request->full_payment_date;
+                $purchase->instalment_count     = 0;
+            }
+
             $purchase->wallet_id            = $request->wallet_id;
             $purchase->notes                = $request->notes;
-            $purchase->status               = $request->status ?? 'draft';
+            $purchase->status               = 'draft';
             $purchase->created_by           = Sentinel::getUser()->email;
 
             // Calculate totals
@@ -175,12 +188,37 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->purchase_date        = $request->purchase_date;
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->payment_method_id    = $request->payment_method_id;
-            $purchase->down_payment         = $request->down_payment ?? 0;
-            $purchase->down_payment_date    = $request->down_payment_date ?? null;
-            $purchase->instalment_count     = $request->instalment_count ?? 0;
+
+            $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
+            if($paymentMethod->name == 'Instalment'){
+                $purchase->down_payment         = $request->down_payment;
+                $purchase->down_payment_date    = $request->down_payment_date;
+                $purchase->full_payment_date    = null;
+                $purchase->instalment_count     = $request->instalment_count;
+            }
+            else{
+                $purchase->down_payment         = 0;
+                $purchase->down_payment_date    = null;
+                $purchase->full_payment_date    = $request->full_payment_date;
+                $purchase->instalment_count     = 0;
+            }
+
             $purchase->wallet_id            = $request->wallet_id;
             $purchase->notes                = $request->notes;
-            $purchase->status               = $request->status ?? 'draft';
+
+            if($purchase->status == 'draft'){
+                $purchase->status           = 'draft';
+            }
+            else if($purchase->status == 'approved'){
+                $purchase->status           = 'approved';
+            }
+            else if($purchase->status == 'waiting_for_payment'){
+                $purchase->status           = 'approved';
+            }
+            else{
+                $purchase->status           = 'draft';
+            }
+            
             $purchase->updated_by           = Sentinel::getUser()->email;
 
             // Delete existing items, costs, and instalments
@@ -485,6 +523,35 @@ class PurchaseService implements PurchaseServiceContract
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
             $logDb->action      = 'Approve Purchase ' . $purchase->code;
+            $logDb->menu        = 'Purchase';
+            $logDb->item_id     = $purchase->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            DB::commit();
+
+            return $purchase;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function waitingForPayment(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $purchase = Purchase::find($id);
+            $purchase->approved_by = Sentinel::getUser()->email;
+            $purchase->approved_at = date('Y-m-d H:i:s');
+            $purchase->status      = 'waiting_for_payment';
+            $purchase->save();
+
+            // Log
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Waiting For Payment Purchase ' . $purchase->code;
             $logDb->menu        = 'Purchase';
             $logDb->item_id     = $purchase->id;
             $logDb->created_by  = Sentinel::getUser()->email;

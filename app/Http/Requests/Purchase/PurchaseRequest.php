@@ -36,6 +36,7 @@ class PurchaseRequest extends FormRequest
             // Instalment
             'down_payment' => 'nullable|numeric|min:0',
             'down_payment_date' => 'nullable|date',
+            'full_payment_date' => 'nullable|date',
             'instalment_count' => 'nullable|integer|min:1',
             'instalments' => 'nullable|array',
             'instalments.*.due_date' => 'nullable|date',
