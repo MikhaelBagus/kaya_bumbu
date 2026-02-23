@@ -46,6 +46,7 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->supplier_account_id  = $request->supplier_account_id;
             $purchase->payment_method_id    = $request->payment_method_id;
 
+            $status = 'draft';
             $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
             if($paymentMethod->name == 'Instalment'){
                 $purchase->down_payment         = $request->down_payment;
@@ -58,11 +59,15 @@ class PurchaseService implements PurchaseServiceContract
                 $purchase->down_payment_date    = null;
                 $purchase->full_payment_date    = $request->full_payment_date;
                 $purchase->instalment_count     = 0;
+
+                if($request->full_payment_date != null){
+                    $status = 'paid';
+                }
             }
 
             $purchase->wallet_id            = $request->wallet_id;
             $purchase->notes                = $request->notes;
-            $purchase->status               = 'draft';
+            $purchase->status               = $status;
             $purchase->created_by           = Sentinel::getUser()->email;
 
             // Calculate totals
@@ -117,7 +122,12 @@ class PurchaseService implements PurchaseServiceContract
                     $purchaseItem->expenditure_type_id  = $item['expenditure_type_id'];
                     $purchaseItem->save();
 
-                    $purchaseItem->ingredientMaster->price = $item['price'];
+                    $countItem       = $request->items->count();
+                    $costPerItem     = $cost / $countItem / $item['po_qty'];
+                    $discountPerItem = $discount / $countItem / $item['po_qty'];
+                    $lastPrice       = $item['price'] + $costPerItem - $discountPerItem;
+
+                    $purchaseItem->ingredientMaster->price = $lastPrice;
                     $purchaseItem->ingredientMaster->save();
                 }
             }
@@ -147,17 +157,29 @@ class PurchaseService implements PurchaseServiceContract
             }
 
             // Save purchase instalments
-            if ($request->has('instalments') && is_array($request->instalments)) {
-                foreach ($request->instalments as $key => $instalmentItem) {
-                    $purchaseInstalment = new PurchaseInstalment();
-                    $purchaseInstalment->purchase_id        = $purchase->id;
-                    $purchaseInstalment->instalment_number  = $key;
-                    $purchaseInstalment->due_date           = $instalmentItem['due_date'] ?? null;
-                    $purchaseInstalment->amount             = $instalmentItem['amount'] ?? 0;
-                    $purchaseInstalment->paid_date          = $instalmentItem['paid_date'] ?? null;
-                    $purchaseInstalment->save();
+            if($paymentMethod->name == 'Instalment'){
+                if ($request->has('instalments') && is_array($request->instalments)) {
+                    foreach ($request->instalments as $key => $instalmentItem) {
+                        $purchaseInstalment = new PurchaseInstalment();
+                        $purchaseInstalment->purchase_id        = $purchase->id;
+                        $purchaseInstalment->instalment_number  = $key;
+                        $purchaseInstalment->due_date           = $instalmentItem['due_date'] ?? null;
+                        $purchaseInstalment->amount             = $instalmentItem['amount'] ?? 0;
+                        $purchaseInstalment->paid_date          = $instalmentItem['paid_date'] ?? null;
+                        $purchaseInstalment->save();
+
+                        if($instalmentItem['paid_date'] != null){
+                            $status = 'paid';
+                        }
+                        else{
+                            $status = 'draft';
+                        }
+                    }
                 }
             }
+
+            $purchase->status               = $status;
+            $purchase->save();
 
             // Log
             $logDb = new Log();
@@ -189,6 +211,8 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->payment_method_id    = $request->payment_method_id;
 
+            $lastStatus = $purchase->status;
+            $status = $purchase->status;
             $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
             if($paymentMethod->name == 'Instalment'){
                 $purchase->down_payment         = $request->down_payment;
@@ -201,24 +225,14 @@ class PurchaseService implements PurchaseServiceContract
                 $purchase->down_payment_date    = null;
                 $purchase->full_payment_date    = $request->full_payment_date;
                 $purchase->instalment_count     = 0;
+
+                if($request->full_payment_date != null){
+                    $status = 'paid';
+                }
             }
 
             $purchase->wallet_id            = $request->wallet_id;
             $purchase->notes                = $request->notes;
-
-            if($purchase->status == 'draft'){
-                $purchase->status           = 'draft';
-            }
-            else if($purchase->status == 'approved'){
-                $purchase->status           = 'approved';
-            }
-            else if($purchase->status == 'waiting_for_payment'){
-                $purchase->status           = 'approved';
-            }
-            else{
-                $purchase->status           = 'draft';
-            }
-            
             $purchase->updated_by           = Sentinel::getUser()->email;
 
             // Delete existing items, costs, and instalments
@@ -279,7 +293,12 @@ class PurchaseService implements PurchaseServiceContract
                     $purchaseItem->expenditure_type_id  = $item['expenditure_type_id'];
                     $purchaseItem->save();
 
-                    $purchaseItem->ingredientMaster->price = $item['price'];
+                    $countItem       = $request->items->count();
+                    $costPerItem     = $cost / $countItem / $item['po_qty'];
+                    $discountPerItem = $discount / $countItem / $item['po_qty'];
+                    $lastPrice       = $item['price'] + $costPerItem - $discountPerItem;
+
+                    $purchaseItem->ingredientMaster->price = $lastPrice;
                     $purchaseItem->ingredientMaster->save();
                 }
             }
@@ -309,17 +328,34 @@ class PurchaseService implements PurchaseServiceContract
             }
 
             // Save purchase instalments
-            if ($request->has('instalments') && is_array($request->instalments)) {
-                foreach ($request->instalments as $key => $instalmentItem) {
-                    $purchaseInstalment = new PurchaseInstalment();
-                    $purchaseInstalment->purchase_id        = $purchase->id;
-                    $purchaseInstalment->instalment_number  = $key;
-                    $purchaseInstalment->due_date           = $instalmentItem['due_date'] ?? null;
-                    $purchaseInstalment->amount             = $instalmentItem['amount'] ?? 0;
-                    $purchaseInstalment->paid_date          = $instalmentItem['paid_date'] ?? null;
-                    $purchaseInstalment->save();
+            if($paymentMethod->name == 'Instalment'){
+                if ($request->has('instalments') && is_array($request->instalments)) {
+                    foreach ($request->instalments as $key => $instalmentItem) {
+                        $purchaseInstalment = new PurchaseInstalment();
+                        $purchaseInstalment->purchase_id        = $purchase->id;
+                        $purchaseInstalment->instalment_number  = $key;
+                        $purchaseInstalment->due_date           = $instalmentItem['due_date'] ?? null;
+                        $purchaseInstalment->amount             = $instalmentItem['amount'] ?? 0;
+                        $purchaseInstalment->paid_date          = $instalmentItem['paid_date'] ?? null;
+                        $purchaseInstalment->save();
+
+                        if($instalmentItem['paid_date'] != null){
+                            $status = 'paid';
+                        }
+                        else{
+                            if($lastStatus == 'waiting_for_payment'){
+                                $status = 'approved';
+                            }
+                            else{
+                                $status = 'draft';
+                            }
+                        }
+                    }
                 }
             }
+
+            $purchase->status               = $status;
+            $purchase->save();
 
             // Log
             $logDb = new Log();
