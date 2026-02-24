@@ -381,6 +381,17 @@ class PurchaseService implements PurchaseServiceContract
             ->addColumn('checkbox', function ($data) {
                 return '';
             })
+            ->addColumn('instalment_left', function ($data) {
+                $check = 0;
+                if($data->purchaseInstalments){
+                    foreach($data->purchaseInstalments as $instalment){
+                        if($instalment->paid_date == null){
+                            $check = $check + 1;
+                        }
+                    }
+                }
+                return $check;
+            })
             ->addColumn('action', function ($data) {
                 return view('backend.purchase.action', compact('data'));
             })

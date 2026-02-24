@@ -25,6 +25,7 @@
                         <th>Total Purchase</th>
                         <th>Payment Method</th>
                         <th>Total Cicilan</th>
+                        <th>Sisa Cicilan</th>
                         <th>Status</th>
                         <th>@lang('auth.index_created_at')</th>
                         <th>@lang('auth.index_updated_at')</th>
@@ -133,6 +134,11 @@
                     {
                         data: 'instalment_count',
                         name: 'instalment_count'
+                    },
+                    {
+                        data: 'instalment_left',
+                        name: 'instalment_left',
+                        searchable: false,
                     },
                     {
                         data: 'status',
