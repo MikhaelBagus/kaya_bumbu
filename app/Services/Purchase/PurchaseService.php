@@ -118,7 +118,7 @@ class PurchaseService implements PurchaseServiceContract
                     $purchaseItem->expenditure_type_id  = $item['expenditure_type_id'];
                     $purchaseItem->save();
 
-                    $countItem       = $request->items->count();
+                    $countItem       = count($request->items);
                     $costPerItem     = $cost / $countItem / $item['po_qty'];
                     $discountPerItem = $discount / $countItem / $item['po_qty'];
                     $lastPrice       = $item['price'] + $costPerItem - $discountPerItem;
@@ -282,7 +282,7 @@ class PurchaseService implements PurchaseServiceContract
                     $purchaseItem->expenditure_type_id  = $item['expenditure_type_id'];
                     $purchaseItem->save();
 
-                    $countItem       = $request->items->count();
+                    $countItem       = count($request->items);
                     $costPerItem     = $cost / $countItem / $item['po_qty'];
                     $discountPerItem = $discount / $countItem / $item['po_qty'];
                     $lastPrice       = $item['price'] + $costPerItem - $discountPerItem;
