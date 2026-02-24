@@ -59,10 +59,6 @@ class PurchaseService implements PurchaseServiceContract
                 $purchase->down_payment_date    = null;
                 $purchase->full_payment_date    = $request->full_payment_date;
                 $purchase->instalment_count     = 0;
-
-                if($request->full_payment_date != null){
-                    $status = 'paid';
-                }
             }
 
             $purchase->wallet_id            = $request->wallet_id;
@@ -167,13 +163,6 @@ class PurchaseService implements PurchaseServiceContract
                         $purchaseInstalment->amount             = $instalmentItem['amount'] ?? 0;
                         $purchaseInstalment->paid_date          = $instalmentItem['paid_date'] ?? null;
                         $purchaseInstalment->save();
-
-                        if($instalmentItem['paid_date'] != null){
-                            $status = 'paid';
-                        }
-                        else{
-                            $status = 'draft';
-                        }
                     }
                 }
             }
@@ -356,6 +345,11 @@ class PurchaseService implements PurchaseServiceContract
 
             $purchase->status               = $status;
             $purchase->save();
+
+            if($status == 'paid'){
+                $purchase->paid_at = date('Y-m-d H:i:s');
+                $purchase->save();
+            }
 
             // Log
             $logDb = new Log();
@@ -579,8 +573,6 @@ class PurchaseService implements PurchaseServiceContract
 
         try {
             $purchase = Purchase::find($id);
-            $purchase->approved_by = Sentinel::getUser()->email;
-            $purchase->approved_at = date('Y-m-d H:i:s');
             $purchase->status      = 'waiting_for_payment';
             $purchase->save();
 

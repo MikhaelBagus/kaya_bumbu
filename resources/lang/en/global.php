@@ -77,6 +77,7 @@ return [
 	'view'                 => 'View',
 	'delete'               => 'Delete',
 	'approve'              => 'Approve',
+	'waiting_for_payment'  => 'Change Status to Waiting For Payment',
     'import'               => 'Import',
 	'miscellaneous'        => 'Miscellaneous',
 

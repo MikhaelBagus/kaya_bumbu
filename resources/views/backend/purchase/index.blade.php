@@ -140,9 +140,9 @@
                         render: function(data) {
                             let badge = 'default';
                             if (data === 'draft') badge = 'warning';
-                            else if (data === 'submitted') badge = 'info';
                             else if (data === 'approved') badge = 'success';
-                            else if (data === 'rejected') badge = 'danger';
+                            else if (data === 'waiting_for_payment') badge = 'info';
+                            else if (data === 'paid') badge = 'success';
                             return '<span class="label label-' + badge + '">' + data.toUpperCase() +
                                 '</span>';
                         }
