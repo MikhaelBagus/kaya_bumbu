@@ -118,7 +118,7 @@ class IngredientMasterController extends Controller
                 $logDb->created_by  = Sentinel::getUser()->email;
                 $logDb->save();
 
-                IngredientGroup::where('id', $ingredient_id)->delete();
+                IngredientMaster::where('id', $ingredient_id)->delete();
 
                 return redirect()->route('ingredient.index')
                             ->with('success', 'Ingredient Master deleted successfully.');
