@@ -24,8 +24,8 @@
 
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('supplier_phone')) has-error @endif">
-                            <label for="supplier_phone" class="control-label">Supplier Phone <span style="color: red">*</span></label>
-                            <input type="number" name="supplier_phone" id="supplier_phone" value="{{old('supplier_phone')}}" class="form-control input-sm" placeholder="Supplier Phone ...*" required>
+                            <label for="supplier_phone" class="control-label">Supplier Phone </label>
+                            <input type="number" name="supplier_phone" id="supplier_phone" value="{{old('supplier_phone')}}" class="form-control input-sm" placeholder="Supplier Phone ...">
                             {!! $errors->first('supplier_phone', '<em for="supplier_phone" class="text-danger">:message</em>') !!}
                         </div>
                     </div>

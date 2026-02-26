@@ -25,9 +25,14 @@ class SupplierService implements SupplierServiceContract
         try {
             $supplierDb = new Supplier();
             $supplierDb->supplier_name        = $request->supplier_name;
-            $supplierDb->supplier_phone       = $request->supplier_phone;
+            if($request->supplier_phone == null){
+                $supplierDb->supplier_phone   = '';
+            }
+            else{
+                $supplierDb->supplier_phone   = $request->supplier_phone;
+            }
             $supplierDb->supplier_description = $request->supplier_description;
-            $supplierDb->created_by         = Sentinel::getUser()->email;
+            $supplierDb->created_by          = Sentinel::getUser()->email;
             $supplierDb->save();
 
             $supplierAccountDb = new SupplierAccount();
@@ -72,7 +77,12 @@ class SupplierService implements SupplierServiceContract
         try {
             $supplierDb = Supplier::find($id);
             $supplierDb->supplier_name        = $request->supplier_name;
-            $supplierDb->supplier_phone       = $request->supplier_phone;
+            if($request->supplier_phone == null){
+                $supplierDb->supplier_phone   = '';
+            }
+            else{
+                $supplierDb->supplier_phone   = $request->supplier_phone;
+            }
             $supplierDb->supplier_description = $request->supplier_description;
             $supplierDb->updated_by           = Sentinel::getUser()->email;
             $supplierDb->save();
