@@ -44,6 +44,7 @@ class PurchaseExport implements FromCollection, WithHeadings
             ->paymentMethod($this->filters['payment_method_id'] ?? null)
             ->status($this->filters['status'] ?? null);
 
+        // tetap bantu seleksi purchase di level query
         if (!empty($this->filters['product_id'])) {
             $purchases->whereHas('purchaseItems', function ($q) {
                 $q->where('product_id', $this->filters['product_id']);
@@ -101,8 +102,12 @@ class PurchaseExport implements FromCollection, WithHeadings
                     ($purchase->wallet->bank_name ?? '');
             }
 
-            if ($purchase->purchaseItems && count($purchase->purchaseItems) > 0) {
-                foreach ($purchase->purchaseItems as $item) {
+            $matchedItems = collect($purchase->purchaseItems)->filter(function ($item) {
+                return $this->itemMatchesFilters($item);
+            });
+
+            if ($matchedItems->count() > 0) {
+                foreach ($matchedItems as $item) {
                     $groupCategoryName = '';
                     $categoryName = '';
 
@@ -131,27 +136,53 @@ class PurchaseExport implements FromCollection, WithHeadings
                         'wallet'               => $walletInfo
                     ]);
                 }
-            } else {
-                $rows->push([
-                    'purchase_code'        => $purchase->code ?? '',
-                    'tanggal_input'        => $purchase->created_at ?? '',
-                    'nama_item'            => '',
-                    'kategori_item'        => '',
-                    'sub_kategori_item'    => '',
-                    'tanggal_pembelian'    => $purchase->purchase_date ?? '',
-                    'notes'                => $purchase->notes ?? '',
-                    'jumlah'               => 0,
-                    'unit'                 => '',
-                    'harga_satuan'         => 0,
-                    'total_harga'          => 0,
-                    'supplier'             => optional($purchase->supplier)->supplier_name ?? '',
-                    'supplier_account'     => $supplierAccountInfo,
-                    'wallet'               => $walletInfo
-                ]);
             }
         }
 
         return new Collection($rows);
+    }
+
+    private function itemMatchesFilters($item): bool
+    {
+        if (!empty($this->filters['product_id'])) {
+            if ((int) $item->product_id !== (int) $this->filters['product_id']) {
+                return false;
+            }
+        }
+
+        if (($this->filters['po_qty_from'] ?? null) !== null && ($this->filters['po_qty_to'] ?? null) !== null) {
+            if ($item->po_qty < $this->filters['po_qty_from'] || $item->po_qty > $this->filters['po_qty_to']) {
+                return false;
+            }
+        }
+
+        if (($this->filters['price_from'] ?? null) !== null && ($this->filters['price_to'] ?? null) !== null) {
+            if ($item->price < $this->filters['price_from'] || $item->price > $this->filters['price_to']) {
+                return false;
+            }
+        }
+
+        if (($this->filters['item_subtotal_from'] ?? null) !== null && ($this->filters['item_subtotal_to'] ?? null) !== null) {
+            if ($item->subtotal < $this->filters['item_subtotal_from'] || $item->subtotal > $this->filters['item_subtotal_to']) {
+                return false;
+            }
+        }
+
+        if (!empty($this->filters['ingredient_category_id'])) {
+            $itemCategoryId = optional(optional($item->ingredientMaster)->ingredient_category)->id;
+            if ((int) $itemCategoryId !== (int) $this->filters['ingredient_category_id']) {
+                return false;
+            }
+        }
+
+        if (!empty($this->filters['ingredient_group_id'])) {
+            $itemGroupId = optional(optional(optional($item->ingredientMaster)->ingredient_category)->ingredient_group)->id;
+            if ((int) $itemGroupId !== (int) $this->filters['ingredient_group_id']) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function headings(): array
