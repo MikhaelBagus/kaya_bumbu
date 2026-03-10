@@ -108,6 +108,48 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="instalment_count">Total Cicilan Range</label>
+                                    <div class="input-group input-group-sm date">
+                                        <input type="number" name="instalment_count_from" id="instalment_count_from"
+                                            value="{{ old('instalment_count_from') }}" class="form-control input-sm" min="0">
+                                        <label class="input-group-addon input-sm tip" id="clearInstalmentCountFrom"
+                                            title="Clear Total Cicilan From" for="instalment_count_from">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+
+                                        <input type="number" name="instalment_count_to" id="instalment_count_to"
+                                            value="{{ old('instalment_count_to') }}" class="form-control input-sm" min="0">
+                                        <label class="input-group-addon input-sm tip" id="clearInstalmentCountTo"
+                                            title="Clear Total Cicilan To" for="instalment_count_to">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="instalment_left">Sisa Cicilan Range</label>
+                                    <div class="input-group input-group-sm date">
+                                        <input type="number" name="instalment_left_from" id="instalment_left_from"
+                                            value="{{ old('instalment_left_from') }}" class="form-control input-sm" min="0">
+                                        <label class="input-group-addon input-sm tip" id="clearInstalmentLeftFrom"
+                                            title="Clear Sisa Cicilan From" for="instalment_left_from">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+
+                                        <input type="number" name="instalment_left_to" id="instalment_left_to"
+                                            value="{{ old('instalment_left_to') }}" class="form-control input-sm" min="0">
+                                        <label class="input-group-addon input-sm tip" id="clearInstalmentLeftTo"
+                                            title="Clear Sisa Cicilan To" for="instalment_left_to">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-12">
                                 <button type="button" id="choose" class="btn btn-success btn-sm">Apply Filter</button>
                             </div>
@@ -207,6 +249,10 @@
                         d.wallet_id = $('#wallet_id').val();
                         d.payment_method_id = $('#payment_method_id').val();
                         d.status = $('#status').val();
+                        d.instalment_count_from = $('#instalment_count_from').val();
+                        d.instalment_count_to = $('#instalment_count_to').val();
+                        d.instalment_left_from = $('#instalment_left_from').val();
+                        d.instalment_left_to = $('#instalment_left_to').val();
                     }
                 },
                 columns: [{
@@ -292,7 +338,7 @@
                         extend: 'csv',
                         text: '<i class="fa fa-download"></i> CSV',
                         exportOptions: {
-                            columns: [2, 3, 4, 5, 6, 8, 9],
+                            columns: [2, 3, 4, 5, 6, 7, 8, 9],
                             modifier: {
                                 page: 'all',
                                 search: 'none'
@@ -383,6 +429,46 @@
 
             $('#clearTotalPurchaseTo').on('click', function() {
                 $('#total_purchase_to').val('');
+            });
+
+            $('#instalment_count_from').on('change', function() {
+                if ($('#instalment_count_to').val() == '') {
+                    $('#instalment_count_to').val($('#instalment_count_from').val());
+                }
+            });
+
+            $('#instalment_count_to').on('change', function() {
+                if ($('#instalment_count_from').val() == '') {
+                    $('#instalment_count_from').val($('#instalment_count_to').val());
+                }
+            });
+
+            $('#clearInstalmentCountFrom').on('click', function() {
+                $('#instalment_count_from').val('');
+            });
+
+            $('#clearInstalmentCountTo').on('click', function() {
+                $('#instalment_count_to').val('');
+            });
+
+            $('#instalment_left_from').on('change', function() {
+                if ($('#instalment_left_to').val() == '') {
+                    $('#instalment_left_to').val($('#instalment_left_from').val());
+                }
+            });
+
+            $('#instalment_left_to').on('change', function() {
+                if ($('#instalment_left_from').val() == '') {
+                    $('#instalment_left_from').val($('#instalment_left_to').val());
+                }
+            });
+
+            $('#clearInstalmentLeftFrom').on('click', function() {
+                $('#instalment_left_from').val('');
+            });
+
+            $('#clearInstalmentLeftTo').on('click', function() {
+                $('#instalment_left_to').val('');
             });
 
             $('#status').select2({

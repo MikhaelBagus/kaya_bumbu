@@ -12,7 +12,6 @@ class Purchase extends Model
 
     protected $table = 'purchases';
 
-    // Relationships
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
@@ -53,35 +52,64 @@ class Purchase extends Model
         return $this->hasMany(PurchaseInstalment::class, 'purchase_id');
     }
 
-    // Date accessors
     public function getCreatedAtAttribute($value)
     {
-        if($value == null){
+        if ($value == null) {
             return '';
-        }
-        else{
+        } else {
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
 
     public function getUpdatedAtAttribute($value)
     {
-        if($value == null){
+        if ($value == null) {
             return '';
-        }
-        else{
+        } else {
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
     }
 
     public function getDeletedAtAttribute($value)
     {
-        if($value == null){
+        if ($value == null) {
             return '';
-        }
-        else{
+        } else {
             return (new Carbon($value))->timezone('Asia/Jakarta')->toDateTimeString();
         }
+    }
+
+    public function scopePurchaseDate($query, $purchaseDateFrom, $purchaseDateTo)
+    {
+        if ($purchaseDateFrom != null && $purchaseDateTo != null) {
+            return $query->whereBetween('purchase_date', [$purchaseDateFrom, $purchaseDateTo]);
+        }
+        return $query;
+    }
+
+    public function scopeTotalPurchase($query, $totalPurchaseFrom, $totalPurchaseTo)
+    {
+        if ($totalPurchaseFrom != null && $totalPurchaseTo != null) {
+            return $query->whereBetween('total_purchase', [$totalPurchaseFrom, $totalPurchaseTo]);
+        }
+        return $query;
+    }
+
+    public function scopeInstalmentCount($query, $instalmentCountFrom, $instalmentCountTo)
+    {
+        if ($instalmentCountFrom != null && $instalmentCountTo != null) {
+            return $query->whereBetween('instalment_count', [$instalmentCountFrom, $instalmentCountTo]);
+        }
+        return $query;
+    }
+
+    public function scopeInstalmentLeft($query, $instalmentLeftFrom, $instalmentLeftTo)
+    {
+        if ($instalmentLeftFrom != null && $instalmentLeftTo != null) {
+            return $query->having('instalment_left_count', '>=', $instalmentLeftFrom)
+                ->having('instalment_left_count', '<=', $instalmentLeftTo);
+        }
+        return $query;
     }
 
     public function scopeSupplier($query, $supplier)
@@ -120,22 +148,6 @@ class Purchase extends Model
     {
         if ($status != null) {
             return $query->where('status', $status);
-        }
-        return $query;
-    }
-
-    public function scopePurchaseDate($query, $purchaseDateFrom, $purchaseDateTo)
-    {
-        if ($purchaseDateFrom != null && $purchaseDateTo != null) {
-            return $query->whereBetween('purchase_date', [$purchaseDateFrom, $purchaseDateTo]);
-        }
-        return $query;
-    }
-
-    public function scopeTotalPurchase($query, $totalPurchaseFrom, $totalPurchaseTo)
-    {
-        if ($totalPurchaseFrom != null && $totalPurchaseTo != null) {
-            return $query->whereBetween('total_purchase', [$totalPurchaseFrom, $totalPurchaseTo]);
         }
         return $query;
     }

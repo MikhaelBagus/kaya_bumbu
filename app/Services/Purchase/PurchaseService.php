@@ -349,8 +349,15 @@ class PurchaseService implements PurchaseServiceContract
 
         $query = Purchase::select($select)
             ->with('supplier', 'supplierAccount', 'paymentMethod', 'wallet', 'purchaseInstalments')
+            ->withCount([
+                'purchaseInstalments as instalment_left_count' => function ($q) {
+                    $q->whereNull('paid_date');
+                }
+            ])
             ->purchaseDate($request->purchase_date_from, $request->purchase_date_to)
             ->totalPurchase($request->total_purchase_from, $request->total_purchase_to)
+            ->instalmentCount($request->instalment_count_from, $request->instalment_count_to)
+            ->instalmentLeft($request->instalment_left_from, $request->instalment_left_to)
             ->supplier($request->supplier_id)
             ->wallet($request->wallet_id)
             ->supplierAccount($request->supplier_account_id)
@@ -362,15 +369,7 @@ class PurchaseService implements PurchaseServiceContract
                 return '';
             })
             ->addColumn('instalment_left', function ($data) {
-                $check = 0;
-                if ($data->purchaseInstalments) {
-                    foreach ($data->purchaseInstalments as $instalment) {
-                        if ($instalment->paid_date == null) {
-                            $check = $check + 1;
-                        }
-                    }
-                }
-                return $check;
+                return $data->instalment_left_count ?? 0;
             })
             ->addColumn('action', function ($data) {
                 return view('backend.purchase.action', compact('data'));
