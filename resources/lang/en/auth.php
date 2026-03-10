@@ -202,6 +202,8 @@ return [
 	'approve_confirmation_heading'                          => 'Approve this entry ?',
 	'waiting_for_payment_confirmation'                      => 'Are you sure you want to change status to Waiting For Payment \':name\'?',
 	'waiting_for_payment_confirmation_heading'              => 'Change status to Waiting For Payment this entry ?',
+	'paid_confirmation'                      				=> 'Are you sure you want to change status to Paid \':name\'?',
+	'paid_confirmation_heading'              				=> 'Change status to Paid this entry ?',
 	
 	// Role
 	'role_creation_successful'                              => 'Role Successfully Created',

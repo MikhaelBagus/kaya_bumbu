@@ -17,6 +17,10 @@
     <a style="font-size: 24px;" href="#" data-message="{{ trans('auth.waiting_for_payment_confirmation', ['name' => $data->code]) }}" data-href="{{ route('purchase.waiting_for_payment', [$data->id]) }}" id="tooltip" data-method="PUT" data-title="{{ trans('global.waiting_for_payment') }}" data-toggle="modal" data-target="#delete">
         <span class="label label-success label-sm"><i class="fa fa-money"></i></span>
     </a>
+    @elseif($data->status == 'waiting_for_payment')
+    <a style="font-size: 24px;" href="#" data-message="{{ trans('auth.paid_confirmation', ['name' => $data->code]) }}" data-href="{{ route('purchase.paid', [$data->id]) }}" id="tooltip" data-method="PUT" data-title="{{ trans('global.paid') }}" data-toggle="modal" data-target="#delete">
+        <span class="label label-success label-sm"><i class="fa fa-credit-card"></i></span>
+    </a>
     @endif
 @else
     @if($data->status == 'draft')

@@ -23,4 +23,6 @@ interface PurchaseServiceContract
     public function approve(int $id);
 
     public function waitingForPayment(int $id);
+
+    public function paid(int $id);
 }

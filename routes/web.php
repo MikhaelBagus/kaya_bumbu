@@ -904,6 +904,9 @@ Route::group([
 
     Route::put('/waiting-for-payment/{id}', [PurchaseController::class, 'waitingForPayment'])
         ->name('purchase.waiting_for_payment')->middleware('sentinel.permission:purchase.waitingforpayment');
+
+    Route::put('/paid/{id}', [PurchaseController::class, 'paid'])
+        ->name('purchase.paid')->middleware('sentinel.permission:purchase.paid');
 });
 
 // source

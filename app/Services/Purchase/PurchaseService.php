@@ -46,7 +46,6 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->supplier_account_id  = $request->supplier_account_id;
             $purchase->payment_method_id    = $request->payment_method_id;
 
-            $status = 'draft';
             $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
             if($paymentMethod->name == 'Instalment'){
                 $purchase->down_payment         = $request->down_payment;
@@ -63,7 +62,7 @@ class PurchaseService implements PurchaseServiceContract
 
             $purchase->wallet_id            = $request->wallet_id;
             $purchase->notes                = $request->notes;
-            $purchase->status               = $status;
+            $purchase->status               = 'draft';
             $purchase->created_by           = Sentinel::getUser()->email;
 
             // Calculate totals
@@ -167,9 +166,6 @@ class PurchaseService implements PurchaseServiceContract
                 }
             }
 
-            $purchase->status               = $status;
-            $purchase->save();
-
             // Log
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
@@ -200,8 +196,6 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->payment_method_id    = $request->payment_method_id;
 
-            $lastStatus = $purchase->status;
-            $status = $purchase->status;
             $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
             if($paymentMethod->name == 'Instalment'){
                 $purchase->down_payment         = $request->down_payment;
@@ -214,10 +208,6 @@ class PurchaseService implements PurchaseServiceContract
                 $purchase->down_payment_date    = null;
                 $purchase->full_payment_date    = $request->full_payment_date;
                 $purchase->instalment_count     = 0;
-
-                if($request->full_payment_date != null){
-                    $status = 'paid';
-                }
             }
 
             $purchase->wallet_id            = $request->wallet_id;
@@ -327,28 +317,8 @@ class PurchaseService implements PurchaseServiceContract
                         $purchaseInstalment->amount             = $instalmentItem['amount'] ?? 0;
                         $purchaseInstalment->paid_date          = $instalmentItem['paid_date'] ?? null;
                         $purchaseInstalment->save();
-
-                        if($instalmentItem['paid_date'] != null){
-                            $status = 'paid';
-                        }
-                        else{
-                            if($lastStatus == 'waiting_for_payment'){
-                                $status = 'approved';
-                            }
-                            else{
-                                $status = 'draft';
-                            }
-                        }
                     }
                 }
-            }
-
-            $purchase->status               = $status;
-            $purchase->save();
-
-            if($status == 'paid'){
-                $purchase->paid_at = date('Y-m-d H:i:s');
-                $purchase->save();
             }
 
             // Log
@@ -591,6 +561,33 @@ class PurchaseService implements PurchaseServiceContract
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
             $logDb->action      = 'Waiting For Payment Purchase ' . $purchase->code;
+            $logDb->menu        = 'Purchase';
+            $logDb->item_id     = $purchase->id;
+            $logDb->created_by  = Sentinel::getUser()->email;
+            $logDb->save();
+
+            DB::commit();
+
+            return $purchase;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
+    public function paid(int $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $purchase = Purchase::find($id);
+            $purchase->status      = 'paid';
+            $purchase->save();
+
+            // Log
+            $logDb = new Log();
+            $logDb->user_id     = Sentinel::getUser()->id;
+            $logDb->action      = 'Paid Purchase ' . $purchase->code;
             $logDb->menu        = 'Purchase';
             $logDb->item_id     = $purchase->id;
             $logDb->created_by  = Sentinel::getUser()->email;

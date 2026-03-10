@@ -32,10 +32,10 @@
                         <dd>:
                             @if ($purchase->status == 'draft')
                                 <span class="label label-warning">DRAFT</span>
-                            @elseif($purchase->status == 'waiting_for_payment')
-                                <span class="label label-info">WAITING FOR PAYMENT</span>
                             @elseif($purchase->status == 'approved')
                                 <span class="label label-success">APPROVED</span>
+                            @elseif($purchase->status == 'waiting_for_payment')
+                                <span class="label label-info">WAITING FOR PAYMENT</span>
                             @elseif($purchase->status == 'paid')
                                 <span class="label label-success">PAID</span>
                             @else
