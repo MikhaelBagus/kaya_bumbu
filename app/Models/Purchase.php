@@ -123,4 +123,20 @@ class Purchase extends Model
         }
         return $query;
     }
+
+    public function scopePurchaseDate($query, $purchaseDateFrom, $purchaseDateTo)
+    {
+        if ($purchaseDateFrom != null && $purchaseDateTo != null) {
+            return $query->whereBetween('purchase_date', [$purchaseDateFrom, $purchaseDateTo]);
+        }
+        return $query;
+    }
+
+    public function scopeTotalPurchase($query, $totalPurchaseFrom, $totalPurchaseTo)
+    {
+        if ($totalPurchaseFrom != null && $totalPurchaseTo != null) {
+            return $query->whereBetween('total_purchase', [$totalPurchaseFrom, $totalPurchaseTo]);
+        }
+        return $query;
+    }
 }

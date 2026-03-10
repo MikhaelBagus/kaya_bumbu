@@ -347,7 +347,15 @@ class PurchaseService implements PurchaseServiceContract
             'purchases.*'
         ];
 
-        $query = Purchase::select($select)->with('supplier','supplierAccount','paymentMethod','wallet','purchaseInstalments');
+        $query = Purchase::select($select)
+            ->with('supplier', 'supplierAccount', 'paymentMethod', 'wallet', 'purchaseInstalments')
+            ->purchaseDate($request->purchase_date_from, $request->purchase_date_to)
+            ->totalPurchase($request->total_purchase_from, $request->total_purchase_to)
+            ->supplier($request->supplier_id)
+            ->wallet($request->wallet_id)
+            ->supplierAccount($request->supplier_account_id)
+            ->paymentMethod($request->payment_method_id)
+            ->status($request->status);
 
         return DataTables::eloquent($query)
             ->addColumn('checkbox', function ($data) {
@@ -355,9 +363,9 @@ class PurchaseService implements PurchaseServiceContract
             })
             ->addColumn('instalment_left', function ($data) {
                 $check = 0;
-                if($data->purchaseInstalments){
-                    foreach($data->purchaseInstalments as $instalment){
-                        if($instalment->paid_date == null){
+                if ($data->purchaseInstalments) {
+                    foreach ($data->purchaseInstalments as $instalment) {
+                        if ($instalment->paid_date == null) {
                             $check = $check + 1;
                         }
                     }
