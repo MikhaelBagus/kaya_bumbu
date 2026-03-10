@@ -95,19 +95,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label class="control-label">Status</label>
-                                    <select id="status" class="input-sm form-control select_2" style="width:100%" name="status">
-                                        <option value=""></option>
-                                        <option value="draft">Draft</option>
-                                        <option value="approved">Approved</option>
-                                        <option value="waiting_for_payment">Waiting For Payment</option>
-                                        <option value="paid">Paid</option>
-                                    </select>
-                                </div>
-                            </div>
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="instalment_count">Total Cicilan Range</label>
@@ -147,6 +134,19 @@
                                             <i class="fa fa-eraser"></i>
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Status</label>
+                                    <select id="status" class="input-sm form-control select_2" style="width:100%" name="status">
+                                        <option value=""></option>
+                                        <option value="draft">Draft</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="waiting_for_payment">Waiting For Payment</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
                                 </div>
                             </div>
 
