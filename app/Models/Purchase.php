@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Purchase extends Model
 {
@@ -148,6 +149,14 @@ class Purchase extends Model
     {
         if ($status != null) {
             return $query->where('status', $status);
+        }
+        return $query;
+    }
+
+    public function scopeCreatedAtRange($query, $from, $to)
+    {
+        if ($from != null && $to != null) {
+            return $query->whereBetween(DB::raw('DATE(purchases.created_at)'), [$from, $to]);
         }
         return $query;
     }

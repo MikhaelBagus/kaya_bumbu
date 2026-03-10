@@ -33,6 +33,7 @@ class PurchaseExport implements FromCollection, WithHeadings
                     $q->whereNull('paid_date');
                 }
             ])
+            ->createdAtRange($this->filters['created_at_from'] ?? null, $this->filters['created_at_to'] ?? null)
             ->purchaseDate($this->filters['purchase_date_from'] ?? null, $this->filters['purchase_date_to'] ?? null)
             ->totalPurchase($this->filters['total_purchase_from'] ?? null, $this->filters['total_purchase_to'] ?? null)
             ->instalmentCount($this->filters['instalment_count_from'] ?? null, $this->filters['instalment_count_to'] ?? null)
@@ -41,9 +42,45 @@ class PurchaseExport implements FromCollection, WithHeadings
             ->wallet($this->filters['wallet_id'] ?? null)
             ->supplierAccount($this->filters['supplier_account_id'] ?? null)
             ->paymentMethod($this->filters['payment_method_id'] ?? null)
-            ->status($this->filters['status'] ?? null)
-            ->orderBy('purchase_date', 'desc')
-            ->get();
+            ->status($this->filters['status'] ?? null);
+
+        if (!empty($this->filters['product_id'])) {
+            $purchases->whereHas('purchaseItems', function ($q) {
+                $q->where('product_id', $this->filters['product_id']);
+            });
+        }
+
+        if (($this->filters['po_qty_from'] ?? null) !== null && ($this->filters['po_qty_to'] ?? null) !== null) {
+            $purchases->whereHas('purchaseItems', function ($q) {
+                $q->whereBetween('po_qty', [$this->filters['po_qty_from'], $this->filters['po_qty_to']]);
+            });
+        }
+
+        if (($this->filters['price_from'] ?? null) !== null && ($this->filters['price_to'] ?? null) !== null) {
+            $purchases->whereHas('purchaseItems', function ($q) {
+                $q->whereBetween('price', [$this->filters['price_from'], $this->filters['price_to']]);
+            });
+        }
+
+        if (($this->filters['item_subtotal_from'] ?? null) !== null && ($this->filters['item_subtotal_to'] ?? null) !== null) {
+            $purchases->whereHas('purchaseItems', function ($q) {
+                $q->whereBetween('subtotal', [$this->filters['item_subtotal_from'], $this->filters['item_subtotal_to']]);
+            });
+        }
+
+        if (!empty($this->filters['ingredient_category_id'])) {
+            $purchases->whereHas('purchaseItems.ingredientMaster.ingredient_category', function ($q) {
+                $q->where('id', $this->filters['ingredient_category_id']);
+            });
+        }
+
+        if (!empty($this->filters['ingredient_group_id'])) {
+            $purchases->whereHas('purchaseItems.ingredientMaster.ingredient_category.ingredient_group', function ($q) {
+                $q->where('id', $this->filters['ingredient_group_id']);
+            });
+        }
+
+        $purchases = $purchases->orderBy('purchase_date', 'desc')->get();
 
         $rows = collect();
 

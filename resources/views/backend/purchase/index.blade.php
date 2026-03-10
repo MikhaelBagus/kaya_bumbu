@@ -19,9 +19,35 @@
                     <form action="" method="POST">
                         <div class="row">
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Tanggal Input From</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" id="created_at_from" name="created_at_from"
+                                            value="{{ old('created_at_from') }}" class="form-control input-sm" readonly>
+                                        <label class="input-group-addon input-sm tip" id="clearCreatedAtFrom" title="Clear Tanggal Input From">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Tanggal Input To</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" id="created_at_to" name="created_at_to"
+                                            value="{{ old('created_at_to') }}" class="form-control input-sm" readonly>
+                                        <label class="input-group-addon input-sm tip" id="clearCreatedAtTo" title="Clear Tanggal Input To">
+                                            <i class="fa fa-eraser"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label" for="purchase_date">Purchase Date Range</label>
+                                    <label class="control-label" for="purchase_date">Tanggal Pembelian Range</label>
                                     <div class="input-group input-group-sm date">
                                         <input type="text" name="purchase_date_from" id="purchase_date_from"
                                             value="{{ old('purchase_date_from') }}" class="form-control input-sm" readonly>
@@ -69,21 +95,42 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Supplier</label>
+                                    <label class="control-label">Nama Item</label>
+                                    <select id="product_id" class="input-sm form-control select_2" style="width:100%" name="product_id"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Kategori Item</label>
+                                    <select id="ingredient_group_id" class="input-sm form-control select_2" style="width:100%" name="ingredient_group_id"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Sub Kategori Item</label>
+                                    <select id="ingredient_category_id" class="input-sm form-control select_2" style="width:100%" name="ingredient_category_id"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Vendor</label>
                                     <select id="supplier_id" class="input-sm form-control select_2" style="width:100%" name="supplier_id"></select>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Supplier Account</label>
+                                    <label class="control-label">Data Rekening</label>
                                     <select id="supplier_account_id" class="input-sm form-control select_2" style="width:100%" name="supplier_account_id"></select>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Wallet</label>
+                                    <label class="control-label">Pengeluaran Dari</label>
                                     <select id="wallet_id" class="input-sm form-control select_2" style="width:100%" name="wallet_id"></select>
                                 </div>
                             </div>
@@ -137,6 +184,17 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Jumlah Range</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" id="po_qty_from" name="po_qty_from" class="form-control input-sm" value="{{ old('po_qty_from') }}">
+                                        <span class="input-group-addon">s/d</span>
+                                        <input type="number" id="po_qty_to" name="po_qty_to" class="form-control input-sm" value="{{ old('po_qty_to') }}">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Status</label>
@@ -147,6 +205,28 @@
                                         <option value="waiting_for_payment">Waiting For Payment</option>
                                         <option value="paid">Paid</option>
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Harga Satuan Range</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" id="price_from" name="price_from" class="form-control input-sm" value="{{ old('price_from') }}">
+                                        <span class="input-group-addon">s/d</span>
+                                        <input type="number" id="price_to" name="price_to" class="form-control input-sm" value="{{ old('price_to') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Total Harga Item Range</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" id="item_subtotal_from" name="item_subtotal_from" class="form-control input-sm" value="{{ old('item_subtotal_from') }}">
+                                        <span class="input-group-addon">s/d</span>
+                                        <input type="number" id="item_subtotal_to" name="item_subtotal_to" class="form-control input-sm" value="{{ old('item_subtotal_to') }}">
+                                    </div>
                                 </div>
                             </div>
 
@@ -221,9 +301,7 @@
     <script>
         $(function() {
             let table = $('#purchase-table').DataTable({
-                aaSorting: [
-                    [0, 'desc']
-                ],
+                aaSorting: [[0, 'desc']],
                 aLengthMenu: [
                     [50, 100, 500, 1000, 5000, -1],
                     [50, 100, 500, 1000, 5000, "All"]
@@ -240,6 +318,8 @@
                     url: '{!! route('purchase.ajax.data') !!}',
                     dataType: 'json',
                     data: function(d) {
+                        d.created_at_from = $('#created_at_from').val();
+                        d.created_at_to = $('#created_at_to').val();
                         d.purchase_date_from = $('#purchase_date_from').val();
                         d.purchase_date_to = $('#purchase_date_to').val();
                         d.total_purchase_from = $('#total_purchase_from').val();
@@ -248,18 +328,24 @@
                         d.supplier_account_id = $('#supplier_account_id').val();
                         d.wallet_id = $('#wallet_id').val();
                         d.payment_method_id = $('#payment_method_id').val();
-                        d.status = $('#status').val();
                         d.instalment_count_from = $('#instalment_count_from').val();
                         d.instalment_count_to = $('#instalment_count_to').val();
                         d.instalment_left_from = $('#instalment_left_from').val();
                         d.instalment_left_to = $('#instalment_left_to').val();
+                        d.status = $('#status').val();
+                        d.product_id = $('#product_id').val();
+                        d.ingredient_group_id = $('#ingredient_group_id').val();
+                        d.ingredient_category_id = $('#ingredient_category_id').val();
+                        d.po_qty_from = $('#po_qty_from').val();
+                        d.po_qty_to = $('#po_qty_to').val();
+                        d.price_from = $('#price_from').val();
+                        d.price_to = $('#price_to').val();
+                        d.item_subtotal_from = $('#item_subtotal_from').val();
+                        d.item_subtotal_to = $('#item_subtotal_to').val();
                     }
                 },
-                columns: [{
-                        data: 'id',
-                        name: 'id',
-                        visible: false
-                    },
+                columns: [
+                    { data: 'id', name: 'id', visible: false },
                     {
                         data: 'checkbox',
                         name: 'checkbox',
@@ -267,18 +353,9 @@
                         searchable: false,
                         checkboxes: true
                     },
-                    {
-                        data: 'code',
-                        name: 'code'
-                    },
-                    {
-                        data: 'purchase_date',
-                        name: 'purchase_date'
-                    },
-                    {
-                        data: 'supplier.supplier_name',
-                        name: 'supplier.supplier_name'
-                    },
+                    { data: 'code', name: 'code' },
+                    { data: 'purchase_date', name: 'purchase_date' },
+                    { data: 'supplier.supplier_name', name: 'supplier.supplier_name' },
                     {
                         data: 'total_purchase',
                         name: 'total_purchase',
@@ -286,19 +363,9 @@
                             return 'Rp ' + $.number(data, 0, ',', '.');
                         }
                     },
-                    {
-                        data: 'payment_method.name',
-                        name: 'payment_method.name'
-                    },
-                    {
-                        data: 'instalment_count',
-                        name: 'instalment_count'
-                    },
-                    {
-                        data: 'instalment_left',
-                        name: 'instalment_left',
-                        searchable: false,
-                    },
+                    { data: 'payment_method.name', name: 'payment_method.name' },
+                    { data: 'instalment_count', name: 'instalment_count' },
+                    { data: 'instalment_left', name: 'instalment_left', searchable: false },
                     {
                         data: 'status',
                         name: 'status',
@@ -312,29 +379,20 @@
                             return '<span class="label label-' + badge + '">' + data.toUpperCase() + '</span>';
                         }
                     },
-                    {
-                        data: 'created_at',
-                        name: 'created_at',
-                        visible: false
-                    },
-                    {
-                        data: 'updated_at',
-                        name: 'updated_at',
-                        visible: false
-                    },
+                    { data: 'created_at', name: 'created_at', visible: false },
+                    { data: 'updated_at', name: 'updated_at', visible: false },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false,
-                        fnCreatedCell: function(nTd, sData, oData, iRow, iCol) {
-                            $("a", nTd).tooltip({
-                                container: 'body'
-                            });
+                        fnCreatedCell: function(nTd) {
+                            $("a", nTd).tooltip({ container: 'body' });
                         }
                     }
                 ],
-                buttons: [{
+                buttons: [
+                    {
                         extend: 'csv',
                         text: '<i class="fa fa-download"></i> CSV',
                         exportOptions: {
@@ -362,8 +420,10 @@
                     {
                         text: '<i class="fa fa-download"></i> Download Purchase',
                         className: 'btn-success',
-                        action: function(e, dt, node, config) {
+                        action: function() {
                             const params = new URLSearchParams({
+                                created_at_from: $('#created_at_from').val() || '',
+                                created_at_to: $('#created_at_to').val() || '',
                                 purchase_date_from: $('#purchase_date_from').val() || '',
                                 purchase_date_to: $('#purchase_date_to').val() || '',
                                 total_purchase_from: $('#total_purchase_from').val() || '',
@@ -376,7 +436,16 @@
                                 instalment_count_to: $('#instalment_count_to').val() || '',
                                 instalment_left_from: $('#instalment_left_from').val() || '',
                                 instalment_left_to: $('#instalment_left_to').val() || '',
-                                status: $('#status').val() || ''
+                                status: $('#status').val() || '',
+                                product_id: $('#product_id').val() || '',
+                                ingredient_group_id: $('#ingredient_group_id').val() || '',
+                                ingredient_category_id: $('#ingredient_category_id').val() || '',
+                                po_qty_from: $('#po_qty_from').val() || '',
+                                po_qty_to: $('#po_qty_to').val() || '',
+                                price_from: $('#price_from').val() || '',
+                                price_to: $('#price_to').val() || '',
+                                item_subtotal_from: $('#item_subtotal_from').val() || '',
+                                item_subtotal_to: $('#item_subtotal_to').val() || ''
                             });
 
                             window.location.href = '{{ route('purchase.download') }}?' + params.toString();
@@ -393,14 +462,7 @@
                 table.draw();
             });
 
-            $('#purchase_date_from').datepicker({
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-100:+2"
-            });
-
-            $('#purchase_date_to').datepicker({
+            $('#purchase_date_from, #purchase_date_to, #created_at_from, #created_at_to').datepicker({
                 dateFormat: 'yy-mm-dd',
                 changeMonth: true,
                 changeYear: true,
@@ -419,12 +481,16 @@
                 }
             });
 
-            $('#clearPurchaseDateFrom').on('click', function() {
-                $('#purchase_date_from').val('');
+            $('#created_at_from').on('change', function() {
+                if ($('#created_at_to').val() == '') {
+                    $('#created_at_to').val($('#created_at_from').val());
+                }
             });
 
-            $('#clearPurchaseDateTo').on('click', function() {
-                $('#purchase_date_to').val('');
+            $('#created_at_to').on('change', function() {
+                if ($('#created_at_from').val() == '') {
+                    $('#created_at_from').val($('#created_at_to').val());
+                }
             });
 
             $('#total_purchase_from').on('change', function() {
@@ -439,14 +505,6 @@
                 }
             });
 
-            $('#clearTotalPurchaseFrom').on('click', function() {
-                $('#total_purchase_from').val('');
-            });
-
-            $('#clearTotalPurchaseTo').on('click', function() {
-                $('#total_purchase_to').val('');
-            });
-
             $('#instalment_count_from').on('change', function() {
                 if ($('#instalment_count_to').val() == '') {
                     $('#instalment_count_to').val($('#instalment_count_from').val());
@@ -459,14 +517,6 @@
                 }
             });
 
-            $('#clearInstalmentCountFrom').on('click', function() {
-                $('#instalment_count_from').val('');
-            });
-
-            $('#clearInstalmentCountTo').on('click', function() {
-                $('#instalment_count_to').val('');
-            });
-
             $('#instalment_left_from').on('change', function() {
                 if ($('#instalment_left_to').val() == '') {
                     $('#instalment_left_to').val($('#instalment_left_from').val());
@@ -477,6 +527,38 @@
                 if ($('#instalment_left_from').val() == '') {
                     $('#instalment_left_from').val($('#instalment_left_to').val());
                 }
+            });
+
+            $('#clearPurchaseDateFrom').on('click', function() {
+                $('#purchase_date_from').val('');
+            });
+
+            $('#clearPurchaseDateTo').on('click', function() {
+                $('#purchase_date_to').val('');
+            });
+
+            $('#clearCreatedAtFrom').on('click', function() {
+                $('#created_at_from').val('');
+            });
+
+            $('#clearCreatedAtTo').on('click', function() {
+                $('#created_at_to').val('');
+            });
+
+            $('#clearTotalPurchaseFrom').on('click', function() {
+                $('#total_purchase_from').val('');
+            });
+
+            $('#clearTotalPurchaseTo').on('click', function() {
+                $('#total_purchase_to').val('');
+            });
+
+            $('#clearInstalmentCountFrom').on('click', function() {
+                $('#instalment_count_from').val('');
+            });
+
+            $('#clearInstalmentCountTo').on('click', function() {
+                $('#instalment_count_to').val('');
             });
 
             $('#clearInstalmentLeftFrom').on('click', function() {
@@ -612,6 +694,95 @@
                             results: data.results,
                             pagination: {
                                 more: data.pagination.more
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('#product_id').select2({
+                theme: "bootstrap",
+                placeholder: "Select",
+                width: '100%',
+                allowClear: true,
+                containerCssClass: ':all:',
+                ajax: {
+                    url: '{{ route('ingredient.ajax.select2') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.data.map(function(item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text
+                                };
+                            }),
+                            pagination: {
+                                more: data.next_page_url != null
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('#ingredient_group_id').select2({
+                theme: "bootstrap",
+                placeholder: "Select",
+                width: '100%',
+                allowClear: true,
+                containerCssClass: ':all:',
+                ajax: {
+                    url: '{{ route('ingredient_group.ajax.select2') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: data.next_page_url != null
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('#ingredient_category_id').select2({
+                theme: "bootstrap",
+                placeholder: "Select",
+                width: '100%',
+                allowClear: true,
+                containerCssClass: ':all:',
+                ajax: {
+                    url: '{{ route('ingredient_category.ajax.select2') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term,
+                            page: params.page || 1
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: data.next_page_url != null
                             }
                         };
                     },

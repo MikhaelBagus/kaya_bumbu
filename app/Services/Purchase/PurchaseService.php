@@ -354,6 +354,7 @@ class PurchaseService implements PurchaseServiceContract
                     $q->whereNull('paid_date');
                 }
             ])
+            ->createdAtRange($request->created_at_from, $request->created_at_to)
             ->purchaseDate($request->purchase_date_from, $request->purchase_date_to)
             ->totalPurchase($request->total_purchase_from, $request->total_purchase_to)
             ->instalmentCount($request->instalment_count_from, $request->instalment_count_to)
@@ -363,6 +364,42 @@ class PurchaseService implements PurchaseServiceContract
             ->supplierAccount($request->supplier_account_id)
             ->paymentMethod($request->payment_method_id)
             ->status($request->status);
+
+        if ($request->product_id) {
+            $query->whereHas('purchaseItems', function ($q) use ($request) {
+                $q->where('product_id', $request->product_id);
+            });
+        }
+
+        if ($request->po_qty_from != null && $request->po_qty_to != null) {
+            $query->whereHas('purchaseItems', function ($q) use ($request) {
+                $q->whereBetween('po_qty', [$request->po_qty_from, $request->po_qty_to]);
+            });
+        }
+
+        if ($request->price_from != null && $request->price_to != null) {
+            $query->whereHas('purchaseItems', function ($q) use ($request) {
+                $q->whereBetween('price', [$request->price_from, $request->price_to]);
+            });
+        }
+
+        if ($request->item_subtotal_from != null && $request->item_subtotal_to != null) {
+            $query->whereHas('purchaseItems', function ($q) use ($request) {
+                $q->whereBetween('subtotal', [$request->item_subtotal_from, $request->item_subtotal_to]);
+            });
+        }
+
+        if ($request->ingredient_category_id) {
+            $query->whereHas('purchaseItems.ingredientMaster.ingredient_category', function ($q) use ($request) {
+                $q->where('id', $request->ingredient_category_id);
+            });
+        }
+
+        if ($request->ingredient_group_id) {
+            $query->whereHas('purchaseItems.ingredientMaster.ingredient_category.ingredient_group', function ($q) use ($request) {
+                $q->where('id', $request->ingredient_group_id);
+            });
+        }
 
         return DataTables::eloquent($query)
             ->addColumn('checkbox', function ($data) {
@@ -440,19 +477,30 @@ class PurchaseService implements PurchaseServiceContract
         $fileName = 'purchase_' . date('Ymd_His') . '.xlsx';
 
         $filters = [
-            'purchase_date_from'   => $request->purchase_date_from,
-            'purchase_date_to'     => $request->purchase_date_to,
-            'total_purchase_from'  => $request->total_purchase_from,
-            'total_purchase_to'    => $request->total_purchase_to,
-            'supplier_id'          => $request->supplier_id,
-            'supplier_account_id'  => $request->supplier_account_id,
-            'wallet_id'            => $request->wallet_id,
-            'payment_method_id'    => $request->payment_method_id,
-            'instalment_count_from'=> $request->instalment_count_from,
-            'instalment_count_to'  => $request->instalment_count_to,
-            'instalment_left_from' => $request->instalment_left_from,
-            'instalment_left_to'   => $request->instalment_left_to,
-            'status'               => $request->status,
+            'created_at_from'         => $request->created_at_from,
+            'created_at_to'           => $request->created_at_to,
+            'purchase_date_from'      => $request->purchase_date_from,
+            'purchase_date_to'        => $request->purchase_date_to,
+            'total_purchase_from'     => $request->total_purchase_from,
+            'total_purchase_to'       => $request->total_purchase_to,
+            'supplier_id'             => $request->supplier_id,
+            'supplier_account_id'     => $request->supplier_account_id,
+            'wallet_id'               => $request->wallet_id,
+            'payment_method_id'       => $request->payment_method_id,
+            'instalment_count_from'   => $request->instalment_count_from,
+            'instalment_count_to'     => $request->instalment_count_to,
+            'instalment_left_from'    => $request->instalment_left_from,
+            'instalment_left_to'      => $request->instalment_left_to,
+            'status'                  => $request->status,
+            'product_id'              => $request->product_id,
+            'ingredient_group_id'     => $request->ingredient_group_id,
+            'ingredient_category_id'  => $request->ingredient_category_id,
+            'po_qty_from'             => $request->po_qty_from,
+            'po_qty_to'               => $request->po_qty_to,
+            'price_from'              => $request->price_from,
+            'price_to'                => $request->price_to,
+            'item_subtotal_from'      => $request->item_subtotal_from,
+            'item_subtotal_to'        => $request->item_subtotal_to,
         ];
 
         return Excel::download(new PurchaseExport($filters), $fileName);
