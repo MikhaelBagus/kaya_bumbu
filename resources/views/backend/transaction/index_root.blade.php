@@ -453,13 +453,13 @@
         $('#grand_price_from').on('change',function(){
             console.log($('#grand_price_to').val());
            if($('#grand_price_to').val() == ''){
-              $('#grand_price_to').val($('#order_date_from').val());
+              $('#grand_price_to').val($('#grand_price_from').val());
            }
         });
 
         $('#grand_price_to').on('change',function(){
            if($('#grand_price_from').val() == ''){
-              $('#grand_price_from').val($('#order_date_to').val());
+              $('#grand_price_from').val($('#grand_price_to').val());
            }
         });
 
