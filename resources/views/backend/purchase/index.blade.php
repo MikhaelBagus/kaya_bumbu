@@ -405,16 +405,17 @@
                     delay: 250,
                     data: function(params) {
                         return {
-                            term: params.term,
-                            page: params.page
+                            search: {
+                                term: params.term
+                            },
+                            page: params.page || 1
                         };
                     },
-                    processResults: function(data, params) {
-                        params.page = params.page || 1;
+                    processResults: function(data) {
                         return {
-                            results: data.data,
+                            results: data.results,
                             pagination: {
-                                more: (params.page * data.per_page) < data.total
+                                more: data.pagination.more
                             }
                         };
                     },
@@ -434,21 +435,27 @@
                     delay: 250,
                     data: function(params) {
                         return {
-                            term: params.term,
-                            page: params.page
+                            search: {
+                                term: params.term
+                            },
+                            page: params.page || 1,
+                            supplier_id: $('#supplier_id').val()
                         };
                     },
-                    processResults: function(data, params) {
-                        params.page = params.page || 1;
+                    processResults: function(data) {
                         return {
-                            results: data.data,
+                            results: data.results,
                             pagination: {
-                                more: (params.page * data.per_page) < data.total
+                                more: data.pagination.more
                             }
                         };
                     },
                     cache: true
                 }
+            });
+
+            $('#supplier_id').on('change', function() {
+                $('#supplier_account_id').val(null).trigger('change');
             });
 
             $('#wallet_id').select2({
@@ -492,16 +499,17 @@
                     delay: 250,
                     data: function(params) {
                         return {
-                            term: params.term,
-                            page: params.page
+                            search: {
+                                term: params.term
+                            },
+                            page: params.page || 1
                         };
                     },
-                    processResults: function(data, params) {
-                        params.page = params.page || 1;
+                    processResults: function(data) {
                         return {
-                            results: data.data,
+                            results: data.results,
                             pagination: {
-                                more: (params.page * data.per_page) < data.total
+                                more: data.pagination.more
                             }
                         };
                     },
