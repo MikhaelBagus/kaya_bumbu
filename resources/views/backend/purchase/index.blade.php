@@ -363,7 +363,23 @@
                         text: '<i class="fa fa-download"></i> Download Purchase',
                         className: 'btn-success',
                         action: function(e, dt, node, config) {
-                            window.location.href = '{{ route('purchase.download') }}';
+                            const params = new URLSearchParams({
+                                purchase_date_from: $('#purchase_date_from').val() || '',
+                                purchase_date_to: $('#purchase_date_to').val() || '',
+                                total_purchase_from: $('#total_purchase_from').val() || '',
+                                total_purchase_to: $('#total_purchase_to').val() || '',
+                                supplier_id: $('#supplier_id').val() || '',
+                                supplier_account_id: $('#supplier_account_id').val() || '',
+                                wallet_id: $('#wallet_id').val() || '',
+                                payment_method_id: $('#payment_method_id').val() || '',
+                                instalment_count_from: $('#instalment_count_from').val() || '',
+                                instalment_count_to: $('#instalment_count_to').val() || '',
+                                instalment_left_from: $('#instalment_left_from').val() || '',
+                                instalment_left_to: $('#instalment_left_to').val() || '',
+                                status: $('#status').val() || ''
+                            });
+
+                            window.location.href = '{{ route('purchase.download') }}?' + params.toString();
                         }
                     }
                 ],

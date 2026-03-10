@@ -439,7 +439,23 @@ class PurchaseService implements PurchaseServiceContract
     {
         $fileName = 'purchase_' . date('Ymd_His') . '.xlsx';
 
-        return Excel::download(new PurchaseExport, $fileName);
+        $filters = [
+            'purchase_date_from'   => $request->purchase_date_from,
+            'purchase_date_to'     => $request->purchase_date_to,
+            'total_purchase_from'  => $request->total_purchase_from,
+            'total_purchase_to'    => $request->total_purchase_to,
+            'supplier_id'          => $request->supplier_id,
+            'supplier_account_id'  => $request->supplier_account_id,
+            'wallet_id'            => $request->wallet_id,
+            'payment_method_id'    => $request->payment_method_id,
+            'instalment_count_from'=> $request->instalment_count_from,
+            'instalment_count_to'  => $request->instalment_count_to,
+            'instalment_left_from' => $request->instalment_left_from,
+            'instalment_left_to'   => $request->instalment_left_to,
+            'status'               => $request->status,
+        ];
+
+        return Excel::download(new PurchaseExport($filters), $fileName);
     }
 
     // public function download($request)

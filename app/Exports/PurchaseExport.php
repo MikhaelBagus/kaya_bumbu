@@ -3,104 +3,170 @@
 namespace App\Exports;
 
 use App\Models\Purchase;
-use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Support\Collection;
 
 class PurchaseExport implements FromCollection, WithHeadings
 {
+    protected $filters = [];
+
+    public function __construct(array $filters = [])
+    {
+        $this->filters = $filters;
+    }
+
     public function collection()
     {
         $purchases = Purchase::with([
-            'wallet',
-            'supplier',
-            'supplierAccount',
-            'purchaseItems.ingredientMaster.ingredient_category.ingredient_group',
-            'purchaseItems.expenditureType',
-            'purchaseItems.warehouse',
-        ])
-        ->orderBy('purchase_date', 'desc')
-        ->get();
+                'wallet',
+                'supplier',
+                'supplierAccount',
+                'paymentMethod',
+                'purchaseItems.ingredientMaster.ingredient_category.ingredient_group',
+                'purchaseItems.expenditureType',
+                'purchaseItems.warehouse',
+                'purchaseInstalments',
+            ])
+            ->withCount([
+                'purchaseInstalments as instalment_left_count' => function ($q) {
+                    $q->whereNull('paid_date');
+                }
+            ])
+            ->purchaseDate($this->filters['purchase_date_from'] ?? null, $this->filters['purchase_date_to'] ?? null)
+            ->totalPurchase($this->filters['total_purchase_from'] ?? null, $this->filters['total_purchase_to'] ?? null)
+            ->instalmentCount($this->filters['instalment_count_from'] ?? null, $this->filters['instalment_count_to'] ?? null)
+            ->instalmentLeft($this->filters['instalment_left_from'] ?? null, $this->filters['instalment_left_to'] ?? null)
+            ->supplier($this->filters['supplier_id'] ?? null)
+            ->wallet($this->filters['wallet_id'] ?? null)
+            ->supplierAccount($this->filters['supplier_account_id'] ?? null)
+            ->paymentMethod($this->filters['payment_method_id'] ?? null)
+            ->status($this->filters['status'] ?? null)
+            ->orderBy('purchase_date', 'desc')
+            ->get();
 
-        $rows = [];
+        $rows = collect();
 
         foreach ($purchases as $purchase) {
-
             $supplierAccountInfo = '';
             if ($purchase->supplierAccount) {
                 $supplierAccountInfo =
-                    $purchase->supplierAccount->account_number . ' - ' .
-                    $purchase->supplierAccount->account_name . ' - ' .
-                    $purchase->supplierAccount->bank_name;
+                    ($purchase->supplierAccount->account_number ?? '') . ' - ' .
+                    ($purchase->supplierAccount->account_name ?? '') . ' - ' .
+                    ($purchase->supplierAccount->bank_name ?? '');
             }
 
             $walletInfo = '';
             if ($purchase->wallet) {
                 $walletInfo =
-                    $purchase->wallet->account_number . ' - ' .
-                    $purchase->wallet->account_name . ' - ' .
-                    $purchase->wallet->bank_name;
+                    ($purchase->wallet->account_number ?? '') . ' - ' .
+                    ($purchase->wallet->account_name ?? '') . ' - ' .
+                    ($purchase->wallet->bank_name ?? '');
             }
 
-            foreach ($purchase->purchaseItems as $item) {
+            if ($purchase->purchaseItems && count($purchase->purchaseItems) > 0) {
+                foreach ($purchase->purchaseItems as $item) {
+                    $groupCategoryName = '';
+                    $categoryName = '';
 
-                $groupCategoryName = '';
-                $categoryName = '';
+                    if ($item->ingredientMaster && $item->ingredientMaster->ingredient_category) {
+                        $categoryName = $item->ingredientMaster->ingredient_category->name ?? '';
 
-                if ($item->ingredientMaster && $item->ingredientMaster->ingredient_category) {
-
-                    $categoryName = $item->ingredientMaster
-                        ->ingredient_category
-                        ->name;
-
-                    if ($item->ingredientMaster
-                        ->ingredient_category
-                        ->ingredient_group) {
-
-                        $groupCategoryName = $item->ingredientMaster
-                            ->ingredient_category
-                            ->ingredient_group
-                            ->name;
+                        if ($item->ingredientMaster->ingredient_category->ingredient_group) {
+                            $groupCategoryName = $item->ingredientMaster->ingredient_category->ingredient_group->name ?? '';
+                        }
                     }
-                }
 
-                $rows[] = [
-                    Carbon::parse($purchase->created_at)->format('d M Y'),
-                    $item->product_name,
-                    $groupCategoryName,
-                    $categoryName,
-                    Carbon::parse($purchase->purchase_date)->format('d M Y'),
-                    $purchase->notes ?? '',
-                    $item->po_qty,
-                    $item->unit,
-                    $item->price,
-                    $item->subtotal,
-                    $purchase->supplier ? $purchase->supplier->supplier_name : '',
-                    $supplierAccountInfo,
-                    $walletInfo
-                ];
+                    $rows->push([
+                        'purchase_code'        => $purchase->code ?? '',
+                        'tanggal_input'        => $purchase->created_at ?? '',
+                        'tanggal_pembelian'    => $purchase->purchase_date ?? '',
+                        'supplier'             => optional($purchase->supplier)->supplier_name ?? '',
+                        'supplier_account'     => $supplierAccountInfo,
+                        'wallet'               => $walletInfo,
+                        'payment_method'       => optional($purchase->paymentMethod)->name ?? '',
+                        'status'               => $purchase->status ?? '',
+                        'nama_item'            => $item->product_name ?? '',
+                        'kategori_item'        => $groupCategoryName,
+                        'sub_kategori_item'    => $categoryName,
+                        'warehouse'            => optional($item->warehouse)->warehouse_name ?? '',
+                        'expenditure_type'     => optional($item->expenditureType)->name ?? '',
+                        'jumlah'               => $item->po_qty ?? 0,
+                        'unit'                 => $item->unit ?? '',
+                        'harga_satuan'         => $item->price ?? 0,
+                        'total_harga'          => $item->subtotal ?? 0,
+                        'last_price'           => $item->last_price ?? 0,
+                        'subtotal_purchase'    => $purchase->subtotal ?? 0,
+                        'cost_purchase'        => $purchase->cost ?? 0,
+                        'discount_purchase'    => $purchase->discount ?? 0,
+                        'total_purchase'       => $purchase->total_purchase ?? 0,
+                        'total_cicilan'        => $purchase->instalment_count ?? 0,
+                        'sisa_cicilan'         => $purchase->instalment_left_count ?? 0,
+                        'notes'                => $purchase->notes ?? '',
+                    ]);
+                }
+            } else {
+                $rows->push([
+                    'purchase_code'        => $purchase->code ?? '',
+                    'tanggal_input'        => $purchase->created_at ?? '',
+                    'tanggal_pembelian'    => $purchase->purchase_date ?? '',
+                    'supplier'             => optional($purchase->supplier)->supplier_name ?? '',
+                    'supplier_account'     => $supplierAccountInfo,
+                    'wallet'               => $walletInfo,
+                    'payment_method'       => optional($purchase->paymentMethod)->name ?? '',
+                    'status'               => $purchase->status ?? '',
+                    'nama_item'            => '',
+                    'kategori_item'        => '',
+                    'sub_kategori_item'    => '',
+                    'warehouse'            => '',
+                    'expenditure_type'     => '',
+                    'jumlah'               => 0,
+                    'unit'                 => '',
+                    'harga_satuan'         => 0,
+                    'total_harga'          => 0,
+                    'last_price'           => 0,
+                    'subtotal_purchase'    => $purchase->subtotal ?? 0,
+                    'cost_purchase'        => $purchase->cost ?? 0,
+                    'discount_purchase'    => $purchase->discount ?? 0,
+                    'total_purchase'       => $purchase->total_purchase ?? 0,
+                    'total_cicilan'        => $purchase->instalment_count ?? 0,
+                    'sisa_cicilan'         => $purchase->instalment_left_count ?? 0,
+                    'notes'                => $purchase->notes ?? '',
+                ]);
             }
         }
 
-        return collect($rows);
+        return new Collection($rows);
     }
 
     public function headings(): array
     {
         return [
-            'TANGGAL INPUT',
-            'NAMA ITEM',
-            'KATEGORI ITEM',
-            'SUB KATEGORI ITEM',
-            'TANGGAL PEMBELIAN',
-            'KETERANGAN',
-            'JUMLAH',
-            'UNIT',
-            'HARGA SATUAN',
-            'TOTAL HARGA',
-            'VENDOR',
-            'DATA REKENING',
-            'PENGELUARAN DARI'
+            'Purchase Code',
+            'Tanggal Input',
+            'Tanggal Pembelian',
+            'Supplier',
+            'Data Rekening Supplier',
+            'Wallet',
+            'Payment Method',
+            'Status',
+            'Nama Item',
+            'Kategori Item',
+            'Sub Kategori Item',
+            'Warehouse',
+            'Expenditure Type',
+            'Jumlah',
+            'Unit',
+            'Harga Satuan',
+            'Total Harga',
+            'Last Price',
+            'Subtotal Purchase',
+            'Cost Purchase',
+            'Discount Purchase',
+            'Total Purchase',
+            'Total Cicilan',
+            'Sisa Cicilan',
+            'Notes',
         ];
     }
 }
