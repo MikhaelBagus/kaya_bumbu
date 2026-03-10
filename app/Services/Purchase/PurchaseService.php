@@ -13,6 +13,8 @@ use App\Models\PaymentMethod;
 use App\Models\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use App\Exports\PurchaseExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseService implements PurchaseServiceContract
 {
@@ -428,96 +430,103 @@ class PurchaseService implements PurchaseServiceContract
 
     public function download($request)
     {
-        $purchases = Purchase::with([
-            'wallet',
-            'supplier',
-            'supplierAccount',
-            'purchaseItems.ingredientMaster.ingredient_category.ingredient_group',
-            'purchaseItems.expenditureType',
-            'purchaseItems.warehouse',
-        ])
-            ->orderBy('purchase_date', 'desc')
-            ->get();
+        $fileName = 'purchase_' . date('Ymd_His') . '.xlsx';
 
-        $fileName = 'purchase' . '_' . date('Ymd_His') . '.csv';
-
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-        ];
-
-        $callback = function () use ($purchases) {
-            $file = fopen('php://output', 'w');
-
-            // Add BOM for Excel UTF-8 support
-            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
-
-            // Header row
-            fputcsv($file, [
-                'TANGGAL INPUT',
-                'NAMA ITEM',
-                'KATEGORI ITEM',
-                'SUB KETEGORI ITEM',
-                'TANGGAL PEMBELIAN',
-                'KETERANGAN',
-                'JUMLAH',
-                'UNIT',
-                'HARGA SATUAN',
-                'TOTAL HARGA',
-                'VENDOR',
-                'DATA REKENING',
-                'PENGELUARAN DARI'
-            ]);
-
-            foreach($purchases as $purchase){
-                $supplierAccountInfo = '';
-                if ($purchase->supplierAccount) {
-                    $supplierAccount = $purchase->supplierAccount;
-                    $supplierAccountInfo = $supplierAccount->account_number . " - " . $supplierAccount->account_name . " - " . $supplierAccount->bank_name ?? '';
-                }
-
-                $walletInfo = '';
-                if ($purchase->wallet) {
-                    $wallet = $purchase->wallet;
-                    $walletInfo = $wallet->account_number . " - " . $wallet->account_name . " - " . $wallet->bank_name ?? '';
-                }
-
-                // Data rows
-                foreach ($purchase->purchaseItems as $item) {
-                    // Get ingredient category
-                    $groupCategoryName = '';
-                    $categoryName = '';
-                    if ($item->ingredientMaster && $item->ingredientMaster->ingredient_category) {
-                        $categoryName = $item->ingredientMaster->ingredient_category->name;
-
-                        if ($item->ingredientMaster->ingredient_category && $item->ingredientMaster->ingredient_category->ingredient_group) {
-                            $groupCategoryName = $item->ingredientMaster->ingredient_category->ingredient_group->name;
-                        }
-                    }
-
-                    fputcsv($file, [
-                        \Carbon\Carbon::parse($purchase->created_at)->format('d M Y'),
-                        $item->product_name,
-                        $groupCategoryName,
-                        $categoryName,
-                        \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y'),
-                        $purchase->notes ?? '',
-                        $item->po_qty,
-                        $item->unit,
-                        'Rp ' . number_format($item->price, 0, ',', '.'),
-                        'Rp ' . number_format($item->subtotal, 0, ',', '.'),
-                        $purchase->supplier ? $purchase->supplier->supplier_name : '',
-                        $supplierAccountInfo,
-                        $walletInfo
-                    ]);
-                }
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return Excel::download(new PurchaseExport, $fileName);
     }
+
+    // public function download($request)
+    // {
+    //     $purchases = Purchase::with([
+    //         'wallet',
+    //         'supplier',
+    //         'supplierAccount',
+    //         'purchaseItems.ingredientMaster.ingredient_category.ingredient_group',
+    //         'purchaseItems.expenditureType',
+    //         'purchaseItems.warehouse',
+    //     ])
+    //         ->orderBy('purchase_date', 'desc')
+    //         ->get();
+
+    //     $fileName = 'purchase' . '_' . date('Ymd_His') . '.csv';
+
+    //     $headers = [
+    //         'Content-Type' => 'text/csv',
+    //         'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+    //     ];
+
+    //     $callback = function () use ($purchases) {
+    //         $file = fopen('php://output', 'w');
+
+    //         // Add BOM for Excel UTF-8 support
+    //         fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+    //         // Header row
+    //         fputcsv($file, [
+    //             'TANGGAL INPUT',
+    //             'NAMA ITEM',
+    //             'KATEGORI ITEM',
+    //             'SUB KETEGORI ITEM',
+    //             'TANGGAL PEMBELIAN',
+    //             'KETERANGAN',
+    //             'JUMLAH',
+    //             'UNIT',
+    //             'HARGA SATUAN',
+    //             'TOTAL HARGA',
+    //             'VENDOR',
+    //             'DATA REKENING',
+    //             'PENGELUARAN DARI'
+    //         ]);
+
+    //         foreach($purchases as $purchase){
+    //             $supplierAccountInfo = '';
+    //             if ($purchase->supplierAccount) {
+    //                 $supplierAccount = $purchase->supplierAccount;
+    //                 $supplierAccountInfo = $supplierAccount->account_number . " - " . $supplierAccount->account_name . " - " . $supplierAccount->bank_name ?? '';
+    //             }
+
+    //             $walletInfo = '';
+    //             if ($purchase->wallet) {
+    //                 $wallet = $purchase->wallet;
+    //                 $walletInfo = $wallet->account_number . " - " . $wallet->account_name . " - " . $wallet->bank_name ?? '';
+    //             }
+
+    //             // Data rows
+    //             foreach ($purchase->purchaseItems as $item) {
+    //                 // Get ingredient category
+    //                 $groupCategoryName = '';
+    //                 $categoryName = '';
+    //                 if ($item->ingredientMaster && $item->ingredientMaster->ingredient_category) {
+    //                     $categoryName = $item->ingredientMaster->ingredient_category->name;
+
+    //                     if ($item->ingredientMaster->ingredient_category && $item->ingredientMaster->ingredient_category->ingredient_group) {
+    //                         $groupCategoryName = $item->ingredientMaster->ingredient_category->ingredient_group->name;
+    //                     }
+    //                 }
+
+    //                 fputcsv($file, [
+    //                     \Carbon\Carbon::parse($purchase->created_at)->format('d M Y'),
+    //                     $item->product_name,
+    //                     $groupCategoryName,
+    //                     $categoryName,
+    //                     \Carbon\Carbon::parse($purchase->purchase_date)->format('d M Y'),
+    //                     $purchase->notes ?? '',
+    //                     $item->po_qty,
+    //                     $item->unit,
+    //                     'Rp ' . number_format($item->price, 0, ',', '.'),
+    //                     'Rp ' . number_format($item->subtotal, 0, ',', '.'),
+    //                     $purchase->supplier ? $purchase->supplier->supplier_name : '',
+    //                     $supplierAccountInfo,
+    //                     $walletInfo
+    //                 ]);
+    //             }
+    //         }
+
+    //         fclose($file);
+    //     };
+
+    //     return response()->stream($callback, 200, $headers);
+    // }
 
     public function approve(int $id)
     {
