@@ -100,6 +100,7 @@ class TransactionDownloadService implements TransactionDownloadServiceContract
                         $totalIngredientsMap[$ingredientKey]['total_qty'] += $requiredQty;
                     } else {
                         $totalIngredientsMap[$ingredientKey] = [
+                            'ingredient_category_group_name' => $ingredient->ingredient_category->ingredient_group->name,
                             'ingredient_category_name' => $ingredient->ingredient_category->name,
                             'ingredient_name' => $ingredient->name,
                             'ingredient_unit' => $ingredient->unit,
