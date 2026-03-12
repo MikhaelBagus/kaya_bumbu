@@ -607,40 +607,13 @@ class PurchaseService implements PurchaseServiceContract
             $purchase = Purchase::find($id);
             $purchase->approved_by = Sentinel::getUser()->email;
             $purchase->approved_at = date('Y-m-d H:i:s');
-            $purchase->status      = 'approved';
-            $purchase->save();
-
-            // Log
-            $logDb = new Log();
-            $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Approve Purchase ' . $purchase->code;
-            $logDb->menu        = 'Purchase';
-            $logDb->item_id     = $purchase->id;
-            $logDb->created_by  = Sentinel::getUser()->email;
-            $logDb->save();
-
-            DB::commit();
-
-            return $purchase;
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            dd($exception->getMessage());
-        }
-    }
-
-    public function waitingForPayment(int $id)
-    {
-        DB::beginTransaction();
-
-        try {
-            $purchase = Purchase::find($id);
             $purchase->status      = 'waiting_for_payment';
             $purchase->save();
 
             // Log
             $logDb = new Log();
             $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Waiting For Payment Purchase ' . $purchase->code;
+            $logDb->action      = 'Approve Purchase ' . $purchase->code;
             $logDb->menu        = 'Purchase';
             $logDb->item_id     = $purchase->id;
             $logDb->created_by  = Sentinel::getUser()->email;

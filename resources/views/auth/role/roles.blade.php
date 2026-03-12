@@ -981,10 +981,6 @@
                     <label>Approve</label>
                 </div>
                 <div class="checkbox checkbox-success">
-                    <input type="checkbox" value="ok" class="styled acl" name="purchase_waitingforpayment" {{ old('purchase_waitingforpayment') || array_key_exists('purchase.waitingforpayment', $permissions) ? 'checked' : '' }}>
-                    <label>Waiting For Payment</label>
-                </div>
-                <div class="checkbox checkbox-success">
                     <input type="checkbox" value="ok" class="styled acl" name="purchase_paid" {{ old('purchase_paid') || array_key_exists('purchase.paid', $permissions) ? 'checked' : '' }}>
                     <label>Paid</label>
                 </div>

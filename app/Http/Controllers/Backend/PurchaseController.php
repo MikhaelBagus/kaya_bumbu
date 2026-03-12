@@ -138,18 +138,6 @@ class PurchaseController extends Controller
         }
     }
 
-    public function waitingForPayment($id, PurchaseServiceContract $purchaseServiceContract)
-    {
-        if($purchaseServiceContract->waitingForPayment($id) != ''){
-            #Bump....
-            return $this->redirectSuccess(route('purchase.index'), 'Success To Waiting For Payment Purchase');
-        }
-        else{
-            #Bump....
-            return $this->redirectFailed(route('purchase.index'), 'Failed To Waiting For Payment Purchase');
-        }
-    }
-
     public function paid($id, PurchaseServiceContract $purchaseServiceContract)
     {
         if($purchaseServiceContract->paid($id) != ''){

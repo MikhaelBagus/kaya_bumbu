@@ -32,8 +32,6 @@
                         <dd>:
                             @if ($purchase->status == 'draft')
                                 <span class="label label-warning">DRAFT</span>
-                            @elseif($purchase->status == 'approved')
-                                <span class="label label-success">APPROVED</span>
                             @elseif($purchase->status == 'waiting_for_payment')
                                 <span class="label label-info">WAITING FOR PAYMENT</span>
                             @elseif($purchase->status == 'paid')
@@ -301,7 +299,7 @@
                     </dl>
                 </div>
 
-                @if($purchase->status == 'approved')
+                @if($purchase->status == 'waiting_for_payment')
                 <div class="col-md-6">
                     <dl class="dl-horizontal">
                         <dt class="text-left">Approved By</dt>

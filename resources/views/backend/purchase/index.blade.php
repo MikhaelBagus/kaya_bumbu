@@ -140,7 +140,6 @@
                                         name="status">
                                         <option value=""></option>
                                         <option value="draft">Draft</option>
-                                        <option value="approved">Approved</option>
                                         <option value="waiting_for_payment">Waiting For Payment</option>
                                         <option value="paid">Paid</option>
                                     </select>
@@ -415,7 +414,6 @@
                         render: function(data) {
                             let badge = 'default';
                             if (data === 'draft') badge = 'warning';
-                            else if (data === 'approved') badge = 'success';
                             else if (data === 'waiting_for_payment') badge = 'info';
                             else if (data === 'paid') badge = 'success';
 
