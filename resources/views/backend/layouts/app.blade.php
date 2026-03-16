@@ -197,35 +197,9 @@
             <!-- Start: Sidebar Left Menu -->
             <ul class="nav sidebar-menu">
                 <li class="sidebar-label pt20">Menu</li>
-                <li class="{{ request()->path() == '/' ? 'active' : '' }}">
-                    <a href="{{url('/')}}">
-                        <span class="fa fa-dashboard"></span>
-                        <span class="sidebar-title">DASHBOARD</span>
-                    </a>
-                </li>
 
                 @if(Sentinel::getUser()->type !== 'member')
-                    @include('backend.menus.auth')
-                    @include('backend.menus.log')
-                    @include('backend.menus.source')
-                    @include('backend.menus.wallet')
-                    @include('backend.menus.warehouse')
-                    @include('backend.menus.supplier')
-                    @include('backend.menus.purchase')
-                    @include('backend.menus.customer')
-                    @include('backend.menus.driver')
-                    @include('backend.menus.product_category')
-                    @include('backend.menus.product')
-                    @include('backend.menus.product_ranking')
-                    @include('backend.menus.ingredient_group')
-                    @include('backend.menus.ingredient_category')
-                    @include('backend.menus.ingredient')
-                    @include('backend.menus.recipe')
-                    @include('backend.menus.calendar')
-                    @include('backend.menus.transaction')
-                    @include('backend.menus.transaction_download')
-                    @include('backend.menus.payment_method')
-                    @include('backend.menus.expenditure_type')
+                    @include('backend.menus.new_menu')
                     @include('backend.menus.others')
                 @endif
             </ul>
