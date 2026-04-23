@@ -197,6 +197,7 @@ class PurchaseService implements PurchaseServiceContract
             $purchase->purchase_date        = $request->purchase_date;
             $purchase->supplier_id          = $request->supplier_id;
             $purchase->payment_method_id    = $request->payment_method_id;
+            $purchase->supplier_account_id  = $request->supplier_account_id;
 
             $paymentMethod = PaymentMethod::where('id',$request->payment_method_id)->first();
             if($paymentMethod->name == 'Instalment'){
