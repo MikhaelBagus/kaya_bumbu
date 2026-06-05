@@ -590,8 +590,8 @@
                         return false;
                     }
 
-                    if (poQty < 1) {
-                        alert('PO Quantity must be at least 1 in row ' + (index + 1));
+                    if (poQty < 0.01) {
+                        alert('PO Quantity must be at least 0.01 in row ' + (index + 1));
                         isValid = false;
                         return false;
                     }
@@ -686,7 +686,7 @@
                         <input type="text" class="form-control input-sm product-unit product-unit-${productRowIndex}" placeholder="Unit" readonly disabled style="background-color: #f4f4f4;">
                     </td>
                     <td>
-                        <input type="number" name="items[${productRowIndex}][po_qty]" class="form-control input-sm product-qty product-qty-${productRowIndex}" placeholder="0" step="0.01" value="1" min="1" required onchange="calculateTotals()">
+                        <input type="number" name="items[${productRowIndex}][po_qty]" class="form-control input-sm product-qty product-qty-${productRowIndex}" placeholder="0" step="0.01" value="1" min="0.01" required onchange="calculateTotals()">
                     </td>
                     <td>
                         <input type="hidden" name="items[${productRowIndex}][last_price]" class="product-last-price-value-${productRowIndex}">
