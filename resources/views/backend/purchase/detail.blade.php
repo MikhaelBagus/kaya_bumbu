@@ -99,7 +99,7 @@
                                             <td>{{ $item->expenditureType->name }}</td>
                                             <td>{{ $item->product_name }}</td>
                                             <td>{{ $item->unit }}</td>
-                                            <td class="text-right">{{ number_format($item->po_qty, 0, ',', '.') }}</td>
+                                            <td class="text-right">{{ number_format($item->po_qty, 2, ',', '.') }}</td>
                                             <td class="text-right">Rp {{ number_format($item->last_price, 0, ',', '.') }}</td>
                                             <td class="text-right">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
                                             <td class="text-right"><strong>Rp {{ number_format($item->subtotal, 0, ',', '.') }}</strong></td>

@@ -468,17 +468,31 @@
             });
 
             // Handle payment method change to show/hide instalment section
-            $('#payment_method_id').on('change', function() {
+            function togglePaymentSection() {
                 var selectedText = $('#payment_method_id option:selected').text();
+
                 if (selectedText === 'Instalment') {
                     $('#instalment-section').show();
+                    $('#instalment-section').find('input, select, textarea').prop('disabled', false);
+
                     $('#fullpayment-section').hide();
+                    $('#fullpayment-section').find('input, select, textarea').prop('disabled', true);
+
                     generateInstalmentTable();
                 } else {
                     $('#instalment-section').hide();
+                    $('#instalment-section').find('input, select, textarea').prop('disabled', true);
+
                     $('#fullpayment-section').show();
+                    $('#fullpayment-section').find('input, select, textarea').prop('disabled', false);
                 }
+            }
+
+            $('#payment_method_id').on('change', function() {
+                togglePaymentSection();
             });
+
+            togglePaymentSection();
 
             // Handle down payment and instalment count change
             $('#down_payment, #instalment_count').on('input change', function() {
@@ -632,8 +646,8 @@
                         return false;
                     }
 
-                    if (poQty < 1) {
-                        alert('PO Quantity must be at least 1 in row ' + (index + 1));
+                    if (poQty < 0.01) {
+                        alert('PO Quantity must be at least 0.01 in row ' + (index + 1));
                         isValid = false;
                         return false;
                     }

@@ -590,8 +590,8 @@
                         return false;
                     }
 
-                    if (poQty < 1) {
-                        alert('PO Quantity must be at least 1 in row ' + (index + 1));
+                    if (poQty < 0.01) {
+                        alert('PO Quantity must be at least 0.01 in row ' + (index + 1));
                         isValid = false;
                         return false;
                     }
