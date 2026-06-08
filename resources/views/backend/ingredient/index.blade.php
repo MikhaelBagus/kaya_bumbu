@@ -7,7 +7,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Ingredient List
+                    <span class="glyphicon glyphicon-tasks"></span>BOM Items List
                 </div>
             </div>
 
@@ -21,7 +21,15 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Ingredient Category</label>
+                                    <label class="control-label">BOM Category</label>
+                                    <select id="ingredient_group_id" class="input-sm form-control select_2" style="width:100%" name="ingredient_group_id">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">BOM Sub Category</label>
                                     <select id="ingredient_category_id" class="input-sm form-control select_2" style="width:100%" name="ingredient_category_id">
                                     </select>
                                 </div>
@@ -43,7 +51,8 @@
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Ingredient Category</th>
+                    <th>BOM Category</th>
+                    <th>BOM Sub Category</th>
                     <th>Name</th>
                     <th>Unit</th>
                     <th>Price</th>
@@ -115,6 +124,7 @@
                 dataType: 'json',
                 data: function (d) {
                     d.ingredient_category_id = $('#ingredient_category_id').val();
+                    d.ingredient_group_id = $('#ingredient_group_id').val();
                 },
             },
             columns: [
@@ -123,6 +133,7 @@
                     data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
                     checkboxes: true
                 },
+                {data: 'ingredient_category.ingredient_group.name', name: 'ingredient_category.ingredient_group.name'},
                 {data: 'ingredient_category.name', name: 'ingredient_category.name'},
                 {data: 'name', name: 'name'},
                 {data: 'unit', name: 'unit'},
@@ -181,6 +192,35 @@
             containerCssClass: ':all:',
             ajax: {
                 url: '{{route('ingredient_category.ajax.select2')}}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * data.per_page) < data.total
+                        }
+                    };
+                },
+                cache: true,
+            }
+        });
+
+        $('#ingredient_group_id').select2({
+            theme: "bootstrap",
+            placeholder: "Select",
+            width: '100%',
+            allowClear: true,
+            containerCssClass: ':all:',
+            ajax: {
+                url: '{{route('ingredient_group.ajax.select2')}}',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

@@ -75,4 +75,14 @@ class IngredientMaster extends Model
         }
         return $query;
     }
+
+    public function scopeGroup($query, $group)
+    {
+        if ($group != null) {
+            return $query->whereHas('ingredient_category', function($q) use($group) {
+                $q->where('ingredient_master_group_id', $group);
+            });
+        }
+        return $query;
+    }
 }

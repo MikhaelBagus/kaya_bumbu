@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\IngredientMaster;
+use App\Models\IngredientCategory;
+use App\Models\IngredientGroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -138,7 +140,7 @@ class IngredientMasterController extends Controller
             'ingredient_masters.*',
         ];
 
-        $dataDb = IngredientMaster::select($select)->category($request->ingredient_category_id)->with('ingredient_category');
+        $dataDb = IngredientMaster::select($select)->category($request->ingredient_category_id)->group($request->ingredient_group_id)->with('ingredient_category','ingredient_category.ingredient_group');
 
         return DataTables::eloquent($dataDb)
             ->addColumn(

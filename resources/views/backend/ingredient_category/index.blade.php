@@ -7,7 +7,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Ingredient Category List
+                    <span class="glyphicon glyphicon-tasks"></span>BOM Sub Category List
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="control-label">Ingredient Group</label>
+                                    <label class="control-label">BOM Category</label>
                                     <select id="ingredient_group_id" class="input-sm form-control select_2" style="width:100%" name="ingredient_group_id">
                                     </select>
                                 </div>
@@ -43,7 +43,7 @@
                 <tr>
                     <th>#</th>
                     <th style="text-align: center">&nbsp;</th>
-                    <th>Ingredient Group</th>
+                    <th>BOM Category</th>
                     <th>Name</th>
                     <th>@lang('auth.index_created_at')</th>
                     <th>@lang('auth.index_updated_at')</th>

@@ -7,7 +7,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Ingredient Group List
+                    <span class="glyphicon glyphicon-tasks"></span>BOM Category List
                 </div>
             </div>
 
