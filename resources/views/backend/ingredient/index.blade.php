@@ -137,7 +137,12 @@
                 {data: 'ingredient_category.name', name: 'ingredient_category.name'},
                 {data: 'name', name: 'name'},
                 {data: 'unit', name: 'unit'},
-                {data: 'price', name: 'price'},
+                {
+                    data: 'price', name: 'price',
+                    render: function(data) {
+                        return 'Rp ' + $.number(data, 0, ',', '.');
+                    }
+                },
                 {data: 'created_at', name: 'created_at', visible: false},
                 {data: 'updated_at', name: 'updated_at', visible: false},
                 {
