@@ -740,7 +740,7 @@
                         <input type="text" class="form-control input-sm product-unit product-unit-${productRowIndex}" placeholder="Unit" value="${unit}" readonly disabled style="background-color: #f4f4f4;">
                     </td>
                     <td>
-                        <input type="number" name="items[${productRowIndex}][po_qty]" class="form-control input-sm product-qty product-qty-${productRowIndex}" placeholder="0" step="0.01" value="${poQty}" min="1" required onchange="calculateTotals()">
+                        <input type="number" name="items[${productRowIndex}][po_qty]" class="form-control input-sm product-qty product-qty-${productRowIndex}" placeholder="0" step="0.01" value="${poQty}" min="0.01" required onchange="calculateTotals()">
                     </td>
                     <td>
                         <input type="hidden" name="items[${productRowIndex}][last_price]" class="product-last-price-value-${productRowIndex}" value="${lastPrice}">
