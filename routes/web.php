@@ -878,6 +878,24 @@ Route::group([
     Route::post('', [PurchaseController::class, 'store'])
         ->name('purchase.store')->middleware('sentinel.permission:purchase.create');
 
+    Route::put('/approve/{id}', [PurchaseController::class, 'approve'])
+        ->name('purchase.approve')->middleware('sentinel.permission:purchase.approve');
+
+    Route::put('/bulk-approve', [PurchaseController::class, 'bulkApprove'])
+        ->name('purchase.bulk_approve')->middleware('sentinel.permission:purchase.approve');
+
+    Route::get('/ajax/data', [PurchaseController::class, 'datatable'])
+        ->name('purchase.ajax.data')->middleware('sentinel.permission:purchase.show');
+
+    Route::get('/ajax/select2', [PurchaseController::class, 'select2'])
+        ->name('purchase.ajax.select2');
+
+    Route::get('/download', [PurchaseController::class, 'download'])
+        ->name('purchase.download')->middleware('sentinel.permission:purchase.download');
+
+    Route::put('/paid/{id}', [PurchaseController::class, 'paid'])
+        ->name('purchase.paid')->middleware('sentinel.permission:purchase.paid');
+
     Route::get('/{id}/show', [PurchaseController::class, 'show'])
         ->name('purchase.show')->middleware('sentinel.permission:purchase.show');
 
@@ -889,24 +907,6 @@ Route::group([
 
     Route::delete('/{id}', [PurchaseController::class, 'destroy'])
         ->name('purchase.destroy')->middleware('sentinel.permission:purchase.destroy');
-
-    Route::get('/ajax/data', [PurchaseController::class, 'datatable'])
-        ->name('purchase.ajax.data')->middleware('sentinel.permission:purchase.show');
-
-    Route::get('/ajax/select2', [PurchaseController::class, 'select2'])
-        ->name('purchase.ajax.select2');
-
-    Route::get('/download', [PurchaseController::class, 'download'])
-        ->name('purchase.download')->middleware('sentinel.permission:purchase.download');
-
-    Route::put('/approve/{id}', [PurchaseController::class, 'approve'])
-        ->name('purchase.approve')->middleware('sentinel.permission:purchase.approve');
-
-    Route::put('/bulk-approve', [PurchaseController::class, 'bulkApprove'])
-        ->name('purchase.bulk_approve')->middleware('sentinel.permission:purchase.approve');
-
-    Route::put('/paid/{id}', [PurchaseController::class, 'paid'])
-        ->name('purchase.paid')->middleware('sentinel.permission:purchase.paid');
 });
 
 // source

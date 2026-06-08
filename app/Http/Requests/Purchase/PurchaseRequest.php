@@ -122,7 +122,7 @@ class PurchaseRequest extends FormRequest
             'costs.*.amount.min' => 'Cost amount must be at least 0',
 
             // Discounts
-            'discounts.*.cost_name.required_with' => 'Discount name is required',
+            'discounts.*.discount_name.required_with' => 'Discount name is required',
             'discounts.*.amount.required_with' => 'Discount amount is required',
             'discounts.*.amount.min' => 'Discount amount must be at least 0',
 

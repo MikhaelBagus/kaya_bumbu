@@ -319,6 +319,7 @@
     <script>
         $(function() {
             let table = $('#purchase-table').DataTable({
+                rowId: 'id',
                 aaSorting: [
                     [0, 'desc']
                 ],
