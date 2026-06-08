@@ -138,6 +138,30 @@ class PurchaseController extends Controller
         }
     }
 
+    public function bulkApprove(Request $request, PurchaseServiceContract $purchaseServiceContract)
+    {
+        if (!Sentinel::getUser()) {
+            abort(404, 'uups');
+        }
+
+        $ids = $request->ids ?? [];
+
+        if (!is_array($ids) || count($ids) === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please select at least one purchase.'
+            ], 422);
+        }
+
+        $result = $purchaseServiceContract->bulkApprove($ids);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Success to approve selected purchases.',
+            'data' => $result
+        ]);
+    }
+
     public function paid($id, PurchaseServiceContract $purchaseServiceContract)
     {
         if($purchaseServiceContract->paid($id) != ''){

@@ -22,5 +22,7 @@ interface PurchaseServiceContract
 
     public function approve(int $id);
 
+    public function bulkApprove(array $ids);
+
     public function paid(int $id);
 }

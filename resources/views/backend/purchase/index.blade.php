@@ -370,11 +370,13 @@
                         visible: false
                     },
                     {
-                        data: 'checkbox',
-                        name: 'checkbox',
+                        data: 'id',
+                        name: 'id',
                         orderable: false,
                         searchable: false,
-                        checkboxes: true
+                        checkboxes: {
+                            selectRow: true
+                        }
                     },
                     {
                         data: 'code',
@@ -500,6 +502,43 @@
                             });
 
                             window.location.href = '{{ route('purchase.download') }}?' + params.toString();
+                        }
+                    },
+                    {
+                        text: '<i class="fa fa-check"></i> Bulk Approve',
+                        className: 'btn-info',
+                        action: function() {
+                            let ids = table.column(1).checkboxes.selected().toArray();
+
+                            if (ids.length === 0) {
+                                alert('Please select at least one purchase.');
+                                return;
+                            }
+
+                            if (!confirm('Approve selected purchases?')) {
+                                return;
+                            }
+
+                            $.ajax({
+                                url: '{{ route('purchase.bulk_approve') }}',
+                                type: 'PUT',
+                                data: {
+                                    ids: ids
+                                },
+                                success: function(response) {
+                                    alert(response.message);
+                                    table.draw();
+                                },
+                                error: function(xhr) {
+                                    let message = 'Failed to approve selected purchases.';
+
+                                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    alert(message);
+                                }
+                            });
                         }
                     }
                 ],

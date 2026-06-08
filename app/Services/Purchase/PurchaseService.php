@@ -629,6 +629,37 @@ class PurchaseService implements PurchaseServiceContract
         }
     }
 
+    public function bulkApprove(array $ids)
+    {
+        DB::beginTransaction();
+
+        try {
+            $purchases = Purchase::whereIn('id', $ids)->where('status', 'draft')->get();
+
+            foreach ($purchases as $purchase) {
+                $purchase->approved_by  = Sentinel::getUser()->email;
+                $purchase->approved_at  = date('Y-m-d H:i:s');
+                $purchase->status       = 'waiting_for_payment';
+                $purchase->save();
+
+                $logDb = new Log();
+                $logDb->user_id     = Sentinel::getUser()->id;
+                $logDb->action      = 'Bulk Approve Purchase ' . $purchase->code;
+                $logDb->menu        = 'Purchase';
+                $logDb->item_id     = $purchase->id;
+                $logDb->created_by  = Sentinel::getUser()->email;
+                $logDb->save();
+            }
+
+            DB::commit();
+
+            return $purchases;
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception->getMessage());
+        }
+    }
+
     public function paid(int $id)
     {
         DB::beginTransaction();

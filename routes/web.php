@@ -902,6 +902,9 @@ Route::group([
     Route::put('/approve/{id}', [PurchaseController::class, 'approve'])
         ->name('purchase.approve')->middleware('sentinel.permission:purchase.approve');
 
+    Route::put('/bulk-approve', [PurchaseController::class, 'bulkApprove'])
+        ->name('purchase.bulk_approve')->middleware('sentinel.permission:purchase.approve');
+
     Route::put('/paid/{id}', [PurchaseController::class, 'paid'])
         ->name('purchase.paid')->middleware('sentinel.permission:purchase.paid');
 });
