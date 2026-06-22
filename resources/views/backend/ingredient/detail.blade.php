@@ -21,7 +21,7 @@
                             : {{$ingredient->id}}
                         </dd>
                         <dt class="text-left">
-                            Ingredient Category Name
+                            BOM Sub-Category Name
                         </dt>
                         <dd>
                             : {{$ingredient->ingredient_category->name}}

@@ -19,8 +19,8 @@
 
                     <div class="col-md-12">
                         <div class="form-group @if($errors->has('ingredient_master_category_id')) has-error @endif">
-                            <label for="ingredient_master_category_id" class="control-label">Ingredient Category <span style="color: red">*</span></label>
-                            <select id="ingredient_master_category_id" name="ingredient_master_category_id" class="form-control" data-placeholder="Select Ingredient Category" required>
+                            <label for="ingredient_master_category_id" class="control-label">BOM Sub-Category <span style="color: red">*</span></label>
+                            <select id="ingredient_master_category_id" name="ingredient_master_category_id" class="form-control" data-placeholder="Select BOM Sub-Category" required>
                                 <option value="{{$ingredient->ingredient_master_category_id}}">{{$ingredient->ingredient_category->name}}</option>
                             </select>
                             {!! $errors->first('ingredient_master_category_id', '<em for="ingredient_master_category_id" class="text-danger">:message</em>') !!}

@@ -422,25 +422,46 @@ class PurchaseService implements PurchaseServiceContract
 
         try {
             $purchase = Purchase::find($id);
-            $purchase->deleted_by = Sentinel::getUser()->email;
+
+            if (!$purchase) {
+                DB::rollBack();
+                return null;
+            }
+
+            $userEmail = Sentinel::getUser()->email;
+
+            // delete child
+            PurchaseItem::where('purchase_id', $purchase->id)->update([
+                'deleted_by' => $userEmail,
+            ]);
+            PurchaseItem::where('purchase_id', $purchase->id)->delete();
+
+            PurchaseCost::where('purchase_id', $purchase->id)->update([
+                'deleted_by' => $userEmail,
+            ]);
+            PurchaseCost::where('purchase_id', $purchase->id)->delete();
+
+            PurchaseDiscount::where('purchase_id', $purchase->id)->update([
+                'deleted_by' => $userEmail,
+            ]);
+            PurchaseDiscount::where('purchase_id', $purchase->id)->delete();
+
+            PurchaseInstalment::where('purchase_id', $purchase->id)->update([
+                'deleted_by' => $userEmail,
+            ]);
+            PurchaseInstalment::where('purchase_id', $purchase->id)->delete();
+
+            // delete parent
+            $purchase->deleted_by = $userEmail;
             $purchase->save();
             $purchase->delete();
-
-            // Log
-            $logDb = new Log();
-            $logDb->user_id     = Sentinel::getUser()->id;
-            $logDb->action      = 'Delete Purchase ' . $purchase->code;
-            $logDb->menu        = 'Purchase';
-            $logDb->item_id     = $purchase->id;
-            $logDb->created_by  = Sentinel::getUser()->email;
-            $logDb->save();
 
             DB::commit();
 
             return $purchase;
         } catch (\Exception $exception) {
             DB::rollBack();
-            dd($exception->getMessage());
+            return null;
         }
     }
 
