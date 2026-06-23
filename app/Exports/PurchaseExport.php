@@ -5,9 +5,10 @@ namespace App\Exports;
 use App\Models\Purchase;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Illuminate\Support\Collection;
 
-class PurchaseExport implements FromCollection, WithHeadings
+class PurchaseExport implements FromCollection, WithHeadings, WithColumnFormatting
 {
     protected $filters = [];
 
@@ -44,7 +45,6 @@ class PurchaseExport implements FromCollection, WithHeadings
             ->paymentMethod($this->filters['payment_method_id'] ?? null)
             ->status($this->filters['status'] ?? null);
 
-        // tetap bantu seleksi purchase di level query
         if (!empty($this->filters['product_id'])) {
             $purchases->whereHas('purchaseItems', function ($q) {
                 $q->where('product_id', $this->filters['product_id']);
@@ -53,19 +53,28 @@ class PurchaseExport implements FromCollection, WithHeadings
 
         if (($this->filters['po_qty_from'] ?? null) !== null && ($this->filters['po_qty_to'] ?? null) !== null) {
             $purchases->whereHas('purchaseItems', function ($q) {
-                $q->whereBetween('po_qty', [$this->filters['po_qty_from'], $this->filters['po_qty_to']]);
+                $q->whereBetween('po_qty', [
+                    $this->filters['po_qty_from'],
+                    $this->filters['po_qty_to']
+                ]);
             });
         }
 
         if (($this->filters['price_from'] ?? null) !== null && ($this->filters['price_to'] ?? null) !== null) {
             $purchases->whereHas('purchaseItems', function ($q) {
-                $q->whereBetween('price', [$this->filters['price_from'], $this->filters['price_to']]);
+                $q->whereBetween('price', [
+                    $this->filters['price_from'],
+                    $this->filters['price_to']
+                ]);
             });
         }
 
         if (($this->filters['item_subtotal_from'] ?? null) !== null && ($this->filters['item_subtotal_to'] ?? null) !== null) {
             $purchases->whereHas('purchaseItems', function ($q) {
-                $q->whereBetween('subtotal', [$this->filters['item_subtotal_from'], $this->filters['item_subtotal_to']]);
+                $q->whereBetween('subtotal', [
+                    $this->filters['item_subtotal_from'],
+                    $this->filters['item_subtotal_to']
+                ]);
             });
         }
 
@@ -127,10 +136,10 @@ class PurchaseExport implements FromCollection, WithHeadings
                         'sub_kategori_item'    => $categoryName,
                         'tanggal_pembelian'    => $purchase->purchase_date ?? '',
                         'notes'                => $purchase->notes ?? '',
-                        'jumlah'               => $item->po_qty ?? 0,
+                        'jumlah'               => (float) ($item->po_qty ?? 0),
                         'unit'                 => $item->unit ?? '',
-                        'harga_satuan'         => $item->price ?? 0,
-                        'total_harga'          => $item->subtotal ?? 0,
+                        'harga_satuan'         => (float) ($item->price ?? 0),
+                        'total_harga'          => (float) ($item->subtotal ?? 0),
                         'supplier'             => optional($purchase->supplier)->supplier_name ?? '',
                         'supplier_account'     => $supplierAccountInfo,
                         'wallet'               => $walletInfo
@@ -183,6 +192,15 @@ class PurchaseExport implements FromCollection, WithHeadings
         }
 
         return true;
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'H' => '#,##0',
+            'J' => '#,##0',
+            'K' => '#,##0',
+        ];
     }
 
     public function headings(): array
