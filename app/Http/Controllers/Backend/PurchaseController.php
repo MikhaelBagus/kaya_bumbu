@@ -173,4 +173,28 @@ class PurchaseController extends Controller
             return $this->redirectFailed(route('purchase.index'), 'Failed To Paid Purchase');
         }
     }
+
+    public function bulkPaid(Request $request, PurchaseServiceContract $purchaseServiceContract)
+    {
+        if (!Sentinel::getUser()) {
+            abort(404, 'uups');
+        }
+
+        $ids = $request->ids ?? [];
+
+        if (!is_array($ids) || count($ids) === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Please select at least one purchase.'
+            ], 422);
+        }
+
+        $result = $purchaseServiceContract->bulkPaid($ids);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Success to paid selected purchases.',
+            'data' => $result
+        ]);
+    }
 }

@@ -881,8 +881,14 @@ Route::group([
     Route::put('/approve/{id}', [PurchaseController::class, 'approve'])
         ->name('purchase.approve')->middleware('sentinel.permission:purchase.approve');
 
+    Route::put('/paid/{id}', [PurchaseController::class, 'paid'])
+        ->name('purchase.paid')->middleware('sentinel.permission:purchase.paid');
+
     Route::put('/bulk-approve', [PurchaseController::class, 'bulkApprove'])
         ->name('purchase.bulk_approve')->middleware('sentinel.permission:purchase.approve');
+
+    Route::put('/bulk-paid', [PurchaseController::class, 'bulkPaid'])
+        ->name('purchase.bulk_paid')->middleware('sentinel.permission:purchase.paid');
 
     Route::get('/ajax/data', [PurchaseController::class, 'datatable'])
         ->name('purchase.ajax.data')->middleware('sentinel.permission:purchase.show');
@@ -892,9 +898,6 @@ Route::group([
 
     Route::get('/download', [PurchaseController::class, 'download'])
         ->name('purchase.download')->middleware('sentinel.permission:purchase.download');
-
-    Route::put('/paid/{id}', [PurchaseController::class, 'paid'])
-        ->name('purchase.paid')->middleware('sentinel.permission:purchase.paid');
 
     Route::get('/{id}/show', [PurchaseController::class, 'show'])
         ->name('purchase.show')->middleware('sentinel.permission:purchase.show');
