@@ -108,7 +108,7 @@
                                         <tr>
                                             <th width="200">Ingredient</th>
                                             <th width="80">Warehouse</th>
-                                            <th width="80">Expenditure Type</th>
+                                            <th width="80">Expense Category</th>
                                             <th width="80">Unit</th>
                                             <th width="80">PO Qty</th>
                                             <th width="100">Last Price</th>
@@ -585,7 +585,7 @@
                     }
 
                     if (!expenditureName) {
-                        alert('Expenditure Type is required in row ' + (index + 1));
+                        alert('Expense Category is required in row ' + (index + 1));
                         isValid = false;
                         return false;
                     }
@@ -678,7 +678,7 @@
                     <td>
                         <input type="hidden" name="items[${productRowIndex}][expenditure_type_id]" class="expenditure-id-${productRowIndex}">
                         <select name="items[${productRowIndex}][expenditure_type_name]" class="form-control input-sm expenditure-select expenditure-select-${productRowIndex}" required style="width: 100%;">
-                            <option value="">Search expenditure type</option>
+                            <option value="">Search expense category</option>
                         </select>
                     </td>
                     <td>
@@ -795,7 +795,7 @@
             });
 
             $('.expenditure-select-' + index).select2({
-                placeholder: 'Search expenditure type',
+                placeholder: 'Search expense category',
                 ajax: {
                     url: '{{ route("expenditure_type.ajax.select2") }}',
                     dataType: 'json',

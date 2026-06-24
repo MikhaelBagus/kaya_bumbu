@@ -6,7 +6,7 @@
         <div class="panel panel-visible">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Expenditure Type Create Form
+                    <span class="glyphicon glyphicon-tasks"></span>Expense Category Create Form
                 </div>
             </div>
 

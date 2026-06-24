@@ -656,7 +656,7 @@ Route::group([
     'middleware' => [
         'prevent.back.history'
     ],
-    'prefix'     => 'expenditure-type',
+    'prefix'     => 'expense-category',
 ], function () {
     Route::get('', [ExpenditureTypeController::class, 'index'])
         ->name('expenditure_type.index')->middleware('sentinel.permission:expenditure_type.show');

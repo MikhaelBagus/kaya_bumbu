@@ -39,7 +39,7 @@
         request()->is('recipe*') ||
         request()->is('bank*') ||
         request()->is('payment-method*') ||
-        request()->is('expenditure-type*') ||
+        request()->is('expense-category*') ||
         request()->is('supplier*') ||
         request()->is('account-supplier*') ||
         request()->is('customer*') ||
@@ -227,7 +227,7 @@
                 @endif
 
                 @if(hasMenuAccess('expenditure_type.show'))
-                    <li class="{{ request()->is('expenditure-type*') ? 'active' : '' }}">
+                    <li class="{{ request()->is('expense-category*') ? 'active' : '' }}">
                         <a href="{{ route('expenditure_type.index') }}">
                             <i class="fa fa-dot-circle-o"></i> Expense Category
                         </a>

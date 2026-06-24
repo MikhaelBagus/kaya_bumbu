@@ -7,7 +7,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-title hidden-xs">
-                    <span class="glyphicon glyphicon-tasks"></span>Expenditure Type List
+                    <span class="glyphicon glyphicon-tasks"></span>Expense Category List
                 </div>
             </div>
 
