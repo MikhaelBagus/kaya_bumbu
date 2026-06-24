@@ -24,6 +24,8 @@ class PurchaseExport implements FromCollection, WithHeadings, WithColumnFormatti
                 'supplier',
                 'supplierAccount',
                 'paymentMethod',
+                'purchaseCosts',
+                'purchaseDiscounts',
                 'purchaseItems.ingredientMaster.ingredient_category.ingredient_group',
                 'purchaseItems.expenditureType',
                 'purchaseItems.warehouse',
@@ -116,6 +118,10 @@ class PurchaseExport implements FromCollection, WithHeadings, WithColumnFormatti
             });
 
             if ($matchedItems->count() > 0) {
+                $totalCost = $purchase->purchaseCosts->sum('amount');
+                $totalDiscount = $purchase->purchaseDiscounts->sum('amount');
+                $itemIndex = 0;
+
                 foreach ($matchedItems as $item) {
                     $groupCategoryName = '';
                     $categoryName = '';
@@ -140,10 +146,14 @@ class PurchaseExport implements FromCollection, WithHeadings, WithColumnFormatti
                         'unit'                 => $item->unit ?? '',
                         'harga_satuan'         => (float) ($item->price ?? 0),
                         'total_harga'          => (float) ($item->subtotal ?? 0),
+                        'cost'                 => $itemIndex === 0 ? (float) $totalCost : 0,
+                        'discount'             => $itemIndex === 0 ? (float) $totalDiscount : 0,
                         'supplier'             => optional($purchase->supplier)->supplier_name ?? '',
                         'supplier_account'     => $supplierAccountInfo,
                         'wallet'               => $walletInfo
                     ]);
+
+                    $itemIndex++;
                 }
             }
         }
@@ -200,6 +210,8 @@ class PurchaseExport implements FromCollection, WithHeadings, WithColumnFormatti
             'H' => '#,##0',
             'J' => '#,##0',
             'K' => '#,##0',
+            'L' => '#,##0',
+            'M' => '#,##0',
         ];
     }
 
@@ -217,6 +229,8 @@ class PurchaseExport implements FromCollection, WithHeadings, WithColumnFormatti
             'UNIT',
             'HARGA SATUAN',
             'TOTAL HARGA',
+            'COST',
+            'DISCOUNT',
             'VENDOR',
             'DATA REKENING',
             'PENGELUARAN DARI'
