@@ -25,13 +25,28 @@ class ProductRankingService implements ProductRankingServiceContract
         return $data;
     }
 
+    public function getByDate($dateFrom, $dateTo)
+    {
+        $data = TransactionProduct::select(DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
+                ->whereHas('transaction', function($q) use($dateFrom, $dateTo) {
+                    $q->whereDate('date', '>=', $dateFrom)
+                        ->whereDate('date', '<=', $dateTo);
+                })->groupBy('product_id')->orderBy('total_qty','desc')->get();
+
+        return $data;
+    }
+
     public function datatable($request)
     {
-        $month = $request->month;
-        $year  = $request->year;
         $dataDb = TransactionProduct::select(DB::raw('MAX(product_id) AS product_id'), DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
-                ->whereHas('transaction', function($q) use($month, $year) {
-                    $q->whereMonth('date', $month)->whereYear('date', $year);
+                ->whereHas('transaction', function($q) use($request) {
+                    if ($request->filter_type === 'date') {
+                        $q->whereDate('date', '>=', $request->date_from)
+                            ->whereDate('date', '<=', $request->date_to);
+                    } else {
+                        $q->whereMonth('date', $request->month)
+                            ->whereYear('date', $request->year);
+                    }
                 })->category($request->product_category_id)->groupBy('product_id')->with('product','product.product_category')->orderBy('total_qty','desc');
 
         return DataTables::eloquent($dataDb)
@@ -40,11 +55,15 @@ class ProductRankingService implements ProductRankingServiceContract
 
     public function total($request)
     {
-        $month = $request->month;
-        $year  = $request->year;
         $data = TransactionProduct::select(DB::raw('MAX(name) AS name'), DB::raw('SUM(qty) AS total_qty'), DB::raw('SUM(qty * price) AS total_price'))
-                ->whereHas('transaction', function($q) use($month, $year) {
-                    $q->whereMonth('date', $month)->whereYear('date', $year);
+                ->whereHas('transaction', function($q) use($request) {
+                    if ($request->filter_type === 'date') {
+                        $q->whereDate('date', '>=', $request->date_from)
+                            ->whereDate('date', '<=', $request->date_to);
+                    } else {
+                        $q->whereMonth('date', $request->month)
+                            ->whereYear('date', $request->year);
+                    }
                 })->category($request->product_category_id)->groupBy('product_id')->orderBy('total_qty','desc')->get();
 
         return $data;

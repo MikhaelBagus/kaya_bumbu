@@ -11,6 +11,53 @@
                 </div>
             </div>
 
+            <div class="panel panel-default" style="margin-bottom:15px">
+                <div class="panel-heading">
+                    Filter Berdasarkan Rentang Tanggal
+                </div>
+                <div class="panel-body">
+                    <form action="{{ route('product_ranking.show_date') }}" method="GET">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="date_from">Tanggal Mulai</label>
+                                    <div class="input-group input-group-sm date">
+                                        <input type="text" name="date_from" id="date_from"
+                                            value="{{ old('date_from') }}" class="form-control input-sm"
+                                            readonly required>
+                                        <label class="input-group-addon input-sm" for="date_from">
+                                            <i class="fa fa-calendar"></i>
+                                        </label>
+                                    </div>
+                                    {!! $errors->first('date_from', '<em class="text-danger">:message</em>') !!}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="date_to">Tanggal Akhir</label>
+                                    <div class="input-group input-group-sm date">
+                                        <input type="text" name="date_to" id="date_to"
+                                            value="{{ old('date_to') }}" class="form-control input-sm"
+                                            readonly required>
+                                        <label class="input-group-addon input-sm" for="date_to">
+                                            <i class="fa fa-calendar"></i>
+                                        </label>
+                                    </div>
+                                    {!! $errors->first('date_to', '<em class="text-danger">:message</em>') !!}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="padding-top:22px">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fa fa-search"></i> Tampilkan Ranking
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <table class="table table-striped table-bordered table-hover table-condensed" id="product-ranking-table" width="100%">
                 <thead>
                 <tr>
@@ -72,6 +119,27 @@
 
 <script>
     $(function () {
+        $('#date_from').datepicker({
+            dateFormat : 'yy-mm-dd',
+            changeMonth: true,
+            changeYear : true,
+            yearRange  : "-100:+2",
+            onSelect: function(selectedDate) {
+                $('#date_to').datepicker('option', 'minDate', selectedDate);
+
+                if ($('#date_to').val() === '') {
+                    $('#date_to').val(selectedDate);
+                }
+            }
+        });
+
+        $('#date_to').datepicker({
+            dateFormat : 'yy-mm-dd',
+            changeMonth: true,
+            changeYear : true,
+            yearRange  : "-100:+2",
+            minDate    : $('#date_from').val() || null
+        });
     });
 </script>
 @endpush

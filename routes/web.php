@@ -572,6 +572,9 @@ Route::group([
     Route::get('', [ProductRankingController::class, 'index'])
         ->name('product_ranking.index')->middleware('sentinel.permission:productranking.show');
 
+    Route::get('/show-date', [ProductRankingController::class, 'showDate'])
+        ->name('product_ranking.show_date')->middleware('sentinel.permission:productranking.show');
+
     Route::get('/show/{month}/{year}', [ProductRankingController::class, 'show'])
         ->name('product_ranking.show')->middleware('sentinel.permission:productranking.show');
 

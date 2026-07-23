@@ -200,10 +200,38 @@ class ProductRankingController extends Controller
         return view('backend.product_ranking.detail', compact('product_ranking','month','monthText','year','prevMonthText','prevYearText','nextMonthText','nextYearText','total_price','total_item'));
     }
 
+    public function showDate(Request $request, ProductRankingServiceContract $productRankingServiceContract)
+    {
+        $request->validate([
+            'date_from' => 'required|date_format:Y-m-d',
+            'date_to'   => 'required|date_format:Y-m-d|after_or_equal:date_from',
+        ]);
+
+        $dateFrom = $request->date_from;
+        $dateTo   = $request->date_to;
+        $product_ranking = $productRankingServiceContract->getByDate($dateFrom, $dateTo);
+        $total_price = $product_ranking->sum('total_price');
+        $total_item  = $product_ranking->sum('total_qty');
+
+        return view('backend.product_ranking.detail_date', compact(
+            'dateFrom',
+            'dateTo',
+            'total_price',
+            'total_item'
+        ));
+    }
+
     public function datatable(Request $request, ProductRankingServiceContract $productRankingServiceContract)
     {
-
         if ($request->ajax()) {
+            $request->validate([
+                'filter_type' => 'nullable|in:date',
+                'month'       => 'required_unless:filter_type,date|nullable|integer|between:1,12',
+                'year'        => 'required_unless:filter_type,date|nullable|integer|between:2000,2100',
+                'date_from'   => 'required_if:filter_type,date|nullable|date_format:Y-m-d',
+                'date_to'     => 'required_if:filter_type,date|nullable|date_format:Y-m-d|after_or_equal:date_from',
+            ]);
+
             # Return The JSON datatables Data
             return $productRankingServiceContract->datatable($request);
         }
@@ -213,8 +241,15 @@ class ProductRankingController extends Controller
 
     public function total(Request $request, ProductRankingServiceContract $productRankingServiceContract)
     {
-
         if ($request->ajax()) {
+            $request->validate([
+                'filter_type' => 'nullable|in:date',
+                'month'       => 'required_unless:filter_type,date|nullable|integer|between:1,12',
+                'year'        => 'required_unless:filter_type,date|nullable|integer|between:2000,2100',
+                'date_from'   => 'required_if:filter_type,date|nullable|date_format:Y-m-d',
+                'date_to'     => 'required_if:filter_type,date|nullable|date_format:Y-m-d|after_or_equal:date_from',
+            ]);
+
             # Return The JSON datatables Data
             $product_ranking = $productRankingServiceContract->total($request);
 
