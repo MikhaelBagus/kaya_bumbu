@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Models\IngredientMaster;
-use App\Models\IngredientCategory;
-use App\Models\IngredientGroup;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Pagination\Paginator;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use App\Imports\IngredientMasterImport;
+use App\Models\IngredientMaster;
 use App\Models\Log;
+use App\Services\IngredientImport\IngredientPreImportCleanup;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Throwable;
+use Yajra\DataTables\Facades\DataTables;
 
 class IngredientMasterController extends Controller
 {
@@ -48,9 +52,78 @@ class IngredientMasterController extends Controller
         $ingredientMaster = IngredientMaster::create($validated);
 
         $redirectUrl = $request->get('previousUrl', route('ingredient.index'));
-        
+
         return redirect($redirectUrl)
                         ->with('success', 'Ingredient Master created successfully.');
+    }
+
+    /**
+     * Import BOM category, subcategory, item, and unit from Excel.
+     */
+    public function importExcel(): RedirectResponse
+    {
+        $filePath = public_path('imports/Data Ingredient.xlsx');
+
+        if (! is_file($filePath)) {
+            return redirect()->route('ingredient.index')
+                ->with('failed', 'Import gagal. File public/imports/Data Ingredient.xlsx tidak ditemukan.');
+        }
+
+        try {
+            $user = Sentinel::getUser();
+            $actor = $user ? $user->email : null;
+
+            $result = DB::transaction(function () use ($actor, $filePath) {
+                $cleanup = new IngredientPreImportCleanup($actor);
+                $cleanupResult = $cleanup->run();
+                $import = new IngredientMasterImport($actor);
+
+                Excel::import($import, $filePath);
+
+                return [
+                    'cleanup' => $cleanupResult,
+                    'import' => $import->result(),
+                ];
+            });
+
+            $importResult = $result['import'];
+            $cleanupResult = $result['cleanup'];
+            $message = sprintf(
+                'Import selesai: %d baris diproses, %d group baru, %d subcategory baru, %d item baru, %d item diperbarui, dan %d item tidak berubah.',
+                $importResult['processed_rows'],
+                $importResult['created_groups'],
+                $importResult['created_categories'],
+                $importResult['created_ingredients'],
+                $importResult['updated_ingredients'],
+                $importResult['unchanged_ingredients']
+            );
+
+            $message .= sprintf(
+                ' Pre-import: %d duplikat kosong dihapus dan %d product recipe dikonversi ke gram.',
+                count($cleanupResult['deleted_duplicate_items']),
+                collect($cleanupResult['converted_recipes'])->sum('recipe_count')
+            );
+
+            if ($importResult['category_group_mismatches'] > 0) {
+                $message .= sprintf(
+                    ' %d baris dengan group berbeda mengikuti relasi subcategory yang sudah ada.',
+                    $importResult['category_group_mismatches']
+                );
+            }
+
+            return redirect()->route('ingredient.index')->with('success', $message);
+        } catch (ValidationException $exception) {
+            $message = collect($exception->errors())->flatten()->first()
+                ?? 'Import gagal karena isi file Excel tidak valid.';
+
+            return redirect()->route('ingredient.index')
+                ->with('failed', $message);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return redirect()->route('ingredient.index')
+                ->with('failed', 'Import gagal. Tidak ada data yang disimpan. Silakan periksa format dan isi file Excel.');
+        }
     }
 
     /**
@@ -101,7 +174,7 @@ class IngredientMasterController extends Controller
     public function destroy($ingredient_id): RedirectResponse
     {
         $ingredientDb = IngredientMaster::findOrFail($ingredient_id);
-        
+
         try {
             if(!$ingredientDb->productRecipes->isEmpty()){
 

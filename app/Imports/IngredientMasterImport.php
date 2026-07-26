@@ -2,101 +2,162 @@
 
 namespace App\Imports;
 
+use App\Models\IngredientCategory;
+use App\Models\IngredientGroup;
 use App\Models\IngredientMaster;
-use App\Models\IngredientMasterCategory;
-use App\Models\IngredientMasterGroup;
+use App\Support\IngredientImportNormalizer;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Collection;
 
-class IngredientMasterImport implements ToCollection, WithHeadingRow
+class IngredientMasterImport implements SkipsEmptyRows, ToCollection, WithHeadingRow
 {
-    public function collection(Collection $rows)
-    {
-        DB::beginTransaction();
+    private string $actor;
 
-        try {
+    private array $result = [
+        'created_groups' => 0,
+        'created_categories' => 0,
+        'created_ingredients' => 0,
+        'updated_ingredients' => 0,
+        'unchanged_ingredients' => 0,
+        'category_group_mismatches' => 0,
+        'processed_rows' => 0,
+    ];
+
+    public function __construct(?string $actor = null)
+    {
+        $this->actor = $actor ?? '';
+    }
+
+    public function collection(Collection $rows): void
+    {
+        if ($rows->isEmpty()) {
+            throw ValidationException::withMessages([
+                'ingredient_file' => ['File Excel tidak memiliki data ingredient.'],
+            ]);
+        }
+
+        DB::transaction(function () use ($rows) {
             foreach ($rows as $index => $row) {
-                $data = [
-                    'nama_item'    => trim($row['nama_item'] ?? ''),
-                    'sub_category' => trim($row['sub_category'] ?? ''),
-                    'category'     => trim($row['category'] ?? ''),
-                    'unit'         => trim($row['unit'] ?? ''),
-                    'harga'        => $this->parseNumber($row['harga'] ?? 0),
-                ];
+                $excelRow = $index + 2;
+                $data = $this->prepareRow($row);
 
                 $validator = Validator::make($data, [
-                    'nama_item'    => 'required',
-                    'sub_category' => 'required',
-                    'category'     => 'required',
-                    'unit'         => 'required',
-                    'harga'        => 'required|numeric|min:0',
+                    'group' => 'required|string|max:255',
+                    'category' => 'required|string|max:255',
+                    'item' => 'required|string|max:255',
+                    'unit' => 'required|string|max:255',
+                ], [], [
+                    'group' => 'BOM Category',
+                    'category' => 'BOM Sub-Category',
+                    'item' => 'BOM Item',
+                    'unit' => 'Unit',
                 ]);
 
                 if ($validator->fails()) {
                     throw ValidationException::withMessages([
-                        'row_' . ($index + 2) => $validator->errors()->all(),
+                        'ingredient_file' => [
+                            'Baris Excel '.$excelRow.': '.implode(', ', $validator->errors()->all()),
+                        ],
                     ]);
                 }
 
-                $group = IngredientMasterGroup::firstOrCreate(
-                    [
-                        'name' => $data['category'],
-                    ],
-                    [
-                        'created_by' => auth()->user()->email ?? null,
-                    ]
-                );
+                $group = IngredientGroup::where('name', $data['group'])->first();
 
-                $category = IngredientMasterCategory::firstOrCreate(
-                    [
-                        'name' => $data['sub_category'],
-                        'ingredient_group_id' => $group->id,
-                    ],
-                    [
-                        'created_by' => auth()->user()->email ?? null,
-                    ]
-                );
+                if (! $group) {
+                    $group = new IngredientGroup;
+                    $group->name = $data['group'];
+                    $group->created_by = $this->actor;
+                    $group->save();
 
-                IngredientMaster::updateOrCreate(
-                    [
-                        'name' => $data['nama_item'],
-                    ],
-                    [
-                        'ingredient_category_id' => $category->id,
-                        'unit' => $data['unit'],
-                        'price' => $data['harga'],
-                        'updated_by' => auth()->user()->email ?? null,
-                    ]
-                );
+                    $this->result['created_groups']++;
+                }
+
+                // Nama subcategory menjadi relasi kanonis. Jika baris berikutnya
+                // menyebut group berbeda, gunakan subcategory yang sudah dibuat.
+                $category = IngredientCategory::where('name', $data['category'])->first();
+
+                if (! $category) {
+                    $category = new IngredientCategory;
+                    $category->ingredient_master_group_id = $group->id;
+                    $category->name = $data['category'];
+                    $category->created_by = $this->actor;
+                    $category->save();
+
+                    $this->result['created_categories']++;
+                } elseif ((int) $category->ingredient_master_group_id !== (int) $group->id) {
+                    $this->result['category_group_mismatches']++;
+                }
+
+                $ingredient = IngredientMaster::where('name', $data['item'])->first();
+
+                if (! $ingredient) {
+                    $ingredient = new IngredientMaster;
+                    $ingredient->ingredient_master_category_id = $category->id;
+                    $ingredient->name = $data['item'];
+                    $ingredient->unit = $data['unit'];
+                    $ingredient->price = 0;
+                    $ingredient->created_by = $this->actor;
+                    $ingredient->save();
+
+                    $this->result['created_ingredients']++;
+                } elseif (
+                    (int) $ingredient->ingredient_master_category_id !== (int) $category->id
+                    || $ingredient->unit !== $data['unit']
+                ) {
+                    $ingredient->ingredient_master_category_id = $category->id;
+                    $ingredient->unit = $data['unit'];
+                    $ingredient->updated_by = $this->actor;
+                    $ingredient->save();
+
+                    $this->result['updated_ingredients']++;
+                } else {
+                    $this->result['unchanged_ingredients']++;
+                }
+
+                $this->result['processed_rows']++;
             }
-
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
+        });
     }
 
-    private function parseNumber($value)
+    public function result(): array
     {
-        if ($value === null || $value === '') {
-            return 0;
+        return $this->result;
+    }
+
+    private function prepareRow($row): array
+    {
+        return [
+            'group' => IngredientImportNormalizer::group($this->value($row, [
+                'jenis_pengeluaran_bom_category',
+                'bom_category',
+                'category',
+            ])),
+            'category' => IngredientImportNormalizer::category($this->value($row, [
+                'bom_sub_category',
+                'sub_category',
+            ])),
+            'item' => IngredientImportNormalizer::item($this->value($row, [
+                'jenis_item_bom_item',
+                'bom_item',
+                'nama_item',
+            ])),
+            'unit' => IngredientImportNormalizer::unit($this->value($row, ['unit'])),
+        ];
+    }
+
+    private function value($row, array $keys)
+    {
+        foreach ($keys as $key) {
+            if (isset($row[$key])) {
+                return $row[$key];
+            }
         }
 
-        if (is_numeric($value)) {
-            return $value;
-        }
-
-        $value = trim((string) $value);
-
-        // Format Indonesia: 35.000,50
-        $value = str_replace('.', '', $value);
-        $value = str_replace(',', '.', $value);
-
-        return (float) $value;
+        return null;
     }
 }
