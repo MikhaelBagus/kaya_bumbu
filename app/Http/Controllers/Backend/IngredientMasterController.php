@@ -7,6 +7,7 @@ use App\Imports\IngredientMasterImport;
 use App\Models\IngredientMaster;
 use App\Models\Log;
 use App\Services\IngredientImport\IngredientPreImportCleanup;
+use App\Support\IngredientImportNormalizer;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
@@ -42,9 +44,19 @@ class IngredientMasterController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $request->merge([
+            'name' => IngredientImportNormalizer::item($request->input('name')),
+            'unit' => IngredientImportNormalizer::unit($request->input('unit')),
+        ]);
+
         $validated = $request->validate([
             'ingredient_master_category_id' => 'required|exists:ingredient_master_categories,id',
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('ingredient_masters', 'name'),
+            ],
             'unit' => 'required|string|max:255',
             'price' => 'nullable|numeric|min:0',
         ]);
@@ -152,10 +164,20 @@ class IngredientMasterController extends Controller
     public function update(Request $request, $ingredient_id): RedirectResponse
     {
         $ingredient = IngredientMaster::findOrFail($ingredient_id);
-        
+
+        $request->merge([
+            'name' => IngredientImportNormalizer::item($request->input('name')),
+            'unit' => IngredientImportNormalizer::unit($request->input('unit')),
+        ]);
+
         $validated = $request->validate([
             'ingredient_master_category_id' => 'required|exists:ingredient_master_categories,id',
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('ingredient_masters', 'name')->ignore($ingredient->id),
+            ],
             'unit' => 'required|string|max:255',
             'price' => 'nullable|numeric|min:0',
         ]);

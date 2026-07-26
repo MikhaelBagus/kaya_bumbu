@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use App\Models\Concerns\HasUniqueIngredientName;
 use App\Models\IngredientCategory;
 use App\Models\Product;
 use App\Models\ProductRecipe;
+use App\Support\IngredientImportNormalizer;
 
 class IngredientMaster extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, HasUniqueIngredientName, SoftDeletes;
     protected $table = 'ingredient_masters';
 
     protected $fillable = [
@@ -21,6 +23,11 @@ class IngredientMaster extends Model
         'unit',
         'price'
     ];
+
+    public function setNameAttribute($value): void
+    {
+        $this->attributes['name'] = IngredientImportNormalizer::item($value);
+    }
 
     public function ingredient_category(){
         return $this->belongsTo(IngredientCategory::class, 'ingredient_master_category_id', 'id');

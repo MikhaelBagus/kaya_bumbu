@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\IngredientCategory;
 
+use App\Support\IngredientImportNormalizer;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ingredientCategoryRequest extends FormRequest
 {
@@ -21,17 +23,22 @@ class ingredientCategoryRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    protected function prepareForValidation(): void
     {
-        if(request()->method == 'POST'){
-            return [
-                'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
-            ];
-        }
-        else{
-            return [
-                'name'          => 'required|regex:/^(?:[^"\'\<>])+$/i',
-            ];
-        }
+        $this->merge([
+            'name' => IngredientImportNormalizer::category($this->input('name')),
+        ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name' => [
+                'required',
+                'regex:/^(?:[^"\'\<>])+$/i',
+                Rule::unique('ingredient_master_categories', 'name')
+                    ->ignore($this->route('id')),
+            ],
+        ];
     }
 }

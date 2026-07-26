@@ -5,13 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use App\Models\Concerns\HasUniqueIngredientName;
 use App\Models\IngredientMaster;
 use App\Models\IngredientGroup;
+use App\Support\IngredientImportNormalizer;
 
 class IngredientCategory extends Model
 {
-    use SoftDeletes;
+    use HasUniqueIngredientName, SoftDeletes;
     protected $table = 'ingredient_master_categories';
+
+    public function setNameAttribute($value): void
+    {
+        $this->attributes['name'] = IngredientImportNormalizer::category($value);
+    }
 
     public function ingredient(){
         return $this->hasMany(IngredientMaster::class, 'ingredient_master_category_id', 'id');
