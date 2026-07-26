@@ -1111,8 +1111,8 @@ Route::group([
     Route::post('', [IngredientMasterController::class, 'store'])
         ->name('ingredient.store')->middleware('sentinel.permission:ingredient.create');
 
-    Route::get('/import', [IngredientMasterController::class, 'importExcel'])
-        ->name('ingredient.import')->middleware('sentinel.permission:ingredient.create');
+    // Route::get('/import', [IngredientMasterController::class, 'importExcel'])
+    //     ->name('ingredient.import')->middleware('sentinel.permission:ingredient.create');
 
     Route::get('/{ingredient_id}/show', [IngredientMasterController::class, 'show'])
         ->name('ingredient.show')->middleware('sentinel.permission:ingredient.show');
